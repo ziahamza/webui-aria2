@@ -15,23 +15,50 @@
   <meta name="viewport" content="width=device-width">
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
 
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
-  <script src="js/libs/dojo/dojo.js"
-                   data-dojo-config="async: true"></script>
+  <script src="js/libs/jquery-1.7.2.js"></script>
+  <script src="js/libs/bootstrap.js"></script>
 
 </head>
-<body>
-<header>ARIA2 Webclient</header>
+<body class="hero-unit">
+<h1>ARIA2 Webclient</h1>
 
 <div role="main">
   <p id="console"></p>
+  <h2>Pending Downloads</h2>
+  <table id="" class="table table-bordered">
+	<tr>
+		<th>Name</th>
+		<th>Progress</th>
+		<th>Size</th>
+		<th>Download Speed</th>
+	</tr>
+  </table>
 </div>
 
 <footer>
   intital footer!!
 </footer>
 
+<!-- Hidden dialogs and out of screen HTML elements  -->
+<div class="modal fade" id="error_connect">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Connection to Aria failed :( </h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			Make sure that aria2c is running and rpc is enabled.
+			aria2c --enable-rpc
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn">Retry</a>
+		<a href="#" class="btn btn-primary">Use custom IP and port settings</a>
+	</div>
+</div>
 
 <script src="js/plugins.js"></script>
 
