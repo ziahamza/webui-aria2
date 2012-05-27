@@ -14,6 +14,7 @@ $(function() {
 		},
 		success: function(data) {
 			log.append(JSON.stringify(data) + "<br>");
+			updateDownloads();
 		},
 		error: function() {
 			err_connect.modal('show');
@@ -30,8 +31,26 @@ function updateDownloads() {
 	updateStopDownloads();
 }
 
-function updateDownloads() {
+var d_files = [];
+function d_fill() {
+	for(var i = 0; i < 10; i++) {
+		addDownload({
+			gid: i,
+			status: "active",
+			totalLength: (i + 15) * 20,
+			completedLength: (i + 15) * 19;
+			downloadSpeed: 200 + i
+		});
+	}
+}
+function addDownload(conf) {
+	d_files.push(conf);
+	var d_table = $("#d_table");
 
+}
+function updateDownloads() {
+	d_fill();
+	var d_table = $("#d_table");
 }
 
 function updateWaiting() {
