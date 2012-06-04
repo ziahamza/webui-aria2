@@ -20,29 +20,75 @@
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
   <script src="js/libs/jquery-1.7.2.js"></script>
   <script src="js/libs/bootstrap.js"></script>
+  <script src="js/libs/mustache.js"></script>
+
+  <style>
+	body {
+		padding-top: 60px;
+	}
+  </style>
 
 </head>
-<body class="hero-unit">
-<h1>ARIA2 Webclient</h1>
-
-<div role="main">
-  <p id="console"></p>
-  <h2>Pending Downloads</h2>
-  <table id="d_table" class="table table-bordered">
-	<tr>
-		<th>Name</th>
-		<th>Progress</th>
-		<th>Size</th>
-		<th>Download Speed</th>
-	</tr>
-  </table>
+<body>
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+	<div class="container">
+		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</a>
+	  <a class="brand" href="#">Aria2 Web-Client</a>
+	  <div class="nav-collapse">
+		<ul class="nav">
+			<li class="active"><a href="#">Active Downloads</a></li>
+			<li><a href="#watiting_downloads">Passive Downloads</a></li>
+			<li><a id="newDownload" href="#">Add Download</a></li>
+		</ul>
+	  </div><!--/.nav-collapse -->
+	</div>
+	</div>
 </div>
 
-<footer>
-  intital footer!!
-</footer>
+<div role="main" class="container">
+	<h2>Pending Downloads</h2>
+	<table id="d_table" class="table table-bordered">
+		<tr>
+			<th>Name</th>
+			<th>Progress</th>
+			<th>Size</th>
+			<th>Download Speed</th>
+		</tr>
+	</table>
+	<div id="downloads">
+		<h2>Current Downloads</h2>
+		<div class="download_item">
+			<div class="row">
+				<div class="span8">
+					<h3>Sample Download</h3>
+				</div>
+				<div class="span4">
+					<button class="btn btn-mini"><i class="icon-pause"></i>Pause</button>
+					<button class="btn btn-mini btn-danger"><i class="icon-remove"></i> Delete</button>
+					<span class="label label-success">Status: Downloading 43%</span>
+				</div>
+				<br><br>
+				<div class="span12 progress progress-striped active">
+					<div class="bar" style="width: 40%"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<h3 id="console"></h3>
+	<footer>
+		intital footer!!
+	</footer>
+</div>
+
 
 <!-- Hidden dialogs and out of screen HTML elements  -->
+
+<!-- error connection template -->
 <div class="modal fade" id="error_connect">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
@@ -55,8 +101,65 @@
 		</p>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn">Retry</a>
-		<a href="#" class="btn btn-primary">Use custom IP and port settings</a>
+		<a href="#" onclick="window.location.reload(true)" class="btn">Retry</a>
+		<a href="#" onclick="custom_aria2_connect()" class="btn btn-primary">Use custom IP and port settings</a>
+	</div>
+</div>
+
+
+<!-- change aria2 rpc host and port template -->
+<div class="modal fade" id="change_conf">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Please enter the aria2 RPC port and host</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Server Configuration</legend>
+				<div class="control-group">
+					<label class="control-label" for="input_host">Enter the host:</label>
+					<div class="controls">
+						<div class="input-prepend"><span class="add-on">http://</span><input type="text" class="input-xlarge" id="input_host" placeholder="localhost"/></div>
+						<p class="help-block">Enter the ip or dns name of the server on which the rpc for aria2 is running (default = localhost)</p>
+					</div>
+					<label class="control-label" for="input_port">Enter the port:</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" placeholder="6800" id="input_port"/>
+						<p class="help-block">Enter the port of the server on which the rpc for aria2 is running (default = 6800)</p>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="window.location.reload(true)" class="btn">Retry with default configuration</a>
+		<a href="#" onclick="update_server_conf()" class="btn btn-primary">Use custom IP and port settings</a>
+	</div>
+</div>
+
+
+<!-- new Download template -->
+<div class="modal fade" id="newDownload_modal">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Add a new Download</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>New Download</legend>
+				<div class="control-group">
+					<label class="control-label" for="newDownload_url">Enter url for the Download:</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="newDownload_url" placeholder="http://example.com"/>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button id="addNewDownload" class="btn">Add Download</button>
 	</div>
 </div>
 
