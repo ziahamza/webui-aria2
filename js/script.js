@@ -83,6 +83,13 @@ var d_files = {
 	waiting: [],
 	stopped: []
 };
+function changeLength(len, pref) {
+	len = parseInt(len);
+	if(len <= 1000) return len  + " " + pref;
+	else if(len <= 1000000) return Math.round(len/1000 * 100)/100 + " k" + pref;
+	else if(len <= 1000000000) return Math.round(len/1000000 *100)/100 + " m" + pref;
+	else if(len <= 1000000000000) return Math.round(len/1000000000 *100)/100 + " g" + pref;
+}
 function updateActiveDownloads(data) {
 	var down_template = $('#download_active_template').text();
 	$('#active_downloads').html("");
@@ -96,7 +103,9 @@ function updateActiveDownloads(data) {
 			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
 			status: data[i].status,
 			percentage:percentage,
-			gid: data[i].gid
+			gid: data[i].gid,
+			size: changeLength(data[i].totalLength, "b"),
+			down: changeLength(data[i].downloadSpeed, "b/s")
 		};
 		var item = Mustache.render(down_template, ctx);
 		$('#active_downloads').append(item);
@@ -143,7 +152,9 @@ function updateWaitingDownloads(data) {
 			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
 			status: data[i].status,
 			percentage:percentage,
-			gid: data[i].gid
+			gid: data[i].gid,
+			size: changeLength(data[i].totalLength, "b"),
+			down: changeLength(data[i].downloadSpeed, "b/s")
 		};
 		var item = Mustache.render(down_template, ctx);
 		$('#waiting_downloads').append(item);
@@ -177,6 +188,7 @@ function updateWaitingDownloads(data) {
 		});
 	});
 }
+
 function updateStoppedDownloads(data) {
 	var down_template = $('#download_stopped_template').text();
 	$('#stopped_downloads').html("");
@@ -190,7 +202,9 @@ function updateStoppedDownloads(data) {
 			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
 			status: data[i].status,
 			percentage:percentage,
-			gid: data[i].gid
+			gid: data[i].gid,
+			size: changeLength(data[i].totalLength, "b"),
+			down: changeLength(data[i].downloadSpeed, "b/s")
 		};
 		var item = Mustache.render(down_template, ctx);
 		$('#stopped_downloads').append(item);
