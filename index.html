@@ -61,7 +61,7 @@
 		<div class="span2">
 			<div style="float:right">
 				<button class="btn btn-mini download_play"><i class="icon-play"></i> Play</button>
-				<button class="btn btn-mini btn-danger download_remove"><i class="icon-remove"></i> Remove</button>
+				<button class="btn btn-mini btn-danger download_remove"><i class="icon-fire"></i> Purge</button>
 			</div>
 		</div>
 		<br><br>
@@ -140,7 +140,7 @@
 
 <!--{{{ Hidden dialogs and out of screen HTML elements  -->
 
-<!-- error connection template -->
+<!--{{{ error connection template -->
 <div class="modal fade" id="error_connect">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
@@ -157,9 +157,10 @@
 		<a href="#" onclick="custom_aria2_connect()" class="btn btn-primary">Use custom IP and port settings</a>
 	</div>
 </div>
+<!-- error connection end }}}-->
 
 
-<!-- change aria2 rpc host and port template -->
+<!--{{{ change aria2 rpc host and port template -->
 <div class="modal fade" id="change_conf">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
@@ -189,9 +190,10 @@
 		<a href="#" onclick="update_server_conf()" class="btn btn-primary">Use custom IP and port settings</a>
 	</div>
 </div>
+<!-- change aria2 rpc host and port template }}}-->
 
 
-<!-- new Download template -->
+<!--{{{ add new Download template -->
 <div class="modal fade" id="newDownload_modal">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
@@ -205,7 +207,9 @@
 					<label class="control-label" for="newDownload_url">Enter url for the Download:</label>
 					<div class="controls">
 						<input type="text" class="input-xlarge" id="newDownload_url" placeholder="http://example.com"/>
+						<button class="btn" id="multiple_uris"><i class="icon-plus-sign"></i></button>
 						<span class="help-block">URI can be HTTP(S)/FTP/BitTorrent Magnet URI</span>
+						<ol class="download_urls"></ol>
 					</div>
 				</div>
 			</fieldset>
@@ -215,6 +219,8 @@
 		<button id="addNewDownload" class="btn">Add Download</button>
 	</div>
 </div>
+<!--{{{ add new Download template -->
+
 <!-- }}} hidden modals end -->
 
 <script src="js/plugins.js"></script>

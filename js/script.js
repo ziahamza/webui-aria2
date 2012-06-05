@@ -55,7 +55,23 @@ $(function() {
 	clear_dialogs();
 	update_ui();
 	$('#newDownload').click(function() {
+		$('#newDownload_url').val("");
+		$('.download_urls').html("");
 		modals.newDownload_modal.modal('show');
+	});
+	$('#multiple_uris').click(function() {
+		var url = $('#newDownload_url').val();
+		var html = '<li>';
+		html += '<span class="uris">';
+		html += url;
+		html += '</span>';
+		html += '             ';
+		html += '<a href="#"><i class="icon-trash"></i></a></li>';
+		$(html).appendTo('.download_urls');
+		$('#newDownload_url').val("");
+		$('.download_urls a').click(function() {
+			$(this).parents('li').remove();
+		});
 	});
 	$('#addNewDownload').click(newDownload);
 });
@@ -74,8 +90,14 @@ function addDownload(uris) {
 }
 
 function newDownload() {
-	var url = $('#newDownload_url').val();
-	addDownload([[url]]);
+	var li = $('.download_urls li');
+	var urls = [];
+	for(var i = 0; i < li.length; i++) {
+		urls.push($(li[i]).text().trim());
+
+	}
+	alert(JSON.stringify(urls));
+	addDownload([urls]);
 }
 
 var d_files = {
