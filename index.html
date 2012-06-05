@@ -22,6 +22,22 @@
   <script src="js/libs/bootstrap.js"></script>
   <script src="js/libs/mustache.js"></script>
 
+  <script type="text/mustache" id="download_item_template">
+	<div class="row download_item">
+		<div class="span8">
+			<h3>{{name}}</h3>
+		</div>
+		<div class="span4">
+			<button class="btn btn-mini"><i class="icon-pause"></i>Pause</button>
+			<button class="btn btn-mini btn-danger"><i class="icon-remove"></i> Delete</button>
+			<span class="label label-success">Status: {{status}} {{percentage}}%</span>
+		</div>
+		<br><br>
+		<div class="span12 progress progress-striped">
+			<div class="bar" style="width: {{percentage}}%"></div>
+		</div>
+	</div>
+  </script>
   <style>
 	body {
 		padding-top: 60px;
@@ -51,34 +67,12 @@
 </div>
 
 <div role="main" class="container">
-	<h2>Pending Downloads</h2>
-	<table id="d_table" class="table table-bordered">
-		<tr>
-			<th>Name</th>
-			<th>Progress</th>
-			<th>Size</th>
-			<th>Download Speed</th>
-		</tr>
-	</table>
+	<h2>Current Downloads</h2>
+	<!-- Download items here -->
 	<div id="downloads">
-		<h2>Current Downloads</h2>
-		<div class="download_item">
-			<div class="row">
-				<div class="span8">
-					<h3>Sample Download</h3>
-				</div>
-				<div class="span4">
-					<button class="btn btn-mini"><i class="icon-pause"></i>Pause</button>
-					<button class="btn btn-mini btn-danger"><i class="icon-remove"></i> Delete</button>
-					<span class="label label-success">Status: Downloading 43%</span>
-				</div>
-				<br><br>
-				<div class="span12 progress progress-striped active">
-					<div class="bar" style="width: 40%"></div>
-				</div>
-			</div>
-		</div>
+
 	</div>
+
 	<h3 id="console"></h3>
 	<footer>
 		intital footer!!
@@ -153,6 +147,7 @@
 					<label class="control-label" for="newDownload_url">Enter url for the Download:</label>
 					<div class="controls">
 						<input type="text" class="input-xlarge" id="newDownload_url" placeholder="http://example.com"/>
+						<span class="help-block">URI can be HTTP(S)/FTP/BitTorrent Magnet URI</span>
 					</div>
 				</div>
 			</fieldset>
