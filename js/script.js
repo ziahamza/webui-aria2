@@ -23,15 +23,22 @@ var update_server_conf = function() {
 	clear_dialogs();
 	update_ui();
 };
-var aria_syscall = function(conf) {
+
+function param_encode(param) {
+	if(param) {
+		param = base64.btoa(JSON.stringify(param));
+	}
+	return param;
+}
+var aria_syscall = function(conf, multicall) {
 	$.ajax({
 		url: 'http://' + server_conf.host + ':' + server_conf.port + '/jsonrpc',
-		timeout: 3000,
+		timeout: 1000,
 		data: {
 			jsonrpc: 2.0,
 			id: 'webui',
-			method: 'aria2.' + conf.func.toString(),
-			params: conf.params
+			method: multicall? conf.func:'aria2.' + conf.func,
+			params: param_encode(conf.params)
 		},
 		success: conf.sucess,
 		error: conf.error,
@@ -42,17 +49,7 @@ var aria_syscall = function(conf) {
 }
 var log = $('#console');
 var update_ui = function() {
-
-	aria_syscall({
-		func: 'getVersion',
-		sucess: function(data) {
-			updateDownloads();
-		},
-		error: function() {
-			modals.err_connect.modal('show');
-			log.append('error connecting!!<br>');
-		}
-	});
+	updateDownloads();
 };
 
 $(function() {
@@ -64,17 +61,12 @@ $(function() {
 	$('#addNewDownload').click(newDownload);
 });
 
-/*function updateDownloads() {
-	updateDownloads();
-	updateWaiting();
-	updateStopDownloads();
-}*/
 function newDownload() {
 
 	var url = $('#newDownload_url').val();
 	aria_syscall({
 		func: 'addUri',
-		params: base64.btoa(JSON.stringify([[url]])),
+		params: [[url]],
 		sucess: function() {
 			clear_dialogs();
 			update_ui();
@@ -82,45 +74,142 @@ function newDownload() {
 	});
 }
 
-var d_files = [];
-
-function updateDownloads() {
-	aria_syscall({
-		func: 'tellActive',
-		sucess: function(data) {
-			var down_template = $('#download_item_template').text();
-			var results = data.result;
-			$('#downloads').html("");
-			for(var i = 0; i < results.length; i++) {
-				console.log('adding downloads!!!');
-				var percentage =(results[i].completedLength / results[i].totalLength)*100;
-				percentage = Math.round(percentage*1000)/1000;
-				ctx = {
-					name: results[i].files[0].path,
-					status: results[i].status,
-					percentage:percentage
-				};
-				var item = Mustache.render(down_template, ctx);
-				console.log(ctx);
-				console.log(results[i]);
-				$('#downloads').append(item);
+var d_files = {
+	active: [],
+	waiting: [],
+	stopped: []
+};
+function updateActiveDownloads(data) {
+	var down_template = $('#download_active_template').text();
+	$('#active_downloads').html("");
+	if(!data || (data && data.length === 0)) {
+		$('#active_downloads').append('no active downloads!!!!');
+	}
+	for(var i = 0; i < data.length; i++) {
+		var percentage =(data[i].completedLength / data[i].totalLength)*100;
+		percentage = Math.round(percentage*1000)/1000;
+		ctx = {
+			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
+			status: data[i].status,
+			percentage:percentage,
+			gid: data[i].gid
+		};
+		var item = Mustache.render(down_template, ctx);
+		$('#active_downloads').append(item);
+	}
+	$('.download_active_item .download_pause').click(function() {
+		var gid = $(this).parents('.download_active_item').attr('data-gid');
+		aria_syscall({
+			func: 'pause',
+			params: [gid],
+			sucess: function() {
+				update_ui();
+			},
+			error: function(err) {
+				console.log("error pausing active download!!!");
+				console.log(err);
 			}
-			if(results && results.length === 0) {
-				$('#downloads').append('no downloads!!!!');
+		});
+	});
+}
+function updateWaitingDownloads(data) {
+	var down_template = $('#download_waiting_template').text();
+	$('#waiting_downloads').html("");
+	if(!data || (data && data.length === 0)) {
+		$('#waiting_downloads').append('no waiting downloads!!!!');
+	}
+	for(var i = 0; i < data.length; i++) {
+		var percentage =(data[i].completedLength / data[i].totalLength)*100;
+		percentage = Math.round(percentage*1000)/1000;
+		ctx = {
+			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
+			status: data[i].status,
+			percentage:percentage,
+			gid: data[i].gid
+		};
+		var item = Mustache.render(down_template, ctx);
+		$('#waiting_downloads').append(item);
+	}
+	$('.download_waiting_item .download_play').click(function() {
+		var gid = $(this).parents('.download_waiting_item').attr('data-gid');
+		aria_syscall({
+			func: 'unpause',
+			params: [gid],
+			sucess: function(data) {
+				update_ui();
+			},
+			error: function(err) {
+				console.log("error playing waiting download!!!");
+				console.log(err);
 			}
-		},
-		error: function() {
-			modals.err_connect.modal('show');
-			log.append('error connecting!!<br>');
-		}
+		});
+	});
+}
+function updateStoppedDownloads(data) {
+	var down_template = $('#download_stopped_template').text();
+	$('#stopped_downloads').html("");
+	if(!data || (data && data.length === 0)) {
+		$('#stopped_downloads').append('no stopped downloads!!!!');
+	}
+	for(var i = 0; i < data.length; i++) {
+		var percentage =(data[i].completedLength / data[i].totalLength)*100;
+		percentage = Math.round(percentage*1000)/1000;
+		ctx = {
+			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
+			status: data[i].status,
+			percentage:percentage,
+			gid: data[i].gid
+		};
+		var item = Mustache.render(down_template, ctx);
+		$('#stopped_downloads').append(item);
+	}
+	$('.download_stopped_item .download_play').click(function() {
+		var gid = $(this).parents('.download_stopped_item').attr('data-gid');
+		aria_syscall({
+			func: 'unpause',
+			params: [gid],
+			sucess: function() {
+				update_ui();
+			},
+			error: function(err) {
+				console.log("error playing stopped download!!!");
+				console.log(err);
+			}
+		});
 	});
 }
 
-function updateWaiting() {
 
+function mergeDownloads(data) {
+	d_files.active = data[0][0];
+	d_files.waiting = data[1][0];
+	d_files.stopped = data[2][0];
 }
 
-function updateStopDownloads() {
-
+function updateDownloads() {
+	aria_syscall({
+		func: 'system.multicall',
+		params:[[{
+			methodName: 'aria2.tellActive'
+		}, {
+			methodName: 'aria2.tellWaiting',
+			params: [0,5]
+		}, {
+			methodName: 'aria2.tellStopped',
+			params: [0, 5]
+		}]],
+		sucess: function(data) {
+			//updateActiveDownloads(data.result);
+			mergeDownloads(data.result);
+			updateActiveDownloads(d_files.active);
+			updateWaitingDownloads(d_files.waiting);
+			updateStoppedDownloads(d_files.stopped);
+		},
+		error: function() {
+			modals.err_connect.modal('show');
+			log.append('error connecting for downloads!!<br>');
+		}
+	}, true);
 }
+
 setInterval(update_ui, 1000);
