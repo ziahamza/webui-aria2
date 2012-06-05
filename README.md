@@ -10,6 +10,17 @@ Status
 ===========
 Basic working prototype with minimal functionality. A lot more to features to come so stay tuned.
 
+TODO
+===========
+-> Set global aria2c configuration
+-> Adding URIs to existing downloads
+-> Add download and upload speed graphs and virtualizations
+-> More global statistics
+-> More specialized info for special download types like bit torrent and metalink
+-> Changing configuration of downloads already started
+-> More advance options for new download
+-> Adding downloads by uploading torrent and metalink files
+
 
 Dependencies
 ===========

@@ -112,6 +112,9 @@ function changeLength(len, pref) {
 	else if(len <= 1000000000) return Math.round(len/1000000 *100)/100 + " m" + pref;
 	else if(len <= 1000000000000) return Math.round(len/1000000000 *100)/100 + " g" + pref;
 }
+function changeTime(time) {
+
+}
 function updateActiveDownloads(data) {
 	var down_template = $('#download_active_template').text();
 	$('#active_downloads').html("");
@@ -120,10 +123,17 @@ function updateActiveDownloads(data) {
 	}
 	for(var i = 0; i < data.length; i++) {
 		var percentage =(data[i].completedLength / data[i].totalLength)*100;
-		percentage = Math.round(percentage*1000)/1000;
+		percentage = Math.round(percentage*100)/100;
 		if(!percentage) percentage = 0;
+		var name;
+		if(data[i].files[0].uris.length) {
+			name = data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
+		}
+		else {
+			name = data[i].files[0].path.replace(/^.*[\\\/\]]/, '');
+		}
 		ctx = {
-			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
+			name: name,
 			status: data[i].status,
 			percentage:percentage,
 			gid: data[i].gid,
@@ -170,10 +180,17 @@ function updateWaitingDownloads(data) {
 	}
 	for(var i = 0; i < data.length; i++) {
 		var percentage =(data[i].completedLength / data[i].totalLength)*100;
-		percentage = Math.round(percentage*1000)/1000;
+		percentage = Math.round(percentage*100)/100;
 		if(!percentage) percentage = 0;
+		var name;
+		if(data[i].files[0].uris.length) {
+			name = data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
+		}
+		else {
+			name = data[i].files[0].path.replace(/^.*[\\\/\]]/, '');
+		}
 		ctx = {
-			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
+			name: name,
 			status: data[i].status,
 			percentage:percentage,
 			gid: data[i].gid,
@@ -221,10 +238,17 @@ function updateStoppedDownloads(data) {
 	}
 	for(var i = 0; i < data.length; i++) {
 		var percentage =(data[i].completedLength / data[i].totalLength)*100;
-		percentage = Math.round(percentage*1000)/1000;
+		percentage = Math.round(percentage*100)/100;
 		if(!percentage) percentage = 0;
+		var name;
+		if(data[i].files[0].uris.length) {
+			name = data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
+		}
+		else {
+			name = data[i].files[0].path.replace(/^.*[\\\/\]]/, '');
+		}
 		ctx = {
-			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
+			name: name,
 			status: data[i].status,
 			percentage:percentage,
 			gid: data[i].gid,
