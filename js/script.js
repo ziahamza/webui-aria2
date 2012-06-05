@@ -99,6 +99,7 @@ function updateActiveDownloads(data) {
 	for(var i = 0; i < data.length; i++) {
 		var percentage =(data[i].completedLength / data[i].totalLength)*100;
 		percentage = Math.round(percentage*1000)/1000;
+		if(!percentage) percentage = 0;
 		ctx = {
 			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
 			status: data[i].status,
@@ -148,6 +149,7 @@ function updateWaitingDownloads(data) {
 	for(var i = 0; i < data.length; i++) {
 		var percentage =(data[i].completedLength / data[i].totalLength)*100;
 		percentage = Math.round(percentage*1000)/1000;
+		if(!percentage) percentage = 0;
 		ctx = {
 			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
 			status: data[i].status,
@@ -198,6 +200,7 @@ function updateStoppedDownloads(data) {
 	for(var i = 0; i < data.length; i++) {
 		var percentage =(data[i].completedLength / data[i].totalLength)*100;
 		percentage = Math.round(percentage*1000)/1000;
+		if(!percentage) percentage = 0;
 		ctx = {
 			name: data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, ''),
 			status: data[i].status,
