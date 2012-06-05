@@ -87,7 +87,7 @@ function updateActiveDownloads(data) {
 	var down_template = $('#download_active_template').text();
 	$('#active_downloads').html("");
 	if(!data || (data && data.length === 0)) {
-		$('#active_downloads').append('no active downloads yet!!!!');
+		$('#active_downloads').append('no active downloads!!!!');
 	}
 	for(var i = 0; i < data.length; i++) {
 		var percentage =(data[i].completedLength / data[i].totalLength)*100;
@@ -134,7 +134,7 @@ function updateWaitingDownloads(data) {
 	var down_template = $('#download_waiting_template').text();
 	$('#waiting_downloads').html("");
 	if(!data || (data && data.length === 0)) {
-		$('#waiting_downloads').append('no waiting downloads yet!!!!');
+		$('#waiting_downloads').append('no waiting downloads!!!!');
 	}
 	for(var i = 0; i < data.length; i++) {
 		var percentage =(data[i].completedLength / data[i].totalLength)*100;
@@ -157,7 +157,7 @@ function updateWaitingDownloads(data) {
 				update_ui();
 			},
 			error: function(err) {
-				console.log("error playing waiting download!!!");
+				console.log("error playing waiting download yet!!!");
 				console.log(err);
 			}
 		});
