@@ -11,15 +11,26 @@ var clear_dialogs = function() {
 };
 var server_conf = {
 	host: 'localhost',
-	port: 6800
+	port: 6800,
+	user: "",
+	pass: ""
 };
 var custom_aria2_connect = function() {
 	modals.err_connect.modal('hide');
 	modals.change_conf.modal('show');
 };
 var update_server_conf = function() {
-	server_conf.host = $('#input_host').val();
-	server_conf.port = $('#input_port').val();
+	var host = $('#input_host').val().trim();
+	var port = $('#input_port').val().trim();
+	server_conf.user = $('#input_user').val().trim();
+	server_conf.pass = $('#input_pass').val().trim();
+	if(host.length !== 0) {
+		server_conf.host = host;
+	}
+	if(port.length !== 0) {
+		server_conf.port = port;
+	}
+
 	clear_dialogs();
 	update_ui();
 };
@@ -31,8 +42,19 @@ function param_encode(param) {
 	return param;
 }
 var aria_syscall = function(conf, multicall) {
+	var url = "";
+	if(server_conf.user.length) {
+		url = 'http://' +
+			server_conf.user +  ":" +
+			server_conf.pass + "@" +
+			server_conf.host + ':' +
+			server_conf.port + '/jsonrpc';
+	}
+	else {
+		url =  'http://' + server_conf.host + ':' + server_conf.port + '/jsonrpc';
+	}
 	$.ajax({
-		url: 'http://' + server_conf.host + ':' + server_conf.port + '/jsonrpc',
+		url: url,
 		timeout: 1000,
 		data: {
 			jsonrpc: 2.0,
