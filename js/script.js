@@ -159,17 +159,43 @@ var d_files = {
 function changeLength(len, pref) {
 	len = parseInt(len);
 	if(len <= 1000) return len  + " " + pref;
-	else if(len <= 1000000) return Math.round(len/1000 * 10)/10 + " k" + pref;
-	else if(len <= 1000000000) return Math.round(len/1000000 *10)/10 + " m" + pref;
-	else if(len <= 1000000000000) return Math.round(len/1000000000 *10)/10 + " g" + pref;
+	else if(len <= 1000000) return (len/1000).toFixed(1) + " k" + pref;
+	else if(len <= 1000000000) return (len/1000000).toFixed(1) + " m" + pref;
+	else if(len <= 1000000000000) return (len/1000000000).toFixed(1) + " g" + pref;
 }
 function changeTime(time) {
 	time = parseInt(time);
 	if(time < 60) return time + " s";
-	else if(time < 60*60) return Math.round(time/60 *100)/100 + " min";
-	else if(time < 60*60*24) return Math.round(time/(60*60) *100)/100 + " hours";
-	else return Math.round(time/(60*60*24) *100)/100 + " days!!";
+	else if(time < 60*60) return (time/60).toFixed(2) + " min";
+	else if(time < 60*60*24) return (time/(60*60)).toFixed(2) + " hours";
+	else return (time/(60*60*24)).toFixed(2) + " days!!";
 
+}
+function getTemplateCtx(data) {
+	var percentage =(data.completedLength / data.totalLength)*100;
+	percentage = percentage.toFixed(2);
+	if(!percentage) percentage = 0;
+	var name;
+	if(data.files[0].uris.length) {
+		name = data.files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
+	}
+	else {
+		name = data.files[0].path.replace(/^.*[\\\/\]]/, '');
+	}
+
+	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
+	if(!eta) eta = "infinite";
+	return {
+		name: name,
+		status: data.status,
+		percentage:percentage,
+		gid: data.gid,
+		size: changeLength(data.totalLength, "b"),
+		down: changeLength(data.downloadSpeed, "b/s"),
+		remaining: changeLength(data.totalLength - data.completedLength, "b"),
+		eta: eta,
+		downloaded: changeLength(data.completedLength, "b")
+	};
 }
 function updateActiveDownloads(data) {
 	var down_template = $('#download_active_template').text();
@@ -178,26 +204,7 @@ function updateActiveDownloads(data) {
 		$('#active_downloads').append('no active downloads yet!!!!');
 	}
 	for(var i = 0; i < data.length; i++) {
-		var percentage =(data[i].completedLength / data[i].totalLength)*100;
-		percentage = Math.round(percentage*100)/100;
-		if(!percentage) percentage = 0;
-		var name;
-		if(data[i].files[0].uris.length) {
-			name = data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
-		}
-		else {
-			name = data[i].files[0].path.replace(/^.*[\\\/\]]/, '');
-		}
-		ctx = {
-			name: name,
-			status: data[i].status,
-			percentage:percentage,
-			gid: data[i].gid,
-			size: changeLength(data[i].totalLength, "b"),
-			down: changeLength(data[i].downloadSpeed, "b/s"),
-			remaining: changeLength(data[i].totalLength - data[i].completedLength, "b"),
-			eta: changeTime((data[i].totalLength-data[i].completedLength)/data[i].downloadSpeed)
-		};
+		var ctx = getTemplateCtx(data[i]);
 		var item = Mustache.render(down_template, ctx);
 		$('#active_downloads').append(item);
 	}
@@ -237,26 +244,7 @@ function updateWaitingDownloads(data) {
 		$('#waiting_downloads').append('no waiting downloads yet!!!!');
 	}
 	for(var i = 0; i < data.length; i++) {
-		var percentage =(data[i].completedLength / data[i].totalLength)*100;
-		percentage = Math.round(percentage*100)/100;
-		if(!percentage) percentage = 0;
-		var name;
-		if(data[i].files[0].uris.length) {
-			name = data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
-		}
-		else {
-			name = data[i].files[0].path.replace(/^.*[\\\/\]]/, '');
-		}
-		ctx = {
-			name: name,
-			status: data[i].status,
-			percentage:percentage,
-			gid: data[i].gid,
-			size: changeLength(data[i].totalLength, "b"),
-			down: changeLength(data[i].downloadSpeed, "b/s"),
-			remaining: changeLength(data[i].totalLength - data[i].completedLength, "b"),
-			eta: changeTime((data[i].totalLength-data[i].completedLength)/data[i].downloadSpeed)
-		};
+		var ctx = getTemplateCtx(data[i]);
 		var item = Mustache.render(down_template, ctx);
 		$('#waiting_downloads').append(item);
 	}
@@ -297,26 +285,7 @@ function updateStoppedDownloads(data) {
 		$('#stopped_downloads').append('no stopped downloads yet!!!!');
 	}
 	for(var i = 0; i < data.length; i++) {
-		var percentage =(data[i].completedLength / data[i].totalLength)*100;
-		percentage = Math.round(percentage*100)/100;
-		if(!percentage) percentage = 0;
-		var name;
-		if(data[i].files[0].uris.length) {
-			name = data[i].files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
-		}
-		else {
-			name = data[i].files[0].path.replace(/^.*[\\\/\]]/, '');
-		}
-		ctx = {
-			name: name,
-			status: data[i].status,
-			percentage:percentage,
-			gid: data[i].gid,
-			size: changeLength(data[i].totalLength, "b"),
-			down: changeLength(data[i].downloadSpeed, "b/s"),
-			remaining: changeLength(data[i].totalLength - data[i].completedLength, "b"),
-			eta: changeTime((data[i].totalLength-data[i].completedLength)/data[i].downloadSpeed)
-		};
+		var ctx = getTemplateCtx(data[i]);
 		var item = Mustache.render(down_template, ctx);
 		$('#stopped_downloads').append(item);
 	}

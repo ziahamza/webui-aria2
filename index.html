@@ -22,6 +22,7 @@
   <script src="js/libs/bootstrap.js"></script>
   <script src="js/libs/mustache.js"></script>
 
+  <!--{{{ active downloads template start -->
   <script type="text/mustache" id="download_active_template">
 	  <div class="row download_active_item" data-gid="{{gid}}">
 		<div class="span4" style="overflow: hidden;">
@@ -47,6 +48,9 @@
 		</div>
 	</div>
   </script>
+  <!-- active downloads template end }}}-->
+
+  <!--{{{ waiting downloads template start -->
   <script type="text/mustache" id="download_waiting_template">
 	  <div class="row download_waiting_item" data-gid="{{gid}}">
 		<div class="span4" style="overflow: hidden;">
@@ -56,6 +60,7 @@
 			<span class="badge badge-warning">Status: {{status}}</span>
 			<b style='display:inline; float:right;'>
 				<span class="label label-warning">Size: {{size}}</span> |
+				<span class="label label-warning">Remaining: {{remaining}}</span> |
 				<span class="label label-warning">Progress: {{percentage}}%</span>
 			</b>
 		</div>
@@ -71,6 +76,9 @@
 		</div>
 	</div>
   </script>
+  <!-- waiting downloads template end }}}-->
+
+  <!--{{{ stopped downloads template start -->
   <script type="text/mustache" id="download_stopped_template">
 	  <div class="row download_stopped_item" data-gid="{{gid}}">
 		<div class="span4" style="overflow: hidden;">
@@ -80,6 +88,7 @@
 			<span class="badge badge-important">Status: {{status}}</span>
 			<b style='display:inline; float:right;'>
 				<span class="label label-important">Size: {{size}}</span> |
+				<span class="label label-important">Downloaded: {{downloaded}}</span> |
 				<span class="label label-important">Progress: {{percentage}}%</span>
 			</b>
 		</div>
@@ -95,6 +104,7 @@
 		</div>
 	</div>
   </script>
+  <!-- stopped downloads template end }}}-->
 
   <style>
 	body {
