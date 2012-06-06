@@ -107,6 +107,37 @@
   </script>
   <!-- stopped downloads template end }}}-->
 
+  <!--{{{  start global settings item template -->
+  <script type="text/mustache" id="global_general_settings_template">
+	  {{#general}}
+		<label class="control-label" for="input_settings_{{name}}">{{name}}</label>
+		<div class="controls">
+			{{^options}}
+			<input typ="text" class="input-xlarge" id="input_settings_{{name}}"></input>
+			{{/options}}
+
+			{{#option}}
+			<select>
+				<option value=" ">Default</option>
+			{{/option}}
+
+			{{#options}}
+			<option>{{.}}</option>
+			{{/options}}
+
+			{{#option}}
+			</select>
+			{{/option}}
+
+			<p class="help-block">{{desc}}</p>
+			<br><br>
+		</div>
+	  {{/general}}
+
+
+  </script>
+  <!-- global settings template end }}}-->
+
   <style>
 	body {
 		padding-top: 60px;
@@ -129,6 +160,7 @@
 			<li class="active"><a href="#">Active Downloads</a></li>
 			<!-- <li><a href="#watiting_downloads">Passive Downloads</a></li> -->
 			<li><a href="#" onclick="custom_aria2_connect()">Aria2 connection settings</a></li>
+			<li><a href="#" onclick="custom_global_settings()">Aria2 global settings</a></li>
 			<li><a id="newDownload" href="#">Add Download</a></li>
 		</ul>
 	  </div><!--/.nav-collapse -->
@@ -182,7 +214,6 @@
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
-				<legend>Server Configuration</legend>
 				<div class="control-group">
 					<label class="control-label" for="input_host">Enter the host:</label>
 					<div class="controls">
@@ -225,7 +256,6 @@
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
-				<legend>New Download</legend>
 				<div class="control-group">
 					<label class="control-label" for="newDownload_url">Enter url for the Download:</label>
 					<div class="controls">
@@ -254,7 +284,7 @@
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
-				<legend>Global Settings</legend>
+				<legend>General Settings</legend>
 				<div id="dynamic_global_settings" class="control-group">
 					<!-- dynamic settings injection here -->
 				</div>
@@ -262,7 +292,7 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button id="addNewDownload" class="btn">Add Download</button>
+		<button id="save_global_settings" class="btn btn-success" onclick="alert('not implemented yet');">Save</button>
 	</div>
 </div>
 <!-- global settings template end }}}-->

@@ -8,6 +8,7 @@ var clear_dialogs = function() {
 	modals.err_connect.modal('hide');
 	modals.change_conf.modal('hide');
 	modals.newDownload_modal.modal('hide');
+	modals.global_settings_modal.modal('hide');
 };
 var server_conf = {
 	host: 'localhost',
@@ -16,7 +17,7 @@ var server_conf = {
 	pass: ""
 };
 var custom_aria2_connect = function() {
-	modals.err_connect.modal('hide');
+	clear_dialogs();
 	modals.change_conf.modal('show');
 };
 var update_server_conf = function() {
@@ -102,6 +103,7 @@ $(function() {
 	modals.err_connect = $('#error_connect').modal(modal_conf);
 	modals.change_conf = $('#change_conf').modal(modal_conf);
 	modals.newDownload_modal = $('#newDownload_modal').modal(modal_conf);
+	modals.global_settings_modal = $('#global_settings_modal').modal(modal_conf);
 
 	update_ui();
 	$('#newDownload').click(function() {
@@ -126,8 +128,12 @@ $(function() {
 	$('#addNewDownload').click(newDownload);
 });
 function custom_global_settings() {
-
-
+	var templ = $('#global_general_settings_template').text();
+	var item = Mustache.render(templ, {
+		general: input_file_settings
+	});
+	$('#dynamic_global_settings').html(item);
+	modals.global_settings_modal.modal('show');
 }
 
 function addDownload(uris) {
