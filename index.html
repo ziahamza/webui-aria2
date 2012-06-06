@@ -117,6 +117,7 @@
 		<ul class="nav">
 			<li class="active"><a href="#">Active Downloads</a></li>
 			<!-- <li><a href="#watiting_downloads">Passive Downloads</a></li> -->
+			<li><a href="#">Aria2 connection configuration</a></li>
 			<li><a id="newDownload" href="#">Add Download</a></li>
 		</ul>
 	  </div><!--/.nav-collapse -->
@@ -142,7 +143,7 @@
 <!--{{{ Hidden dialogs and out of screen HTML elements  -->
 
 <!--{{{ error connection template -->
-<div class="modal fade" id="error_connect">
+<div class="modal hide" id="error_connect">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
 		<h3>Connection to Aria failed :( </h3>
@@ -162,7 +163,7 @@
 
 
 <!--{{{ change aria2 rpc host and port template -->
-<div class="modal fade" id="change_conf">
+<div class="modal hide" id="change_conf">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
 		<h3>Please enter the aria2 RPC port and host</h3>
@@ -205,7 +206,7 @@
 
 
 <!--{{{ add new Download template -->
-<div class="modal fade" id="newDownload_modal">
+<div class="modal hide" id="newDownload_modal">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
 		<h3>Add a new Download</h3>
@@ -230,7 +231,7 @@
 		<button id="addNewDownload" class="btn">Add Download</button>
 	</div>
 </div>
-<!--{{{ add new Download template -->
+<!-- add new Download template end }}}-->
 
 <!-- }}} hidden modals end -->
 

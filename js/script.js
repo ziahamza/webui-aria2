@@ -5,9 +5,9 @@ var modals = {
 
 };
 var clear_dialogs = function() {
-	modals.err_connect = $('#error_connect').modal('hide');
-	modals.change_conf = $('#change_conf').modal('hide');
-	modals.newDownload_modal = $('#newDownload_modal').modal('hide');
+	modals.err_connect.modal('hide');
+	modals.change_conf.modal('hide');
+	modals.newDownload_modal.modal('hide');
 };
 var server_conf = {
 	host: 'localhost',
@@ -42,19 +42,8 @@ function param_encode(param) {
 	return param;
 }
 var aria_syscall = function(conf, multicall) {
-	var url = "";
-	if(server_conf.user.length) {
-		url = 'http://' +
-			server_conf.user +  ":" +
-			server_conf.pass + "@" +
-			server_conf.host + ':' +
-			server_conf.port + '/jsonrpc';
-	}
-	else {
-		url =  'http://' + server_conf.host + ':' + server_conf.port + '/jsonrpc';
-	}
 	$.ajax({
-		url: url,
+		url: 'http://' + server_conf.host + ':' + server_conf.port + '/jsonrpc',
 		timeout: 1000,
 		data: {
 			jsonrpc: 2.0,
@@ -63,7 +52,40 @@ var aria_syscall = function(conf, multicall) {
 			params: param_encode(conf.params)
 		},
 		success: conf.sucess,
-		error: conf.error,
+		error: function() {
+			if(server_conf.user.length) {
+				var url = 'http://' +
+					server_conf.user +  ":" +
+					server_conf.pass + "@" +
+					server_conf.host + ':' +
+					server_conf.port + '/jsonrpc';
+
+				/* hack for http authentication */
+				var img = $('<img/>').attr("src", url);
+				$('body').append(img);
+				img.remove();
+
+				setTimeout(function() {
+					$.ajax({
+						url: url,
+						timeout: 1000,
+						data: {
+							jsonrpc: 2.0,
+							id: 'webui',
+							method: multicall? conf.func:'aria2.' + conf.func,
+							params: param_encode(conf.params)
+						},
+						success: conf.sucess,
+						error: conf.error,
+						dataType: 'jsonp',
+						jsonp: 'jsoncallback'
+					});
+				}, 1000);
+			}
+			else if(conf.error) {
+				conf.error();
+			}
+		},
 		dataType: 'jsonp',
 		jsonp: 'jsoncallback'
 	});
@@ -74,7 +96,13 @@ var update_ui = function() {
 };
 
 $(function() {
-	clear_dialogs();
+	var modal_conf = {
+		show: false
+	};
+	modals.err_connect = $('#error_connect').modal(modal_conf);
+	modals.change_conf = $('#change_conf').modal(modal_conf);
+	modals.newDownload_modal = $('#newDownload_modal').modal(modal_conf);
+
 	update_ui();
 	$('#newDownload').click(function() {
 		$('#newDownload_url').val("");
