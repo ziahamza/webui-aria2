@@ -1,8 +1,8 @@
 var modals = {
 	err_connect: undefined,
 	change_conf: undefined,
-	newDownload_modal: undefined
-
+	newDownload_modal: undefined,
+	global_settings_modal: undefined
 };
 var clear_dialogs = function() {
 	modals.err_connect.modal('hide');
@@ -51,7 +51,7 @@ var aria_syscall = function(conf, multicall) {
 			method: multicall? conf.func:'aria2.' + conf.func,
 			params: param_encode(conf.params)
 		},
-		success: conf.sucess,
+		success: conf.success,
 		error: function() {
 			if(server_conf.user.length) {
 				var url = 'http://' +
@@ -75,7 +75,7 @@ var aria_syscall = function(conf, multicall) {
 							method: multicall? conf.func:'aria2.' + conf.func,
 							params: param_encode(conf.params)
 						},
-						success: conf.sucess,
+						success: conf.success,
 						error: conf.error,
 						dataType: 'jsonp',
 						jsonp: 'jsoncallback'
@@ -125,6 +125,10 @@ $(function() {
 	});
 	$('#addNewDownload').click(newDownload);
 });
+function custom_global_settings() {
+
+
+}
 
 function addDownload(uris) {
 	console.log("adding download:");
@@ -132,7 +136,7 @@ function addDownload(uris) {
 	aria_syscall({
 		func: 'addUri',
 		params: uris,
-		sucess: function() {
+		success: function() {
 			clear_dialogs();
 			update_ui();
 		}
@@ -213,7 +217,7 @@ function updateActiveDownloads(data) {
 		aria_syscall({
 			func: 'pause',
 			params: [gid],
-			sucess: function() {
+			success: function() {
 				update_ui();
 			},
 			error: function(err) {
@@ -227,7 +231,7 @@ function updateActiveDownloads(data) {
 		aria_syscall({
 			func: 'remove',
 			params: [gid],
-			sucess: function() {
+			success: function() {
 				update_ui();
 			},
 			error: function(err) {
@@ -253,7 +257,7 @@ function updateWaitingDownloads(data) {
 		aria_syscall({
 			func: 'unpause',
 			params: [gid],
-			sucess: function(data) {
+			success: function(data) {
 				update_ui();
 			},
 			error: function(err) {
@@ -267,7 +271,7 @@ function updateWaitingDownloads(data) {
 		aria_syscall({
 			func: 'remove',
 			params: [gid],
-			sucess: function() {
+			success: function() {
 				update_ui();
 			},
 			error: function(err) {
@@ -294,7 +298,7 @@ function updateStoppedDownloads(data) {
 		aria_syscall({
 			func: 'removeDownloadResult',
 			params: [gid],
-			sucess: function() {
+			success: function() {
 				update_ui();
 			},
 			error: function(err) {
@@ -324,7 +328,7 @@ function updateStoppedDownloads(data) {
 		aria_syscall({
 			func: 'removeDownloadResult',
 			params: [gid],
-			sucess: function() {
+			success: function() {
 				update_ui();
 			},
 			error: function(err) {
@@ -354,7 +358,7 @@ function updateDownloads() {
 			methodName: 'aria2.tellStopped',
 			params: [0, 100]
 		}]],
-		sucess: function(data) {
+		success: function(data) {
 			mergeDownloads(data.result);
 			updateActiveDownloads(d_files.active);
 			updateWaitingDownloads(d_files.waiting);

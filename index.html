@@ -21,6 +21,7 @@
   <script src="js/libs/jquery-1.7.2.js"></script>
   <script src="js/libs/bootstrap.js"></script>
   <script src="js/libs/mustache.js"></script>
+  <script src="js/aria2_settings.js"></script>
 
   <!--{{{ active downloads template start -->
   <script type="text/mustache" id="download_active_template">
@@ -127,7 +128,7 @@
 		<ul class="nav">
 			<li class="active"><a href="#">Active Downloads</a></li>
 			<!-- <li><a href="#watiting_downloads">Passive Downloads</a></li> -->
-			<li><a href="#" onclick="custom_aria2_connect()">Aria2 connection configuration</a></li>
+			<li><a href="#" onclick="custom_aria2_connect()">Aria2 connection settings</a></li>
 			<li><a id="newDownload" href="#">Add Download</a></li>
 		</ul>
 	  </div><!--/.nav-collapse -->
@@ -242,6 +243,29 @@
 	</div>
 </div>
 <!-- add new Download template end }}}-->
+
+
+<!--{{{ global settings template start -->
+<div class="modal hide" id="global_settings_modal">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Global Settings</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Global Settings</legend>
+				<div id="dynamic_global_settings" class="control-group">
+					<!-- dynamic settings injection here -->
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button id="addNewDownload" class="btn">Add Download</button>
+	</div>
+</div>
+<!-- global settings template end }}}-->
 
 <!-- }}} hidden modals end -->
 
