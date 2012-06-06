@@ -165,6 +165,7 @@ function changeLength(len, pref) {
 }
 function changeTime(time) {
 	time = parseInt(time);
+	if(!time) return "infinite";
 	if(time < 60) return time + " s";
 	else if(time < 60*60) return (time/60).toFixed(2) + " min";
 	else if(time < 60*60*24) return (time/(60*60)).toFixed(2) + " hours";
@@ -184,7 +185,6 @@ function getTemplateCtx(data) {
 	}
 
 	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
-	if(!eta) eta = "infinite";
 	return {
 		name: name,
 		status: data.status,
