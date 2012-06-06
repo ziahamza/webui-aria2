@@ -137,12 +137,6 @@ var input_file_settings = [
 	},
 	{
 		name: "check-integrity",
-		desc: "sample",
-		option:true,
-		options: ["true", "false"]
-	},
-	{
-		name: "sample",
 		desc: "Check file integrity by validating piece hashes or a hash of entire file. This option has effect only in BitTorrent, Metalink downloads with checksums or HTTP(S)/FTP downloads with --checksum option. If piece hashes are provided, this option can detect damaged portions of a file and re-download them. If a hash of entire file is provided, hash check is only done when file has been already download. This is determined by file length. If hash check fails, file is re-downloaded from scratch. If both piece hashes and a hash of entire file are provided, only piece hashes are used. Default: false",
 		option:true,
 		options: ["true", "false"]
@@ -200,6 +194,7 @@ var input_file_settings = [
 	{
 		name: "file-allocation",
 		desc: "Specify file allocation method. none doesn't pre-allocate file space. prealloc pre-allocates file space before download begins. This may take some time depending on the size of the file. If you are using newer file systems such as ext4 (with extents support), btrfs, xfs or NTFS(MinGW build only), falloc is your best choice. It allocates large(few GiB) files almost instantly. Don't use falloc with legacy file systems such as ext3 and FAT32 because it takes almost same time as prealloc and it blocks aria2 entirely until allocation finishes. falloc may not be available if your system doesn't have posix_fallocate(3) function. Possible Values: none, prealloc, falloc Default: prealloc",
+		option: true,
 		options: ["none", "prealloc", "falloc"]
 	},
 	{

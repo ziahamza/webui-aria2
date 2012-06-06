@@ -121,7 +121,7 @@ $(function() {
 		html += '<a href="#"><i class="icon-trash"></i></a></li>';
 		$(html).appendTo('.download_urls');
 		$('#newDownload_url').val("");
-		$('.download_urls a').click(function() {
+		$('.download_urls a').unbind('click').click(function() {
 			$(this).parents('li').remove();
 		});
 	});
@@ -137,15 +137,15 @@ function check_global(name) {
 }
 function get_global_settings(cb) {
 	var sets = [];
-	var tmp_set;
+	var tmp_set = [];
 	for(var i = 0; i < input_file_settings.length; i++) {
-		tmp_set = input_file_settings[i];
+		tmp_set = $.extend(true, {}, input_file_settings[i]);
 		if(check_global(tmp_set)) {
 			sets.push(tmp_set);
 		}
 	}
 	for(var i = 0; i < global_settings.length; i++) {
-		tmp_set = global_settings[i];
+		tmp_set = $.extend(true, {}, global_settings[i]);
 		if(check_global(tmp_set)) {
 			sets.push(tmp_set);
 		}
@@ -154,8 +154,7 @@ function get_global_settings(cb) {
 		func: 'getGlobalOption',
 		success: function(data) {
 			var res = data.result;
-			console.log(res);
-			for(var i in data.result) {
+			for(var i in res) {
 				for(var j = 0; j < sets.length; j++) {
 					if(sets[j].name === i) {
 						sets[j].value = res[i].trim();
@@ -163,10 +162,11 @@ function get_global_settings(cb) {
 						if(sets[j].option) {
 							for(var k = 0; k < sets[j].options.length; k++) {
 								var tmp = {
-									val: sets[j].options[k].toString(),
-									disp: sets[j].options[k].toString()
+									val: sets[j].options[k],
+									disp: sets[j].options[k]
 								};
-								if(sets[j].options[k].toString() === sets[j].value) {
+
+								if(sets[j].options[k] === sets[j].value) {
 									tmp.val = sets[j].value + '" selected="true';
 								}
 								sets[j].options[k] = tmp;
@@ -185,7 +185,7 @@ function get_global_settings(cb) {
 function custom_global_settings() {
 	var gen = function(name) {
 		return { name: name, values: [] };
-	}
+	};
 	var general_settings = gen("General Settings");
 	var torrent_settings = gen("Bit-Torrent Settings");
 	var ftp_settings = gen("FTP Settings");
@@ -224,6 +224,35 @@ function custom_global_settings() {
 		});
 		$('#dynamic_global_settings').html(item);
 		modals.global_settings_modal.modal('show');
+		$("#save_global_settings").one('click',function() {
+			var settings = {};
+			for(var i = 0; i < sets.length; i++) {
+				var elem = $("#input_settings_" + sets[i].name);
+				if(sets[i].value) {
+					if(elem.val() !== sets[i].value) {
+						settings[sets[i].name] = elem.val();
+					}
+				}
+				else if(elem.val() !== "no_val" && elem.val() !== "") {
+					settings[sets[i].name] = elem.val();
+				}
+			}
+			console.log(settings);
+			if(!$.isEmptyObject(settings)) {
+				aria_syscall({
+					func: 'changeGlobalOption',
+					params: [settings],
+					success: function(data) {
+						console.log(data);
+						clear_dialogs();
+					}
+				});
+				clear_dialogs();
+			}
+			else {
+				clear_dialogs();
+			}
+		});
 	});
 }
 
