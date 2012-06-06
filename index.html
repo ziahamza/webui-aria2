@@ -109,31 +109,58 @@
 
   <!--{{{  start global settings item template -->
   <script type="text/mustache" id="global_general_settings_template">
-	  {{#general}}
-		<label class="control-label" for="input_settings_{{name}}">{{name}}</label>
-		<div class="controls">
-			{{^options}}
-			<input typ="text" class="input-xlarge" id="input_settings_{{name}}"></input>
-			{{/options}}
+	{{#settings}}
+	<fieldset>
+		<legend>{{name}}</legend>
+			<div class="control-group">
+			  {{#values}}
+				<label class="control-label" for="input_settings_{{name}}">{{name}}</label>
+				<div class="controls">
+					{{^options}}
+						{{#has_value}}
+						<input typ="text" class="input-xlarge" id="input_settings_{{name}}" value="{{value}}"/>
+						{{/has_value}}
 
-			{{#option}}
-			<select>
-				<option value=" ">Default</option>
-			{{/option}}
+						{{^has_value}}
+						<input typ="text" class="input-xlarge" placeholder="default" id="input_settings_{{name}}"/>
+						{{/has_value}}
+					{{/options}}
 
-			{{#options}}
-			<option>{{.}}</option>
-			{{/options}}
+					{{#option}}
+						{{#has_value}}
+						<select id="input_settings_{{name}}">
+						{{/has_value}}
 
-			{{#option}}
-			</select>
-			{{/option}}
+						{{^has_value}}
+						<select id="input_settings_{{name}}">
+								<option value=" ">Default</option>
+						{{/has_value}}
 
-			<p class="help-block">{{desc}}</p>
-			<br><br>
-		</div>
-	  {{/general}}
+					{{/option}}
 
+					{{#options}}
+
+						{{#has_value}}
+						<option value="{{& val}}">{{disp}}</option>
+						{{/has_value}}
+
+						{{^has_value}}
+						<option value="{{& .}}">{{.}}</option>
+						{{/has_value}}
+
+					{{/options}}
+
+					{{#option}}
+					</select>
+					{{/option}}
+
+					<p class="help-block">{{desc}}</p>
+					<br><br>
+				</div>
+			  {{/values}}
+		  </div>
+	  </fieldset>
+	  {{/settings}}
 
   </script>
   <!-- global settings template end }}}-->
@@ -282,13 +309,8 @@
 		<h3>Global Settings</h3>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal">
-			<fieldset>
-				<legend>General Settings</legend>
-				<div id="dynamic_global_settings" class="control-group">
-					<!-- dynamic settings injection here -->
-				</div>
-			</fieldset>
+		<form class="form-horizontal" id="dynamic_global_settings">
+			<!-- dynamic settings injection here -->
 		</form>
 	</div>
 	<div class="modal-footer">

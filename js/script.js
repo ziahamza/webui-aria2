@@ -127,13 +127,104 @@ $(function() {
 	});
 	$('#addNewDownload').click(newDownload);
 });
-function custom_global_settings() {
-	var templ = $('#global_general_settings_template').text();
-	var item = Mustache.render(templ, {
-		general: input_file_settings
+function check_global(name) {
+	for(var i = 0; i < global_settings_exclude.length; i++) {
+		if(global_settings_exclude[i] === name) {
+			return false;
+		}
+	}
+	return true;
+}
+function get_global_settings(cb) {
+	var sets = [];
+	var tmp_set;
+	for(var i = 0; i < input_file_settings.length; i++) {
+		tmp_set = input_file_settings[i];
+		if(check_global(tmp_set)) {
+			sets.push(tmp_set);
+		}
+	}
+	for(var i = 0; i < global_settings.length; i++) {
+		tmp_set = global_settings[i];
+		if(check_global(tmp_set)) {
+			sets.push(tmp_set);
+		}
+	}
+	aria_syscall({
+		func: 'getGlobalOption',
+		success: function(data) {
+			var res = data.result;
+			console.log(res);
+			for(var i in data.result) {
+				for(var j = 0; j < sets.length; j++) {
+					if(sets[j].name === i) {
+						sets[j].value = res[i].trim();
+						sets[j].has_value = true;
+						if(sets[j].option) {
+							for(var k = 0; k < sets[j].options.length; k++) {
+								var tmp = {
+									val: sets[j].options[k].toString(),
+									disp: sets[j].options[k].toString()
+								};
+								if(sets[j].options[k].toString() === sets[j].value) {
+									tmp.val = sets[j].value + '" selected="true';
+								}
+								sets[j].options[k] = tmp;
+							}
+						}
+					}
+				}
+			}
+			cb(sets);
+		},
+		error: function() {
+			alert("Connection to aria server failed");
+		}
 	});
-	$('#dynamic_global_settings').html(item);
-	modals.global_settings_modal.modal('show');
+}
+function custom_global_settings() {
+	var gen = function(name) {
+		return { name: name, values: [] };
+	}
+	var general_settings = gen("General Settings");
+	var torrent_settings = gen("Bit-Torrent Settings");
+	var ftp_settings = gen("FTP Settings");
+	var http_settings = gen("HTTP(S) Settings");
+	var metalink_settings = gen("Metalink Settings");
+
+	get_global_settings(function(sets) {
+		for(var i = 0; i < sets.length; i++) {
+			var set = sets[i];
+			if(set.name.indexOf("bt") !== -1 || set.name.indexOf("torrent") !== -1) {
+				torrent_settings.values.push(set);
+			}
+			else if(set.name.indexOf("metalink") !== -1) {
+				metalink_settings.values.push(set);
+			}
+			else if(set.name.indexOf("http") !== -1) {
+				http_settings.values.push(set);
+			}
+			else if(set.name.indexOf("ftp") !== -1) {
+				ftp_settings.values.push(set);
+			}
+			else
+				general_settings.values.push(set);
+
+		}
+
+		var templ = $('#global_general_settings_template').text();
+		var item = Mustache.render(templ, {
+			settings: [
+				general_settings,
+				http_settings,
+				ftp_settings,
+				torrent_settings,
+				metalink_settings
+			]
+		});
+		$('#dynamic_global_settings').html(item);
+		modals.global_settings_modal.modal('show');
+	});
 }
 
 function addDownload(uris) {
