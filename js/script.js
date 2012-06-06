@@ -96,7 +96,8 @@ function newDownload() {
 		urls.push($(li[i]).text().trim());
 
 	}
-	alert(JSON.stringify(urls));
+	var inp_url = $('#newDownload_url').val().trim();
+	if(inp_url.length > 0) urls.push(inp_url);
 	addDownload([urls]);
 }
 
@@ -108,11 +109,16 @@ var d_files = {
 function changeLength(len, pref) {
 	len = parseInt(len);
 	if(len <= 1000) return len  + " " + pref;
-	else if(len <= 1000000) return Math.round(len/1000 * 100)/100 + " k" + pref;
-	else if(len <= 1000000000) return Math.round(len/1000000 *100)/100 + " m" + pref;
-	else if(len <= 1000000000000) return Math.round(len/1000000000 *100)/100 + " g" + pref;
+	else if(len <= 1000000) return Math.round(len/1000 * 10)/10 + " k" + pref;
+	else if(len <= 1000000000) return Math.round(len/1000000 *10)/10 + " m" + pref;
+	else if(len <= 1000000000000) return Math.round(len/1000000000 *10)/10 + " g" + pref;
 }
 function changeTime(time) {
+	time = parseInt(time);
+	if(time < 60) return time + " s";
+	else if(time < 60*60) return Math.round(time/60 *100)/100 + " min";
+	else if(time < 60*60*24) return Math.round(time/(60*60) *100)/100 + " hours";
+	else return Math.round(time/(60*60*24) *100)/100 + " days!!";
 
 }
 function updateActiveDownloads(data) {
@@ -138,7 +144,9 @@ function updateActiveDownloads(data) {
 			percentage:percentage,
 			gid: data[i].gid,
 			size: changeLength(data[i].totalLength, "b"),
-			down: changeLength(data[i].downloadSpeed, "b/s")
+			down: changeLength(data[i].downloadSpeed, "b/s"),
+			remaining: changeLength(data[i].totalLength - data[i].completedLength, "b"),
+			eta: changeTime((data[i].totalLength-data[i].completedLength)/data[i].downloadSpeed)
 		};
 		var item = Mustache.render(down_template, ctx);
 		$('#active_downloads').append(item);
@@ -195,7 +203,9 @@ function updateWaitingDownloads(data) {
 			percentage:percentage,
 			gid: data[i].gid,
 			size: changeLength(data[i].totalLength, "b"),
-			down: changeLength(data[i].downloadSpeed, "b/s")
+			down: changeLength(data[i].downloadSpeed, "b/s"),
+			remaining: changeLength(data[i].totalLength - data[i].completedLength, "b"),
+			eta: changeTime((data[i].totalLength-data[i].completedLength)/data[i].downloadSpeed)
 		};
 		var item = Mustache.render(down_template, ctx);
 		$('#waiting_downloads').append(item);
@@ -253,7 +263,9 @@ function updateStoppedDownloads(data) {
 			percentage:percentage,
 			gid: data[i].gid,
 			size: changeLength(data[i].totalLength, "b"),
-			down: changeLength(data[i].downloadSpeed, "b/s")
+			down: changeLength(data[i].downloadSpeed, "b/s"),
+			remaining: changeLength(data[i].totalLength - data[i].completedLength, "b"),
+			eta: changeTime((data[i].totalLength-data[i].completedLength)/data[i].downloadSpeed)
 		};
 		var item = Mustache.render(down_template, ctx);
 		$('#stopped_downloads').append(item);
