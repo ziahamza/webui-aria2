@@ -288,10 +288,10 @@ var d_files = {
 };
 function changeLength(len, pref) {
 	len = parseInt(len);
-	if(len <= 1000) return len  + " " + pref;
-	else if(len <= 1000000) return (len/1000).toFixed(1) + " k" + pref;
-	else if(len <= 1000000000) return (len/1000000).toFixed(1) + " m" + pref;
-	else if(len <= 1000000000000) return (len/1000000000).toFixed(1) + " g" + pref;
+	if(len <= (1<<10)) return len  + " " + pref;
+	else if(len <= (1<<20)) return (len/(1<<10)).toFixed(1) + " K" + pref;
+	else if(len <= (1<<30)) return (len/(1<<20)).toFixed(1) + " M" + pref;
+	else return (len/(1<<30)).toFixed(1) + " G" + pref;
 }
 function changeTime(time) {
 	time = parseInt(time);
@@ -320,25 +320,57 @@ function getTemplateCtx(data) {
 		status: data.status,
 		percentage:percentage,
 		gid: data.gid,
-		size: changeLength(data.totalLength, "b"),
-		down: changeLength(data.downloadSpeed, "b/s"),
-		remaining: changeLength(data.totalLength - data.completedLength, "b"),
+		size: changeLength(data.totalLength, "B"),
+		down: changeLength(data.downloadSpeed, "B/s"),
+		remaining: changeLength(data.totalLength - data.completedLength, "B"),
 		eta: eta,
-		downloaded: changeLength(data.completedLength, "b")
+		downloaded: changeLength(data.completedLength, "B")
 	};
 }
-function updateActiveDownloads(data) {
-	var down_template = $('#download_active_template').text();
-	$('#active_downloads').html("");
-	if(!data || (data && data.length === 0)) {
-		$('#active_downloads').append('no active downloads yet!!!!');
+function updateDownloadTemplates(elem, ctx) {
+	elem = $(elem);
+	for(var i in ctx) {
+		elem.find('.' + i).text(ctx[i]);
 	}
+	elem.find('.bar').css('width', ctx.percentage + '%');
+}
+function deleteDownloadTemplates(top_elem, data) {
+	if(!data) {
+		$(top_elem).html("");
+	}
+	else {
+		var elems = $(top_elem).find('[data-gid]');
+		for(var i = 0; i < elems.length; i++) {
+			var elem = $(elems[i]);
+			var gid = elem.attr('data-gid').toString();
+			var found = false;
+			for(var j = 0; j < data.length; j++) {
+				if(gid === data[j].gid.toString())
+					found = true;
+			}
+			if(!found)
+				elem.remove();
+		}
+	}
+}
+function refreshDownloadTemplates(top_elem, data) {
+	var down_template = $('#download_' + top_elem + '_template').text();
+	deleteDownloadTemplates('#' + top_elem + '_downloads', data);
 	for(var i = 0; i < data.length; i++) {
 		var ctx = getTemplateCtx(data[i]);
-		var item = Mustache.render(down_template, ctx);
-		$('#active_downloads').append(item);
+		var elem = $('[data-gid=' + ctx.gid + ']');
+		if(elem.length) {
+			updateDownloadTemplates(elem, ctx);
+		} else {
+			var item = Mustache.render(down_template, ctx);
+			$('#' + top_elem + '_downloads').append(item);
+		}
 	}
-	$('.download_active_item .download_pause').click(function() {
+
+}
+function updateActiveDownloads(data) {
+	refreshDownloadTemplates('active', data);
+	$('.download_active_item .download_pause').unbind('click').click(function() {
 		var gid = $(this).parents('.download_active_item').attr('data-gid');
 		aria_syscall({
 			func: 'pause',
@@ -352,7 +384,7 @@ function updateActiveDownloads(data) {
 			}
 		});
 	});
-	$('.download_active_item .download_remove').click(function() {
+	$('.download_active_item .download_remove').unbind('click').click(function() {
 		var gid = $(this).parents('.download_active_item').attr('data-gid');
 		aria_syscall({
 			func: 'remove',
@@ -368,17 +400,8 @@ function updateActiveDownloads(data) {
 	});
 }
 function updateWaitingDownloads(data) {
-	var down_template = $('#download_waiting_template').text();
-	$('#waiting_downloads').html("");
-	if(!data || (data && data.length === 0)) {
-		$('#waiting_downloads').append('no waiting downloads yet!!!!');
-	}
-	for(var i = 0; i < data.length; i++) {
-		var ctx = getTemplateCtx(data[i]);
-		var item = Mustache.render(down_template, ctx);
-		$('#waiting_downloads').append(item);
-	}
-	$('.download_waiting_item .download_play').click(function() {
+	refreshDownloadTemplates('waiting', data);
+	$('.download_waiting_item .download_play').unbind('click').click(function() {
 		var gid = $(this).parents('.download_waiting_item').attr('data-gid');
 		aria_syscall({
 			func: 'unpause',
@@ -392,7 +415,7 @@ function updateWaitingDownloads(data) {
 			}
 		});
 	});
-	$('.download_waiting_item .download_remove').click(function() {
+	$('.download_waiting_item .download_remove').unbind('click').click(function() {
 		var gid = $(this).parents('.download_waiting_item').attr('data-gid');
 		aria_syscall({
 			func: 'remove',
@@ -409,17 +432,8 @@ function updateWaitingDownloads(data) {
 }
 
 function updateStoppedDownloads(data) {
-	var down_template = $('#download_stopped_template').text();
-	$('#stopped_downloads').html("");
-	if(!data || (data && data.length === 0)) {
-		$('#stopped_downloads').append('no stopped downloads yet!!!!');
-	}
-	for(var i = 0; i < data.length; i++) {
-		var ctx = getTemplateCtx(data[i]);
-		var item = Mustache.render(down_template, ctx);
-		$('#stopped_downloads').append(item);
-	}
-	$('.download_stopped_item .download_remove').click(function() {
+	refreshDownloadTemplates('stopped', data);
+	$('.download_stopped_item .download_remove').unbind('click').click(function() {
 		var gid = $(this).parents('.download_stopped_item').attr('data-gid');
 		aria_syscall({
 			func: 'removeDownloadResult',
@@ -433,7 +447,7 @@ function updateStoppedDownloads(data) {
 			}
 		});
 	});
-	$('.download_stopped_item .download_restart').click(function() {
+	$('.download_stopped_item .download_restart').unbind('click').click(function() {
 		var gid = $(this).parents('.download_stopped_item').attr('data-gid');
 		var files;
 		var uris = [];

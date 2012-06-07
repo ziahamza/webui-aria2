@@ -23,31 +23,41 @@
   <script src="js/libs/mustache.js"></script>
   <script src="js/aria2_settings.js"></script>
 
+  <style>
+	.button_set {
+		float: right;
+		margin-bottom: 5px;
+	}
+  </style>
   <!--{{{ active downloads template start -->
   <script type="text/mustache" id="download_active_template">
 	  <div class="row download_active_item" data-gid="{{gid}}">
-		<div class="span4" style="overflow: hidden;">
-			<h3>{{name}}</h3>
+		<div class="span3" style="overflow: hidden;">
+			<b style="font-size: 14px;" class="name">{{name}}</b>
 		</div>
 		<div class="span6">
-			<b style='display:inline; float:right;'>
-				<span class="label label-success">Remaining: {{remaining}}</span> |
-				<span class="label label-success">Progress: {{percentage}}%</span> |
-				<span class="label label-success">Speed: {{down}}</span> |
-				<span class="label label-success">Time left: {{eta}}</span>
-			</b>
+			<div class="pull-right">
+				<span class="label label-success">Remaining: <span class="remaining">{{remaining}}</span></span> |
+				<span class="label label-success">Progress: <span class="percentage">{{percentage}}</span>%</span> |
+				<span class="label label-success">Speed: <span class="down">{{down}}</span></span> |
+				<span class="label label-success">Time left: <span class="eta">{{eta}}</span></span>
+			</div>
 		</div>
-		<div class="span2">
-			<div style="float:right">
+		<div class="span3">
+			<div class="button_set">
 				<button class="btn btn-mini download_pause"><i class="icon-pause"></i>Pause</button>
+				<button class="btn btn-mini btn-info" data-toggle="collapse" data-target="[data-gid={{gid}}] .more_info">More Info</button>
 				<button class="btn btn-mini btn-danger download_remove"><i class="icon-remove"></i> Remove</button>
 			</div>
 		</div>
-		<br><br>
-		<div class="span12 progress progress-striped">
+		<br>
+		<div class="span12 progress progress-striped active">
 			<div class="bar" style="width: {{percentage}}%;"></div>
 		</div>
+		<br>
+		<div class="span12 more_info collapse">Hello!!!</div>
 	</div>
+
   </script>
   <!-- active downloads template end }}}-->
 
@@ -55,23 +65,23 @@
   <script type="text/mustache" id="download_waiting_template">
 	  <div class="row download_waiting_item" data-gid="{{gid}}">
 		<div class="span4" style="overflow: hidden;">
-			<h3>{{name}}</h3>
+			<b style="font-size: 14px;">{{name}}</b>
 		</div>
 		<div class="span6">
 			<span class="badge badge-warning">Status: {{status}}</span>
-			<b style='display:inline; float:right;'>
+			<div class="pull-right">
 				<span class="label label-warning">Size: {{size}}</span> |
 				<span class="label label-warning">Remaining: {{remaining}}</span> |
 				<span class="label label-warning">Progress: {{percentage}}%</span>
-			</b>
+			</div>
 		</div>
 		<div class="span2">
-			<div style="float:right">
+			<div class="button_set">
 				<button class="btn btn-mini download_play"><i class="icon-play"></i> Play</button>
 				<button class="btn btn-mini btn-danger download_remove"><i class="icon-fire"></i> Purge</button>
 			</div>
 		</div>
-		<br><br>
+		<br>
 		<div class="span12 progress progress-striped">
 			<div class="bar" style="width: {{percentage}}%; background-color:#FBB450"></div>
 		</div>
@@ -83,23 +93,23 @@
   <script type="text/mustache" id="download_stopped_template">
 	  <div class="row download_stopped_item" data-gid="{{gid}}">
 		<div class="span4" style="overflow: hidden;">
-			<h3>{{name}}</h3>
+			<b style="font-size: 14px;">{{name}}</b>
 		</div>
 		<div class="span6">
 			<span class="badge badge-important">Status: {{status}}</span>
-			<b style='display:inline; float:right;'>
+			<div class="pull-right">
 				<span class="label label-important">Size: {{size}}</span> |
 				<span class="label label-important">Downloaded: {{downloaded}}</span> |
 				<span class="label label-important">Progress: {{percentage}}%</span>
-			</b>
+			</div>
 		</div>
 		<div class="span2">
-			<div style="float:right">
+			<div class="button_set">
 				<button class="btn btn-mini download_restart"><i class="icon-repeat"></i> Restart</button>
 				<button class="btn btn-mini btn-danger download_remove"><i class="icon-fire"></i> Purge</button>
 			</div>
 		</div>
-		<br><br>
+		<br>
 		<div class="span12 progress progress-striped">
 			<div class="bar" style="width: {{percentage}}%; background-color:#EE5F5B"></div>
 		</div>
@@ -198,13 +208,10 @@
 <div role="main" class="container">
 	<!-- Download items here -->
 
-	<h2>Current Downloads</h2>
 	<div id="active_downloads"></div>
 
-	<h2>Waiting Downloads</h2>
 	<div id="waiting_downloads"></div>
 
-	<h2>Stopped Downloads</h2>
 	<div id="stopped_downloads"></div>
 
 </div>
