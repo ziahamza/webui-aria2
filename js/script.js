@@ -321,16 +321,22 @@ function getTemplateCtx(data) {
 		percentage:percentage,
 		gid: data.gid,
 		size: changeLength(data.totalLength, "B"),
-		down: changeLength(data.downloadSpeed, "B/s"),
+		down_speed: changeLength(data.downloadSpeed, "B/s"),
 		remaining: changeLength(data.totalLength - data.completedLength, "B"),
 		eta: eta,
-		downloaded: changeLength(data.completedLength, "B")
+		downloaded: changeLength(data.completedLength, "B"),
+		dir: data.dir,
+		numPieces: data.numPieces,
+		pieceLength: changeLength(data.pieceLength, "B"),
+		uploadLength: changeLength(data.uploadLength, "B"),
+		upload_speed: changeLength(data.uploadSpeed, "B/s")
+
 	};
 }
 function updateDownloadTemplates(elem, ctx) {
 	elem = $(elem);
 	for(var i in ctx) {
-		elem.find('.' + i).text(ctx[i]);
+		elem.find('.tmp_' + i).text(ctx[i]);
 	}
 	elem.find('.bar').css('width', ctx.percentage + '%');
 }
@@ -363,7 +369,7 @@ function refreshDownloadTemplates(top_elem, data) {
 			updateDownloadTemplates(elem, ctx);
 		} else {
 			var item = Mustache.render(down_template, ctx);
-			$('#' + top_elem + '_downloads').append(item);
+			$('#' + top_elem + '_downloads').prepend(item);
 		}
 	}
 

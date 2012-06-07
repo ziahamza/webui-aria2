@@ -28,25 +28,29 @@
 		float: right;
 		margin-bottom: 5px;
 	}
+	.active_settings {
+		text-align: center;
+		margin-bottom: 3px;
+	}
   </style>
   <!--{{{ active downloads template start -->
   <script type="text/mustache" id="download_active_template">
 	  <div class="row download_active_item" data-gid="{{gid}}">
 		<div class="span3" style="overflow: hidden;">
-			<b style="font-size: 14px;" class="name">{{name}}</b>
+			<b style="font-size: 14px;" class="tmp_name">{{name}}</b>
 		</div>
 		<div class="span6">
 			<div class="pull-right">
-				<span class="label label-success">Remaining: <span class="remaining">{{remaining}}</span></span> |
-				<span class="label label-success">Progress: <span class="percentage">{{percentage}}</span>%</span> |
-				<span class="label label-success">Speed: <span class="down">{{down}}</span></span> |
-				<span class="label label-success">Time left: <span class="eta">{{eta}}</span></span>
+				<span class="label label-success">Remaining: <span class="tmp_remaining">{{remaining}}</span></span> |
+				<span class="label label-success">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span> |
+				<span class="label label-success">Speed: <span class="tmp_down_speed">{{down_speed}}</span></span> |
+				<span class="label label-success">Time left: <span class="tmp_eta">{{eta}}</span></span>
 			</div>
 		</div>
 		<div class="span3">
 			<div class="button_set">
 				<button class="btn btn-mini download_pause"><i class="icon-pause"></i>Pause</button>
-				<button class="btn btn-mini btn-info" data-toggle="collapse" data-target="[data-gid={{gid}}] .more_info">More Info</button>
+				<button class="btn btn-mini btn-info" data-toggle="collapse" data-target="[data-gid={{gid}}] .more_info" onclick="$(this).button('toggle');"><i class="icon-info-sign"></i> More Info</button>
 				<button class="btn btn-mini btn-danger download_remove"><i class="icon-remove"></i> Remove</button>
 			</div>
 		</div>
@@ -54,8 +58,19 @@
 		<div class="span12 progress progress-striped active">
 			<div class="bar" style="width: {{percentage}}%;"></div>
 		</div>
-		<br>
-		<div class="span12 more_info collapse">More info here!!!</div>
+		<div class="span12 more_info collapse">
+			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
+			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
+			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
+			<b class="span2 label active_settings">Size: <span class="tmp_size">{{size}}</span></b>
+			<b class="span2 label active_settings">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></b>
+			<b class="span2 label active_settings">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></b>
+			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
+			<b class="span2 label active_settings">ETA: <span class="tmp_eta">{{eta}}</span></b>
+			<b class="span2 label active_settings">Download Speed: <span class="tmp_down_speed">{{down_speed}}</span></b>
+			<b class="span2 label active_settings">Upload Speed: <span class="tmp_upload_speed">{{upload_speed}}</span></b>
+			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
+		</div>
 	</div>
 
   </script>
@@ -64,26 +79,37 @@
   <!--{{{ waiting downloads template start -->
   <script type="text/mustache" id="download_waiting_template">
 	  <div class="row download_waiting_item" data-gid="{{gid}}">
-		<div class="span4" style="overflow: hidden;">
-			<b style="font-size: 14px;">{{name}}</b>
+		<div class="span3" style="overflow: hidden;">
+			<b style="font-size: 14px;" class="tmp_name">{{name}}</b>
 		</div>
 		<div class="span6">
-			<span class="badge badge-warning">Status: {{status}}</span>
+			<span class="badge badge-warning">Status: <span class="tmp_status">{{status}}</span></span>
 			<div class="pull-right">
-				<span class="label label-warning">Size: {{size}}</span> |
-				<span class="label label-warning">Remaining: {{remaining}}</span> |
-				<span class="label label-warning">Progress: {{percentage}}%</span>
+				<span class="label label-warning">Size: <span class="tmp_size">{{size}}</span></span> |
+				<span class="label label-warning">Remaining: <span class="tmp_remaining">{{remaining}}</span></span> |
+				<span class="label label-warning">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span>
 			</div>
 		</div>
-		<div class="span2">
+		<div class="span3">
 			<div class="button_set">
 				<button class="btn btn-mini download_play"><i class="icon-play"></i> Play</button>
+				<button class="btn btn-mini btn-info" data-toggle="collapse" data-target="[data-gid={{gid}}] .more_info" onclick="$(this).button('toggle');"><i class="icon-info-sign"></i> More Info</button>
 				<button class="btn btn-mini btn-danger download_remove"><i class="icon-fire"></i> Purge</button>
 			</div>
 		</div>
 		<br>
 		<div class="span12 progress progress-striped">
 			<div class="bar" style="width: {{percentage}}%; background-color:#FBB450"></div>
+		</div>
+		<div class="span12 more_info collapse">
+			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
+			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
+			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
+			<b class="span2 label active_settings">Size: <span class="tmp_size">{{size}}</span></b>
+			<b class="span2 label active_settings">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></b>
+			<b class="span2 label active_settings">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></b>
+			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
+			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
 		</div>
 	</div>
   </script>
@@ -92,26 +118,37 @@
   <!--{{{ stopped downloads template start -->
   <script type="text/mustache" id="download_stopped_template">
 	  <div class="row download_stopped_item" data-gid="{{gid}}">
-		<div class="span4" style="overflow: hidden;">
-			<b style="font-size: 14px;">{{name}}</b>
+		<div class="span3" style="overflow: hidden;">
+			<b style="font-size: 14px;" class="tmp_name">{{name}}</b>
 		</div>
 		<div class="span6">
-			<span class="badge badge-important">Status: {{status}}</span>
+			<span class="badge badge-important">Status: <span class="tmp_status">{{status}}</span></span>
 			<div class="pull-right">
-				<span class="label label-important">Size: {{size}}</span> |
-				<span class="label label-important">Downloaded: {{downloaded}}</span> |
-				<span class="label label-important">Progress: {{percentage}}%</span>
+				<span class="label label-important">Size: <span class="tmp_size">{{size}}</span></span> |
+				<span class="label label-important">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></span> |
+				<span class="label label-important">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span>
 			</div>
 		</div>
-		<div class="span2">
+		<div class="span3">
 			<div class="button_set">
 				<button class="btn btn-mini download_restart"><i class="icon-repeat"></i> Restart</button>
+				<button class="btn btn-mini btn-info" data-toggle="collapse" data-target="[data-gid={{gid}}] .more_info" onclick="$(this).button('toggle');"><i class="icon-info-sign"></i> More Info</button>
 				<button class="btn btn-mini btn-danger download_remove"><i class="icon-fire"></i> Purge</button>
 			</div>
 		</div>
 		<br>
 		<div class="span12 progress progress-striped">
 			<div class="bar" style="width: {{percentage}}%; background-color:#EE5F5B"></div>
+		</div>
+		<div class="span12 more_info collapse">
+			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
+			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
+			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
+			<b class="span2 label active_settings">Size: <span class="tmp_size">{{size}}</span></b>
+			<b class="span2 label active_settings">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></b>
+			<b class="span2 label active_settings">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></b>
+			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
+			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
 		</div>
 	</div>
   </script>
