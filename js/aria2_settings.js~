@@ -546,6 +546,6 @@ var download_active_settings =  [
 	},{
 		name: "max-upload-limit",
 		desc: "Set max upload speed per each torrent in bytes/sec. 0 means unrestricted. You can append K or M (1K = 1024, 1M = 1024K). To limit the overall upload speed, use --max-overall-upload-limit option. Default: 0."
-
+	
 	}
 ];

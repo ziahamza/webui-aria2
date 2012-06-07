@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title></title>
+  <title>Aria2 Web Client</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -35,7 +35,7 @@
   </style>
   <!--{{{ active downloads template start -->
   <script type="text/mustache" id="download_active_template">
-	  <div class="row download_active_item" data-gid="{{gid}}">
+	  <div class="row download_active_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
 		<div class="span3" style="overflow: hidden;">
 			<b style="font-size: 14px;" class="tmp_name">{{name}}</b>
 		</div>
@@ -70,15 +70,19 @@
 			<b class="span2 label active_settings">Download Speed: <span class="tmp_down_speed">{{down_speed}}</span></b>
 			<b class="span2 label active_settings">Upload Speed: <span class="tmp_upload_speed">{{upload_speed}}</span></b>
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
+			<div class="span4 offset4">
+				<button class="btn btn-mini pull-right download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
+			</div>
 		</div>
 	</div>
+	<br>
 
   </script>
   <!-- active downloads template end }}}-->
 
   <!--{{{ waiting downloads template start -->
   <script type="text/mustache" id="download_waiting_template">
-	  <div class="row download_waiting_item" data-gid="{{gid}}">
+	  <div class="row download_waiting_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
 		<div class="span3" style="overflow: hidden;">
 			<b style="font-size: 14px;" class="tmp_name">{{name}}</b>
 		</div>
@@ -110,6 +114,9 @@
 			<b class="span2 label active_settings">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></b>
 			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
+			<div class="span4 offset4">
+				<button class="btn btn-mini pull-right download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
+			</div>
 		</div>
 	</div>
   </script>
@@ -119,7 +126,7 @@
   <script type="text/mustache" id="download_stopped_template">
 	  <div class="row download_stopped_item" data-gid="{{gid}}">
 		<div class="span3" style="overflow: hidden;">
-			<b style="font-size: 14px;" class="tmp_name">{{name}}</b>
+			<b style="font-size: 14px;" class="tmp_name">{{settings_name}}</b>
 		</div>
 		<div class="span6">
 			<span class="badge badge-important">Status: <span class="tmp_status">{{status}}</span></span>
@@ -212,6 +219,76 @@
   </script>
   <!-- global settings template end }}}-->
 
+  <!--{{{ download settings template start -->
+  <script type="text/mustache" id="download_settings_template">
+
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>{{settings_name}} Download Settings</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id="dynamic_download_settings" data-downloadSettingsGid="{{gid}}">
+		{{#settings}}
+			<fieldset>
+				<legend>{{name}}</legend>
+				<div class="control-group">
+				  {{#values}}
+					<label class="control-label" for="download_settings_{{name}}">{{name}}</label>
+					<div class="controls">
+						{{^options}}
+							{{#has_value}}
+							<input typ="text" class="input-xlarge" id="download_settings_{{name}}" value="{{value}}"/>
+							{{/has_value}}
+
+							{{^has_value}}
+							<input typ="text" class="input-xlarge" placeholder="default" id="download_settings_{{name}}"/>
+							{{/has_value}}
+						{{/options}}
+
+						{{#option}}
+							{{#has_value}}
+							<select id="download_settings_{{name}}">
+							{{/has_value}}
+
+							{{^has_value}}
+							<select id="download_settings_{{name}}">
+									<option value="no_val">Default</option>
+							{{/has_value}}
+
+						{{/option}}
+
+						{{#options}}
+
+							{{#has_value}}
+							<option value="{{& val}}">{{disp}}</option>
+							{{/has_value}}
+
+							{{^has_value}}
+							<option value="{{& .}}">{{.}}</option>
+							{{/has_value}}
+
+						{{/options}}
+
+						{{#option}}
+						</select>
+						{{/option}}
+
+						<p class="help-block">{{desc}}</p>
+						<br><br>
+					</div>
+				  {{/values}}
+			  </div>
+		  </fieldset>
+		  {{/settings}}
+
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button id="save_download_settings" class="btn btn-success">Save</button>
+	</div>
+	</script>
+	<!-- download settings template end }}}-->
+
   <style>
 	body {
 		padding-top: 60px;
@@ -223,18 +300,14 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 	<div class="container">
-		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</a>
 	  <a class="brand" href="#">Aria2 Web-Client</a>
 	  <div class="nav-collapse">
 		<ul class="nav">
 			<li class="active"><a href="#">Active Downloads</a></li>
 			<!-- <li><a href="#watiting_downloads">Passive Downloads</a></li> -->
 			<li><a href="#" onclick="custom_aria2_connect()">Aria2 connection settings</a></li>
-			<li><a href="#" onclick="custom_global_settings()">Aria2 global settings</a></li>
+			<li><a href="#" onclick="custom_global_settings()">Aria2 Global settings</a></li>
+			<li><a href="#" onclick="custom_global_statistics()">Aira2 Global Statistics</a></li>
 			<li><a id="newDownload" href="#">Add Download</a></li>
 		</ul>
 	  </div><!--/.nav-collapse -->
@@ -274,6 +347,27 @@
 	</div>
 </div>
 <!-- error connection end }}}-->
+
+<!--{{{ global statistics template -->
+<div class="modal hide" id="global_statistics_modal">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Aria2 Global Statistics</h3>
+	</div>
+	<div class="modal-body">
+		<p class="row-fluid" class="global_statistics_list" style="text-align: center;">
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Overall Download Speed: <span class="stat_downloadSpeed"></span></h3>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Overall Upload Speed: <span class="stat_uploadSpeed"></span></h3>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Active Downloads: <span class="stat_numActive"></span></h3>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Waiting Downloads: <span class="stat_numWaiting"></span></h3>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Stopped Downloads: <span class="stat_numStopped"></span></h3>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="clear_dialogs()" class="btn">Close</a>
+	</div>
+</div>
+<!-- global statistics end }}}-->
 
 
 <!--{{{ change aria2 rpc host and port template -->
@@ -362,6 +456,11 @@
 	</div>
 </div>
 <!-- global settings template end }}}-->
+
+<!--{{{ download settings template start -->
+<div class="modal hide" id="download_settings_modal">
+</div>
+<!-- download settings template end }}}-->
 
 <!-- }}} hidden modals end -->
 
