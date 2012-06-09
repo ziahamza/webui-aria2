@@ -36,7 +36,7 @@ var update_server_conf = function() {
 	if(port.length !== 0) {
 		server_conf.port = port;
 	}
-
+	web_sock = undefined;
 	clear_dialogs();
 	update_ui();
 };
@@ -84,16 +84,19 @@ var web_sock_send = function(conf, multicall) {
 	web_sock.send(JSON.stringify(data));
 }
 var web_sock_init = function() {
-	var sock = new WebSocket('ws://' + server_conf.host + ':' + server_conf.port + '/jsonrpc');
-	sock.onopen = function() {
-		console.log('websocket connected!!!');
-		web_sock = sock;
-	};
-	sock.onclose = function() {
-		console.log('websocket closed');
-	};
-	sock.onerror = web_sock_error;
-	sock.onmessage = web_sock_message;
+	if(!web_sock) {
+		var sock = new WebSocket('ws://' + server_conf.host + ':' + server_conf.port + '/jsonrpc');
+		sock.onopen = function() {
+			console.log('websocket connected!!!');
+			web_sock = sock;
+		};
+		sock.onclose = function() {
+			web_sock_error();
+			web_sock = undefined;
+		};
+		sock.onerror = web_sock_error;
+		sock.onmessage = web_sock_message;
+	}
 }
 
 var jsonp_syscall = function(conf, multicall) {
@@ -146,10 +149,15 @@ var jsonp_syscall = function(conf, multicall) {
 	});
 }
 var aria_syscall = function(conf, multicall) {
-	if(!web_sock || server_conf.user.length || server_conf.pass.length)
+	if(!WebSocket || server_conf.user.length || server_conf.pass.length) {
 		jsonp_syscall(conf, multicall);
-	else {
+	}
+	else if(web_sock) {
 		web_sock_send(conf, multicall);
+	}
+	else {
+		web_sock_init();
+		jsonp_syscall(conf, multicall);
 	}
 }
 var update_ui = function() {
