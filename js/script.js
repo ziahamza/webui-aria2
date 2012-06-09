@@ -403,7 +403,6 @@ function getTemplateCtx(data) {
 }
 function updateDownloadTemplates(elem, ctx) {
 	elem = $(elem);
-	elem.children('.hero-unit').remove();
 	for(var i in ctx) {
 		elem.find('.tmp_' + i).text(ctx[i]);
 	}
@@ -441,6 +440,7 @@ function refreshDownloadTemplates(top_elem, data) {
 			$('#' + top_elem + '_downloads').prepend(item);
 		}
 	}
+	$('#' + top_elem + '_downloads').children('.hero-unit').remove();
 
 }
 function getActiveSettings(gid, cb) {
