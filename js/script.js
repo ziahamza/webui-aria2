@@ -6,6 +6,9 @@ var modals = {
 	global_statistics_modal: undefined,
 	download_settings_modal: undefined
 };
+var web_sock = undefined;
+var web_sock_queue = [];
+var web_sock_id = 0;
 var clear_dialogs = function() {
 	for(var i in modals) {
 		modals[i].modal('hide');
@@ -43,7 +46,56 @@ function param_encode(param) {
 	}
 	return param;
 }
-var aria_syscall = function(conf, multicall) {
+
+var web_sock_error = function() {
+	for(var i = 0; i < web_sock_queue.length; i++) {
+		web_sock_queue[i].error();
+		web_sock_queue.splice(i, 1);
+	}
+}
+var web_sock_message = function(message) {
+	var data = JSON.parse(message.data);
+	for(var i = 0; i < web_sock_queue.length; i++) {
+		if(web_sock_queue[i].id === data.id) {
+			if(data.error) {
+				web_sock_queue[i].error();
+			}
+			else {
+				web_sock_queue[i].success(data);
+			}
+			web_sock_queue.splice(i, 1);
+		}
+	}
+}
+var web_sock_send = function(conf, multicall) {
+	var id = 'webui_' + (web_sock_id++).toString();
+	var data =  {
+		jsonrpc: 2.0,
+		id: id,
+		method: multicall? conf.func:'aria2.' + conf.func,
+		params: conf.params
+	};
+	web_sock_queue.push({
+		success: conf.success,
+		error: conf.error,
+		id: id
+	});
+	web_sock.send(JSON.stringify(data));
+}
+var web_sock_init = function() {
+	var sock = new WebSocket('ws://' + server_conf.host + ':' + server_conf.port + '/jsonrpc');
+	sock.onopen = function() {
+		console.log('websocket connected!!!');
+		web_sock = sock;
+	};
+	sock.onclose = function() {
+		console.log('websocket closed');
+	};
+	sock.onerror = web_sock_error;
+	sock.onmessage = web_sock_message;
+}
+
+var jsonp_syscall = function(conf, multicall) {
 	$.ajax({
 		url: 'http://' + server_conf.host + ':' + server_conf.port + '/jsonrpc',
 		timeout: 1000,
@@ -91,7 +143,13 @@ var aria_syscall = function(conf, multicall) {
 		dataType: 'jsonp',
 		jsonp: 'jsoncallback'
 	});
-
+}
+var aria_syscall = function(conf, multicall) {
+	if(!web_sock || server_conf.user.length || server_conf.pass.length)
+		jsonp_syscall(conf, multicall);
+	else {
+		web_sock_send(conf, multicall);
+	}
 }
 var update_ui = function() {
 	updateDownloads();
@@ -107,6 +165,9 @@ $(function() {
 	modals.global_settings_modal = $('#global_settings_modal').modal(modal_conf);
 	modals.download_settings_modal = $('#download_settings_modal').modal(modal_conf);
 	modals.global_statistics_modal = $('#global_statistics_modal').modal(modal_conf);
+
+	if(WebSocket)
+		web_sock_init();
 
 	update_ui();
 	$('#newDownload').click(function() {
@@ -129,6 +190,7 @@ $(function() {
 		});
 	});
 	$('#addNewDownload').click(newDownload);
+	setInterval(update_ui, 1000);
 });
 function check_global(name) {
 	for(var i = 0; i < global_settings_exclude.length; i++) {
@@ -339,6 +401,7 @@ function getTemplateCtx(data) {
 }
 function updateDownloadTemplates(elem, ctx) {
 	elem = $(elem);
+	elem.children('.hero-unit').remove();
 	for(var i in ctx) {
 		elem.find('.tmp_' + i).text(ctx[i]);
 	}
@@ -736,4 +799,3 @@ function custom_global_statistics() {
 	var tmpl = $('#global_statistics_template').text();
 	modals.global_statistics_modal.modal('show');
 }
-setInterval(update_ui, 1000);
