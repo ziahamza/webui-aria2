@@ -4,6 +4,7 @@ var modals = {
 	newDownload_modal: undefined,
 	global_settings_modal: undefined,
 	global_statistics_modal: undefined,
+	about_modal: undefined,
 	download_settings_modal: undefined
 };
 var web_sock = undefined;
@@ -165,6 +166,7 @@ $(function() {
 	modals.global_settings_modal = $('#global_settings_modal').modal(modal_conf);
 	modals.download_settings_modal = $('#download_settings_modal').modal(modal_conf);
 	modals.global_statistics_modal = $('#global_statistics_modal').modal(modal_conf);
+	modals.about_modal = $('#about_modal').modal(modal_conf);
 
 	if(WebSocket)
 		web_sock_init();
@@ -798,4 +800,15 @@ function updateGlobalStatistics(data) {
 function custom_global_statistics() {
 	var tmpl = $('#global_statistics_template').text();
 	modals.global_statistics_modal.modal('show');
+}
+
+function show_about() {
+	aria_syscall({
+		func: 'getVersion',
+		success: function(data) {
+			$('.about_aria_version').text(data.result.version);
+			$('.about_webclient_version').text('beta testing');
+			modals.about_modal.modal('show');
+		}
+	});
 }

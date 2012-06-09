@@ -309,6 +309,7 @@
 			<li><a href="#" onclick="custom_global_settings()">Global settings</a></li>
 			<li><a href="#" onclick="custom_global_statistics()">Global Statistics</a></li>
 			<li><a id="newDownload" href="#">Add Download</a></li>
+			<li><a href="#" onclick="show_about()">About</a></li>
 		</ul>
 	  </div><!--/.nav-collapse -->
 	</div>
@@ -348,6 +349,24 @@
 </div>
 <!-- error connection end }}}-->
 
+<!--{{{ About template -->
+<div class="modal hide" id="about_modal">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>About </h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			Aria2 version: <span class="about_aria_version"></span>
+			<br>
+			Web-Client status: <span class="about_webclient_version"></span>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="clear_dialogs()" class="btn">Close</a>
+	</div>
+</div>
+<!-- About end }}}-->
 <!--{{{ global statistics template -->
 <div class="modal hide" id="global_statistics_modal">
 	<div class="modal-header">
