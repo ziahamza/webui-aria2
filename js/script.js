@@ -434,8 +434,21 @@ function getWaitingSettings(gid, cb) {
 		}
 	});
 }
+function empty_download_set(elem) {
+	var len = d_files.active.length;
+	len += d_files.waiting.length;
+	len += d_files.stopped.length;
+	if(len === 0) {
+		var html = '<div class="hero-unit"><h3>';
+
+		html += 'Currently no downloads in line to display, use the Add download button to start downloading files!';
+		html += '</h3></div>';
+		$(elem).html(html);
+	}
+}
 function updateActiveDownloads(data) {
 	refreshDownloadTemplates('active', data);
+	empty_download_set('#active_downloads');
 	$('.download_active_item .download_settings').unbind('click').click(function() {
 		var gid = $(this).parents('.download_active_item').attr('data-gid');
 		var settings_name = $(this).parents('.download_active_item').attr('data-settingsName');
