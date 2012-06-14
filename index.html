@@ -304,12 +304,21 @@
 	  <div class="nav-collapse">
 		<ul class="nav">
 			<li class="active"><a href="#">All Downloads</a></li>
-			<!-- <li><a href="#watiting_downloads">Passive Downloads</a></li> -->
-			<li><a href="#" onclick="custom_aria2_connect()">Connection settings</a></li>
-			<li><a href="#" onclick="custom_global_settings()">Global settings</a></li>
-			<li><a href="#" onclick="custom_global_statistics()">Global Statistics</a></li>
 			<li><a id="newDownload" href="#">Add Download</a></li>
-			<li><a href="#" onclick="show_about()">About</a></li>
+		</ul>
+
+		<ul class="nav pull-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Other <b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#" onclick="custom_aria2_connect()">Connection settings</a></li>
+					<li><a href="#" onclick="custom_global_settings()">Global settings</a></li>
+					<li><a href="#" onclick="custom_global_statistics()">Global Statistics</a></li>
+					<li><a href="#" onclick="show_about()">About</a></li>
+				</ul>
+			</li>
 		</ul>
 	  </div><!--/.nav-collapse -->
 	</div>
