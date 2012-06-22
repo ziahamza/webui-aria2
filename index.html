@@ -32,12 +32,22 @@
 		text-align: center;
 		margin-bottom: 3px;
 	}
+
+	.download_item {
+		margin-bottom: 10px;
+		padding-top: 10px;
+		background-color: rgb(245, 245, 245);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		border-radius: 4px 4px 4px 4px;
+		box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+	}
+
   </style>
   <!--{{{ active downloads template -->
   <script type="text/mustache" id="download_active_template">
-	  <div class="row download_active_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
-		<div class="span3" style="overflow: hidden;">
-			<b style="font-size: 14px;" class="tmp_name">{{name}}</b>
+	  <div class="row download_item download_active_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
+		<div class="span2" style="overflow: hidden;">
+			<b style="font-size: 12px;" class="tmp_name">{{name}}</b>
 		</div>
 		<div class="span6">
 			<div class="pull-right">
@@ -55,7 +65,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="span12 progress progress-striped active">
+		<div class="span11 progress progress-striped active">
 			<div class="bar" style="width: {{percentage}}%;"></div>
 		</div>
 		<div class="span12 more_info collapse">
@@ -70,21 +80,20 @@
 			<b class="span2 label active_settings">Download Speed: <span class="tmp_down_speed">{{down_speed}}</span></b>
 			<b class="span2 label active_settings">Upload Speed: <span class="tmp_upload_speed">{{upload_speed}}</span></b>
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
+			<b class="span2 label active_settings">Connections: <span class="tmp_connections">{{connections}}</span></b>
 			<div class="span4 offset4">
 				<button class="btn btn-mini pull-right download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
 			</div>
 		</div>
 	</div>
-	<br>
-
   </script>
   <!-- active downloads template end }}}-->
 
   <!--{{{ waiting downloads template-->
   <script type="text/mustache" id="download_waiting_template">
-	  <div class="row download_waiting_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
-		<div class="span3" style="overflow: hidden;">
-			<b style="font-size: 14px;" class="tmp_name">{{name}}</b>
+	  <div class="row download_item download_waiting_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
+		<div class="span2" style="overflow: hidden;">
+			<b style="font-size: 12px;" class="tmp_name">{{name}}</b>
 		</div>
 		<div class="span6">
 			<span class="badge badge-warning">Status: <span class="tmp_status">{{status}}</span></span>
@@ -102,7 +111,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="span12 progress progress-striped">
+		<div class="span11 progress progress-striped">
 			<div class="bar" style="width: {{percentage}}%; background-color:#FBB450"></div>
 		</div>
 		<div class="span12 more_info collapse">
@@ -124,17 +133,27 @@
 
   <!--{{{ stopped downloads template-->
   <script type="text/mustache" id="download_stopped_template">
-	  <div class="row download_stopped_item" data-gid="{{gid}}">
-		<div class="span3" style="overflow: hidden;">
-			<b style="font-size: 14px;" class="tmp_name">{{settings_name}}</b>
+	  <div class="row download_item download_stopped_item" data-gid="{{gid}}">
+		<div class="span2" style="overflow: hidden;">
+			<b style="font-size: 12px;" class="tmp_name">{{settings_name}}</b>
 		</div>
 		<div class="span6">
+			{{#booleans.is_error}}
+			<span class="badge badge-important">Status: <span class="tmp_status">{{status}}</span></span>
+			<div class="pull-right">
+				<span class="label label-important">Size: <span class="tmp_size">{{size}}</span></span> |
+				<span class="label label-important">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></span> |
+				<span class="label label-important">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span>
+			</div>
+			{{/booleans.is_error}}
+			{{^booleans.is_error}}
 			<span class="badge badge-info">Status: <span class="tmp_status">{{status}}</span></span>
 			<div class="pull-right">
 				<span class="label label-info">Size: <span class="tmp_size">{{size}}</span></span> |
 				<span class="label label-info">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></span> |
 				<span class="label label-info">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span>
 			</div>
+			{{/booleans.is_error}}
 		</div>
 		<div class="span3">
 			<div class="button_set">
@@ -144,8 +163,13 @@
 			</div>
 		</div>
 		<br>
-		<div class="span12 progress progress-striped">
+		<div class="span11 progress progress-striped">
+			{{#booleans.is_error}}
+			<div class="bar" style="width: {{percentage}}%; background-color:rgb(185, 74, 72)"></div>
+			{{/booleans.is_error}}
+			{{^booleans.is_error}}
 			<div class="bar" style="width: {{percentage}}%; background-color:#3A87AD"></div>
+			{{/booleans.is_error}}
 		</div>
 		<div class="span12 more_info collapse">
 			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
@@ -304,7 +328,28 @@
 	  <div class="nav-collapse">
 		<ul class="nav">
 			<li class="active"><a href="#">All Downloads</a></li>
-			<li><a id="newDownload" href="#">Add Download</a></li>
+			<li class="dropdown" id="add_download">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#add_download">
+				Add Download
+				<b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a id="newDownload" href="#">Add Download url</a></li>
+				<li><a id="newDownload_metalink" href="#">Add Metalink</a></li>
+				<li><a id="newDownload_torrent" href="#">Add Torrent</a></li>
+			</ul>
+			</li>
+			<li class="dropdown" id="stop_downloads">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#stop_downloads">
+				Stop Downloads
+				<b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a href="#" onclick="force_pause_all()"><i class="icon-pause"></i> Pause All downloads</a></li>
+				<li><a href="#" onclick="force_remove_all()"><i class="icon-remove"></i> Remove All downloads</a></li>
+				<li><a href="#" onclick="force_purge_all()"><i class="icon-fire"></i> Purge All downloads</a></li>
+			</ul>
+			</li>
 		</ul>
 
 		<ul class="nav pull-right">
@@ -313,9 +358,13 @@
 					Other <b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="#" onclick="custom_aria2_connect()">Connection settings</a></li>
-					<li><a href="#" onclick="custom_global_settings()">Global settings</a></li>
-					<li><a href="#" onclick="custom_global_statistics()">Global Statistics</a></li>
+					<li><a href="#" onclick="custom_aria2_connect()">
+						<i class="icon-wrench"></i> Connection settings</a>
+					</li>
+					<li><a href="#" onclick="custom_global_settings()">
+						<i class="icon-wrench"></i> Global settings</a></li>
+					<li><a href="#" onclick="custom_global_statistics()">
+						<i class="icon-list-alt"></i> Global Statistics</a></li>
 					<li><a href="#" onclick="show_about()">About</a></li>
 				</ul>
 			</li>
@@ -358,6 +407,25 @@
 </div>
 <!-- error connection end }}}-->
 
+<!--{{{ No file api template -->
+<div class="modal hide" id="error_file_api">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Unfortunately your browser does not support HTML5 File Api :( </h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			To use this feature, please upgrade your browser to a somewhat recent version.
+			If you have no clue then head on to <a href="http://firefox.com">http://firefox.com</a>
+			and follow instructions there.
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="clear_dialogs()" class="btn">Close</a>
+	</div>
+</div>
+<!-- no file api end }}}-->
+
 <!--{{{ About template -->
 <div class="modal hide" id="about_modal">
 	<div class="modal-header">
@@ -376,6 +444,7 @@
 	</div>
 </div>
 <!-- About end }}}-->
+
 <!--{{{ global statistics template -->
 <div class="modal hide" id="global_statistics_modal">
 	<div class="modal-header">
@@ -396,7 +465,6 @@
 	</div>
 </div>
 <!-- global statistics end }}}-->
-
 
 <!--{{{ change aria2 rpc host and port template -->
 <div class="modal hide" id="change_conf">
@@ -439,6 +507,64 @@
 </div>
 <!-- change aria2 rpc host and port template }}}-->
 
+<!--{{{ add new torrent -->
+<div class="modal hide" id="new_torrent">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Add new Torrents</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label" for="input_torrent">Select the torrent file:</label>
+					<div class="controls">
+						<input type="file" class="input-xlarge" id="input_torrent" multiple/>
+						<p class="help-block">
+							Select the local torrent file to start download.
+							To add a magnet torrent url, use the add url option and add it there.
+							Note that you can select multiple torrent files to start at once.
+						</p>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="add_torrent()" class="btn">Add</a>
+		<a href="#" onclick="clear_dialogs()" class="btn">Cancel</a>
+	</div>
+</div>
+<!-- add new torrent end }}}-->
+
+<!--{{{ add new metalink -->
+<div class="modal hide" id="new_metalink">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Add new Metalinks</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label" for="input_metalink">Select the Metalink file:</label>
+					<div class="controls">
+						<input type="file" class="input-xlarge" id="input_metalink" multiple/>
+						<p class="help-block">
+						Please select a local metalink file to initiate its downloads. Note that you
+						can select multiple metalink files at once to start
+						</p>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="add_metalink()" class="btn">Add</a>
+		<a href="#" onclick="clear_dialogs()" class="btn">Cancel</a>
+	</div>
+</div>
+<!-- add new metalink end }}}-->
 
 <!--{{{ add new Download template -->
 <div class="modal hide" id="newDownload_modal">
@@ -466,7 +592,6 @@
 	</div>
 </div>
 <!-- add new Download template end }}}-->
-
 
 <!--{{{ global settings template start -->
 <div class="modal hide" id="global_settings_modal">

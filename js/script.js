@@ -5,6 +5,9 @@ var modals = {
 	global_settings_modal: undefined,
 	global_statistics_modal: undefined,
 	about_modal: undefined,
+	err_file_api_modal: undefined,
+	new_torrent_modal: undefined,
+	new_metalink_modal: undefined,
 	download_settings_modal: undefined
 };
 var web_sock = undefined;
@@ -59,7 +62,8 @@ var web_sock_message = function(message) {
 	for(var i = 0; i < web_sock_queue.length; i++) {
 		if(web_sock_queue[i].id === data.id) {
 			if(data.error) {
-				web_sock_queue[i].error();
+				if(web_sock_queue[i].error)
+					web_sock_queue[i].error();
 			}
 			else {
 				web_sock_queue[i].success(data);
@@ -166,7 +170,8 @@ var update_ui = function() {
 
 $(function() {
 	var modal_conf = {
-		show: false
+		show: false,
+		backdrop: false
 	};
 	modals.err_connect = $('#error_connect').modal(modal_conf);
 	modals.change_conf = $('#change_conf').modal(modal_conf);
@@ -175,6 +180,9 @@ $(function() {
 	modals.download_settings_modal = $('#download_settings_modal').modal(modal_conf);
 	modals.global_statistics_modal = $('#global_statistics_modal').modal(modal_conf);
 	modals.about_modal = $('#about_modal').modal(modal_conf);
+	modals.err_file_api_modal = $('#error_file_api').modal(modal_conf);
+	modals.new_torrent_modal = $('#new_torrent').modal(modal_conf);
+	modals.new_metalink_modal = $('#new_metalink').modal(modal_conf);
 
 	if(WebSocket)
 		web_sock_init();
@@ -184,6 +192,27 @@ $(function() {
 		$('#newDownload_url').val("");
 		$('.download_urls').html("");
 		modals.newDownload_modal.modal('show');
+	});
+
+	$('#newDownload_torrent').click(function() {
+		$('#input_torrent').val("");
+		if(window.File && window.FileReader && window.FileList && window.Blob) {
+			modals.new_torrent_modal.modal('show');
+		}
+		else {
+			modals.err_file_api_modal.modal('show');
+		}
+	});
+
+	$('#newDownload_metalink').click(function() {
+		$('#input_metalink').val("");
+		if(window.File && window.FileReader && window.FileList && window.Blob) {
+			modals.new_metalink_modal.modal('show');
+
+		}
+		else {
+			modals.err_file_api_modal.modal('show');
+		}
 	});
 	$('#multiple_uris').click(function() {
 		var url = $('#newDownload_url').val();
@@ -382,11 +411,14 @@ function getTemplateCtx(data) {
 	percentage = percentage.toFixed(2);
 	if(!percentage) percentage = 0;
 	var name;
-	if(data.files[0].uris.length) {
-		name = data.files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
+	if(data.files[0].path && data.dir) {
+		//name = data.files[0].path.replace(/^.*[\\\/\]]/, '');
+		name = data.files[0].path.replace(data.dir, '').substr(1);
+		if(name.indexOf('/') !== -1)
+			name = name.substring(0, name.indexOf('/'));
 	}
 	else {
-		name = data.files[0].path.replace(/^.*[\\\/\]]/, '');
+		name = data.files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
 	}
 
 	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
@@ -405,8 +437,11 @@ function getTemplateCtx(data) {
 		numPieces: data.numPieces,
 		pieceLength: changeLength(data.pieceLength, "B"),
 		uploadLength: changeLength(data.uploadLength, "B"),
-		upload_speed: changeLength(data.uploadSpeed, "B/s")
-
+		connections: data.connections,
+		upload_speed: changeLength(data.uploadSpeed, "B/s"),
+		booleans: {
+			is_error: data.status === "error",
+		}
 	};
 }
 function updateDownloadTemplates(elem, ctx) {
@@ -584,7 +619,7 @@ function updateActiveDownloads(data) {
 	$('.download_active_item .download_pause').unbind('click').click(function() {
 		var gid = $(this).parents('.download_active_item').attr('data-gid');
 		aria_syscall({
-			func: 'pause',
+			func: 'forcePause',
 			params: [gid],
 			success: function() {
 				update_ui();
@@ -819,4 +854,117 @@ function show_about() {
 			modals.about_modal.modal('show');
 		}
 	});
+}
+
+function force_pause_all() {
+	aria_syscall({
+		func: 'forcePauseAll',
+		success: update_ui
+	});
+}
+
+function force_remove_all(cb) {
+	var remove_params = [];
+	var func = function(downs) {
+		for(var i = 0; i < downs.length; i++) {
+			remove_params.push({
+				methodName: 'aria2.remove',
+				params: [downs[i].gid]
+			});
+		}
+	}
+	func(d_files.active);
+	func(d_files.waiting);
+	aria_syscall({
+		func: 'system.multicall',
+		params:[remove_params],
+		success: update_ui
+	}, true);
+}
+
+function force_purge_all() {
+	var remove_params = [];
+	var func = function(downs) {
+		for(var i = 0; i < downs.length; i++) {
+			remove_params.push({
+				methodName: 'aria2.remove',
+				params: [downs[i].gid]
+			});
+		}
+	}
+	func(d_files.active);
+	func(d_files.waiting);
+
+	aria_syscall({
+		func: 'system.multicall',
+		params:[remove_params],
+		success: function() {
+			aria_syscall({
+				func: "purgeDownloadResult",
+				success: update_ui
+			});
+		}
+	}, true);
+
+}
+
+function add_torrent() {
+	var file_node = $('#input_torrent')[0];
+	var files = file_node.files;
+	if (files.length) {
+		for (var i = 0, f; f = files[i]; i++) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				var txt = e.target.result;
+				txt = txt.split(',')[1];
+				aria_syscall({
+					func: 'addTorrent',
+					params: [txt],
+					success: function() {
+						clear_dialogs();
+						update_ui();
+					}
+				});
+			};
+			reader.onerror = function(e) {
+				alert('error reading torrent, your browser policy does not allow to read local files, please change to firefox');
+			};
+			reader.readAsDataURL(f);
+		}
+
+	}
+	else {
+		alert("please select a torrent first!");
+	}
+}
+function add_metalink() {
+	var file_node = $('#input_metalink')[0];
+	var files = file_node.files;
+	if (files.length) {
+		for (var i = 0, f; f = files[i]; i++) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				var txt = e.target.result;
+				txt = txt.split(',')[1];
+				aria_syscall({
+					func: 'addMetalink',
+					params: [txt],
+					success: function() {
+						clear_dialogs();
+						update_ui();
+					}
+				});
+			};
+			reader.onerror = function(e) {
+				alert('error reading metalink, your browser policy does not allow to read local files, please change to firefox');
+			};
+			reader.readAsDataURL(f);
+
+		}
+	}
+	else {
+		alert("please select a metalink first!");
+	}
 }
