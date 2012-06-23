@@ -15,7 +15,6 @@ Usable but some bugs here and there. A lot more to features to come so stay tune
 TODO
 -----------
 * More advance options for new download
-* Adding downloads by uploading torrent and metalink files (HTML5 file api probably)
 * Add download and upload speed graphs and virtualizations
 * More specialized info for special download types like bit torrent and metalink
 * Adding URIs to existing downloads
