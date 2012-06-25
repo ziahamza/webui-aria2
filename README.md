@@ -7,7 +7,7 @@ Very simple to use, no build scripts, no installation scripts. First start aria2
 **aria2c --enable-rpc**
 If aria2 is not installed in your local machine then head on to http://aria2.sourceforge.net/ and follow the instructions there.
 
-Then download the webui, you can either do that by downloading this repository and running index.html in the browser. Or you could just head on to http://ziahamza.github.com/webui-aria2/ and just start downloading files!!
+Then download the webui, you can either do that by downloading this repository and running index.html in the browser. Or you could just head on to http://ziahamza.github.com/webui-aria2/ and just start downloading files!! After that you can also save it for offline use by saving from the browser save page as option.
 
 
 Status
