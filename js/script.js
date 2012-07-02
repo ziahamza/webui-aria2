@@ -24,6 +24,15 @@ var server_conf = {
 	user: "",
 	pass: ""
 };
+
+var set_conf_cookie = function() {
+	setCookie('aria2_server_conf', JSON.stringify(server_conf));
+}
+var get_conf_cookie = function() {
+	if (getCookie('aria2_server_conf'.trim())) {
+		server_conf = JSON.parse(getCookie('aria2_server_conf'));
+	}
+}
 var custom_aria2_connect = function() {
 	clear_dialogs();
 	modals.change_conf.modal('show');
@@ -40,6 +49,7 @@ var update_server_conf = function() {
 		server_conf.port = port;
 	}
 	web_sock = undefined;
+	set_conf_cookie();
 	clear_dialogs();
 	update_ui();
 };
@@ -169,6 +179,7 @@ var update_ui = function() {
 };
 
 $(function() {
+	get_conf_cookie();
 	var modal_conf = {
 		show: false,
 		backdrop: false
