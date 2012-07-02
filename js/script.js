@@ -180,6 +180,9 @@ var update_ui = function() {
 
 $(function() {
 	get_conf_cookie();
+	if (window.location.protocol === "http:") {
+		server_conf.host = window.location.host;
+	}
 	var modal_conf = {
 		show: false,
 		backdrop: false
