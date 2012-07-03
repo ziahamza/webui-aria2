@@ -181,7 +181,7 @@ var update_ui = function() {
 $(function() {
 	get_conf_cookie();
 	if (window.location.protocol === "http:") {
-		server_conf.host = window.location.host;
+		server_conf.host = window.location.hostname;
 	}
 	var modal_conf = {
 		show: false,
