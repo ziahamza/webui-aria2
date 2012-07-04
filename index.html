@@ -328,6 +328,13 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 	<div class="container">
+    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </a>       
+
 	  <a class="brand" href="#">aria2 Web-Client</a>
 	  <div class="nav-collapse">
 		<ul class="nav">
@@ -462,12 +469,12 @@
 		<h3>aria2 Global Statistics</h3>
 	</div>
 	<div class="modal-body">
-		<p class="row-fluid" class="global_statistics_list" style="text-align: center;">
-			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Overall Download Speed: <span class="stat_downloadSpeed"></span></h3>
-			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Overall Upload Speed: <span class="stat_uploadSpeed"></span></h3>
-			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Active Downloads: <span class="stat_numActive"></span></h3>
-			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Waiting Downloads: <span class="stat_numWaiting"></span></h3>
-			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Stopped Downloads: <span class="stat_numStopped"></span></h3>
+		<p class="row-fluid global_statistics_list" style="text-align: center;">
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Overall Download Speed: <span class="stat_downloadSpeed"></span></h5>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Overall Upload Speed: <span class="stat_uploadSpeed"></span></h5>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Active Downloads: <span class="stat_numActive"></span></h5>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Waiting Downloads: <span class="stat_numWaiting"></span></h5>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Stopped Downloads: <span class="stat_numStopped"></span></h5>
 		</p>
 	</div>
 	<div class="modal-footer">
@@ -480,11 +487,12 @@
 <div class="modal hide" id="change_conf">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
-		<h3>Please enter the aria2 RPC port and host</h3>
+		<h3>Connection Settings</h3>
 	</div>
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
+                <legend>Aria2 RPC host and port</legend>
 				<div class="control-group">
 					<label class="control-label" for="input_host">Enter the host:</label>
 					<div class="controls">
@@ -556,6 +564,7 @@
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
+                <legend>Metalink File upload</legend>
 				<div class="control-group">
 					<label class="control-label" for="input_metalink">Select the Metalink file:</label>
 					<div class="controls">
@@ -585,6 +594,7 @@
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
+                <legend>Download urls</legend>
 				<div class="control-group">
 					<label class="control-label" for="newDownload_url">Enter url for the Download:</label>
 					<div class="controls">
