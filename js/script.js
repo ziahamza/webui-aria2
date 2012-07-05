@@ -425,15 +425,8 @@ function getTemplateCtx(data) {
 	percentage = percentage.toFixed(2);
 	if(!percentage) percentage = 0;
 	var name;
-	if(data.files[0].path && data.dir) {
-		name = data.files[0].path.replace(/^.*[\\\/\]]/, '');
-		//name = data.files[0].path.replace(data.dir, '').substr(1);
-		//if(name.indexOf('/') !== -1)
-			//name = name.substring(0, name.indexOf('/'));
-	}
-	else {
-		name = data.files[0].uris[0].uri.replace(/^.*[\\\/]/, '');
-	}
+	var seed = (data.files[0].path || data.files[0].uris[0].uri).split(/[/\\]/);
+	name = seed[seed.length - 1];
 
 	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
 	return {
