@@ -422,6 +422,25 @@ function changeTime(time) {
 	else return (time/(60*60*24)).toFixed(2) + " days!!";
 
 }
+function getChunksFromHex(bitfield, numOfPieces) {
+	var chunks =  [], numPieces = parseInt(numOfPieces);
+	if (numPieces > 1) {
+		var chunk_width = 100 / numPieces;
+		for (var i = 0; i < bitfield.length; i++) {
+			var hex = parseInt(bitfield[i], 16);
+			for (var j = 1; j <= 4; j++) {
+				var bit = hex & (1 << (4 - j));
+				var len = chunks.length;
+				chunks.push({
+					width: chunk_width,
+					progress: bit ? 100 : 0,
+					id: len
+				});
+			}
+		}
+	}
+	return chunks;
+}
 function getTemplateCtx(data) {
 	var percentage =(data.completedLength / data.totalLength)*100;
 	percentage = percentage.toFixed(2);
@@ -429,6 +448,7 @@ function getTemplateCtx(data) {
 	var name;
 	var seed = (data.files[0].path || data.files[0].uris[0].uri).split(/[/\\]/);
 	name = seed[seed.length - 1];
+	var chunks =  getChunksFromHex(data.bitfield, data.numPieces);
 
 	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
 	return {
@@ -450,7 +470,8 @@ function getTemplateCtx(data) {
 		upload_speed: changeLength(data.uploadSpeed, "B/s"),
 		booleans: {
 			is_error: data.status === "error",
-		}
+		},
+		chunks: chunks
 	};
 }
 function updateDownloadTemplates(elem, ctx) {
@@ -458,7 +479,12 @@ function updateDownloadTemplates(elem, ctx) {
 	for(var i in ctx) {
 		elem.find('.tmp_' + i).text(ctx[i]);
 	}
-	elem.find('.bar').css('width', ctx.percentage + '%');
+	elem.find('.full-progress .bar').css('width', ctx.percentage + '%');
+	for (var j = 0; j < ctx.chunks; j++) {
+		if (ctx.chunks[j].progress == 100) {
+			elem.find(".chunk_" + ctx.id.toString()).css(width, "100%");
+		}
+	}
 }
 function deleteDownloadTemplates(top_elem, data) {
 	if(!data) {
@@ -478,7 +504,6 @@ function deleteDownloadTemplates(top_elem, data) {
 			if(!found) {
 				for (var k = 0; k < graphData.length; k++) {
 					if (graphData[k].gid == gid) {
-						console.log("removing a graph with gid:" + gid);
 						graphData.splice(k, 1);
 						break;
 					}
@@ -554,10 +579,8 @@ function updateGraphData(data) {
 	for (var i = 0; i < data.length; i++) {
 		var gid = data[i].gid;
 		var graph = null;
-		console.log(data[i].gid);
 		for (var k = 0; k < graphData.length; k++) {
 			if (graphData[k].gid == gid) {
-				console.log("found a graph with gid:" + gid);
 				graph = graphData[k];
 				break;
 			}
@@ -566,7 +589,6 @@ function updateGraphData(data) {
 		var upSpeed = data[i].uploadSpeed;
 		var that = this;
 		if (!graph) {
-			console.log("creating a new Graph with gid:" + gid);
 			graphData.push((function() {
 				return {
 					gid: gid,

@@ -28,6 +28,9 @@
   <script src="js/libs/jquery.flot.min.js"></script>
 
   <style>
+	body {
+		min-width: 1230px;
+	}
 	.button_set {
 		float: right;
 		margin-bottom: 5px;
@@ -54,6 +57,14 @@
 		overflow: hidden;
 		word-wrap: break-word;
 	}
+	.progress-chunk {
+		margin:0px;
+		padding:0px;
+		border-radius:0px;
+		display: inline-block;
+		float:left;
+		margin-bottom:5px;
+	}
     @media all and (min-width: 980px) {
       body {
         padding-top: 60px;
@@ -62,6 +73,15 @@
     }
 
   </style>
+  <!-- {{{ progress chunk template -->
+  <script type="text/mustache" id="download_progress_chunk">
+	   {{#chunks}}
+		<div class="progress progress-striped progress-chunk active">
+			<div class="bar" style="width: 100%;"></div>
+		</div>
+	   {{/chunks}}
+  </script>
+  <!-- }}} -->
   <!--{{{ active downloads template -->
   <script type="text/mustache" id="download_active_template">
 	  <div class="row download_item download_active_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
@@ -84,10 +104,17 @@
 			</div>
 		</div>
 		<br>
-		<div class="span11 progress progress-striped active">
+		<div class="span11 progress full-progress progress-striped active">
 			<div class="bar" style="width: {{percentage}}%;"></div>
 		</div>
 		<div class="span11 more_info collapse">
+			<div class="span11 active_chunks">
+				{{#chunks}}
+				<div class="progress progress-chunk" style="width:{{width}}%;">
+					<div class="bar chunk_{{id}}" style="width: {{progress}}%;"></div>
+				</div>
+				{{/chunks}}
+			</div>
 			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
 			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
 			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
@@ -133,7 +160,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="span11 progress progress-striped">
+		<div class="span11 full-progress progress progress-striped">
 			<div class="bar" style="width: {{percentage}}%; background-color:#FBB450"></div>
 		</div>
 		<div class="span12 more_info collapse">
@@ -185,7 +212,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="span11 progress progress-striped">
+		<div class="span11 full-progress progress progress-striped">
 			{{#booleans.is_error}}
 			<div class="bar" style="width: {{percentage}}%; background-color:rgb(185, 74, 72)"></div>
 			{{/booleans.is_error}}
