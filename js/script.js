@@ -1,6 +1,5 @@
-var graphSize = 5;
+var graphSize = 10;
 var graphData = [];
-var graphSec = 0;
 var modals = {
 	err_connect: undefined,
 	change_conf: undefined,
@@ -477,6 +476,12 @@ function deleteDownloadTemplates(top_elem, data) {
 					found = true;
 			}
 			if(!found) {
+				for (var k = 0; k < graphData.length; k++) {
+					if (graphData[k].gid == gid) {
+						graphData.splice(k, 1);
+						break;
+					}
+				}
 				elem.remove();
 			}
 		}
@@ -547,18 +552,17 @@ function updateGraphData(data) {
 	for (var i = 0; i < data.length; i++) {
 		var gid = data[i].gid;
 		var graph;
-		for (var i = 0; i < graphData.length; i++) {
-			if (graphData[i].gid == gid) {
-				graph = graphData[i];
+		for (var k = 0; i < graphData.length; i++) {
+			if (graphData[k].gid == gid) {
+				graph = graphData[k];
 				break;
 			}
 		}
 		var downSpeed = data[i].downloadSpeed;
 		var upSpeed = data[i].uploadSpeed;
 		var that = this;
-		graphSec++;
 		if (!graph) {
-			graphData.push((function() { 
+			graphData.push((function() {
 				return {
 					gid: gid,
 					downSpeed: [],
@@ -925,9 +929,9 @@ function updateDownloads() {
 		}]],
 		success: function(data) {
 			mergeDownloads(data.result);
-			updateActiveDownloads(d_files.active);
-			updateWaitingDownloads(d_files.waiting);
 			updateStoppedDownloads(d_files.stopped);
+			updateWaitingDownloads(d_files.waiting);
+			updateActiveDownloads(d_files.active);
 			updateGlobalStatistics(data.result[3][0]);
 		},
 		error: function() {
