@@ -1,4 +1,4 @@
-var graphSize = 10;
+var graphSize = 15;
 var graphData = [];
 var modals = {
 	err_connect: undefined,
@@ -478,6 +478,7 @@ function deleteDownloadTemplates(top_elem, data) {
 			if(!found) {
 				for (var k = 0; k < graphData.length; k++) {
 					if (graphData[k].gid == gid) {
+						console.log("removing a graph with gid:" + gid);
 						graphData.splice(k, 1);
 						break;
 					}
@@ -509,6 +510,7 @@ function updateGraph(gid) {
 		if (graphData[i].gid == gid) {
 			var moreInfo = $(elem).find(".more_info");
 			if (moreInfo.hasClass("in")) {
+				window.data = graphData[i];
 				graphData[i].plot.setData([{
 					label: "Download Speed",
 					data: graphData[i].downSpeed,
@@ -516,7 +518,7 @@ function updateGraph(gid) {
 					lines: { show: true }
 				}, {
 					label: "Upload Speed",
-					data: graphData[i].uploadSpeed,
+					data: graphData[i].upSpeed,
 					color: "#00ff00",
 					lines: { show: true }
 				}]);
@@ -551,9 +553,11 @@ function createGraph(gid) {
 function updateGraphData(data) {
 	for (var i = 0; i < data.length; i++) {
 		var gid = data[i].gid;
-		var graph;
-		for (var k = 0; i < graphData.length; i++) {
+		var graph = null;
+		console.log(data[i].gid);
+		for (var k = 0; k < graphData.length; k++) {
 			if (graphData[k].gid == gid) {
+				console.log("found a graph with gid:" + gid);
 				graph = graphData[k];
 				break;
 			}
@@ -562,6 +566,7 @@ function updateGraphData(data) {
 		var upSpeed = data[i].uploadSpeed;
 		var that = this;
 		if (!graph) {
+			console.log("creating a new Graph with gid:" + gid);
 			graphData.push((function() {
 				return {
 					gid: gid,
