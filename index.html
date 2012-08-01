@@ -22,6 +22,10 @@
   <script src="js/libs/bootstrap.js"></script>
   <script src="js/libs/mustache.js"></script>
   <script src="js/aria2_settings.js"></script>
+  <!--[if IE ]>
+	<script type="text/javascript" src="js/libs/excanvas.compiled.js"></script>
+  <![endif]-->
+  <script src="js/libs/jquery.flot.min.js"></script>
 
   <style>
 	.button_set {
@@ -32,7 +36,12 @@
 		text-align: center;
 		margin-bottom: 3px;
 	}
-
+	.active_graph {
+		height:300px; 
+		margin-top: 10px;
+		margin-bottom: 10px;
+		width: 80%;
+	}
 	.download_item {
 		margin-bottom: 10px;
 		padding-top: 10px;
@@ -78,7 +87,7 @@
 		<div class="span11 progress progress-striped active">
 			<div class="bar" style="width: {{percentage}}%;"></div>
 		</div>
-		<div class="span12 more_info collapse">
+		<div class="span11 more_info collapse">
 			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
 			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
 			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
@@ -91,8 +100,11 @@
 			<b class="span2 label active_settings">Upload Speed: <span class="tmp_upload_speed">{{upload_speed}}</span></b>
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
 			<b class="span2 label active_settings">Connections: <span class="tmp_connections">{{connections}}</span></b>
-			<div class="span4 offset4">
-				<button class="btn btn-mini pull-right download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
+			<div class="pull-right" style="margin-right: 5px;">
+				<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
+			</div>
+			<div class="span11">
+				<div class="active_graph"></div>
 			</div>
 		</div>
 	</div>
@@ -133,8 +145,8 @@
 			<b class="span2 label active_settings">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></b>
 			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
-			<div class="span4 offset4">
-				<button class="btn btn-mini pull-right download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
+			<div class="pull-right" style="margin-right: 5px;">
+				<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
 			</div>
 		</div>
 	</div>

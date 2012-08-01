@@ -1,3 +1,6 @@
+var graphSize = 5;
+var graphData = [];
+var graphSec = 0;
 var modals = {
 	err_connect: undefined,
 	change_conf: undefined,
@@ -460,6 +463,7 @@ function updateDownloadTemplates(elem, ctx) {
 }
 function deleteDownloadTemplates(top_elem, data) {
 	if(!data) {
+		graphData = [];
 		$(top_elem).html("");
 	}
 	else {
@@ -472,8 +476,9 @@ function deleteDownloadTemplates(top_elem, data) {
 				if(gid === data[j].gid.toString())
 					found = true;
 			}
-			if(!found)
+			if(!found) {
 				elem.remove();
+			}
 		}
 	}
 }
@@ -492,6 +497,96 @@ function refreshDownloadTemplates(top_elem, data) {
 	}
 	$('#' + top_elem + '_downloads').children('.hero-unit').remove();
 
+}
+function updateGraph(gid) {
+	var elem = $('[data-gid=' + gid + ']');
+	for (var i = 0; i < graphData.length; i++) {
+		if (graphData[i].gid == gid) {
+			var moreInfo = $(elem).find(".more_info");
+			if (moreInfo.hasClass("in")) {
+				graphData[i].plot.setData([{
+					label: "Download Speed",
+					data: graphData[i].downSpeed,
+					color: "#ff0000",
+					lines: { show: true }
+				}, {
+					label: "Upload Speed",
+					data: graphData[i].uploadSpeed,
+					color: "#00ff00",
+					lines: { show: true }
+				}]);
+				graphData[i].plot.setupGrid();
+				graphData[i].plot.draw();
+			}
+		}
+	}
+}
+function createGraph(gid) {
+	return $.plot('[data-gid=' + gid + '] .active_graph', [{
+		label: "Download Speed",
+		data: [],
+		color: "#ff0000",
+		lines: { show: true }
+	}, {
+		label: "Upload Speed",
+		data: [],
+		color: "#00ff00",
+		lines: { show: true }
+	}], {
+		legend: { show: true },
+		xaxis: { show: true },
+		yaxis: {
+			tickFormatter: function(val, axis) {
+				return changeLength(val, "B/s");
+			},
+			min: 0
+		}
+	});
+}
+function updateGraphData(data) {
+	for (var i = 0; i < data.length; i++) {
+		var gid = data[i].gid;
+		var graph;
+		for (var i = 0; i < graphData.length; i++) {
+			if (graphData[i].gid == gid) {
+				graph = graphData[i];
+				break;
+			}
+		}
+		var downSpeed = data[i].downloadSpeed;
+		var upSpeed = data[i].uploadSpeed;
+		var that = this;
+		graphSec++;
+		if (!graph) {
+			graphData.push((function() { 
+				return {
+					gid: gid,
+					downSpeed: [],
+					upSpeed: [],
+					add: function(arr, val) {
+						if (arr.length == graphSize) {
+							arr.shift();
+						}
+						arr.push([((new Date - this.start)/1000).toFixed(0), val]);
+					},
+					addDown: function(val) {
+						this.add(this.downSpeed, val);
+						return this;
+					},
+					addUp: function(val) {
+						this.add(this.upSpeed, val);
+						return this;
+					},
+					plot: that.createGraph(gid),
+					start: new Date()
+				}
+			})().addDown(downSpeed).addUp(upSpeed));
+		}
+		else {
+			graph.addDown(downSpeed).addUp(upSpeed);
+		}
+		this.updateGraph(gid);
+	}
 }
 function getActiveSettings(gid, cb) {
 	var sets = [];
@@ -563,6 +658,7 @@ function empty_download_set(elem) {
 }
 function updateActiveDownloads(data) {
 	refreshDownloadTemplates('active', data);
+	updateGraphData(data);
 	empty_download_set('#active_downloads');
 	$('.download_active_item .download_settings').unbind('click').click(function() {
 		var gid = $(this).parents('.download_active_item').attr('data-gid');
