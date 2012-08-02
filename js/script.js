@@ -423,19 +423,24 @@ function changeTime(time) {
 
 }
 function getChunksFromHex(bitfield, numOfPieces) {
-	var chunks =  [], numPieces = parseInt(numOfPieces);
+	var chunks =  [], len = 0, numPieces = parseInt(numOfPieces);
 	if (numPieces > 1) {
 		var chunk_width = 100 / numPieces;
 		for (var i = 0; i < bitfield.length; i++) {
 			var hex = parseInt(bitfield[i], 16);
 			for (var j = 1; j <= 4; j++) {
 				var bit = hex & (1 << (4 - j));
-				var len = chunks.length;
-				chunks.push({
-					width: chunk_width,
-					progress: bit ? 100 : 0,
-					id: len
-				});
+				var prog = bit ? 100 : 0;
+				if (len && chunks[len - 1].progress == prog) {
+					chunks[len - 1].width += chunk_width;
+				}
+				else {
+					chunks.push({
+						width: chunk_width,
+						progress: bit ? 100 : 0
+					});
+					len++;
+				}
 			}
 		}
 	}
@@ -480,11 +485,38 @@ function updateDownloadTemplates(elem, ctx) {
 		elem.find('.tmp_' + i).text(ctx[i]);
 	}
 	elem.find('.full-progress .bar').css('width', ctx.percentage + '%');
-	for (var j = 0; j < ctx.chunks; j++) {
-		if (ctx.chunks[j].progress == 100) {
-			elem.find(".chunk_" + ctx.id.toString()).css(width, "100%");
+	var partialNodes = elem.find(".progress-chunk .bar");
+	var chunks = ctx.chunks;
+	var diff = partialNodes.length - chunks.length;
+	if (diff > 0) {
+		partialNodes.slice(0, diff).remove();
+		partialNodes = elem.find(".progress-chunk .bar")
+		diff = (partialNodes.length - chunks.length);
+		if (diff != 0) {
+			console.log(diff);
+			console.log("diff error in deleting!!!");
+			return;
 		}
 	}
+	else if (diff < 0){
+		diff = (-1) * diff;
+		var html = '<div class="progress progress-chunk" style="width:'
+			+ chunks[0].width + '%;"><div class="bar" style="width: 0%;"></div></div>';
+		var oldlen = partialNodes.length;
+		partialNodes.parents('.active_chunks').first().append((new Array(diff + 1)).join(html));
+		partialNodes = elem.find(".progress-chunk .bar");
+		var newlen = partialNodes.length;
+		console.log("diff between lengts:" + (newlen - oldlen - diff).toString());
+		diff = (partialNodes.length - chunks.length);
+		if (diff != 0) {
+			console.log(diff);
+			console.log("diff error in appending!!!");
+			return;
+		}
+	}
+	partialNodes.each(function(index, node) {
+		$(node).css("width", chunks[index].progress.toString() + "%");
+	});
 }
 function deleteDownloadTemplates(top_elem, data) {
 	if(!data) {
