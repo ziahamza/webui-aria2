@@ -73,15 +73,6 @@
     }
 
   </style>
-  <!-- {{{ progress chunk template -->
-  <script type="text/mustache" id="download_progress_chunk">
-	   {{#chunks}}
-		<div class="progress progress-striped progress-chunk active">
-			<div class="bar" style="width: 100%;"></div>
-		</div>
-	   {{/chunks}}
-  </script>
-  <!-- }}} -->
   <!--{{{ active downloads template -->
   <script type="text/mustache" id="download_active_template">
 	  <div class="row download_item download_active_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
@@ -110,7 +101,7 @@
 		<div class="span11 more_info collapse">
 			<div class="span11 active_chunks">
 				{{#chunks}}
-				<div class="progress progress-chunk" style="width:{{width}}%;">
+				<div class="progress progress-chunk progress-striped" style="width:{{width}}%;">
 					<div class="bar" style="width: {{progress}}%;"></div>
 				</div>
 				{{/chunks}}

@@ -424,23 +424,29 @@ function changeTime(time) {
 }
 function getChunksFromHex(bitfield, numOfPieces) {
 	var chunks =  [], len = 0, numPieces = parseInt(numOfPieces);
+	var totalDownloaded = 0;
 	if (numPieces > 1) {
-		var chunk_width = 100 / numPieces;
+		var chunk_width = 95 / numPieces;
+		var piecesProcessed = 0;
 		for (var i = 0; i < bitfield.length; i++) {
 			var hex = parseInt(bitfield[i], 16);
 			for (var j = 1; j <= 4; j++) {
 				var bit = hex & (1 << (4 - j));
+				if (bit) totalDownloaded++;
 				var prog = bit ? 100 : 0;
-				if (len && chunks[len - 1].progress == prog) {
+				if (len >= 1 && chunks[len - 1].progress == prog) {
 					chunks[len - 1].width += chunk_width;
 				}
 				else {
 					chunks.push({
 						width: chunk_width,
-						progress: bit ? 100 : 0
+						progress: prog
 					});
 					len++;
 				}
+				piecesProcessed ++;
+				if (piecesProcessed == numPieces)
+					return chunks;
 			}
 		}
 	}
@@ -453,7 +459,7 @@ function getTemplateCtx(data) {
 	var name;
 	var seed = (data.files[0].path || data.files[0].uris[0].uri).split(/[/\\]/);
 	name = seed[seed.length - 1];
-	var chunks =  getChunksFromHex(data.bitfield, data.numPieces);
+	var chunks =  percentage !== 100 ? getChunksFromHex(data.bitfield, data.numPieces) : [];
 
 	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
 	return {
@@ -485,37 +491,40 @@ function updateDownloadTemplates(elem, ctx) {
 		elem.find('.tmp_' + i).text(ctx[i]);
 	}
 	elem.find('.full-progress .bar').css('width', ctx.percentage + '%');
-	var partialNodes = elem.find(".progress-chunk .bar");
 	var chunks = ctx.chunks;
-	var diff = partialNodes.length - chunks.length;
+	if (!chunks || !chunks.length) {
+		return;
+	}
+	var partialParent = elem.find(".active_chunks");
+	var diff = partialParent.children().length - chunks.length;
 	if (diff > 0) {
-		partialNodes.slice(0, diff).remove();
-		partialNodes = elem.find(".progress-chunk .bar")
-		diff = (partialNodes.length - chunks.length);
+		partialParent.children().slice(0, diff).remove();
+		/*
+		diff = (partialParent.children().length - chunks.length);
 		if (diff != 0) {
 			console.log(diff);
 			console.log("diff error in deleting!!!");
 			return;
 		}
+		*/
 	}
 	else if (diff < 0){
 		diff = (-1) * diff;
-		var html = '<div class="progress progress-chunk" style="width:'
+		var html = '<div class="progress progress-striped progress-chunk" style="width:'
 			+ chunks[0].width + '%;"><div class="bar" style="width: 0%;"></div></div>';
-		var oldlen = partialNodes.length;
-		partialNodes.parents('.active_chunks').first().append((new Array(diff + 1)).join(html));
-		partialNodes = elem.find(".progress-chunk .bar");
-		var newlen = partialNodes.length;
-		console.log("diff between lengts:" + (newlen - oldlen - diff).toString());
-		diff = (partialNodes.length - chunks.length);
+		partialParent.append((new Array(diff + 1)).join(html));
+		/*
+		diff = (partialParent.children().length - chunks.length);
 		if (diff != 0) {
 			console.log(diff);
 			console.log("diff error in appending!!!");
 			return;
 		}
+		*/
 	}
-	partialNodes.each(function(index, node) {
-		$(node).css("width", chunks[index].progress.toString() + "%");
+	partialParent.children().each(function(index, node) {
+		$(node).css({width: chunks[index].width.toString()  + "%" });
+		$(node).children().css({width: chunks[index].progress.toString()  + "%" });
 	});
 }
 function deleteDownloadTemplates(top_elem, data) {
