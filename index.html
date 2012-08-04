@@ -121,7 +121,7 @@
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
 			<b class="span2 label active_settings">Connections: <span class="tmp_connections">{{connections}}</span></b>
 			<div class="pull-right" style="margin-right: 5px;">
-				<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
+				<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>{{#bittorrent}}<button class="btn btn-mini torrent_info"><i class="icon-list-alt"></i> Peers</button>{{/bittorrent}}
 			</div>
 			<div class="span11">
 				<div class="active_graph"></div>
@@ -285,6 +285,43 @@
   </script>
   <!-- global settings template end }}}-->
 
+  <!-- {{{ torrent info template -->
+  <script type="text/mustache" id="torrent_info_template">
+	  <div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Peers for {{info_name}}</h3>
+	  </div>
+	  <div class="modal-body">
+		  <table class="table table-bordered table-striped table-condensed">
+			  <thead>
+				  <td>Address</td>
+				  <td>Peer Choking Aria2</td>
+				  <td>Aria2 Choking Peer</td>
+				  <td>Seeder</td>
+				  <td>Upload Speed</td>
+				  <td>Download Speed</td>
+			  </thead>
+			  <tbody>
+				  {{#peers}}
+				  <tr>
+					  <td>{{ip}}:{{port}}</td>
+					  <td>{{peerChoking}}</td>
+					  <td>{{amChoking}}</td>
+					  <td>{{seeder}}</td>
+					  <td>{{downloadSpeed}}</td>
+					  <td>{{uploadSpeed}}</td>
+				  {{/peers}}
+				  {{^peers}}
+				  	<td colspan="6" style="text-align: center;"><h2>No peers connected!</h2></td>
+				  {{/peers}}
+			  </tbody>
+		  </table>
+	  </div>
+	  <div class="modal-footer">
+		  <button class="btn btn-success" data-dismiss="modal">Close</button>
+	  </div>
+  </script>
+  <!-- }}} -->
   <!--{{{ download settings template start -->
   <script type="text/mustache" id="download_settings_template">
 
@@ -668,6 +705,11 @@
 <div class="modal hide" id="download_settings_modal">
 </div>
 <!-- download settings template end }}}-->
+
+<!--{{{ torrent info modal -->
+<div class="modal hide" id="torrent_info_modal" style="width: 600px;">
+</div>
+<!-- }}} -->
 
 <!-- }}} hidden modals end -->
 

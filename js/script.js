@@ -6,6 +6,7 @@ var modals = {
 	change_conf: undefined,
 	newDownload_modal: undefined,
 	global_settings_modal: undefined,
+	torrent_info_modal: undefined,
 	global_statistics_modal: undefined,
 	about_modal: undefined,
 	err_file_api_modal: undefined,
@@ -195,6 +196,7 @@ $(function() {
 	modals.newDownload_modal = $('#newDownload_modal').modal(modal_conf);
 	modals.global_settings_modal = $('#global_settings_modal').modal(modal_conf);
 	modals.download_settings_modal = $('#download_settings_modal').modal(modal_conf);
+	modals.torrent_info_modal = $('#torrent_info_modal').modal(modal_conf);
 	modals.global_statistics_modal = $('#global_statistics_modal').modal(modal_conf);
 	modals.about_modal = $('#about_modal').modal(modal_conf);
 	modals.err_file_api_modal = $('#error_file_api').modal(modal_conf);
@@ -480,7 +482,7 @@ function getTemplateCtx(data) {
 	var name;
 	var seed = (data.files[0].path || data.files[0].uris[0].uri).split(/[/\\]/);
 	name = seed[seed.length - 1];
-	var chunks =  percentage !== 100 ? getChunksFromHex(data.bitfield, data.numPieces) : [];
+	var chunks =  percentage !== 100 && data.bitfield ? getChunksFromHex(data.bitfield, data.numPieces) : [];
 
 	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
 	return {
@@ -503,7 +505,8 @@ function getTemplateCtx(data) {
 		booleans: {
 			is_error: data.status === "error",
 		},
-		chunks: chunks
+		chunks: chunks,
+		bittorrent: !!data.bittorrent
 	};
 }
 function updateDownloadTemplates(elem, ctx) {
@@ -518,11 +521,11 @@ function updateDownloadTemplates(elem, ctx) {
 	}
 	var canvas = elem.find(".chunk-canvas")[0];
 	if (!canvas) {
-		console.log("cant find canvas!!!", elem);
 		return;
 	}
 	var ctx = canvas.getContext('2d');
 	ctx.fillStyle = "#149BDF";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	var x = 0,
 		 width = canvas.width,
 		 height = canvas.height;
@@ -810,6 +813,38 @@ function updateActiveDownloads(data) {
 			}
 		});
 	});
+	$('.download_active_item .torrent_info').unbind('click').click(function() {
+		var info_name = $(this).parents('.download_active_item').attr('data-settingsName');
+		var gid = $(this).parents('.download_active_item').attr('data-gid');
+		aria_syscall({
+			func: 'getPeers',
+			params: [gid],
+			success: function(data) {
+				var peers = data.result.map(function(e) {
+					e.downloadSpeed = changeLength(e.downloadSpeed, "B/s");
+					e.uploadSpeed = changeLength(e.uploadSpeed, "B/s");
+					return e;
+				});
+				var download = d_files.active.filter(function(d) {
+					d.gid == gid
+				})[1];
+				var templ = $('#torrent_info_template').text();
+				var item = Mustache.render(templ, {
+					info_name: info_name,
+					gid: gid,
+					peers: peers
+				});
+				$('#torrent_info_modal').html(item);
+				modals.torrent_info_modal.modal('show');
+				console.log($('#torrent_info_modal'));
+				update_ui();
+			},
+			error: function(err) {
+				console.log("error pausing active download!!!");
+				console.log(err);
+			}
+		});
+	});
 	$('.download_active_item .download_remove').unbind('click').click(function() {
 		var gid = $(this).parents('.download_active_item').attr('data-gid');
 		aria_syscall({
@@ -1014,14 +1049,14 @@ function updateDownloads() {
 }
 
 function updateGlobalStatistics(data) {
-	globalGraphData.addDown(parseFloat(data.downloadSpeed));
-	globalGraphData.addUp(parseFloat(data.uploadSpeed));
 	data.downloadSpeed = changeLength(data.downloadSpeed, "B/s");
 	data.uploadSpeed = changeLength(data.uploadSpeed, "B/s");
 	for(var i in data) {
 		$('.stat_' + i).text(data[i]);
 	}
 	if (globalGraphData) {
+		globalGraphData.addDown(parseFloat(data.downloadSpeed));
+		globalGraphData.addUp(parseFloat(data.uploadSpeed));
 		globalGraphData.plot.setData([{
 			label: "Download Speed",
 			data: globalGraphData.downSpeed,
