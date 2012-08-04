@@ -35,6 +35,10 @@
 		float: right;
 		margin-bottom: 5px;
 	}
+	.stat_graph {
+		margin-top: 25px;
+		height: 220px;
+	}
 	.active_settings {
 		text-align: center;
 		margin-bottom: 3px;
@@ -103,13 +107,7 @@
 			<div class="bar" style="width: {{percentage}}%;"></div>
 		</div>
 		<div class="span11 more_info collapse">
-			<div class="span11 active_chunks">
-				{{#chunks}}
-				<div class="progress progress-chunk progress-striped" style="width:{{width}}%;">
-					<div class="bar" style="width: {{progress}}%;"></div>
-				</div>
-				{{/chunks}}
-			</div>
+			<canvas class="span10 progress chunk-canvas"></canvas>
 			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
 			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
 			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
@@ -509,6 +507,8 @@
 			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Active Downloads: <span class="stat_numActive"></span></h5>
 			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Waiting Downloads: <span class="stat_numWaiting"></span></h5>
 			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Stopped Downloads: <span class="stat_numStopped"></span></h5>
+			<div class="span5 stat_graph">
+			</div>
 		</p>
 	</div>
 	<div class="modal-footer">

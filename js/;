@@ -1,6 +1,5 @@
 var graphSize = 15;
 var graphData = [];
-var globalGraphData = null;
 var modals = {
 	err_connect: undefined,
 	change_conf: undefined,
@@ -205,26 +204,6 @@ $(function() {
 		web_sock_init();
 
 	update_ui();
-	globalGraphData = {
-		downSpeed: [],
-		upSpeed: [],
-		add: function(arr, val) {
-			if (arr.length == graphSize) {
-				arr.shift();
-			}
-			arr.push([((new Date - this.start)/1000).toFixed(0), val]);
-		},
-		addDown: function(val) {
-			this.add(this.downSpeed, val);
-			return this;
-		},
-		addUp: function(val) {
-			this.add(this.upSpeed, val);
-			return this;
-		},
-		plot: createGraph('.stat_graph'),
-		start: new Date()
-	};
 	$('#newDownload').click(function() {
 		$('#newDownload_url').val("");
 		$('.download_urls').html("");
@@ -447,21 +426,21 @@ function getChunksFromHex(bitfield, numOfPieces) {
 	var chunks =  [], len = 0, numPieces = parseInt(numOfPieces);
 	var totalDownloaded = 0;
 	if (numPieces > 1) {
-		var chunk_ratio = 1 / numPieces;
+		var chunk_width = 95 / numPieces;
 		var piecesProcessed = 0;
 		for (var i = 0; i < bitfield.length; i++) {
 			var hex = parseInt(bitfield[i], 16);
 			for (var j = 1; j <= 4; j++) {
 				var bit = hex & (1 << (4 - j));
 				if (bit) totalDownloaded++;
-				var prog = !!bit;
-				if (len >= 1 && chunks[len - 1].show == prog) {
-					chunks[len - 1].ratio += chunk_ratio;
+				var prog = bit ? 100 : 0;
+				if (len >= 1 && chunks[len - 1].progress == prog) {
+					chunks[len - 1].width += chunk_width;
 				}
 				else {
 					chunks.push({
-						ratio: chunk_ratio,
-						show: prog
+						width: chunk_width,
+						progress: prog
 					});
 					len++;
 				}
@@ -517,20 +496,47 @@ function updateDownloadTemplates(elem, ctx) {
 		return;
 	}
 	var canvas = elem.find(".chunk-canvas")[0];
-	if (!canvas) {
-		console.log("cant find canvas!!!", elem);
-		return;
-	}
 	var ctx = canvas.getContext('2d');
 	ctx.fillStyle = "#149BDF";
-	var x = 0,
+	var partialParent = elem.find(".active_chunks");
+	var diff = partialParent.children().length - chunks.length;
+	if (diff > 0) {
+		partialParent.children().slice(0, diff).remove();
+		/*
+		diff = (partialParent.children().length - chunks.length);
+		if (diff != 0) {
+			console.log(diff);
+			console.log("diff error in deleting!!!");
+			return;
+		}
+		*/
+	}
+	else if (diff < 0){
+		diff = (-1) * diff;
+		var html = '<div class="progress progress-striped progress-chunk" style="width:'
+			+ chunks[0].width + '%;"><div class="bar" style="width: 0%;"></div></div>';
+		partialParent.append((new Array(diff + 1)).join(html));
+		/*
+		diff = (partialParent.children().length - chunks.length);
+		if (diff != 0) {
+			console.log(diff);
+			console.log("diff error in appending!!!");
+			return;
+		}
+		*/
+	}
+	var x = 0, y = 0,
 		 width = canvas.width,
 		 height = canvas.height;
 	chunks.forEach(function(c) {
-		var dx = c.ratio * width;
-		if (c.show)
-			ctx.fillRect(x, 0, dx, height);
+		var dx = (c.width / 100)* width;
+		if (c.progress == 100)
+			ctx.fillRect(x, y, dx, y);
 		x += dx;
+	});
+	partialParent.children().each(function(index, node) {
+		$(node).css({width: chunks[index].width.toString()  + "%" });
+		$(node).children().css({width: chunks[index].progress.toString()  + "%" });
 	});
 }
 function deleteDownloadTemplates(top_elem, data) {
@@ -582,6 +588,7 @@ function updateGraph(gid) {
 		if (graphData[i].gid == gid) {
 			var moreInfo = $(elem).find(".more_info");
 			if (moreInfo.hasClass("in")) {
+				window.data = graphData[i];
 				graphData[i].plot.setData([{
 					label: "Download Speed",
 					data: graphData[i].downSpeed,
@@ -599,8 +606,8 @@ function updateGraph(gid) {
 		}
 	}
 }
-function createGraph(selector) {
-	return $.plot(selector, [{
+function createGraph(gid) {
+	return $.plot('[data-gid=' + gid + '] .active_graph', [{
 		label: "Download Speed",
 		data: [],
 		color: "#ff0000",
@@ -654,7 +661,7 @@ function updateGraphData(data) {
 						this.add(this.upSpeed, val);
 						return this;
 					},
-					plot: that.createGraph('[data-gid=' + gid + '] .active_graph'),
+					plot: that.createGraph(gid),
 					start: new Date()
 				}
 			})().addDown(downSpeed).addUp(upSpeed));
@@ -1014,29 +1021,11 @@ function updateDownloads() {
 }
 
 function updateGlobalStatistics(data) {
-	globalGraphData.addDown(parseFloat(data.downloadSpeed));
-	globalGraphData.addUp(parseFloat(data.uploadSpeed));
 	data.downloadSpeed = changeLength(data.downloadSpeed, "B/s");
 	data.uploadSpeed = changeLength(data.uploadSpeed, "B/s");
 	for(var i in data) {
 		$('.stat_' + i).text(data[i]);
 	}
-	if (globalGraphData) {
-		globalGraphData.plot.setData([{
-			label: "Download Speed",
-			data: globalGraphData.downSpeed,
-			color: "#ff0000",
-			lines: { show: true }
-		}, {
-			label: "Upload Speed",
-			data: globalGraphData.upSpeed,
-			color: "#00ff00",
-			lines: { show: true }
-		}]);
-		globalGraphData.plot.setupGrid();
-		globalGraphData.plot.draw();
-	}
-
 }
 function custom_global_statistics() {
 	var tmpl = $('#global_statistics_template').text();
