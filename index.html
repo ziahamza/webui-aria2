@@ -65,14 +65,6 @@
 		overflow: hidden;
 		word-wrap: break-word;
 	}
-	.progress-chunk {
-		margin:0px;
-		padding:0px;
-		border-radius:0px;
-		display: inline-block;
-		float:left;
-		margin-bottom:5px;
-	}
     @media all and (min-width: 980px) {
       body {
         padding-top: 60px;
@@ -107,7 +99,7 @@
 			<div class="bar" style="width: {{percentage}}%;"></div>
 		</div>
 		<div class="span11 more_info collapse">
-			<canvas class="span10 progress chunk-canvas"></canvas>
+			<canvas class="span10 progress chunk-canvas" width="1400"></canvas>
 			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
 			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
 			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
