@@ -39,6 +39,8 @@ var get_conf_cookie = function() {
 }
 var custom_aria2_connect = function() {
 	clear_dialogs();
+        $("#input_host").attr("placeholder", server_conf.host);
+        $("#input_port").attr("placeholder", server_conf.port);
 	modals.change_conf.modal('show');
 };
 var update_server_conf = function() {
