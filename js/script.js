@@ -30,7 +30,7 @@ var server_conf = {
 };
 
 var set_conf_cookie = function() {
-	setCookie('aria2_server_conf', JSON.stringify(server_conf));
+	setCookie('aria2_server_conf', JSON.stringify(server_conf), 30 * 12);
 }
 var get_conf_cookie = function() {
 	if (getCookie('aria2_server_conf'.trim())) {
