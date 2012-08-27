@@ -1,3 +1,4 @@
+/* ex: set tabstop=4 */
 var graphSize = 15;
 var graphData = [];
 var globalGraphData = null;
@@ -256,20 +257,20 @@ $(function() {
 		}
 	});
 	$('#multiple_uris').click(function() {
-		var url = $('#newDownload_url').val();
-		var html = '<li>';
-		html += '<span class="uris">';
-		html += url;
-		html += '</span>';
-		html += '             ';
-		html += '<a href="#"><i class="icon-trash"></i></a></li>';
-		$(html).appendTo('.download_urls');
-		$('#newDownload_url').val("");
-		$('.download_urls a').unbind('click').click(function() {
-			$(this).parents('li').remove();
-		});
+		if ($('#multiple_uris i').hasClass('icon-plus-sign')) {
+			var txt = $('#newDownload_url').val();
+			$('#newDownload_url').replaceWith('<textarea style="width: 270px" id="newDownload_url" rows="5"></textarea>');
+			if (txt.trim().length)
+				$('#newDownload_url').val(txt + '\n');
+			$('#multiple_uris i').removeClass('icon-plus-sign').addClass('icon-minus-sign');
+		}
+		else {
+			$('#newDownload_url').replaceWith('<input type="text" class="input-xlarge" id="newDownload_url" placeholder="http://example.com"/>');
+			$('#multiple_uris i').removeClass('icon-minus-sign').addClass('icon-plus-sign');
+		}
 	});
 	$('#addNewDownload').click(newDownload);
+
 	setInterval(update_ui, 1000);
 });
 function check_global(name) {
@@ -415,14 +416,14 @@ function addDownload(uris) {
 }
 
 function newDownload() {
-	var li = $('.download_urls li');
-	var urls = [];
-	for(var i = 0; i < li.length; i++) {
-		urls.push($(li[i]).text().trim());
+	var urls = $('#newDownload_url').val().split('\n')
+		.map(function(e) {
+			return e.trim();
+		})
+		.filter(function(e) {
+			return e.length;
+		});
 
-	}
-	var inp_url = $('#newDownload_url').val().trim();
-	if(inp_url.length > 0) urls.push(inp_url);
 	addDownload([urls]);
 }
 
