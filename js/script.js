@@ -417,7 +417,7 @@ function addDownload(uris) {
 }
 
 function newDownload() {
-	var urls = $('#newDownload_url').val().split('\n')
+	var urls = $('#newDownload_url').val().split(/\s+/)
 		.map(function(e) {
 			return e.trim();
 		})
