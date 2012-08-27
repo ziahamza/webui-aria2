@@ -268,6 +268,7 @@ $(function() {
 			$('#newDownload_url').replaceWith('<input type="text" class="input-xlarge" id="newDownload_url" placeholder="http://example.com"/>');
 			$('#multiple_uris i').removeClass('icon-minus-sign').addClass('icon-plus-sign');
 		}
+		return false;
 	});
 	$('#addNewDownload').click(newDownload);
 
