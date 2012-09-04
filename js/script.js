@@ -18,6 +18,7 @@ var modals = {
 var web_sock = undefined;
 var web_sock_queue = [];
 var web_sock_id = 0;
+var web_sock_support = typeof WebSocket != "undefined" ? 1 : 0;
 var clear_dialogs = function() {
 	for(var i in modals) {
 		modals[i].modal('hide');
@@ -170,7 +171,7 @@ var jsonp_syscall = function(conf, multicall) {
 	});
 }
 var aria_syscall = function(conf, multicall) {
-	if(!WebSocket || server_conf.user.length || server_conf.pass.length) {
+	if(!web_sock_support || server_conf.user.length || server_conf.pass.length) {
 		jsonp_syscall(conf, multicall);
 	}
 	else if(web_sock) {
@@ -206,7 +207,7 @@ $(function() {
 	modals.new_torrent_modal = $('#new_torrent').modal(modal_conf);
 	modals.new_metalink_modal = $('#new_metalink').modal(modal_conf);
 
-	if(WebSocket)
+	if(web_sock_support)
 		web_sock_init();
 
 	update_ui();
