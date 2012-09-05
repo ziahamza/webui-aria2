@@ -35,7 +35,7 @@ var set_conf_cookie = function() {
 	setCookie('aria2_server_conf', JSON.stringify(server_conf), 30 * 12);
 }
 var get_conf_cookie = function() {
-	if (getCookie('aria2_server_conf'.trim())) {
+	if (getCookie( $.trim('aria2_server_conf'))) {
 		server_conf = JSON.parse(getCookie('aria2_server_conf'));
 	}
 }
@@ -508,7 +508,7 @@ function getTemplateCtx(data) {
 		connections: data.connections,
 		upload_speed: changeLength(data.uploadSpeed, "B/s"),
 		booleans: {
-			is_error: data.status === "error",
+			is_error: data.status === "error"
 		},
 		chunks: chunks,
 		bittorrent: !!data.bittorrent
