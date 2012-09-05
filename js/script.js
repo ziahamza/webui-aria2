@@ -15,10 +15,6 @@ var modals = {
 	new_metalink_modal: undefined,
 	download_settings_modal: undefined
 };
-var web_sock = undefined;
-var web_sock_queue = [];
-var web_sock_id = 0;
-var web_sock_support = typeof WebSocket != "undefined" ? 1 : 0;
 var clear_dialogs = function() {
 	for(var i in modals) {
 		modals[i].modal('hide');
@@ -31,6 +27,7 @@ var server_conf = {
 	pass: ""
 };
 
+var ariaConnection = new AriaConnection(server_conf);
 var set_conf_cookie = function() {
 	setCookie('aria2_server_conf', JSON.stringify(server_conf), 30 * 12);
 }
@@ -56,131 +53,15 @@ var update_server_conf = function() {
 	if(port.length !== 0) {
 		server_conf.port = port;
 	}
-	web_sock = undefined;
 	set_conf_cookie();
+	ariaConnection = new AriaConnection(server_conf);
 	clear_dialogs();
 	update_ui();
 };
 
-function param_encode(param) {
-	if(param) {
-		param = base64.btoa(JSON.stringify(param));
-	}
-	return param;
-}
-
-var web_sock_error = function() {
-	for(var i = 0; i < web_sock_queue.length; i++) {
-		web_sock_queue[i].error();
-		web_sock_queue.splice(i, 1);
-	}
-}
-var web_sock_message = function(message) {
-	var data = JSON.parse(message.data);
-	for(var i = 0; i < web_sock_queue.length; i++) {
-		if(web_sock_queue[i].id === data.id) {
-			if(data.error) {
-				if(web_sock_queue[i].error)
-					web_sock_queue[i].error();
-			}
-			else {
-				web_sock_queue[i].success(data);
-			}
-			web_sock_queue.splice(i, 1);
-		}
-	}
-}
-var web_sock_send = function(conf, multicall) {
-	var id = 'webui_' + (web_sock_id++).toString();
-	var data =  {
-		jsonrpc: 2.0,
-		id: id,
-		method: multicall? conf.func:'aria2.' + conf.func,
-		params: conf.params
-	};
-	web_sock_queue.push({
-		success: conf.success,
-		error: conf.error,
-		id: id
-	});
-	web_sock.send(JSON.stringify(data));
-}
-var web_sock_init = function() {
-	if(!web_sock) {
-		var sock = new WebSocket('ws://' + server_conf.host + ':' + server_conf.port + '/jsonrpc');
-		sock.onopen = function() {
-			console.log('websocket connected!!!');
-			web_sock = sock;
-		};
-		sock.onclose = function() {
-			web_sock_error();
-			web_sock = undefined;
-		};
-		sock.onerror = web_sock_error;
-		sock.onmessage = web_sock_message;
-	}
-}
-
-var jsonp_syscall = function(conf, multicall) {
-	$.ajax({
-		url: 'http://' + server_conf.host + ':' + server_conf.port + '/jsonrpc',
-		timeout: 1000,
-		data: {
-			jsonrpc: 2.0,
-			id: 'webui',
-			method: multicall? conf.func:'aria2.' + conf.func,
-			params: param_encode(conf.params)
-		},
-		success: conf.success,
-		error: function() {
-			if(server_conf.user.length) {
-				var url = 'http://' +
-					server_conf.user +  ":" +
-					server_conf.pass + "@" +
-					server_conf.host + ':' +
-					server_conf.port + '/jsonrpc';
-
-				/* hack for http authentication */
-				var img = $('<img/>').attr("src", url);
-				$('body').append(img);
-				img.remove();
-
-				setTimeout(function() {
-					$.ajax({
-						url: url,
-						timeout: 1000,
-						data: {
-							jsonrpc: 2.0,
-							id: 'webui',
-							method: multicall? conf.func:'aria2.' + conf.func,
-							params: param_encode(conf.params)
-						},
-						success: conf.success,
-						error: conf.error,
-						dataType: 'jsonp',
-						jsonp: 'jsoncallback'
-					});
-				}, 1000);
-			}
-			else if(conf.error) {
-				conf.error();
-			}
-		},
-		dataType: 'jsonp',
-		jsonp: 'jsoncallback'
-	});
-}
-var aria_syscall = function(conf, multicall) {
-	if(!web_sock_support || server_conf.user.length || server_conf.pass.length) {
-		jsonp_syscall(conf, multicall);
-	}
-	else if(web_sock) {
-		web_sock_send(conf, multicall);
-	}
-	else {
-		web_sock_init();
-		jsonp_syscall(conf, multicall);
-	}
+var aria_syscall = function(conf, multicall, old) {
+	conf.multicall = multicall;
+	ariaConnection.invoke(conf);
 }
 var update_ui = function() {
 	updateDownloads();
@@ -206,9 +87,6 @@ $(function() {
 	modals.err_file_api_modal = $('#error_file_api').modal(modal_conf);
 	modals.new_torrent_modal = $('#new_torrent').modal(modal_conf);
 	modals.new_metalink_modal = $('#new_metalink').modal(modal_conf);
-
-	if(web_sock_support)
-		web_sock_init();
 
 	update_ui();
 	globalGraphData = {
