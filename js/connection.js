@@ -140,8 +140,6 @@ var AriaConnection = function(conf) {
 				params: [],
 				func: ''
 			});
-			var err = opts.error;
-			opts.error = function() { throw "cant run error!!!" };
 			if (!sockRPC || !sockRPC.initialized || true)
 				return jRPC.invoke(opts);
 			else
