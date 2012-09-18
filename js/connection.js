@@ -140,7 +140,7 @@ var AriaConnection = function(conf) {
 				params: [],
 				func: ''
 			});
-			if (!sockRPC || !sockRPC.initialized || true)
+			if (!sockRPC || !sockRPC.initialized)
 				return jRPC.invoke(opts);
 			else
 				return sockRPC.invoke(opts);
