@@ -87,7 +87,7 @@ var SocketRPC = function(conf) {
 		rpc.initialized = true;
 	};
 	rpc.sock.onclose = rpc.sock.onerror = function() {
-		_.each(handles, function(h) { h.error() });
+		_.each(rpc.handles, function(h) { h.error() });
 		rpc.handles = [];
 	};
 	rpc.sock.onmessage = function(message) {

@@ -25,16 +25,18 @@ var server_conf = {
 	port: 6800,
 	user: "",
 	pass: "",
-	encryption: false
+	encryption: false,
+	dirty: false
 };
 
-var ariaConnection = new AriaConnection(server_conf);
+var ariaConnection;
 var set_conf_cookie = function() {
 	setCookie('aria2_server_conf', JSON.stringify(server_conf), 30 * 12);
 }
 var get_conf_cookie = function() {
 	if (getCookie( $.trim('aria2_server_conf'))) {
 		server_conf = JSON.parse(getCookie('aria2_server_conf'));
+		server_conf.dirty = false;
 	}
 }
 var custom_aria2_connect = function() {
@@ -58,6 +60,7 @@ var update_server_conf = function() {
 	if(port.length !== 0) {
 		server_conf.port = port;
 	}
+	server_conf.dirty = false;
 	set_conf_cookie();
 	ariaConnection = new AriaConnection(server_conf);
 	clear_dialogs();
@@ -69,7 +72,8 @@ var aria_syscall = function(conf, multicall, old) {
 	ariaConnection.invoke(conf);
 }
 var update_ui = function() {
-	updateDownloads();
+	if (!server_conf.dirty) 
+		updateDownloads();
 };
 
 $(function() {
@@ -93,6 +97,7 @@ $(function() {
 	modals.new_torrent_modal = $('#new_torrent').modal(modal_conf);
 	modals.new_metalink_modal = $('#new_metalink').modal(modal_conf);
 
+	ariaConnection = new AriaConnection(server_conf)
 	update_ui();
 	globalGraphData = {
 		downSpeed: [],
@@ -931,6 +936,7 @@ function updateDownloads() {
 			updateGlobalStatistics(data.result[3][0]);
 		},
 		error: function() {
+			server_conf.dirty = true;
 			modals.err_connect.modal('show');
 		}
 	}, true);
