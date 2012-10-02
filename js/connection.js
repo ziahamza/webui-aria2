@@ -30,8 +30,9 @@ JsonRPC.prototype = {
 	},
 	invoke: function(opts) {
 		var rpc = this;
+		var scheme = rpc.serverConf.encryption ? 'https' : 'http';
 		rpc.ariaRequest(
-			'http://' + rpc.serverConf.host + ':' + rpc.serverConf.port + '/jsonrpc',
+			scheme + '://' + rpc.serverConf.host + ':' + rpc.serverConf.port + '/jsonrpc',
 			opts.multicall,
 			opts.func,
 			opts.params,
@@ -44,7 +45,7 @@ JsonRPC.prototype = {
 					return opts.error();
 				}
 
-				var authUrl = 'http://' +
+				var authUrl = scheme + '://' +
 					rpc.serverConf.user +  ":" +
 					rpc.serverConf.pass + "@" +
 					rpc.serverConf.host + ':' +
@@ -80,7 +81,8 @@ var SocketRPC = function(conf) {
 	rpc.serverConf = conf;
 	rpc.initialized = false;
 	rpc.handles = [];
-	rpc.sock = new WebSocket('ws://' + conf.host + ':' + conf.port + '/jsonrpc');
+	var scheme = rpc.serverConf.encryption ? 'wss' : 'ws';
+	rpc.sock = new WebSocket(scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc');
 	rpc.sock.onopen = function() {
 		rpc.initialized = true;
 	};

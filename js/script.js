@@ -24,7 +24,8 @@ var server_conf = {
 	host: 'localhost',
 	port: 6800,
 	user: "",
-	pass: ""
+	pass: "",
+	encryption: false
 };
 
 var ariaConnection = new AriaConnection(server_conf);
@@ -40,6 +41,9 @@ var custom_aria2_connect = function() {
 	clear_dialogs();
         $("#input_host").attr("placeholder", server_conf.host);
         $("#input_port").attr("placeholder", server_conf.port);
+        if(server_conf.encryption) {
+                $("#input_encryption").addClass("active");
+        }
 	modals.change_conf.modal('show');
 };
 var update_server_conf = function() {
@@ -47,6 +51,7 @@ var update_server_conf = function() {
 	var port = $('#input_port').val().trim();
 	server_conf.user = $('#input_user').val().trim();
 	server_conf.pass = $('#input_pass').val().trim();
+	server_conf.encryption = $('#input_encryption').hasClass('active');
 	if(host.length !== 0) {
 		server_conf.host = host;
 	}
