@@ -945,7 +945,11 @@ function updateDownloads() {
 function updateGlobalStatistics(data) {
 	data.downloadSpeed = changeLength(data.downloadSpeed, "B/s");
 	data.uploadSpeed = changeLength(data.uploadSpeed, "B/s");
-	document.title = "↓ " + data.downloadSpeed + " ↑ " + data.uploadSpeed + " - aria2 Web Client";
+	if (data.downloadSpeed=='0 B/s') title_downspeed = "";
+	        else title_downspeed= "↓ " + data.downloadSpeed;
+	if (data.uploadSpeed=='0 B/s') title_upspeed = "";
+	        else title_upspeed= " ↑ " + data.uploadSpeed;
+	document.title = title_downspeed + title_upspeed + " - aria2 Web Client";
 	for(var i in data) {
 		$('.stat_' + i).text(data[i]);
 	}
