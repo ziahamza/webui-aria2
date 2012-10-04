@@ -943,9 +943,19 @@ function updateDownloads() {
 }
 
 function updateGlobalStatistics(data) {
+    var title = "aria2 Web Client";
+    if (data.uploadSpeed > 0 || data.downloadSpeed > 0) {
+      title = "- " + title;
+      if (data.uploadSpeed > 0) {
+        title = "↑ " + changeLength(data.uploadSpeed, "B/s") + " " + title;
+      }
+      if (data.downloadSpeed > 0) {
+        title = "↓ " + changeLength(data.downloadSpeed, "B/s") + " " + title;
+      }
+    }
+    document.title = title;
 	data.downloadSpeed = changeLength(data.downloadSpeed, "B/s");
 	data.uploadSpeed = changeLength(data.uploadSpeed, "B/s");
-	document.title = "↓ " + data.downloadSpeed + " ↑ " + data.uploadSpeed + " - aria2 Web Client";
 	for(var i in data) {
 		$('.stat_' + i).text(data[i]);
 	}
