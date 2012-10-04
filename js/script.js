@@ -1,4 +1,4 @@
-/* ex: set tabstop=4 */
+﻿/* ex: set tabstop=4 */
 var graphSize = 15;
 var graphData = [];
 var globalGraphData = null;
@@ -72,7 +72,7 @@ var aria_syscall = function(conf, multicall, old) {
 	ariaConnection.invoke(conf);
 }
 var update_ui = function() {
-	if (!server_conf.dirty) 
+	if (!server_conf.dirty)
 		updateDownloads();
 };
 
@@ -945,6 +945,7 @@ function updateDownloads() {
 function updateGlobalStatistics(data) {
 	data.downloadSpeed = changeLength(data.downloadSpeed, "B/s");
 	data.uploadSpeed = changeLength(data.uploadSpeed, "B/s");
+	document.title = "↓ " + data.downloadSpeed + " ↑ " + data.uploadSpeed + " - aria2 Web Client";
 	for(var i in data) {
 		$('.stat_' + i).text(data[i]);
 	}
