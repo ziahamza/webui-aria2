@@ -1,7 +1,7 @@
 var JsonRPC = function(conf) {
 	if (!this instanceof JsonRPC)
 		return new JsonRPC();
-	this.avgTimeout = 1000;
+	this.avgTimeout = 2000;
 	this.serverConf = conf;
 };
 JsonRPC.prototype = {
@@ -10,9 +10,10 @@ JsonRPC.prototype = {
 	},
 	ariaRequest: function(url, multicall, funcName, params, success, error) {
 		var startTime = new Date();
+        var conn = this;
 		$.ajax({
 			url: url,
-			timeout: 1000,
+			timeout: this.avgTimeout,
 			data: {
 				jsonrpc: 2.0,
 				id: 'webui',
@@ -20,7 +21,7 @@ JsonRPC.prototype = {
 				params: params.length ? this.encode(params) : undefined
 			},
 			success: function(data) {
-				this.avgTimeout = 3 * (new Date() - startTime);
+				conn.avgTimeout = 3 * (new Date() - startTime);
 				return success(data)
 			},
 			error: error,
