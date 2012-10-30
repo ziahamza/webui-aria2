@@ -1,4 +1,5 @@
-/* vim: set tabstop=2:shiftwidth=2:softtabstop=2:noexpandtab */
+/* vim: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab: */
+Piecon.setOptions({fallback: 'force'});
 var graphSize = 15;
 var graphData = [];
 var globalGraphData = null;
@@ -944,18 +945,27 @@ function updateDownloads() {
 		}
 	}, true);
 }
-
+function calculateProg() {
+	var total = 0, done = 0;
+	_.forEach(d_files.active, function(d) {
+		total += d.totalLength;
+		done += d.completedLength;
+	});
+	return 100 * (done / total);
+}
 function updateGlobalStatistics(data) {
     var title = "aria2 Web Client";
     if (data.uploadSpeed > 0 || data.downloadSpeed > 0) {
       title = "- " + title;
       if (data.uploadSpeed > 0) {
-        title = "↑ " + changeLength(data.uploadSpeed, "B/s") + " " + title;
+        title = "↑" + changeLength(data.uploadSpeed, "B/s") + " " + title;
       }
       if (data.downloadSpeed > 0) {
-        title = "↓ " + changeLength(data.downloadSpeed, "B/s") + " " + title;
+        title = "↓" + changeLength(data.downloadSpeed, "B/s") + " " + title;
       }
     }
+	//title = '(' + calculateProg().toFixed(2) + '%) ' + title;
+	Piecon.setProgress(calculateProg());
     document.title = title;
 	data.downloadSpeed = changeLength(data.downloadSpeed, "B/s");
 	data.uploadSpeed = changeLength(data.uploadSpeed, "B/s");

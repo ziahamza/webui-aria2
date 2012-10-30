@@ -1,3 +1,4 @@
+<!-- vim: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab: -->
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
@@ -5,33 +6,35 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<link rel="icon" href="favicon.ico" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>aria2 Web Client</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+	<title>aria2 web client</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-  <meta name="viewport" content="width=device-width">
+	<meta name="viewport" content="width=device-width">
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
 
-  <script src="js/libs/modernizr-2.5.3.min.js"></script>
-  <script src="js/libs/jquery-1.7.2.js"></script>
-  <script src="js/libs/bootstrap.js"></script>
-  <script src="js/libs/mustache.js"></script>
-  <script src="js/aria2_settings.js"></script>
+	<script src="js/libs/modernizr-2.5.3.min.js"></script>
+	<script src="js/libs/jquery-1.7.2.js"></script>
+	<script src="js/libs/bootstrap.js"></script>
+	<script src="js/libs/mustache.js"></script>
+	<script src="js/libs/piecon.js"></script>
+	<script src="js/libs/underscore.js"></script>
+	<script src="js/aria2_settings.js"></script>
 
-  <script src="js/underscore.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/connection.js"></script>
-  <!--[if IE ]>
+	<script src="js/utils.js"></script>
+	<script src="js/connection.js"></script>
+	<!--[if IE ]>
 	<script type="text/javascript" src="js/libs/excanvas.compiled.js"></script>
-  <![endif]-->
-  <script src="js/libs/jquery.flot.min.js"></script>
+	<![endif]-->
+	<script src="js/libs/jquery.flot.min.js"></script>
 
-  <style>
+	<style>
 	body {
 		min-width: 1230px;
 	}
@@ -69,18 +72,17 @@
 		overflow: hidden;
 		word-wrap: break-word;
 	}
-    @media all and (min-width: 980px) {
-      body {
-        padding-top: 60px;
-      }
+	@media all and (min-width: 980px) {
+		body {
+			padding-top: 60px;
+		}
+	}
 
-    }
+	</style>
 
-  </style>
-
-  <!--{{{ active downloads template -->
-  <script type="text/mustache" id="download_active_template">
-	  <div class="row download_item download_active_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
+	<!--{{{ active downloads template -->
+	<script type="text/mustache" id="download_active_template">
+		<div class="row download_item download_active_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
 		<div class="span2 download_name">
 			<b style="font-size: 12px;" class="tmp_name">{{name}}</b>
 		</div>
@@ -125,12 +127,12 @@
 			</div>
 		</div>
 	</div>
-  </script>
-  <!-- active downloads template end }}}-->
+	</script>
+	<!-- active downloads template end }}}-->
 
-  <!--{{{ waiting downloads template-->
-  <script type="text/mustache" id="download_waiting_template">
-	  <div class="row download_item download_waiting_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
+	<!--{{{ waiting downloads template-->
+	<script type="text/mustache" id="download_waiting_template">
+		<div class="row download_item download_waiting_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
 		<div class="span2 download_name">
 			<b style="font-size: 12px;" class="tmp_name">{{name}}</b>
 		</div>
@@ -163,16 +165,16 @@
 			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
 			<div class="pull-right" style="margin-right: 5px;">
-				<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
+			<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
 			</div>
 		</div>
 	</div>
-  </script>
-  <!-- waiting downloads template end }}}-->
+	</script>
+	<!-- waiting downloads template end }}}-->
 
-  <!--{{{ stopped downloads template-->
-  <script type="text/mustache" id="download_stopped_template">
-	  <div class="row download_item download_stopped_item" data-gid="{{gid}}">
+	<!--{{{ stopped downloads template-->
+	<script type="text/mustache" id="download_stopped_template">
+		<div class="row download_item download_stopped_item" data-gid="{{gid}}">
 		<div class="span2 download_name">
 			<b style="font-size: 12px;" class="tmp_name">{{settings_name}}</b>
 		</div>
@@ -221,16 +223,16 @@
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
 		</div>
 	</div>
-  </script>
-  <!-- stopped downloads template end }}}-->
+	</script>
+	<!-- stopped downloads template end }}}-->
 
-  <!--{{{  start global settings item template -->
-  <script type="text/mustache" id="global_general_settings_template">
+	<!--{{{  start global settings item template -->
+	<script type="text/mustache" id="global_general_settings_template">
 	{{#settings}}
 	<fieldset>
 		<legend>{{name}}</legend>
 			<div class="control-group">
-			  {{#values}}
+				{{#values}}
 				<label class="control-label" for="input_settings_{{name}}">{{name}}</label>
 				<div class="controls">
 					{{^options}}
@@ -274,54 +276,54 @@
 					<p class="help-block">{{desc}}</p>
 					<br><br>
 				</div>
-			  {{/values}}
-		  </div>
-	  </fieldset>
-	  {{/settings}}
+				{{/values}}
+			</div>
+		</fieldset>
+		{{/settings}}
 
-  </script>
-  <!-- global settings template end }}}-->
+	</script>
+	<!-- global settings template end }}}-->
 
-  <!-- {{{ torrent info template -->
-  <script type="text/mustache" id="torrent_info_template">
-	  <div class="modal-header">
+	<!-- {{{ torrent info template -->
+	<script type="text/mustache" id="torrent_info_template">
+		<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
 		<h3>Peers for {{info_name}}</h3>
-	  </div>
-	  <div class="modal-body">
-		  <table class="table table-bordered table-striped table-condensed">
-			  <thead>
-				  <td>Address</td>
-				  <td>Peer Choking Aria2</td>
-				  <td>Aria2 Choking Peer</td>
-				  <td>Seeder</td>
-				  <td>Upload Speed</td>
-				  <td>Download Speed</td>
-			  </thead>
-			  <tbody>
-				  {{#peers}}
-				  <tr>
-					  <td>{{ip}}:{{port}}</td>
-					  <td>{{peerChoking}}</td>
-					  <td>{{amChoking}}</td>
-					  <td>{{seeder}}</td>
-					  <td>{{downloadSpeed}}</td>
-					  <td>{{uploadSpeed}}</td>
-				  {{/peers}}
-				  {{^peers}}
-				  	<td colspan="6" style="text-align: center;"><h2>No peers connected!</h2></td>
-				  {{/peers}}
-			  </tbody>
-		  </table>
-	  </div>
-	  <div class="modal-footer">
-		  <button class="btn btn-success" data-dismiss="modal">Close</button>
-	  </div>
-  </script>
-  <!-- }}} -->
+		</div>
+		<div class="modal-body">
+			<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<td>Address</td>
+					<td>Peer Choking Aria2</td>
+					<td>Aria2 Choking Peer</td>
+					<td>Seeder</td>
+					<td>Upload Speed</td>
+					<td>Download Speed</td>
+				</thead>
+				<tbody>
+					{{#peers}}
+					<tr>
+						<td>{{ip}}:{{port}}</td>
+						<td>{{peerChoking}}</td>
+						<td>{{amChoking}}</td>
+						<td>{{seeder}}</td>
+						<td>{{downloadSpeed}}</td>
+						<td>{{uploadSpeed}}</td>
+					{{/peers}}
+					{{^peers}}
+						<td colspan="6" style="text-align: center;"><h2>No peers connected!</h2></td>
+					{{/peers}}
+				</tbody>
+			</table>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-success" data-dismiss="modal">Close</button>
+		</div>
+	</script>
+	<!-- }}} -->
 
-  <!--{{{ download settings template start -->
-  <script type="text/mustache" id="download_settings_template">
+	<!--{{{ download settings template start -->
+	<script type="text/mustache" id="download_settings_template">
 
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
@@ -333,7 +335,7 @@
 			<fieldset>
 				<legend>{{name}}</legend>
 				<div class="control-group">
-				  {{#values}}
+					{{#values}}
 					<label class="control-label" for="download_settings_{{name}}">{{name}}</label>
 					<div class="controls">
 						{{^options}}
@@ -353,7 +355,7 @@
 
 							{{^has_value}}
 							<select id="download_settings_{{name}}">
-									<option value="no_val">Default</option>
+								<option value="no_val">Default</option>
 							{{/has_value}}
 
 						{{/option}}
@@ -377,10 +379,10 @@
 						<p class="help-block">{{desc}}</p>
 						<br><br>
 					</div>
-				  {{/values}}
-			  </div>
-		  </fieldset>
-		  {{/settings}}
+					{{/values}}
+				</div>
+			</fieldset>
+			{{/settings}}
 
 		</form>
 	</div>
@@ -395,15 +397,15 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 	<div class="container">
-    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </a>
+		<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</a>
 
-	  <a class="brand" href="#">aria2 Web-Client</a>
-	  <div class="nav-collapse">
+		<a class="brand" href="#">aria2 Web-Client</a>
+		<div class="nav-collapse">
 		<ul class="nav">
 			<li class="active"><a href="#">All Downloads</a></li>
 			<li class="dropdown" id="add_download">
@@ -447,7 +449,7 @@
 				</ul>
 			</li>
 		</ul>
-	  </div><!--/.nav-collapse -->
+		</div><!--/.nav-collapse -->
 	</div>
 	</div>
 </div>
@@ -561,7 +563,7 @@
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
-                <legend>Aria2 RPC host and port</legend>
+				<legend>Aria2 RPC host and port</legend>
 				<div class="control-group">
 					<label class="control-label" for="input_host">Enter the host:</label>
 					<div class="controls">
@@ -640,7 +642,7 @@
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
-                <legend>Metalink File upload</legend>
+				<legend>Metalink File upload</legend>
 				<div class="control-group">
 					<label class="control-label" for="input_metalink">Select the Metalink file:</label>
 					<div class="controls">
@@ -670,7 +672,7 @@
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<fieldset>
-                <legend>Download urls</legend>
+				<legend>Download urls</legend>
 				<div class="control-group">
 					<label class="control-label" for="newDownload_url">Enter url for the Download:</label>
 					<div class="controls">
