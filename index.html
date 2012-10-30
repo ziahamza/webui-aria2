@@ -35,9 +35,6 @@
 	<script src="js/libs/jquery.flot.min.js"></script>
 
 	<style>
-	body {
-		min-width: 1230px;
-	}
 	.button_set {
 		float: right;
 		margin-bottom: 5px;
@@ -119,6 +116,14 @@
 			<b class="span2 label active_settings">Upload Speed: <span class="tmp_upload_speed">{{upload_speed}}</span></b>
 			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
 			<b class="span2 label active_settings">Connections: <span class="tmp_connections">{{connections}}</span></b>
+			<div class="span12">
+				<h3>Files</h3>
+				<ul>
+					{{#files}}
+					<li><b>{{path}} <span class="label">{{size}}</span></b></li>
+					{{/files}}
+				</ul>
+			</div>
 			<div class="pull-right" style="margin-right: 5px;">
 				<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>{{#bittorrent}}<button class="btn btn-mini torrent_info"><i class="icon-list-alt"></i> Peers</button>{{/bittorrent}}
 			</div>

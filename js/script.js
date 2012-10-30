@@ -403,6 +403,7 @@ function getTemplateCtx(data) {
 			is_error: data.status === "error"
 		},
 		chunks: chunks,
+		files: data.files.map(function(e) { e.size = changeLength(e.length, "B"); return e }),
 		bittorrent: !!data.bittorrent
 	};
 }
