@@ -1,4 +1,4 @@
-﻿/* ex: set tabstop=4 */
+/* vim: set tabstop=2:shiftwidth=2:softtabstop=2:noexpandtab */
 var graphSize = 15;
 var graphData = [];
 var globalGraphData = null;
@@ -375,6 +375,9 @@ function getTemplateCtx(data) {
 	var name;
 	var seed = (data.files[0].path || data.files[0].uris[0].uri).split(/[/\\]/);
 	name = seed[seed.length - 1];
+	if (data.bittorrent) {
+		name = data.bittorrent.info.name;
+	}
 	var chunks =  percentage !== 100 && data.bitfield ? getChunksFromHex(data.bitfield, data.numPieces) : [];
 
 	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
