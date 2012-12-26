@@ -1,21 +1,10 @@
 /* vim: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab: */
 Piecon.setOptions({fallback: 'force'});
+
 var graphSize = 15;
 var graphData = [];
 var globalGraphData = null;
-var modals = {
-	err_connect: undefined,
-	change_conf: undefined,
-	newDownload_modal: undefined,
-	global_settings_modal: undefined,
-	torrent_info_modal: undefined,
-	global_statistics_modal: undefined,
-	about_modal: undefined,
-	err_file_api_modal: undefined,
-	new_torrent_modal: undefined,
-	new_metalink_modal: undefined,
-	download_settings_modal: undefined
-};
+var modals = {};
 var clear_dialogs = function() {
 	for(var i in modals) {
 		modals[i].modal('hide');
@@ -494,6 +483,7 @@ function updateGraph(gid) {
 					color: "#00ff00",
 					lines: { show: true }
 				}]);
+				graphData[i].plot.resize();
 				graphData[i].plot.setupGrid();
 				graphData[i].plot.draw();
 			}
@@ -789,7 +779,6 @@ function updateWaitingDownloads(data) {
 				}
 				else
 					general_settings.values.push(set);
-
 			}
 
 			var templ = $('#download_settings_template').text();
@@ -987,10 +976,10 @@ function updateGlobalStatistics(data) {
 			color: "#00ff00",
 			lines: { show: true }
 		}]);
+		globalGraphData.plot.resize();
 		globalGraphData.plot.setupGrid();
 		globalGraphData.plot.draw();
 	}
-
 }
 function custom_global_statistics() {
 	var tmpl = $('#global_statistics_template').text();
