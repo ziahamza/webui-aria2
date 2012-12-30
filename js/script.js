@@ -491,7 +491,10 @@ function updateGraph(gid) {
 	}
 }
 function createGraph(selector) {
-	return $.plot(selector, [{
+	var elem = $(selector);
+	elem.height(elem.width() / 2);
+
+	return $.plot(elem, [{
 		label: "Download Speed",
 		data: [],
 		color: "#ff0000",
