@@ -1007,7 +1007,7 @@ function force_pause_all() {
 	});
 }
 
-function force_remove_all(cb) {
+function force_remove_all() {
 	var remove_params = [];
 	var func = function(downs) {
 		for(var i = 0; i < downs.length; i++) {
@@ -1019,37 +1019,26 @@ function force_remove_all(cb) {
 	}
 	func(d_files.active);
 	func(d_files.waiting);
+
 	aria_syscall({
 		func: 'system.multicall',
 		params:[remove_params],
-		success: update_ui
+		success: purge_all
 	}, true);
+
 }
 
-function force_purge_all() {
-	var remove_params = [];
-	var func = function(downs) {
-		for(var i = 0; i < downs.length; i++) {
-			remove_params.push({
-				methodName: 'aria2.remove',
-				params: [downs[i].gid]
-			});
-		}
-	}
-	func(d_files.active);
-	func(d_files.waiting);
-
+function purge_all() {
 	aria_syscall({
-		func: 'system.multicall',
-		params:[remove_params],
-		success: function() {
-			aria_syscall({
-				func: "purgeDownloadResult",
-				success: update_ui
-			});
-		}
-	}, true);
-
+		func: "purgeDownloadResult",
+		success: update_ui
+	});
+}
+function resume_paused() {
+	aria_syscall({
+		func: "unpauseAll",
+		success: update_ui
+	});
 }
 
 function add_torrent() {

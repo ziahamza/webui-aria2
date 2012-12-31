@@ -413,8 +413,7 @@
 			<li class="active"><a href="#">All Downloads</a></li>
 			<li class="dropdown" id="add_download">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#add_download">
-				Add Download
-				<b class="caret"></b>
+				Add <b class="caret"></b>
 			</a>
 			<ul class="dropdown-menu">
 				<li><a id="newDownload" href="#">Add Download url</a></li>
@@ -424,13 +423,14 @@
 			</li>
 			<li class="dropdown" id="stop_downloads">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#stop_downloads">
-				Stop Downloads
+				Manage
 				<b class="caret"></b>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a href="#" onclick="force_pause_all()"><i class="icon-pause"></i> Pause All downloads</a></li>
-				<li><a href="#" onclick="force_remove_all()"><i class="icon-remove"></i> Remove All downloads</a></li>
-				<li><a href="#" onclick="force_purge_all()"><i class="icon-fire"></i> Purge All downloads</a></li>
+				<li><a href="#" onclick="force_pause_all()"><i class="icon-pause"></i> Pause All</a></li>
+				<li><a href="#" onclick="resume_paused()"><i class="icon-play"></i> Resume Paused</a></li>
+				<li><a href="#" onclick="purge_all()"><i class="icon-remove"></i> Purge Completed</a></li>
+				<li><a href="#" onclick="force_remove_all()"><i class="icon-fire"></i> Remove All downloads</a></li>
 			</ul>
 			</li>
 		</ul>
