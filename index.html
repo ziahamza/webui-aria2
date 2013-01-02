@@ -416,9 +416,9 @@
 				Add <b class="caret"></b>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a id="newDownload" href="#">Add Download url</a></li>
-				<li><a id="newDownload_metalink" href="#">Add Metalink</a></li>
-				<li><a id="newDownload_torrent" href="#">Add Torrent</a></li>
+				<li><a id="newDownload" href="#"><i class="icon-download"></i> Add Download URL</a></li>
+				<li><a id="newDownload_metalink" href="#"><i class="icon-file"></i> Add Metalink</a></li>
+				<li><a id="newDownload_torrent" href="#"><i class="icon-file"></i> Add Torrent</a></li>
 			</ul>
 			</li>
 			<li class="dropdown" id="stop_downloads">
@@ -430,25 +430,36 @@
 				<li><a href="#" onclick="force_pause_all()"><i class="icon-pause"></i> Pause All</a></li>
 				<li><a href="#" onclick="resume_paused()"><i class="icon-play"></i> Resume Paused</a></li>
 				<li><a href="#" onclick="purge_all()"><i class="icon-remove"></i> Purge Completed</a></li>
-				<li><a href="#" onclick="force_remove_all()"><i class="icon-fire"></i> Remove All downloads</a></li>
+				<li><a href="#" onclick="force_remove_all()"><i class="icon-fire"></i> Remove All</a></li>
 			</ul>
+			</li>
+		</ul>
+
+		<ul class="nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Settings <b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#" onclick="custom_aria2_connect()">
+						<i class="icon-wrench"></i> Connection Settings</a>
+					</li>
+					<li><a href="#" onclick="custom_global_settings()">
+						<i class="icon-wrench"></i> Global Settings</a></li>
+				</ul>
 			</li>
 		</ul>
 
 		<ul class="nav pull-right">
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					Other <b class="caret"></b>
+					About <b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="#" onclick="custom_aria2_connect()">
-						<i class="icon-wrench"></i> Connection settings</a>
-					</li>
-					<li><a href="#" onclick="custom_global_settings()">
-						<i class="icon-wrench"></i> Global settings</a></li>
 					<li><a href="#" onclick="custom_global_statistics()">
 						<i class="icon-list-alt"></i> Global Statistics</a></li>
-					<li><a href="#" onclick="show_about()">About</a></li>
+					<li><a href="#" onclick="show_about()">
+						<i class="icon-info-sign"></i> About</a></li>
 				</ul>
 			</li>
 		</ul>
