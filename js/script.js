@@ -452,6 +452,7 @@ function deleteDownloadTemplates(top_elem, data) {
 }
 function refreshDownloadTemplates(top_elem, data) {
 	var down_template = $('#download_' + top_elem + '_template').text();
+	var new_items = [];
 	deleteDownloadTemplates('#' + top_elem + '_downloads', data);
 	for(var i = 0; i < data.length; i++) {
 		var ctx = getTemplateCtx(data[i]);
@@ -460,11 +461,13 @@ function refreshDownloadTemplates(top_elem, data) {
 			updateDownloadTemplates(elem, ctx);
 		} else {
 			var item = Mustache.render(down_template, ctx);
-			$('#' + top_elem + '_downloads').prepend(item);
+			new_items.unshift(item);
 		}
 	}
+	if (new_items.length > 0) {
+		$('#' + top_elem + '_downloads').prepend(new_items);
+	}
 	$('#' + top_elem + '_downloads').children('.hero-unit').remove();
-
 }
 function updateGraph(gid) {
 	var elem = $('[data-gid=' + gid + ']');
