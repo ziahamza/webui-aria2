@@ -423,13 +423,12 @@ function updateDownloadTemplates(elem, ctx) {
 		x += dx;
 	});
 }
-function deleteDownloadTemplates(top_elem, data) {
+function deleteDownloadTemplates($top_elem, data) {
 	if(!data) {
 		graphData = [];
-		$(top_elem).html("");
-	}
-	else {
-		var elems = $(top_elem).find('[data-gid]');
+		$top_elem.html("");
+	} else {
+		var elems = $top_elem.find('[data-gid]');
 		for(var i = 0; i < elems.length; i++) {
 			var elem = $(elems[i]);
 			var gid = elem.attr('data-gid').toString();
@@ -451,20 +450,25 @@ function deleteDownloadTemplates(top_elem, data) {
 	}
 }
 function refreshDownloadTemplates(top_elem, data) {
-	var down_template = $('#download_' + top_elem + '_template').text();
-	deleteDownloadTemplates('#' + top_elem + '_downloads', data);
+	var down_template = $('#download_' + top_elem + '_template').text(),
+		new_items = [],
+		$top_elem = $('#' + top_elem + '_downloads');
+
+	deleteDownloadTemplates($top_elem, data);
 	for(var i = 0; i < data.length; i++) {
 		var ctx = getTemplateCtx(data[i]);
-		var elem = $('[data-gid=' + ctx.gid + ']');
+		var elem = $top_elem.find('div.download_item[data-gid=' + ctx.gid + ']');
 		if(elem.length) {
 			updateDownloadTemplates(elem, ctx);
 		} else {
 			var item = Mustache.render(down_template, ctx);
-			$('#' + top_elem + '_downloads').prepend(item);
+			new_items.splice(0, 0, item); //prepend to array using splice (unshift method may not be supported)
 		}
 	}
-	$('#' + top_elem + '_downloads').children('.hero-unit').remove();
-
+	if (new_items.length > 0) {
+		$top_elem.prepend(new_items);
+	}
+	$top_elem.children('.hero-unit').remove();
 }
 function updateGraph(gid) {
 	var elem = $('[data-gid=' + gid + ']');
