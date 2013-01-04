@@ -11,11 +11,10 @@
 	<title>aria2 web client</title>
 
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<link href="css/bootstrap-responsive.css" rel="stylesheet">
-	<!--
-	-->
+	<link rel="stylesheet" href="css/font-awesome.css">
 
 
+	<script src="js/libs/require.js"></script>
 	<script src="js/libs/jquery-1.8.3.js"></script>
 	<script src="js/libs/jquery.flot.js"></script>
 	<script src="js/libs/jquery.flot.resize.js"></script>
@@ -31,6 +30,7 @@
 	<script src="js/connection.js"></script>
 
 
+	<!-- {{{ css styles -->
 	<style>
 	/* hack to fix the 1 px height for collapsed span elements */
 	.more_info {
@@ -67,6 +67,69 @@
 		overflow: hidden;
 		word-wrap: break-word;
 	}
+	.active-download {
+		width: 100%;
+		margin-bottom: 10px;
+		background-color: rgb(245, 245, 245);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		border-radius: 4px 4px 4px 4px;
+		box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+	}
+	.stats {
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+	.stats li {
+		width: 145px;
+		padding: 5px;
+	}
+
+	.download-controls {
+		width: 60px;
+	}
+	.download-controls .btn-group {
+		height: 70px;
+		width: 100%;
+		float: right;
+	}
+	.download-controls .btn-group .btn:nth-child(1) {
+		width: 70%;
+	}
+	.download-controls .btn-group .btn:nth-child(2) {
+		width: 30%;
+	}
+
+	.download-controls .btn-group .btn {
+		height: 100%;
+	}
+	.download-controls .btn-group .btn i {
+		height: 100%;
+		font-size: 28px;
+		color: gray;
+	}
+	.download-overview {
+		padding: 10px;
+		cursor: pointer;
+	}
+	.download-detail {
+		cursor: pointer;
+	}
+	.download-detail .stats li {
+		margin-bottom: 5px;
+	}
+	.download-detail h4 {
+		margin-left: 10px;
+	}
+	.download-files {
+		width: 90%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.download-files li {
+		padding: 5px;
+		margin-bottom: 5px;
+	}
 	@media all and (min-width: 980px) {
 		body {
 			padding-top: 60px;
@@ -74,6 +137,7 @@
 	}
 
 	</style>
+	<!-- }}} -->
 
 	<!--{{{ active downloads template -->
 	<script type="text/mustache" id="download_active_template">
@@ -397,6 +461,7 @@
 
 </head>
 <body>
+<!-- {{{ top nav bar -->
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 	<div class="container">
@@ -467,9 +532,70 @@
 	</div>
 	</div>
 </div>
+<!-- }}} -->
 
 <div role="main" class="container">
 	<!-- Download items here -->
+	<table class="active-download">
+		<tbody>
+		<tr>
+			<td data-toggle="collapse" data-target=".download-detail .collapse" class="download-overview">
+				<b style="font-size: 12px;" class="tmp_name">Sample</b>
+
+				<ul class="stats pull-right">
+					<li class="label label-success">Time left: <span class="tmp_eta">{{eta}}</span></li>
+				</ul>
+				<div class="progress full-progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
+					<div class="bar" style="width: 100%;"></div>
+				</div>
+			</td>
+			<td class="download-controls">
+				<div class="btn-group">
+					<button class="btn btn-mini"><i class="icon-pause"></i></button>
+					<button class="btn dropdown-toggle" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#">Remove</a></li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+		<tr data-toggle="collapse" data-target=".download-detail .collapse" class="download-detail">
+			<td colspan="2">
+				<div class="collapse">
+					<canvas class="progress chunk-canvas" width="1400" class="width: 100%;"></canvas>
+					<ul class="stats">
+						<li class="label">Status: <span class="tmp_status">{{status}}</span></li>
+						<li class="label">GID: <span class="tmp_gid">{{gid}}</span></li>
+						<li class="label">Dir: <span class="tmp_dir">{{dir}}</span></li>
+						<li class="label">Size: <span class="tmp_size">{{size}}</span></li>
+						<li class="label">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></li>
+						<li class="label">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></li>
+						<li class="label">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></li>
+						<li class="label">ETA: <span class="tmp_eta">{{eta}}</span></li>
+						<li class="label">Down Speed: <span class="tmp_down_speed">{{down_speed}}</span></li>
+						<li class="label">Upload Speed: <span class="tmp_upload_speed">{{upload_speed}}</span></li>
+						<li class="label">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></li>
+						<li class="label">Connections: <span class="tmp_connections">{{connections}}</span></li>
+					</ul>
+
+					<h4>Download Files</h4>
+					<ul class="download-files">
+						<li class="label">sample file (200 MB)</li>
+						<li class="label">sample file (200 MB)</li>
+						<li class="label">sample file (200 MB)</li>
+						<li class="label">sample file (200 MB)</li>
+					</ul>
+
+					<div style="background: black; width: 100%;">
+						<div class="active_graph">h</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+	</table>
 
 	<div id="active_downloads"></div>
 
