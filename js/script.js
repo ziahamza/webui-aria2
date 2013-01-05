@@ -365,7 +365,7 @@ function getTemplateCtx(data) {
 	var name;
 	var seed = (data.files[0].path || data.files[0].uris[0].uri).split(/[/\\]/);
 	name = seed[seed.length - 1];
-	if (data.bittorrent) {
+	if (data.bittorrent && data.bittorrent.info) {
 		name = data.bittorrent.info.name;
 	}
 	var chunks =  percentage !== 100 && data.bitfield ? getChunksFromHex(data.bitfield, data.numPieces) : [];
