@@ -462,11 +462,11 @@ function refreshDownloadTemplates(top_elem, data) {
 			updateDownloadTemplates(elem, ctx);
 		} else {
 			var item = Mustache.render(down_template, ctx);
-			new_items.splice(0, 0, item); //prepend to array using splice (unshift method may not be supported)
+			new_items.push(item);
 		}
 	}
 	if (new_items.length > 0) {
-		$top_elem.prepend(new_items);
+		$top_elem.append(new_items);
 	}
 	$top_elem.children('.hero-unit').remove();
 }
