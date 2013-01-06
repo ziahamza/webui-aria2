@@ -1,13 +1,5 @@
 /* vim: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab: */
 Piecon.setOptions({fallback: 'force'});
-require.config({
-	baseUrl: "js/"
-});
-require([
-	"text!script.js"
-], function (txt) {
-	alert(txt);
-});
 
 var graphSize = 15;
 var graphData = [];
