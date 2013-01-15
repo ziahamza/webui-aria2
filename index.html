@@ -12,13 +12,14 @@
 
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/font-awesome.css">
+	<link rel="stylesheet" href="css/style.css">
 
 
 	<!-- external javascript dependencies -->
 	<script src="js/libs/jquery-1.8.3.js"></script>
 	<script src="js/libs/jquery.flot.js"></script>
 	<script src="js/libs/jquery.flot.resize.js"></script>
-	<script src="js/libs/lodash.underscore.min.js"></script>
+	<script src="js/libs/underscore.js"></script>
 	<script src="js/libs/bootstrap.js"></script>
 	<script src="js/libs/mustache.js"></script>
 	<script src="js/libs/piecon.js"></script>
@@ -66,229 +67,197 @@
 		overflow: hidden;
 		word-wrap: break-word;
 	}
-	.active-download {
-		width: 100%;
-		margin-bottom: 10px;
-		background-color: rgb(245, 245, 245);
-		border: 1px solid rgba(0, 0, 0, 0.05);
-		border-radius: 4px 4px 4px 4px;
-		box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
-	}
-	.stats {
-		margin-left: auto;
-		margin-right: auto;
-		text-align: center;
-	}
-	.stats li {
-		width: 145px;
-		padding: 5px;
-	}
-
-	.download-controls {
-		width: 60px;
-	}
-	.download-controls .btn-group {
-		height: 70px;
-		width: 100%;
-		float: right;
-	}
-	.download-controls .btn-group .btn:nth-child(1) {
-		width: 70%;
-	}
-	.download-controls .btn-group .btn:nth-child(2) {
-		width: 30%;
-	}
-
-	.download-controls .btn-group .btn {
-		height: 100%;
-	}
-	.download-controls .btn-group .btn i {
-		height: 100%;
-		font-size: 28px;
-		color: gray;
-	}
-	.download-overview {
-		padding: 10px;
-		cursor: pointer;
-	}
-	.download-detail {
-		cursor: pointer;
-	}
-	.download-detail .stats li {
-		margin-bottom: 5px;
-	}
-	.download-detail h4 {
-		margin-left: 10px;
-	}
-	.download-files {
-		width: 90%;
-		margin-left: auto;
-		margin-right: auto;
-	}
-	.download-files li {
-		padding: 5px;
-		margin-bottom: 5px;
-	}
-	@media all and (min-width: 980px) {
-		body {
-			padding-top: 60px;
-		}
-	}
 
 	</style>
 	<!-- }}} -->
 
 	<!--{{{ active downloads template -->
 	<script type="text/mustache" id="download_active_template">
-		<div class="row download_item download_active_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
-		<div class="span2 download_name">
-			<b style="font-size: 12px;" class="tmp_name">{{name}}</b>
-		</div>
-		<div class="span6">
-			<div class="pull-right">
-				<span class="label label-success">Remaining: <span class="tmp_remaining">{{remaining}}</span></span> |
-				<span class="label label-success">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span> |
-				<span class="label label-success">Speed: <span class="tmp_down_speed">{{down_speed}}</span></span> |
-				<span class="label label-success">Time left: <span class="tmp_eta">{{eta}}</span></span>
-			</div>
-		</div>
-		<div class="span3">
-			<div class="button_set">
-				<button class="btn btn-mini download_pause"><i class="icon-pause"></i>Pause</button>
-				<button class="btn btn-mini btn-info" data-toggle="collapse" data-target="[data-gid={{gid}}] .more_info" onclick="$(this).button('toggle');"><i class="icon-info-sign"></i> More Info</button>
-				<button class="btn btn-mini btn-danger download_remove"><i class="icon-remove"></i> Remove</button>
-			</div>
-		</div>
-		<br>
-		<div class="span11 progress full-progress progress-striped active">
-			<div class="bar" style="width: {{percentage}}%;"></div>
-		</div>
-		<div class="span11 more_info collapse">
-			<canvas class="span10 progress chunk-canvas" width="1400"></canvas>
-			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
-			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
-			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
-			<b class="span2 label active_settings">Size: <span class="tmp_size">{{size}}</span></b>
-			<b class="span2 label active_settings">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></b>
-			<b class="span2 label active_settings">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></b>
-			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
-			<b class="span2 label active_settings">ETA: <span class="tmp_eta">{{eta}}</span></b>
-			<b class="span2 label active_settings">Down Speed: <span class="tmp_down_speed">{{down_speed}}</span></b>
-			<b class="span2 label active_settings">Upload Speed: <span class="tmp_upload_speed">{{upload_speed}}</span></b>
-			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
-			<b class="span2 label active_settings">Connections: <span class="tmp_connections">{{connections}}</span></b>
-			<div class="span12">
-				<h3>Files</h3>
-				<ul>
-					{{#files}}
-					<li><b>{{path}} <span class="label">{{size}}</span></b></li>
-					{{/files}}
-				</ul>
-			</div>
-			<div class="pull-right" style="margin-right: 5px;">
-				<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>{{#bittorrent}}<button class="btn btn-mini torrent_info"><i class="icon-list-alt"></i> Peers</button>{{/bittorrent}}
-			</div>
-			<div class="span11">
-				<div class="active_graph"></div>
-			</div>
-		</div>
-	</div>
+		<table class="active-download" data-gid="{{gid}}" data-settingsName={{sett_name}}>
+			<tbody>
+			<tr>
+				<td data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-overview">
+					<b class="download-name">{{name}}</b>
+
+					<ul class="stats hidden-phone pull-right">
+						<li class="label label-success">Time left: <span class="download-eta">{{eta}}</span></li>
+						<li class="label label-success">Download Speed: <span class="download-down_speed">{{down_speed}}</span></li>
+						<li class="label label-success">Progress: <span class="download-down_speed">{{percentage}}%</span></li>
+					</ul>
+					<div class="progress full-progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: {{percentage}}%;"></div>
+					</div>
+				</td>
+				<td class="download-controls">
+					<div class="btn-group">
+						<button class="btn btn-mini download_pause"><i class="icon-pause"></i></button>
+						<button class="btn dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+
+							<li><a href="#" class="download_settings"><i class="icon-cog"></i> Settings</a></li>
+							{{#bittorrent}}
+							<li><a href="#" class="torrent_info"><i class="icon-list-alt"></i> Peers</a></li>
+							{{/bittorrent}}
+							<li><a href="#" data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
+							<li><a href="#" class="download_remove"><i class="icon-remove"></i> Remove</a></li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+			<tr data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-detail">
+				<td colspan="2">
+					<div class="collapse more_info">
+						<canvas class="progress chunk-canvas" width="1400" style="width: 100%;"></canvas>
+						<ul class="stats">
+							<li class="label">Status: <span class="download-status">{{status}}</span></li>
+							<li class="label">GID: <span class="download-gid">{{gid}}</span></li>
+							<li class="label">Dir: <span class="download-dir">{{dir}}</span></li>
+							<li class="label">Size: <span class="download-size">{{size}}</span></li>
+							<li class="label">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
+							<li class="label">Num of Pieces: <span class="download-numPieces">{{numPieces}}</span></li>
+							<li class="label">Piece Length: <span class="download-pieceLength">{{pieceLength}}</span></li>
+							<li class="label">ETA: <span class="download-eta">{{eta}}</span></li>
+							<li class="label">Down Speed: <span class="download-down_speed">{{down_speed}}</span></li>
+							<li class="label">Upload Speed: <span class="download-upload_speed">{{upload_speed}}</span></li>
+							<li class="label">Upload Length: <span class="download-uploadLength">{{uploadLength}}</span></li>
+							<li class="label">Connections: <span class="download-connections">{{connections}}</span></li>
+						</ul>
+
+						<h4 class="hidden-phone">Download Files</h4>
+						<ul class="download-files hidden-phone">
+							{{#files}}
+							<li class="label">{{path}} ({{size}})</li>
+							{{/files}}
+						</ul>
+
+						<div>
+							<div class="active_graph"></div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		</table>
 	</script>
 	<!-- active downloads template end }}}-->
 
 	<!--{{{ waiting downloads template-->
 	<script type="text/mustache" id="download_waiting_template">
-		<div class="row download_item download_waiting_item" data-gid="{{gid}}" data-settingsName={{sett_name}}>
-		<div class="span2 download_name">
-			<b style="font-size: 12px;" class="tmp_name">{{name}}</b>
-		</div>
-		<div class="span6">
-			<span class="badge badge-warning">Status: <span class="tmp_status">{{status}}</span></span>
-			<div class="pull-right">
-				<span class="label label-warning">Size: <span class="tmp_size">{{size}}</span></span> |
-				<span class="label label-warning">Remaining: <span class="tmp_remaining">{{remaining}}</span></span> |
-				<span class="label label-warning">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span>
-			</div>
-		</div>
-		<div class="span3">
-			<div class="button_set">
-				<button class="btn btn-mini download_play"><i class="icon-play"></i> Resume</button>
-				<button class="btn btn-mini btn-info" data-toggle="collapse" data-target="[data-gid={{gid}}] .more_info" onclick="$(this).button('toggle');"><i class="icon-info-sign"></i> More Info</button>
-				<button class="btn btn-mini btn-danger download_remove"><i class="icon-fire"></i> Purge</button>
-			</div>
-		</div>
-		<br>
-		<div class="span11 full-progress progress progress-striped">
-			<div class="bar" style="width: {{percentage}}%; background-color:#FBB450"></div>
-		</div>
-		<div class="span12 more_info collapse">
-			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
-			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
-			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
-			<b class="span2 label active_settings">Size: <span class="tmp_size">{{size}}</span></b>
-			<b class="span2 label active_settings">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></b>
-			<b class="span2 label active_settings">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></b>
-			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
-			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
-			<div class="pull-right" style="margin-right: 5px;">
-			<button class="btn btn-mini download_settings"><i class="icon-cog"></i> Download Settings for {{sett_name}}</button>
-			</div>
-		</div>
-	</div>
+		<table class="waiting-download" data-gid="{{gid}}" data-settingsName={{sett_name}}>
+			<tbody>
+			<tr>
+				<td data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-overview">
+					<b class="download-name">{{name}}</b>
+
+					<ul class="stats hidden-phone pull-right">
+						<li class="label label-success">Size: <span class="download-size">{{size}}</span></li>
+						<li class="label label-success">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
+						<li class="label label-success">Path: <span class="download-dir">{{dir}}</span></li>
+					</ul>
+					<div class="progress full-progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: {{percentage}}%;"></div>
+					</div>
+				</td>
+				<td class="download-controls">
+					<div class="btn-group">
+						<button class="btn btn-mini download_play"><i class="icon-play"></i></button>
+						<button class="btn dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+
+							<li><a href="#" class="download_settings"><i class="icon-cog"></i> Settings</a></li>
+							<li><a href="#" data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
+							<li><a href="#" class="download_remove"><i class="icon-remove"></i> Remove</a></li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+			<tr data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-detail">
+				<td colspan="2">
+					<div class="collapse more_info">
+						<ul class="stats">
+							<li class="label">Status: <span class="download-status">{{status}}</span></li>
+							<li class="label">GID: <span class="download-gid">{{gid}}</span></li>
+							<li class="label">Dir: <span class="download-dir">{{dir}}</span></li>
+							<li class="label">Size: <span class="download-size">{{size}}</span></li>
+							<li class="label">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
+							<li class="label">Num of Pieces: <span class="download-numPieces">{{numPieces}}</span></li>
+							<li class="label">Piece Length: <span class="download-pieceLength">{{pieceLength}}</span></li>
+							<li class="label">ETA: <span class="download-eta">{{eta}}</span></li>
+							<li class="label">Down Speed: <span class="download-down_speed">{{down_speed}}</span></li>
+							<li class="label">Upload Speed: <span class="download-upload_speed">{{upload_speed}}</span></li>
+							<li class="label">Upload Length: <span class="download-uploadLength">{{uploadLength}}</span></li>
+							<li class="label">Connections: <span class="download-connections">{{connections}}</span></li>
+						</ul>
+
+						<h4 class="hidden-phone">Download Files</h4>
+						<ul class="download-files hidden-phone">
+							{{#files}}
+							<li class="label">{{path}} ({{size}})</li>
+							{{/files}}
+						</ul>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		</table>
 	</script>
 	<!-- waiting downloads template end }}}-->
 
 	<!--{{{ stopped downloads template-->
 	<script type="text/mustache" id="download_stopped_template">
-		<div class="row download_item download_stopped_item" data-gid="{{gid}}">
-		<div class="span2 download_name">
-			<b style="font-size: 12px;" class="tmp_name">{{name}}</b>
-		</div>
-		<div class="span6">
-			{{#booleans.is_error}}
-			<span class="badge badge-important">Status: <span class="tmp_status">{{status}}</span></span>
-			<div class="pull-right">
-				<span class="label label-important">Size: <span class="tmp_size">{{size}}</span></span> |
-				<span class="label label-important">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></span> |
-				<span class="label label-important">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span>
-			</div>
-			{{/booleans.is_error}}
-			{{^booleans.is_error}}
-			<span class="badge badge-info">Status: <span class="tmp_status">{{status}}</span></span>
-			<div class="pull-right">
-				<span class="label label-info">Size: <span class="tmp_size">{{size}}</span></span> |
-				<span class="label label-info">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></span> |
-				<span class="label label-info">Progress: <span class="tmp_percentage">{{percentage}}</span>%</span>
-			</div>
-			{{/booleans.is_error}}
-		</div>
-		<div class="span3">
-			<div class="button_set">
-				<button class="btn btn-mini download_restart"><i class="icon-repeat"></i> Restart</button>
-				<button class="btn btn-mini btn-info" data-toggle="collapse" data-target="[data-gid={{gid}}] .more_info" onclick="$(this).button('toggle');"><i class="icon-info-sign"></i> More Info</button>
-				<button class="btn btn-mini btn-danger download_remove"><i class="icon-fire"></i> Purge</button>
-			</div>
-		</div>
-		<br>
-		<div class="span11 full-progress progress progress-striped">
-			{{#booleans.is_error}}
-			<div class="bar" style="width: {{percentage}}%; background-color:rgb(185, 74, 72)"></div>
-			{{/booleans.is_error}}
-			{{^booleans.is_error}}
-			<div class="bar" style="width: {{percentage}}%; background-color:#3A87AD"></div>
-			{{/booleans.is_error}}
-		</div>
-		<div class="span12 more_info collapse">
-			<b class="span2 label active_settings">Status: <span class="tmp_status">{{status}}</span></b>
-			<b class="span2 label active_settings">GID: <span class="tmp_gid">{{gid}}</span></b>
-			<b class="span2 label active_settings">Dir: <span class="tmp_dir">{{dir}}</span></b>
-			<b class="span2 label active_settings">Size: <span class="tmp_size">{{size}}</span></b>
-			<b class="span2 label active_settings">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></b>
-			<b class="span2 label active_settings">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></b>
-			<b class="span2 label active_settings">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></b>
-			<b class="span2 label active_settings">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></b>
-		</div>
-	</div>
+		<table class="stopped-download" data-gid="{{gid}}">
+			<tbody>
+			<tr>
+				<td data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-overview">
+					<b class="download-name">{{name}}</b>
+
+					<ul class="stats hidden-phone pull-right">
+						<li class="label label-success">Path: <span class="download-dir">{{dir}}</span></li>
+					</ul>
+					<div class="progress full-progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: {{percentage}}%;"></div>
+					</div>
+				</td>
+				<td class="download-controls">
+					<div class="btn-group">
+						<button class="btn btn-mini download_restart"><i class="icon-repeat"></i></button>
+						<button class="btn dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+
+							<li><a href="#" data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
+							<li><a href="#" class="download_remove"><i class="icon-remove"></i> Remove</a></li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+			<tr data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-detail">
+				<td colspan="2">
+					<div class="collapse more_info">
+						<ul class="stats">
+							<li class="label">Status: <span class="download-status">{{status}}</span></li>
+							<li class="label">GID: <span class="download-gid">{{gid}}</span></li>
+							<li class="label">Dir: <span class="download-dir">{{dir}}</span></li>
+							<li class="label">Size: <span class="download-size">{{size}}</span></li>
+							<li class="label">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
+							<li class="label">Num of Pieces: <span class="download-numPieces">{{numPieces}}</span></li>
+							<li class="label">Piece Length: <span class="download-pieceLength">{{pieceLength}}</span></li>
+							<li class="label">ETA: <span class="download-eta">{{eta}}</span></li>
+							<li class="label">Down Speed: <span class="download-down_speed">{{down_speed}}</span></li>
+							<li class="label">Upload Speed: <span class="download-upload_speed">{{upload_speed}}</span></li>
+							<li class="label">Upload Length: <span class="download-uploadLength">{{uploadLength}}</span></li>
+							<li class="label">Connections: <span class="download-connections">{{connections}}</span></li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		</table>
 	</script>
 	<!-- stopped downloads template end }}}-->
 
@@ -388,7 +357,7 @@
 	</script>
 	<!-- }}} -->
 
-	<!--{{{ download settings template start -->
+	<!--{{{ download settings template -->
 	<script type="text/mustache" id="download_settings_template">
 
 	<div class="modal-header">
@@ -456,7 +425,7 @@
 		<button id="save_download_settings" class="btn btn-success">Save</button>
 	</div>
 	</script>
-	<!-- download settings template end }}}-->
+	<!-- download settings template }}}-->
 
 </head>
 <body>
@@ -535,66 +504,6 @@
 
 <div role="main" class="container">
 	<!-- Download items here -->
-	<table class="active-download">
-		<tbody>
-		<tr>
-			<td data-toggle="collapse" data-target=".download-detail .collapse" class="download-overview">
-				<b style="font-size: 12px;" class="tmp_name">Sample</b>
-
-				<ul class="stats pull-right">
-					<li class="label label-success">Time left: <span class="tmp_eta">{{eta}}</span></li>
-				</ul>
-				<div class="progress full-progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
-					<div class="bar" style="width: 100%;"></div>
-				</div>
-			</td>
-			<td class="download-controls">
-				<div class="btn-group">
-					<button class="btn btn-mini"><i class="icon-pause"></i></button>
-					<button class="btn dropdown-toggle" data-toggle="dropdown">
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a href="#">Remove</a></li>
-					</ul>
-				</div>
-			</td>
-		</tr>
-		<tr data-toggle="collapse" data-target=".download-detail .collapse" class="download-detail">
-			<td colspan="2">
-				<div class="collapse">
-					<canvas class="progress chunk-canvas" width="1400" class="width: 100%;"></canvas>
-					<ul class="stats">
-						<li class="label">Status: <span class="tmp_status">{{status}}</span></li>
-						<li class="label">GID: <span class="tmp_gid">{{gid}}</span></li>
-						<li class="label">Dir: <span class="tmp_dir">{{dir}}</span></li>
-						<li class="label">Size: <span class="tmp_size">{{size}}</span></li>
-						<li class="label">Downloaded: <span class="tmp_downloaded">{{downloaded}}</span></li>
-						<li class="label">Num of Pieces: <span class="tmp_numPieces">{{numPieces}}</span></li>
-						<li class="label">Piece Length: <span class="tmp_pieceLength">{{pieceLength}}</span></li>
-						<li class="label">ETA: <span class="tmp_eta">{{eta}}</span></li>
-						<li class="label">Down Speed: <span class="tmp_down_speed">{{down_speed}}</span></li>
-						<li class="label">Upload Speed: <span class="tmp_upload_speed">{{upload_speed}}</span></li>
-						<li class="label">Upload Length: <span class="tmp_uploadLength">{{uploadLength}}</span></li>
-						<li class="label">Connections: <span class="tmp_connections">{{connections}}</span></li>
-					</ul>
-
-					<h4>Download Files</h4>
-					<ul class="download-files">
-						<li class="label">sample file (200 MB)</li>
-						<li class="label">sample file (200 MB)</li>
-						<li class="label">sample file (200 MB)</li>
-						<li class="label">sample file (200 MB)</li>
-					</ul>
-
-					<div style="background: black; width: 100%;">
-						<div class="active_graph">h</div>
-					</div>
-				</div>
-			</td>
-		</tr>
-	</tbody>
-	</table>
 
 	<div id="active_downloads"></div>
 

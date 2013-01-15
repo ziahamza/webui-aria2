@@ -1,0 +1,43 @@
+app.factory('$syscall', ['$log', '$jsoncall', '$sockcall', function(log, jsonRPC, sockRPC) {
+  return {
+    // called to initialize the rpc interface, call everytime configuration changes
+    // conf has the following structure:
+    // {
+    //   host (string): host for the aria2 server
+    //   port (number): port number for the aria2 server
+    //   encryption (boolean, optional): true if encryption is enabled in the aria2 server
+    //   auth (optional): {
+    //     user (string): username for http authentication if enabled
+    //     pass (string): password for the http authentication if enabled
+    //   }
+    init: function(conf) {
+      conf = conf || {
+        host: 'localhost',
+        port: 6800
+      };
+      conf.encryption = conf.encryption || false;
+
+      jsonRPC.init(conf);
+      sockRPC.init(conf);
+    },
+
+    // call this to start an rpc call, opts has the following structure:
+    // {
+    //   name (string): name of the actual aria2 syscall
+    //   success (function): callback called with (parsed) data if rpc is successfull
+    //   error (function): callback called when an error occurs
+    //   params (array, optional): the params for some syscall (like multicall) and is optional for others
+    // }
+    invoke: function(opts) {
+      opts.success = opts.success || angular.noop;
+      opts.error = opts.error || angular.noop;
+
+      if (sockRPC.initialized)
+        return sockRPC.invoke(opts);
+      else
+        return jsonRPC.invoke(opts);
+    }
+  };
+}]);
+
+

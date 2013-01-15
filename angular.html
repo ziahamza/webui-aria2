@@ -1,0 +1,208 @@
+<!doctype>
+<html>
+
+<head>
+  <link rel="icon" href="favicon.ico" />
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>aria2 web client</title>
+
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/font-awesome.css">
+  <link rel="stylesheet" href="css/style.css">
+
+
+  <!-- external javascript dependencies -->
+  <script src="js/libs/jquery-1.8.3.js"></script>
+  <script src="js/libs/underscore.js"></script>
+
+  <script src="js/libs/bootstrap.js"></script>
+
+  <script src="js/libs/angular.js"></script>
+
+  <script src="js/libs/jquery.flot.js"></script>
+  <script src="js/libs/jquery.flot.resize.js"></script>
+
+  <!-- webui core -->
+  <script src="js/app.js"></script>
+
+  <script src="js/services/deps.js"></script>
+  <script src="js/services/base64.js"></script>
+  <script src="js/services/utils.js"></script>
+
+  <script src="js/services/rpc/jsoncall.js"></script>
+  <script src="js/services/rpc/sockcall.js"></script>
+  <script src="js/services/rpc/syscall.js"></script>
+  <script src="js/services/rpc/rpc.js"></script>
+
+
+  <script src="js/ctrls/nav.js"></script>
+  <script src="js/ctrls/modal.js"></script>
+  <script src="js/ctrls/download.js"></script>
+
+  <script src="js/init.js"></script>
+
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
+  <div class="navbar-inner">
+  <div class="container">
+    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+    <a class="btn btn-navbar"
+      data-toggle="collapse"
+      data-target=".nav-collapse">
+
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </a>
+
+    <a class="brand">{{ name }}</a>
+
+    <div class="nav-collapse">
+    <ul class="nav">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          Add <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#"><i class="icon-download"></i> Add Download URL</a>
+          </li>
+          <li>
+            <a href="#"><i class="icon-file"></i> Add Metalink</a>
+          </li>
+          <li>
+            <a href="#"><i class="icon-file"></i> Add Torrent</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="dropdown" id="stop_downloads">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        Manage <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#"><i class="icon-pause"></i> Pause All</a></li>
+        <li><a href="#"><i class="icon-play"></i> Resume Paused</a></li>
+        <li><a href="#"><i class="icon-remove"></i> Purge Completed</a></li>
+        <li><a href="#"><i class="icon-fire"></i> Remove All</a></li>
+      </ul>
+      </li>
+
+    </ul>
+
+    <ul class="nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Settings <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">
+            <i class="icon-wrench"></i> Connection Settings</a>
+          </li>
+          <li><a href="#">
+            <i class="icon-wrench"></i> Global Settings</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <ul class="nav pull-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          About <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">
+            <i class="icon-list-alt"></i> Global Statistics</a></li>
+          <li><a href="#">
+            <i class="icon-info-sign"></i> About</a></li>
+        </ul>
+      </li>
+    </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+  </div>
+</div>
+
+<div role="main" class="container" ng-controller="DownloadCtrl">
+
+  <div id="active_downloads">
+    <table class="active-download" ng-repeat="download in getDownloads()">
+			<tbody>
+			<tr>
+				<td data-toggle="collapse" data-target=".download-detail .collapse" class="download-overview">
+					<b class="download-name">{{name}}</b>
+
+					<ul class="stats hidden-phone pull-right">
+						<li class="label label-success">Time left: <span class="download-eta">{{eta}}</span></li>
+						<li class="label label-success">Download Speed: <span class="download-down_speed">{{down_speed}}</span></li>
+						<li class="label label-success">Progress: <span class="download-down_speed">{{percentage}}%</span></li>
+					</ul>
+					<div class="progress full-progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: 90%;"></div>
+					</div>
+				</td>
+				<td class="download-controls">
+					<div class="btn-group">
+						<button class="btn btn-mini download_pause"><i class="icon-pause"></i></button>
+						<button class="btn dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+
+							<li><a><i class="icon-cog"></i> Settings</a></li>
+							<li><a><i class="icon-list-alt"></i> Peers</a></li>
+							<li><a data-toggle="collapse" data-target=".download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
+							<li><a href="#"><i class="icon-remove"></i> Remove</a></li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+			<tr data-toggle="collapse" data-target=".download-detail .collapse" class="download-detail">
+				<td colspan="2">
+					<div class="collapse more_info">
+						<canvas class="progress chunk-canvas" width="1400" style="width: 100%;"></canvas>
+						<ul class="stats">
+							<li class="label">Status: <span class="download-status">{{status}}</span></li>
+							<li class="label">GID: <span class="download-gid">{{gid}}</span></li>
+							<li class="label">Dir: <span class="download-dir">{{dir}}</span></li>
+							<li class="label">Size: <span class="download-size">{{size}}</span></li>
+							<li class="label">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
+							<li class="label">Num of Pieces: <span class="download-numPieces">{{numPieces}}</span></li>
+							<li class="label">Piece Length: <span class="download-pieceLength">{{pieceLength}}</span></li>
+							<li class="label">ETA: <span class="download-eta">{{eta}}</span></li>
+							<li class="label">Down Speed: <span class="download-down_speed">{{down_speed}}</span></li>
+							<li class="label">Upload Speed: <span class="download-upload_speed">{{upload_speed}}</span></li>
+							<li class="label">Upload Length: <span class="download-uploadLength">{{uploadLength}}</span></li>
+							<li class="label">Connections: <span class="download-connections">{{connections}}</span></li>
+						</ul>
+
+						<h4 class="hidden-phone">Download Files</h4>
+						<ul class="download-files hidden-phone">
+							<li class="label">{{path}} ({{size}})</li>
+						</ul>
+
+						<div>
+							<div class="download-graph"></div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		</table>
+  </div>
+
+	<div id="waiting_downloads"></div>
+
+	<div id="stopped_downloads"></div>
+
+</div>
+
+</body>
+</html>

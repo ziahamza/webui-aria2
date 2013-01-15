@@ -398,10 +398,24 @@ function getTemplateCtx(data) {
 }
 function updateDownloadTemplates(elem, ctx) {
 	elem = $(elem);
+
+	// update spans
 	for(var i in ctx) {
-		elem.find('.tmp_' + i).text(ctx[i]);
+		elem.find('.download-' + i).text(ctx[i]);
 	}
+
+	// update files
+	var html = '';
+	for (var i = 0; i < ctx.files.length; i++) {
+		html += '<li class="label">' + ctx.files[i].path + ' (' + ctx.files[i].size + ')</li>';
+	}
+	elem.find('.download-files').html(html);
+	console.log(html);
+
+	// update progress bar
 	elem.find('.full-progress .bar').css('width', ctx.percentage + '%');
+
+	// update the chunks bar
 	var chunks = ctx.chunks;
 	if (!chunks || !chunks.length) {
 		return;
@@ -457,7 +471,7 @@ function refreshDownloadTemplates(top_elem, data) {
 	deleteDownloadTemplates($top_elem, data);
 	for(var i = 0; i < data.length; i++) {
 		var ctx = getTemplateCtx(data[i]);
-		var elem = $top_elem.find('div.download_item[data-gid=' + ctx.gid + ']');
+		var elem = $top_elem.find('[data-gid=' + ctx.gid + ']');
 		if(elem.length) {
 			updateDownloadTemplates(elem, ctx);
 		} else {
@@ -635,9 +649,9 @@ function updateActiveDownloads(data) {
 	refreshDownloadTemplates('active', data);
 	updateGraphData(data);
 	empty_download_set('#active_downloads');
-	$('.download_active_item .download_settings').unbind('click').click(function() {
-		var gid = $(this).parents('.download_active_item').attr('data-gid');
-		var settings_name = $(this).parents('.download_active_item').attr('data-settingsName');
+	$('.active-download .download_settings').unbind('click').click(function() {
+		var gid = $(this).parents('.active-download').attr('data-gid');
+		var settings_name = $(this).parents('.active-download').attr('data-settingsName');
 		var gen = function(name) {
 			return { name: name, values: [] };
 		};
@@ -694,8 +708,8 @@ function updateActiveDownloads(data) {
 			});
 		});
 	});
-	$('.download_active_item .download_pause').unbind('click').click(function() {
-		var gid = $(this).parents('.download_active_item').attr('data-gid');
+	$('.active-download .download_pause').unbind('click').click(function() {
+		var gid = $(this).parents('.active-download').attr('data-gid');
 		aria_syscall({
 			func: 'forcePause',
 			params: [gid],
@@ -708,9 +722,9 @@ function updateActiveDownloads(data) {
 			}
 		});
 	});
-	$('.download_active_item .torrent_info').unbind('click').click(function() {
-		var info_name = $(this).parents('.download_active_item').attr('data-settingsName');
-		var gid = $(this).parents('.download_active_item').attr('data-gid');
+	$('.active-download .torrent_info').unbind('click').click(function() {
+		var info_name = $(this).parents('.active-download').attr('data-settingsName');
+		var gid = $(this).parents('.active-download').attr('data-gid');
 		aria_syscall({
 			func: 'getPeers',
 			params: [gid],
@@ -740,8 +754,8 @@ function updateActiveDownloads(data) {
 			}
 		});
 	});
-	$('.download_active_item .download_remove').unbind('click').click(function() {
-		var gid = $(this).parents('.download_active_item').attr('data-gid');
+	$('.active-download .download_remove').unbind('click').click(function() {
+		var gid = $(this).parents('.active-download').attr('data-gid');
 		aria_syscall({
 			func: 'remove',
 			params: [gid],
@@ -757,9 +771,9 @@ function updateActiveDownloads(data) {
 }
 function updateWaitingDownloads(data) {
 	refreshDownloadTemplates('waiting', data);
-	$('.download_waiting_item .download_settings').unbind('click').click(function() {
-		var gid = $(this).parents('.download_waiting_item').attr('data-gid');
-		var settings_name = $(this).parents('.download_waiting_item').attr('data-settingsName');
+	$('.waiting-download .download_settings').unbind('click').click(function() {
+		var gid = $(this).parents('.waiting-download').attr('data-gid');
+		var settings_name = $(this).parents('.waiting-download').attr('data-settingsName');
 		var gen = function(name) {
 			return { name: name, values: [] };
 		};
@@ -830,8 +844,8 @@ function updateWaitingDownloads(data) {
 			});
 		});
 	});
-	$('.download_waiting_item .download_play').unbind('click').click(function() {
-		var gid = $(this).parents('.download_waiting_item').attr('data-gid');
+	$('.waiting-download .download_play').unbind('click').click(function() {
+		var gid = $(this).parents('.waiting-download').attr('data-gid');
 		aria_syscall({
 			func: 'unpause',
 			params: [gid],
@@ -844,8 +858,8 @@ function updateWaitingDownloads(data) {
 			}
 		});
 	});
-	$('.download_waiting_item .download_remove').unbind('click').click(function() {
-		var gid = $(this).parents('.download_waiting_item').attr('data-gid');
+	$('.waiting-download .download_remove').unbind('click').click(function() {
+		var gid = $(this).parents('.waiting-download').attr('data-gid');
 		aria_syscall({
 			func: 'remove',
 			params: [gid],
@@ -862,8 +876,8 @@ function updateWaitingDownloads(data) {
 
 function updateStoppedDownloads(data) {
 	refreshDownloadTemplates('stopped', data);
-	$('.download_stopped_item .download_remove').unbind('click').click(function() {
-		var gid = $(this).parents('.download_stopped_item').attr('data-gid');
+	$('.stopped-download .download_remove').unbind('click').click(function() {
+		var gid = $(this).parents('.stopped-download').attr('data-gid');
 		aria_syscall({
 			func: 'removeDownloadResult',
 			params: [gid],
@@ -876,8 +890,8 @@ function updateStoppedDownloads(data) {
 			}
 		});
 	});
-	$('.download_stopped_item .download_restart').unbind('click').click(function() {
-		var gid = $(this).parents('.download_stopped_item').attr('data-gid');
+	$('.stopped-download .download_restart').unbind('click').click(function() {
+		var gid = $(this).parents('.stopped-download').attr('data-gid');
 		var files;
 		var uris = [];
 		for(var i = 0; i < d_files.stopped.length; i++) {

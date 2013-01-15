@@ -12,13 +12,11 @@ Then download the webui, you can either do that by downloading this repository a
 
 Status
 ===========
-Usable but some bugs here and there. A lot more to features to come so stay tuned.
+Usable but some bugs here and there. A complete overhaul is underway in the angular.html but its completely broken currently and once it is completed then it would replace the old index.html
 
 TODO
 -----------
-* More advance options for new download
-* More specialized info for special download types like bit torrent and metalink
-* Adding URIs to existing downloads
+* Implement all features of the old version into the new architecture in angular.html
 
 
 Dependencies
