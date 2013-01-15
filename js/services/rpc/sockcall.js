@@ -78,10 +78,15 @@ app.factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, na
         this.onerror();
       }
 
-      this.sock = new WebSocket(this.scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc');
-      this.sock.onopen = this.onopen;
-      this.sock.onclose = this.sock.onerror = this.onerror;
-      this.sock.onmessage = this.onmessage;
+      try {
+        this.sock = new WebSocket(this.scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc');
+        this.sock.onopen = this.onopen;
+        this.sock.onclose = this.sock.onerror = this.onerror;
+        this.sock.onmessage = this.onmessage;
+      }
+      catch (ex) {
+        // ignoring IE securty exception on local ip addresses
+      }
     },
   };
 }]);
