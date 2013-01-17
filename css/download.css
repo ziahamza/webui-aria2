@@ -1,23 +1,7 @@
 .download-name {
   font-size: 12px;
 }
-.active-download {
-  width: 100%;
-  margin-bottom: 10px;
-  background-color: rgb(245, 245, 245);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 4px 4px 4px 4px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
-}
-.waiting-download {
-  width: 100%;
-  margin-bottom: 10px;
-  background-color: rgb(245, 245, 245);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 4px 4px 4px 4px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
-}
-.stopped-download {
+.active-download, .waiting-download, .stopped-download, .download {
   width: 100%;
   margin-bottom: 10px;
   background-color: rgb(245, 245, 245);

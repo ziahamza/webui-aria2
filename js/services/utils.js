@@ -1,5 +1,9 @@
 app.factory('$utils', function() {
   return {
+    getFileName: function(path) {
+      var seed = path.split(/[/\\]/);
+      return seed[seed.length - 1];
+    },
     randStr: function() {
       var str = [];
       var hexDigits = "0123456789abcdef";

@@ -139,15 +139,15 @@
       <tbody>
       <tr>
         <td data-toggle="collapse" data-target=".download-detail .collapse" class="download-overview">
-          <b class="download-name">{{name}}</b>
+          <b class="download-name">name {{download.gid}}</b>
 
           <ul class="stats hidden-phone pull-right">
-            <li class="label label-success">Time left: <span class="download-eta">{{eta}}</span></li>
-            <li class="label label-success">Download Speed: <span class="download-down_speed">{{down_speed}}</span></li>
-            <li class="label label-success">Progress: <span class="download-down_speed">{{percentage}}%</span></li>
+            <li class="label label-success">Time left: <span class="download-eta">{{(download.totalLength-download.completedLength)/download.downloadSpeed}}</span></li>
+            <li class="label label-success">Download Speed: <span class="download-down_speed">{{download.downloadSpeed}}</span></li>
+            <li class="label label-success">Progress: <span class="download-down_speed">{{(download.completedLength / download.totalLength)*100}}%</span></li>
           </ul>
           <div class="progress full-progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
-            <div class="bar" style="width: 90%;"></div>
+            <div class="bar" style="width: {{(download.completedLength / download.totalLength)*100}}%;"></div>
           </div>
         </td>
         <td class="download-controls">
@@ -171,23 +171,18 @@
           <div class="collapse more_info">
             <canvas class="progress chunk-canvas" width="1400" style="width: 100%;"></canvas>
             <ul class="stats">
-              <li class="label">Status: <span class="download-status">{{status}}</span></li>
-              <li class="label">GID: <span class="download-gid">{{gid}}</span></li>
-              <li class="label">Dir: <span class="download-dir">{{dir}}</span></li>
-              <li class="label">Size: <span class="download-size">{{size}}</span></li>
-              <li class="label">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
-              <li class="label">Num of Pieces: <span class="download-numPieces">{{numPieces}}</span></li>
-              <li class="label">Piece Length: <span class="download-pieceLength">{{pieceLength}}</span></li>
-              <li class="label">ETA: <span class="download-eta">{{eta}}</span></li>
-              <li class="label">Down Speed: <span class="download-down_speed">{{down_speed}}</span></li>
-              <li class="label">Upload Speed: <span class="download-upload_speed">{{upload_speed}}</span></li>
-              <li class="label">Upload Length: <span class="download-uploadLength">{{uploadLength}}</span></li>
-              <li class="label">Connections: <span class="download-connections">{{connections}}</span></li>
+              <li class="label">Status: <span class="download-status">{{download.status}}</span></li>
+              <li class="label">GID: <span class="download-gid">{{download.gid}}</span></li>
+              <li class="label">Dir: <span class="download-dir">{{download.dir}}</span></li>
+              <li class="label">Size: <span class="download-size">{{download.totalLength}}</span></li>
+              <li class="label">Downloaded: <span class="download-downloaded">{{download.downloadSpeed}}</span></li>
+              <li class="label">Num of Pieces: <span class="download-numPieces">{{download.numPieces}}</span></li>
+              <li class="label">Piece Length: <span class="download-pieceLength">{{download.pieceLength}}</span></li>
             </ul>
 
             <h4 class="hidden-phone">Download Files</h4>
             <ul class="download-files hidden-phone">
-              <li class="label">{{path}} ({{size}})</li>
+              <li class="label" ng-repeat="file in download.files">{{file.path}} ({{file.completedLength}})</li>
             </ul>
 
             <div>
