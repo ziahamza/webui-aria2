@@ -422,7 +422,7 @@ function updateDownloadTemplates(elem, ctx) {
 	elem.find('.download-files').html(html);
 
 	// update progress bar
-	elem.find('.full-progress .bar').css('width', ctx.percentage + '%');
+	elem.find('.progress .bar').css('width', ctx.percentage + '%');
 
 	// update the chunks bar
 	var chunks = ctx.chunks;
