@@ -371,10 +371,14 @@ function getTemplateCtx(data) {
 	var chunks =  percentage !== 100 && data.bitfield ? getChunksFromHex(data.bitfield, data.numPieces) : [];
 
 	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
+	var type = data.status;
+	if (type == "paused") type = "waiting";
+	if (type == "error" || type == "removed" || type == "complete") type = "stopped";
 	return {
 		name: name,
 		sett_name: name.substr(0,name.lastIndexOf('.')) || name,
 		status: data.status,
+		type: type,
 		percentage:percentage,
 		gid: data.gid,
 		size: changeLength(data.totalLength, "B"),
@@ -389,7 +393,13 @@ function getTemplateCtx(data) {
 		connections: data.connections,
 		upload_speed: changeLength(data.uploadSpeed, "B/s"),
 		booleans: {
-			is_error: data.status === "error"
+			is_error: data.status === "error",
+			is_complete: data.status === "complete",
+			is_removed: data.status === "removed",
+			has_settings: ["active", "waiting", "paused"].indexOf(data.status) != -1,
+			can_pause: type == "active",
+			can_play: type == "waiting",
+			can_restart: type == "stopped"
 		},
 		chunks: chunks,
 		files: data.files.map(function(e) { e.size = changeLength(e.length, "B"); return e }),
@@ -410,7 +420,6 @@ function updateDownloadTemplates(elem, ctx) {
 		html += '<li class="label">' + ctx.files[i].path + ' (' + ctx.files[i].size + ')</li>';
 	}
 	elem.find('.download-files').html(html);
-	console.log(html);
 
 	// update progress bar
 	elem.find('.full-progress .bar').css('width', ctx.percentage + '%');
@@ -464,7 +473,7 @@ function deleteDownloadTemplates($top_elem, data) {
 	}
 }
 function refreshDownloadTemplates(top_elem, data) {
-	var down_template = $('#download_' + top_elem + '_template').text(),
+	var down_template = $('#download_template').text(),
 		new_items = [],
 		$top_elem = $('#' + top_elem + '_downloads');
 

@@ -1,5 +1,5 @@
 app.factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, name, utils) {
-  return {
+  var sockRPC = {
     // true when sockrpc is ready to be used,
     // false when either initializing
     // or no support for web sockets
@@ -18,14 +18,14 @@ app.factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, na
     scheme: 'ws',
 
     // called when a connection error occurs
-    onerror: function() {
-      _.each(this.handles, function(h) { h.error() });
-      this.handles = [];
+    onerror: function(err) {
+      _.each(sockRPC.handles, function(h) { h.error() });
+      sockRPC.handles = [];
     },
 
     // when connection opens
     onopen: function() {
-      this.initialized = true;
+      sockRPC.initialized = true;
     },
 
 
@@ -35,10 +35,10 @@ app.factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, na
 
       // reverse loop because we are deleting elements
       // while looping over the old items
-      for (var i = this.handles.length - 1; i >= 0; i--) {
-        if (this.handles[i].id === data.id) {
-          this.handles[i].success(data);
-          this.handles.splice(i, 1);
+      for (var i = sockRPC.handles.length - 1; i >= 0; i--) {
+        if (sockRPC.handles[i].id === data.id) {
+          sockRPC.handles[i].success(data);
+          sockRPC.handles.splice(i, 1);
           return;
         }
       }
@@ -49,18 +49,18 @@ app.factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, na
       var data =  {
         jsonrpc: 2.0,
         id: name + '_' + utils.randStr(),
-        method: opts.func,
+        method: opts.name,
         params: opts.params && opts.params.length ? opts.params : undefined
       };
 
       if (data.params && !data.params.length) data.params = undefined;
 
-      this.handles.push({
+      sockRPC.handles.push({
         success: opts.success || angular.noop,
         error: opts.error || angular.noop,
         id: data.id
       });
-      this.sock.send( JSON.stringify(data) );
+      sockRPC.sock.send( JSON.stringify(data) );
     },
 
     // should be called initially to start using the sock rpc
@@ -68,26 +68,29 @@ app.factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, na
       if (typeof WebSocket == "undefined") {
         return;
       }
-      this.conf = conf || this.conf;
-      this.initialized = false;
+      sockRPC.conf = conf || sockRPC.conf;
+      sockRPC.initialized = false;
 
-      this.scheme = this.conf.encryption ? 'wss' : 'ws';
+      sockRPC.scheme = sockRPC.conf.encryption ? 'wss' : 'ws';
 
-      if (this.sock) {
-        this.onopen = this.sock.onmessage = this.sock.onerror = this.sock.onclose = null;
-        this.onerror();
+      if (sockRPC.sock) {
+        sockRPC.onopen = sockRPC.sock.onmessage = sockRPC.sock.onerror = sockRPC.sock.onclose = null;
+        sockRPC.onerror();
       }
 
       try {
-        this.sock = new WebSocket(this.scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc');
-        this.sock.onopen = this.onopen;
-        this.sock.onclose = this.sock.onerror = this.onerror;
-        this.sock.onmessage = this.onmessage;
+        sockRPC.sock = new WebSocket(sockRPC.scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc');
+        sockRPC.sock.onopen = sockRPC.onopen;
+        sockRPC.sock.onclose = sockRPC.sock.onerror = sockRPC.onerror;
+        sockRPC.sock.onmessage = sockRPC.onmessage;
       }
       catch (ex) {
         // ignoring IE securty exception on local ip addresses
+        console.log('not using websocket for aria2 rpc due to: ', ex);
       }
     },
   };
+
+  return sockRPC;
 }]);
 

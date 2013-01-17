@@ -32,10 +32,12 @@ app.factory('$syscall', ['$log', '$jsoncall', '$sockcall', function(log, jsonRPC
       opts.success = opts.success || angular.noop;
       opts.error = opts.error || angular.noop;
 
-      if (sockRPC.initialized)
+      if (sockRPC.initialized) {
         return sockRPC.invoke(opts);
-      else
+      }
+      else {
         return jsonRPC.invoke(opts);
+      }
     }
   };
 }]);

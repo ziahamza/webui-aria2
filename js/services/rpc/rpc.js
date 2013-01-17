@@ -1,19 +1,20 @@
 app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
-  var subscriptions = [],
-      timeout = null,
-      forceNextUpdate = false;
+  var subscriptions = []
+    , configurations = [{ host: 'localhost', port: 6800 }]
+    , timeout = null
+    , forceNextUpdate = false;
 
-  syscall.init({
-    host: 'localhost',
-    port: 6800
-  });
 
   // update is implemented such that
   // only one syscall at max is ongoing
   // (i.e. serially) so should be private
   // to maintain that invariant
   var update = function() {
-    if (!subscriptions.length) return;
+    if (!subscriptions.length)
+      return;
+
+    if (configurations.length)
+      syscall.init(configurations.pop());
 
     subscriptions = _.filter(subscriptions, function(e) { return !!e });
     var params = _.map(subscriptions, function(s) {
@@ -27,6 +28,8 @@ app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
       name: 'system.multicall',
       params: [params],
       success: function(data) {
+        // configuration worked, leave this as it is
+        configurations = [];
         _.each(data.result, function(d, i) {
           var handle = subscriptions[i];
           if (handle) {
@@ -44,17 +47,24 @@ app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
         timeout = setTimeout(update, time);
       },
       error: function() {
-        // TODO: implement a retry error handler
-        //   which would also look for other suitable
-        //   connection configurations for the connection
+        // If some proposed configurations are still in the pipeline then retry
+        if (configurations.length) update();
+        else {
+          console.log('cannot connect!!!');
+          timeout = setTimeout(update, time);
+        }
       }
     });
   }
   return {
-    // change the connection configuration,
-    // for all options read rpc/syscall.js
+    // conf can be configuration or array of configurations,
+    // each one will be tried one after the other till success,
+    // for all options for one conf read rpc/syscall.js
     configure: function(conf) {
-      syscall.init(conf);
+      if (conf instanceof Array)
+        configurations = conf;
+      else
+        configurations = [conf];
     },
     // syscall is done only once
     once: function(name, params, cb) {

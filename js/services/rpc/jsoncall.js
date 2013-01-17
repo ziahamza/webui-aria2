@@ -40,7 +40,7 @@ app.factory('$jsoncall', ['$', '$json', '$base64', function($, JSON, base64) {
           // check if authentication details are given, if yes then use a hack to support
           // http authentication otherwise emit error
           if (!rpc.serverConf.auth) {
-            console.log("no user name and still error!!!");
+            console.log("jsonrpc disconnect!!!");
             return opts.error();
           }
 
