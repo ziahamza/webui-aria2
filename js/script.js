@@ -374,6 +374,8 @@ function getTemplateCtx(data) {
 	var type = data.status;
 	if (type == "paused") type = "waiting";
 	if (type == "error" || type == "removed" || type == "complete") type = "stopped";
+
+	data.dir = data.dir.replace(/\\/g, '/');
 	return {
 		name: name,
 		sett_name: name.substr(0,name.lastIndexOf('.')) || name,
@@ -402,7 +404,11 @@ function getTemplateCtx(data) {
 			can_restart: type == "stopped"
 		},
 		chunks: chunks,
-		files: data.files.map(function(e) { e.size = changeLength(e.length, "B"); return e }),
+		files: data.files.map(function(e) {
+			e.size = changeLength(e.length, "B");
+			e.path = e.path.replace(/\\/g, '/').replace(data.dir, './');
+			return e
+		}),
 		bittorrent: !!data.bittorrent
 	};
 }
