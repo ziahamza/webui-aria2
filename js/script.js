@@ -406,7 +406,7 @@ function getTemplateCtx(data) {
 		chunks: chunks,
 		files: data.files.map(function(e) {
 			e.size = changeLength(e.length, "B");
-			e.path = e.path.replace(/\\/g, '/').replace(data.dir, './');
+			e.path = e.path.replace(/\\/g, '/').replace(data.dir, '.');
 			return e
 		}),
 		bittorrent: !!data.bittorrent
