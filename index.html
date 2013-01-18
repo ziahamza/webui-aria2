@@ -106,6 +106,36 @@
 						<li class="label label-important">Size: <span class="download-size">{{size}}</span></li>
 						{{/booleans.is_error}}
 					</ul>
+				</td>
+				<td class="download-controls">
+					<div class="btn-group">
+						{{#booleans.can_pause}}
+						<button class="btn  download_pause"><i class="icon-pause"></i></button>
+						{{/booleans.can_pause}}
+						{{#booleans.can_play}}
+						<button class="btn  download_play"><i class="icon-play"></i></button>
+						{{/booleans.can_play}}
+						{{#booleans.can_restart}}
+						<button class="btn  download_restart"><i class="icon-repeat"></i></button>
+						{{/booleans.can_restart}}
+						<button class="btn dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							{{#booleans.has_settings}}
+							<li><a href="#" class="download_settings"><i class="icon-cog"></i> Settings</a></li>
+							{{#bittorrent}}
+							<li><a href="#" class="torrent_info"><i class="icon-list-alt"></i> Peers</a></li>
+							{{/bittorrent}}
+							{{/booleans.has_settings}}
+							<li><a href="#" data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
+							<li><a href="#" class="download_remove"><i class="icon-remove"></i> Remove</a></li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="download-progress">
 					{{#booleans.can_pause}}
 					<div class="progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
 						<div class="bar" style="width: {{percentage}}%;"></div>
@@ -133,38 +163,11 @@
 					{{/booleans.is_complete}}
 
 				</td>
-				<td class="download-controls">
-					<div class="btn-group">
-						{{#booleans.can_pause}}
-						<button class="btn btn-mini download_pause"><i class="icon-pause"></i></button>
-						{{/booleans.can_pause}}
-						{{#booleans.can_play}}
-						<button class="btn btn-mini download_play"><i class="icon-play"></i></button>
-						{{/booleans.can_play}}
-						{{#booleans.can_restart}}
-						<button class="btn btn-mini download_restart"><i class="icon-repeat"></i></button>
-						{{/booleans.can_restart}}
-						<button class="btn dropdown-toggle" data-toggle="dropdown">
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-
-							{{#booleans.has_settings}}
-							<li><a href="#" class="download_settings"><i class="icon-cog"></i> Settings</a></li>
-							{{#bittorrent}}
-							<li><a href="#" class="torrent_info"><i class="icon-list-alt"></i> Peers</a></li>
-							{{/bittorrent}}
-							{{/booleans.has_settings}}
-							<li><a href="#" data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
-							<li><a href="#" class="download_remove"><i class="icon-remove"></i> Remove</a></li>
-						</ul>
-					</div>
-				</td>
 			</tr>
 			<tr data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-detail">
 				<td colspan="2">
 					<div class="collapse more_info">
-						<canvas class="progress chunk-canvas" width="1400" style="width: 100%;"></canvas>
+						<canvas class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;"></canvas>
 						<ul class="stats">
 							<li class="label">Status: <span class="download-status">{{status}}</span></li>
 							<li class="label">GID: <span class="download-gid">{{gid}}</span></li>

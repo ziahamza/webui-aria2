@@ -10,6 +10,8 @@
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
 }
 .stats {
+  margin-top: 0px;
+  margin-bottom: 0px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -18,19 +20,26 @@
   padding: 5px;
 }
 
+.download-progress {
+  margin: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .download-controls {
-  width: 60px;
+  width: 65px;
+  padding: 5px;
 }
 .download-controls .btn-group {
-  height: 70px;
+  height: 36px;
   width: 100%;
   float: right;
 }
 .download-controls .btn-group .btn:nth-child(1) {
-  width: 70%;
+  width: 60%;
 }
 .download-controls .btn-group .btn:nth-child(2) {
-  width: 30%;
+  width: 40%;
 }
 
 .download-controls .btn-group .btn {
@@ -38,11 +47,11 @@
 }
 .download-controls .btn-group .btn i {
   height: 100%;
-  font-size: 28px;
+  font-size: 18px;
   color: gray;
 }
 .download-overview {
-  padding: 10px;
+  padding: 5px;
   cursor: pointer;
 }
 .download-detail {
