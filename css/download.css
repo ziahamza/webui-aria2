@@ -41,12 +41,6 @@
   width: 100%;
   float: right;
 }
-.download-controls .btn-group .btn:nth-child(1) {
-  width: 60%;
-}
-.download-controls .btn-group .btn:nth-child(2) {
-  width: 40%;
-}
 
 .download-controls .btn-group .btn {
   height: 100%;
@@ -57,8 +51,8 @@
   color: gray;
 }
 .download-overview {
-  padding: 5px;
   cursor: pointer;
+  padding-left: 5px;
 }
 .download-detail {
   cursor: pointer;
