@@ -107,7 +107,7 @@
 						{{/booleans.is_error}}
 					</ul>
 				</td>
-				<td data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-controls">
+				<td class="download-controls">
 					<div class="btn-group">
 						{{#booleans.can_pause}}
 						<button class="btn  download_pause"><i class="icon-pause"></i></button>
@@ -135,7 +135,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" class="download-progress">
+				<td data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" colspan="2" class="download-progress">
 					{{#booleans.can_pause}}
 					<div class="progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
 						<div class="bar" style="width: {{percentage}}%;"></div>

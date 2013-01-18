@@ -9,6 +9,11 @@
   border-radius: 4px 4px 4px 4px;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
 }
+
+.active_graph {
+  margin-left: auto;
+  margin-right: auto;
+}
 .stats {
   margin-top: 0px;
   margin-bottom: 0px;
