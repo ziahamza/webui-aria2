@@ -37,7 +37,7 @@
   padding: 5px;
 }
 .download-controls .btn-group {
-  height: 36px;
+  height: 26px;
   width: 100%;
   float: right;
 }
@@ -47,7 +47,7 @@
 }
 .download-controls .btn-group .btn i {
   height: 100%;
-  font-size: 18px;
+  font-size: 16px;
   color: gray;
 }
 .download-overview {
