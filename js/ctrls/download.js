@@ -66,7 +66,7 @@ function(scope, rpc, utils) {
       ctx[p] = d[p];
     });
 
-    var path = (data.files[0].path || data.files[0].uris[0].uri);
+    var path = (d.files[0].path || d.files[0].uris[0].uri);
     ctx.name = utils.getFileName(path);
 
     if (d.bittorrent && d.bittorrent.info) {
