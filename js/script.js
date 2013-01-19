@@ -359,58 +359,69 @@ function getChunksFromHex(bitfield, numOfPieces) {
 	return chunks;
 }
 function getTemplateCtx(data) {
-	var percentage =(data.completedLength / data.totalLength)*100;
+	var obj = {
+		status: data.status,
+		gid: data.gid,
+		numPieces: data.numPieces,
+		connections: data.connections,
+		bittorrent: data.bittorrent
+	};
+
+	obj.files = data.files.map(function(e) {
+		e.length = changeLength(e.length, "B");
+		e.path = e.path.replace(/\\/g, '/').replace(obj.dir, '.');
+		return e;
+	});
+
+	_.each(['downloadSpeed', 'uploadSpeed'], function(e) {
+		obj[e] = changeLength(data[e], 'B/s');
+    });
+
+	_.each([
+		'totalLength', 'completedLength', 'uploadLength', 'pieceLength'
+    ], function(e) {
+		obj[e] = changeLength(data[e], 'B');
+    });
+
+	obj.eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
+
+	var percentage = (data.completedLength / data.totalLength)*100;
 	percentage = percentage.toFixed(2);
 	if(!percentage) percentage = 0;
-	var name;
-	var seed = (data.files[0].path || data.files[0].uris[0].uri).split(/[/\\]/);
-	name = seed[seed.length - 1];
-	if (data.bittorrent && data.bittorrent.info) {
-		name = data.bittorrent.info.name;
-	}
-	var chunks =  percentage !== 100 && data.bitfield ? getChunksFromHex(data.bitfield, data.numPieces) : [];
 
-	var eta = changeTime((data.totalLength-data.completedLength)/data.downloadSpeed);
+	obj.percentage = percentage;
+
+	if (obj.bittorrent && obj.bittorrent.info) {
+		obj.name = obj.bittorrent.info.name;
+	}
+	else {
+		var seed = (obj.files[0].path || obj.files[0].uris[0].uri).split(/[/\\]/);
+		obj.name = seed[seed.length - 1];
+	}
+
 	var type = data.status;
 	if (type == "paused") type = "waiting";
-	if (type == "error" || type == "removed" || type == "complete") type = "stopped";
+	if (["error", "removed", "complete"].indexOf(type) != -1)
+		type = "stopped";
 
-	data.dir = data.dir.replace(/\\/g, '/');
-	return {
-		name: name,
-		sett_name: name.substr(0,name.lastIndexOf('.')) || name,
-		status: data.status,
-		type: type,
-		percentage:percentage,
-		gid: data.gid,
-		size: changeLength(data.totalLength, "B"),
-		down_speed: changeLength(data.downloadSpeed, "B/s"),
-		remaining: changeLength(data.totalLength - data.completedLength, "B"),
-		eta: eta,
-		downloaded: changeLength(data.completedLength, "B"),
-		dir: data.dir,
-		numPieces: data.numPieces,
-		pieceLength: changeLength(data.pieceLength, "B"),
-		uploadLength: changeLength(data.uploadLength, "B"),
-		connections: data.connections,
-		upload_speed: changeLength(data.uploadSpeed, "B/s"),
-		booleans: {
-			is_error: data.status === "error",
-			is_complete: data.status === "complete",
-			is_removed: data.status === "removed",
-			has_settings: ["active", "waiting", "paused"].indexOf(data.status) != -1,
-			can_pause: type == "active",
-			can_play: type == "waiting",
-			can_restart: type == "stopped"
-		},
-		chunks: chunks,
-		files: data.files.map(function(e) {
-			e.size = changeLength(e.length, "B");
-			e.path = e.path.replace(/\\/g, '/').replace(data.dir, '.');
-			return e
-		}),
-		bittorrent: !!data.bittorrent
+	obj.type = type;
+
+	obj.dir = data.dir.replace(/\\/g, '/');
+
+	obj.chunks =  percentage !== 100 && data.bitfield ? getChunksFromHex(data.bitfield, data.numPieces) : [];
+
+	obj.booleans = {
+		is_error: obj.status === "error",
+		is_complete: obj.status === "complete",
+		is_removed: obj.status === "removed",
+		has_settings: ["active", "waiting", "paused"].indexOf(obj.status) != -1,
+		can_pause: type == "active",
+		can_play: type == "waiting",
+		bittorrent: !!obj.bittorrent,
+		can_restart: type == "stopped"
 	};
+
+	return obj;
 }
 function updateDownloadTemplates(elem, ctx) {
 	elem = $(elem);

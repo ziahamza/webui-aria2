@@ -1,6 +1,7 @@
 <!doctype>
 <html>
 
+<!-- {{{ head -->
 <head>
   <link rel="icon" href="favicon.ico" />
 
@@ -48,9 +49,11 @@
   <script src="js/init.js"></script>
 
 </head>
+<!-- }}} -->
 
 <body>
 
+<!-- {{{ header -->
 <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
   <div class="navbar-inner">
   <div class="container">
@@ -131,73 +134,132 @@
   </div>
   </div>
 </div>
+<!-- }}} -->
 
 <div role="main" class="container" ng-controller="DownloadCtrl">
 
-  <div id="active_downloads">
-    <table class="active-download" ng-repeat="download in getDownloads()">
-      <tbody>
-      <tr>
-        <td data-toggle="collapse" data-target=".download-detail .collapse" class="download-overview">
-          <b class="download-name">{{download.name}}</b>
+  <table ng-repeat="download in getDownloads()" class="download" data-gid="{{download.gid}}">
+    <tbody>
+    <tr>
+      <td data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse" class="download-overview">
+        <b class="download-name">{{download.name}}</b>
+      </td>
+      <td class="download-controls" rowspan="2">
+        <div class="btn-group">
+          <button ng-show="download.booleans.can_pause" class="btn download_pause"><i class="icon-pause"></i></button>
+          <button ng-show="download.booleans.can_play" class="btn download_play"><i class="icon-play"></i></button>
+          <button ng-show="download.booleans.can_restart" class="btn download_restart"><i class="icon-repeat"></i></button>
+          <button class="btn download_remove hidden-phone"><i class="icon-stop"></i></button>
 
-          <ul class="stats hidden-phone pull-right">
-            <li class="label label-success">Time left: <span class="download-eta">{{(download.totalLength-download.completedLength)/download.downloadSpeed}}</span></li>
-            <li class="label label-success">Download Speed: <span class="download-down_speed">{{download.downloadSpeed}}</span></li>
-            <li class="label label-success">Progress: <span class="download-down_speed">{{(download.completedLength / download.totalLength)*100}}%</span></li>
+          <button ng-show="download.booleans.has_settings" class="btn download_settings hidden-phone"><i class="icon-cog"></i></button>
+
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <i class="caret"></i>
+          </button>
+          <ul class="dropdown-menu">
+
+            <li ng-show="download.booleans.has_settings"><a href="#" class="download_settings visible-phone"><i class="icon-cog"></i> Settings</a></li>
+
+            <li ng-show="download.booleans.bittorrent"><a href="#" class="torrent_info"><i class="icon-list-alt"></i> Peers</a></li>
+
+            <li><a href="#" data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
+            <li class="visible-phone"><a href="#" class="download_remove"><i class="icon-remove"></i> Remove</a></li>
           </ul>
-          <div class="progress full-progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
-            <div class="bar" style="width: {{(download.completedLength / download.totalLength)*100}}%;"></div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse" class="download-overview">
+        <ul class="stats pull-left">
+
+          <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone hidden-tablet">Status: <span class="download-status">{{download.status}}</span></li>
+          <li ng-show="download.booleans.can_pause" class="label label-success">ETA: <span class="download-eta">{{download.eta}}</span></li>
+          <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+          <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength}}</span></li>
+          <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone hidden-tablet">Progress: <span class="download-percentage">{{download.percentage}}</span>%</li>
+          <li ng-show="download.booleans.can_pause" class="label label-success">Speed: <span class="download-downloadSpeed">{{download.downloadSpeed}}</span></li>
+
+          <li ng-show="download.booleans.bittorrent" class="label">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed}}</span></li>
+
+          <li ng-show="download.booleans.can_play" class="label label-info">Status: <span class="download-status">{{download.status}}</span></li>
+          <li ng-show="download.booleans.can_play" class="label label-info">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+          <li ng-show="download.booleans.can_play" class="label label-info hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength}}</span></li>
+          <li ng-show="download.booleans.can_play" class="label label-info hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
+
+          <li ng-show="download.booleans.is_complete" class="label">Status: <span class="download-status">{{download.status}}</span></li>
+          <li ng-show="download.booleans.is_complete" class="label hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
+          <li ng-show="download.booleans.is_complete" class="label">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+
+          <li ng-show="download.booleans.is_removed" class="label label-warning">Status: <span class="download-status">{{download.status}}</span></li>
+          <li ng-show="download.booleans.is_removed" class="label label-warning hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
+          <li ng-show="download.booleans.is_removed" class="label label-warning">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+
+          <li ng-show="download.booleans.is_error" class="label label-important">Status: <span class="download-status">{{download.status}}</span></li>
+          <li ng-show="download.booleans.is_error" class="label label-important hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
+          <li ng-show="download.booleans.is_error" class="label label-important">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td class="download-progress" colspan="2" data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse">
+
+        <div ng-show="download.booleans.can_pause" class="progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
+          <div class="bar" style="width: {{download.percentage}}%;"></div>
+        </div>
+
+        <div ng-show="download.booleans.is_play" class="progress progress-info progress-striped" style="width: 100%; margin: 0; padding: 0;">
+          <div class="bar" style="width: {{download.percentage}}%;"></div>
+        </div>
+
+        <div ng-show="download.booleans.is_error" class="progress progress-danger progress-striped" style="width: 100%; margin: 0; padding: 0;">
+          <div class="bar" style="width: {{download.percentage}}%;"></div>
+        </div>
+
+        <div ng-show="download.booleans.is_removed" class="progress progress-warning progress-striped" style="width: 100%; margin: 0; padding: 0;">
+          <div class="bar" style="width: {{download.percentage}}%;"></div>
+        </div>
+
+        <div ng-show="download.booleans.is_complete" class="progress progress-success progress-striped" style="width: 100%; margin: 0; padding: 0;">
+          <div class="bar" style="width: {{download.percentage}}%;"></div>
+        </div>
+
+      </td>
+    </tr>
+    <tr data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse" class="download-detail">
+      <td colspan="2">
+        <div class="collapse more_info">
+          <canvas class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;"></canvas>
+          <ul class="stats">
+            <li class="label">Status: <span class="download-status">{{download.status}}</span></li>
+            <li class="label">GID: <span class="download-gid">{{download.gid}}</span></li>
+            <li class="label">Dir: <span class="download-dir">{{download.dir}}</span></li>
+            <li class="label">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+            <li class="label">Downloaded: <span class="download-completedLength">{{download.completedLength}}</span></li>
+            <li class="label">Num of Pieces: <span class="download-numPieces">{{download.numPieces}}</span></li>
+            <li class="label">Piece Length: <span class="download-pieceLength">{{download.pieceLength}}</span></li>
+            <li class="label">ETA: <span class="download-eta">{{download.eta}}</span></li>
+            <li class="label">Down Speed: <span class="download-downloadSpeed">{{download.downloadSpeed}}</span></li>
+
+            <li class="label" ng-show="download.booleans.bittorrent">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed}}</span></li>
+            <li class="label" ng-show="download.booleans.bittorrent">Upload Length: <span class="download-uploadLength">{{download.uploadLength}}</span></li>
+
+            <li class="label">Connections: <span class="download-connections">{{download.connections}}</span></li>
+          </ul>
+
+          <h4 class="hidden-phone">Download Files</h4>
+          <ul class="download-files hidden-phone">
+            <li class="label" ng-repeat="file in download.files">{{download.download.path}} ({{download.download.length}})</li>
+          </ul>
+
+          <div>
+            <div class="active_graph"></div>
           </div>
-        </td>
-        <td class="download-controls">
-          <div class="btn-group">
-            <button class="btn btn-mini download_pause"><i class="icon-pause"></i></button>
-            <button class="btn dropdown-toggle" data-toggle="dropdown">
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-
-              <li><a><i class="icon-cog"></i> Settings</a></li>
-              <li><a><i class="icon-list-alt"></i> Peers</a></li>
-              <li><a data-toggle="collapse" data-target=".download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
-              <li><a href="#"><i class="icon-remove"></i> Remove</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-      <tr data-toggle="collapse" data-target=".download-detail .collapse" class="download-detail">
-        <td colspan="2">
-          <div class="collapse more_info">
-            <canvas class="progress chunk-canvas" width="1400" style="width: 100%;"></canvas>
-            <ul class="stats">
-              <li class="label">Status: <span class="download-status">{{download.status}}</span></li>
-              <li class="label">GID: <span class="download-gid">{{download.gid}}</span></li>
-              <li class="label">Dir: <span class="download-dir">{{download.dir}}</span></li>
-              <li class="label">Size: <span class="download-size">{{download.totalLength}}</span></li>
-              <li class="label">Downloaded: <span class="download-downloaded">{{download.downloadSpeed}}</span></li>
-              <li class="label">Num of Pieces: <span class="download-numPieces">{{download.numPieces}}</span></li>
-              <li class="label">Piece Length: <span class="download-pieceLength">{{download.pieceLength}}</span></li>
-            </ul>
-
-            <h4 class="hidden-phone">Download Files</h4>
-            <ul class="download-files hidden-phone">
-              <li class="label" ng-repeat="file in download.files">{{file.path}} ({{file.completedLength}})</li>
-            </ul>
-
-            <div>
-              <div class="download-graph"></div>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-    </table>
-  </div>
-
-  <div id="waiting_downloads"></div>
-
-  <div id="stopped_downloads"></div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  </table>
 
 </div>
 

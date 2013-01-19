@@ -102,9 +102,9 @@
 						<ul class="dropdown-menu">
 							{{#booleans.has_settings}}
 							<li><a href="#" class="download_settings visible-phone"><i class="icon-cog"></i> Settings</a></li>
-							{{#bittorrent}}
+							{{#booleans.bittorrent}}
 							<li><a href="#" class="torrent_info"><i class="icon-list-alt"></i> Peers</a></li>
-							{{/bittorrent}}
+							{{/booleans.bittorrent}}
 							{{/booleans.has_settings}}
 							<li><a href="#" data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
 							<li class="visible-phone"><a href="#" class="download_remove"><i class="icon-remove"></i> Remove</a></li>
@@ -118,34 +118,34 @@
 						{{#booleans.can_pause}}
 						<li class="label label-success hidden-phone hidden-tablet">Status: <span class="download-status">{{status}}</span></li>
 						<li class="label label-success">ETA: <span class="download-eta">{{eta}}</span></li>
-						<li class="label label-success hidden-phone">Size: <span class="download-size">{{size}}</span></li>
-						<li class="label label-success hidden-phone">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
+						<li class="label label-success hidden-phone">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+						<li class="label label-success hidden-phone">Downloaded: <span class="download-completedLength">{{completedLength}}</span></li>
 						<li class="label label-success hidden-phone hidden-tablet">Progress: <span class="download-percentage">{{percentage}}</span>%</li>
-						<li class="label label-success">Speed: <span class="download-down_speed">{{down_speed}}</span></li>
-						{{#bittorrent}}
-						<li class="label">Upload Speed: <span class="download-upload_speed">{{upload_speed}}</span></li>
-						{{/bittorrent}}
+						<li class="label label-success">Speed: <span class="download-downloadSpeed">{{downloadSpeed}}</span></li>
+						{{#booleans.bittorrent}}
+						<li class="label">Upload Speed: <span class="download-uploadSpeed">{{uploadSpeed}}</span></li>
+						{{/booleans.bittorrent}}
 						{{/booleans.can_pause}}
 						{{#booleans.can_play}}
 						<li class="label label-info">Status: <span class="download-status">{{status}}</span></li>
-						<li class="label label-info">Size: <span class="download-size">{{size}}</span></li>
-						<li class="label label-info hidden-phone">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
+						<li class="label label-info">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+						<li class="label label-info hidden-phone">Downloaded: <span class="download-completedLength">{{completedLength}}</span></li>
 						<li class="label label-info hidden-phone">Path: <span class="download-dir">{{dir}}</span></li>
 						{{/booleans.can_play}}
 						{{#booleans.is_complete}}
 						<li class="label">Status: <span class="download-status">{{status}}</span></li>
 						<li class="label hidden-phone">Path: <span class="download-dir">{{dir}}</span></li>
-						<li class="label">Size: <span class="download-size">{{size}}</span></li>
+						<li class="label">Size: <span class="download-totalLength">{{totalLength}}</span></li>
 						{{/booleans.is_complete}}
 						{{#booleans.is_removed}}
 						<li class="label label-warning">Status: <span class="download-status">{{status}}</span></li>
 						<li class="label label-warning hidden-phone">Path: <span class="download-dir">{{dir}}</span></li>
-						<li class="label label-warning">Size: <span class="download-size">{{size}}</span></li>
+						<li class="label label-warning">Size: <span class="download-totalLength">{{totalLength}}</span></li>
 						{{/booleans.is_removed}}
 						{{#booleans.is_error}}
 						<li class="label label-important">Status: <span class="download-status">{{status}}</span></li>
 						<li class="label label-important hidden-phone">Path: <span class="download-dir">{{dir}}</span></li>
-						<li class="label label-important">Size: <span class="download-size">{{size}}</span></li>
+						<li class="label label-important">Size: <span class="download-totalLength">{{totalLength}}</span></li>
 						{{/booleans.is_error}}
 					</ul>
 				</td>
@@ -188,23 +188,23 @@
 							<li class="label">Status: <span class="download-status">{{status}}</span></li>
 							<li class="label">GID: <span class="download-gid">{{gid}}</span></li>
 							<li class="label">Dir: <span class="download-dir">{{dir}}</span></li>
-							<li class="label">Size: <span class="download-size">{{size}}</span></li>
-							<li class="label">Downloaded: <span class="download-downloaded">{{downloaded}}</span></li>
+							<li class="label">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+							<li class="label">Downloaded: <span class="download-completedLength">{{completedLength}}</span></li>
 							<li class="label">Num of Pieces: <span class="download-numPieces">{{numPieces}}</span></li>
 							<li class="label">Piece Length: <span class="download-pieceLength">{{pieceLength}}</span></li>
 							<li class="label">ETA: <span class="download-eta">{{eta}}</span></li>
-							<li class="label">Down Speed: <span class="download-down_speed">{{down_speed}}</span></li>
-							{{#bittorrent}}
-							<li class="label">Upload Speed: <span class="download-upload_speed">{{upload_speed}}</span></li>
+							<li class="label">Down Speed: <span class="download-downloadSpeed">{{downloadSpeed}}</span></li>
+							{{#booleans.bittorrent}}
+							<li class="label">Upload Speed: <span class="download-uploadSpeed">{{uploadSpeed}}</span></li>
 							<li class="label">Upload Length: <span class="download-uploadLength">{{uploadLength}}</span></li>
-							{{/bittorrent}}
+							{{/booleans.bittorrent}}
 							<li class="label">Connections: <span class="download-connections">{{connections}}</span></li>
 						</ul>
 
 						<h4 class="hidden-phone">Download Files</h4>
 						<ul class="download-files hidden-phone">
 							{{#files}}
-							<li class="label">{{path}} ({{size}})</li>
+							<li class="label">{{path}} ({{length}})</li>
 							{{/files}}
 						</ul>
 

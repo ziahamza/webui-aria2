@@ -1,6 +1,5 @@
 app.controller('DownloadCtrl', [ '$scope', '$rpc', '$utils',
 function(scope, rpc, utils) {
-  scope.utils = utils;
   scope.props = [
     'gid', 'status', 'totalLength', 'completedLength',
     'uploadLength', 'downloadSpeed', 'uploadSpeed',
@@ -33,11 +32,10 @@ function(scope, rpc, utils) {
   });
 
   scope.getDownloads = function() {
-    var rets = scope.active
+    var downs = scope.active
       .concat(scope.waiting).concat(scope.stopped);
-    window.scope = scope;
 
-    return rets;
+    return downs;
   }
   scope.mapDownloads = function(downs, mdowns) {
     if (!mdowns) mdowns = [];
@@ -53,6 +51,7 @@ function(scope, rpc, utils) {
       scope.getCtx(downs[i], mdowns[i]);
     }
 
+    // insert newly created downloads
     while (i < downs.length) {
       mdowns.push(scope.getCtx(downs[i++]));
     }
@@ -60,21 +59,66 @@ function(scope, rpc, utils) {
     return mdowns;
   }
 
+
   scope.getCtx = function(d, ctx) {
     ctx = ctx || {};
-    _.each(scope.props, function(p) {
-      ctx[p] = d[p];
+
+    ctx.status = d.status;
+    ctx.gid = d.gid;
+    ctx.numPieces = d.numPieces;
+    ctx.connections = d.connections;
+    ctx.dir = d.dir.replace(/\\/g, '/');
+
+    ctx.files = _.map(d.files, function(e) {
+      e.length = utils.changeLength(e.length, "B");
+      e.path = e.path.replace(/\\/g, '/').replace(ctx.dir, '.');
+      return e;
     });
 
-    var path = (d.files[0].path || d.files[0].uris[0].uri);
-    ctx.name = utils.getFileName(path);
+    _.each(['downloadSpeed', 'uploadSpeed'], function(e) {
+      ctx[e] = utils.changeLength(d[e], 'B/s');
+    });
+
+    _.each([
+      'totalLength', /*'remainingLength',*/ 'completedLength',
+      'uploadLength', 'pieceLength'
+    ], function(e) {
+      ctx[e] = utils.changeLength(d[e], 'B');
+    });
+
+    ctx.eta = utils.changeTime(
+      (d.remainingLength) / d.downloadSpeed
+    );
+
+    var percentage = (d.completedLength / d.totalLength)*100;
+    percentage = percentage.toFixed(2);
+    if(!percentage) percentage = 0;
+
+    ctx.percentage = percentage;
 
     if (d.bittorrent && d.bittorrent.info) {
-      name = d.bittorrent.info.name;
+      ctx.name = d.bittorrent.info.name;
+    }
+    else {
+      ctx.name = utils.getFileName(ctx.files[0].path || ctx.files[0].uris[0].uri);
     }
 
-    ctx.remainingLength = d.totalLength - d.completedLength;
-    ctx.eta = ctx.remainingLength / ctx.downloadSpeed;
+    var type = d.status;
+    if (type == "paused") type = "waiting";
+    if (["error", "removed", "complete"].indexOf(type) != -1)
+      type = "stopped";
+    ctx.type = type;
+
+    ctx.booleans = {
+      is_error: ctx.status === "error",
+      is_complete: ctx.status === "complete",
+      is_removed: ctx.status === "removed",
+      has_settings: ["active", "waiting", "paused"].indexOf(ctx.status) != -1,
+      can_pause: type == "active",
+      can_play: type == "waiting",
+      bittorrent: !!d.bittorrent,
+      can_restart: type == "stopped"
+    };
 
     return ctx;
   }
