@@ -32,6 +32,9 @@
   <!-- webui core -->
   <script src="js/app.js"></script>
 
+  <script src="js/directives/chunkbar.js"></script>
+  <script src="js/directives/dgraph.js"></script>
+
   <script src="js/services/deps.js"></script>
   <script src="js/services/base64.js"></script>
   <script src="js/services/utils.js"></script>
@@ -136,8 +139,10 @@
 </div>
 <!-- }}} -->
 
+<!-- {{{ downloads -->
 <div role="main" class="container" ng-controller="DownloadCtrl">
 
+  <!-- {{{ download template -->
   <table ng-repeat="download in getDownloads()" class="download" data-gid="{{download.gid}}">
     <tbody>
     <tr>
@@ -178,8 +183,10 @@
           <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength}}</span></li>
           <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone hidden-tablet">Progress: <span class="download-percentage">{{download.percentage}}</span>%</li>
           <li ng-show="download.booleans.can_pause" class="label label-success">Speed: <span class="download-downloadSpeed">{{download.downloadSpeed}}</span></li>
+          <!-- TODO: figure out how to do multiple ng-show
+          <li ng-show="download.booleans.bittorrent" class="label label-success hidden-phone">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed}}</span></li>
+          -->
 
-          <li ng-show="download.booleans.bittorrent" class="label">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed}}</span></li>
 
           <li ng-show="download.booleans.can_play" class="label label-info">Status: <span class="download-status">{{download.status}}</span></li>
           <li ng-show="download.booleans.can_play" class="label label-info">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
@@ -208,7 +215,7 @@
           <div class="bar" style="width: {{download.percentage}}%;"></div>
         </div>
 
-        <div ng-show="download.booleans.is_play" class="progress progress-info progress-striped" style="width: 100%; margin: 0; padding: 0;">
+        <div ng-show="download.booleans.can_play" class="progress progress-info progress-striped" style="width: 100%; margin: 0; padding: 0;">
           <div class="bar" style="width: {{download.percentage}}%;"></div>
         </div>
 
@@ -229,7 +236,7 @@
     <tr data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse" class="download-detail">
       <td colspan="2">
         <div class="collapse more_info">
-          <canvas class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;"></canvas>
+          <canvas bitfield="download.bitfield" pieces="download.numPieces" class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;" chunkbar></canvas>
           <ul class="stats">
             <li class="label">Status: <span class="download-status">{{download.status}}</span></li>
             <li class="label">GID: <span class="download-gid">{{download.gid}}</span></li>
@@ -249,19 +256,27 @@
 
           <h4 class="hidden-phone">Download Files</h4>
           <ul class="download-files hidden-phone">
-            <li class="label" ng-repeat="file in download.files">{{download.download.path}} ({{download.download.length}})</li>
+            <li class="label" ng-repeat="file in download.files">{{file.path}} ({{file.length}})</li>
           </ul>
 
-          <div>
-            <div class="active_graph"></div>
+          <div ng-show="download.booleans.can_pause">
+            <div class="download-graph" dspeed="download.dspeed" uspeed="download.uspeed" dgraph></div>
           </div>
         </div>
       </td>
     </tr>
   </tbody>
   </table>
+  <!-- }}} -->
 
 </div>
+<!-- }}} -->
+
+<!-- {{{ modals -->
+<div ng-controller="ModalCtrl">
+
+</div>
+<!-- }}} -->
 
 </body>
 </html>

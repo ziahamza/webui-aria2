@@ -14,20 +14,20 @@ function(scope, rpc, utils) {
   rpc.subscribe('tellActive', [], function(data) {
     console.log('got active data');
     scope.$apply(function() {
-      scope.mapDownloads(data[0], scope.active);
+      utils.mergeMap(data[0], scope.active, scope.getCtx);
     });
   });
 
-  rpc.subscribe('tellWaiting', [0, 100], function(data) {
+  rpc.subscribe('tellWaiting', [0, 1000], function(data) {
     scope.$apply(function() {
-      scope.mapDownloads(data[0], scope.waiting);
+      utils.mergeMap(data[0], scope.waiting, scope.getCtx);
     });
   });
 
 
-  rpc.subscribe('tellStopped', [0, 100], function(data) {
+  rpc.subscribe('tellStopped', [0, 1000], function(data) {
     scope.$apply(function() {
-      scope.mapDownloads(data[0], scope.stopped);
+      utils.mergeMap(data[0], scope.stopped, scope.getCtx);
     });
   });
 
@@ -37,33 +37,12 @@ function(scope, rpc, utils) {
 
     return downs;
   }
-  scope.mapDownloads = function(downs, mdowns) {
-    if (!mdowns) mdowns = [];
-
-    for (i = 0; i < mdowns.length; i++) {
-      if (i >= downs.length) {
-        // remove the deleted downloads
-        mdowns.splice(i, mdowns.length - downs.length);
-        break;
-      }
-      if (!mdowns[i]) mdowns[i] = {};
-
-      scope.getCtx(downs[i], mdowns[i]);
-    }
-
-    // insert newly created downloads
-    while (i < downs.length) {
-      mdowns.push(scope.getCtx(downs[i++]));
-    }
-
-    return mdowns;
-  }
-
 
   scope.getCtx = function(d, ctx) {
     ctx = ctx || {};
 
     ctx.status = d.status;
+    ctx.bitfield = d.bitfield;
     ctx.gid = d.gid;
     ctx.numPieces = d.numPieces;
     ctx.connections = d.connections;
@@ -86,8 +65,12 @@ function(scope, rpc, utils) {
       ctx[e] = utils.changeLength(d[e], 'B');
     });
 
+    // raw data for graphs
+    ctx.dspeed = d.downloadSpeed;
+    ctx.uspeed = d.uploadSpeed;
+
     ctx.eta = utils.changeTime(
-      (d.remainingLength) / d.downloadSpeed
+      (d.totalLength-d.completedLength) / d.downloadSpeed
     );
 
     var percentage = (d.completedLength / d.totalLength)*100;

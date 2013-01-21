@@ -592,7 +592,7 @@ function updateGraphData(data) {
 						this.add(this.upSpeed, val);
 						return this;
 					},
-					plot: that.createGraph('[data-gid=' + gid + '] .active_graph'),
+					plot: that.createGraph('[data-gid=' + gid + '] .download-graph'),
 					start: new Date()
 				}
 			})().addDown(downSpeed).addUp(upSpeed));

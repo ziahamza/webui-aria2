@@ -13,11 +13,37 @@ app.factory('$utils', function() {
       return str.join("");
     },
 
+    // maps the array in place to the destination
+    // arr, dest (optional): array
+    // func: a merge mapping  func, see ctrls/download.js
+    mergeMap: function(arr, dest, func) {
+      if (!dest) dest = [];
+
+      for (i = 0; i < dest.length; i++) {
+        if (i >= arr.length) {
+          // remove the deleted downloads
+          dest.splice(i, dest.length - arr.length);
+          break;
+        }
+        if (!dest[i]) dest[i] = {};
+
+        func(arr[i], dest[i]);
+      }
+
+      // insert newly created downloads
+      while (i < arr.length) {
+        dest.push(func(arr[i++]));
+      }
+
+      return dest;
+    },
+
     // change time units
     changeTime: function(time) {
-      time = parseInt(time);
+      time = parseFloat(time);
+      if (isNaN(time) || !isFinite(time)) return " infinite";
       if (!time) return " infinite";
-      if (time < 60) return time + " s";
+      if (time < 60) return time.toFixed(2) + " s";
       else if (time < 60*60) return (time/60).toFixed(2) + " min";
       else if (time < 60*60*24) return (time/(60*60)).toFixed(2) + " hours";
       else return (time/(60*60*24)).toFixed(2) + " days!";
@@ -25,8 +51,8 @@ app.factory('$utils', function() {
 
     // change length units
     changeLength: function(len, pref) {
-      len = parseInt(len);
-      if(len <= (1<<10)) return len  + " " + pref;
+      len = parseFloat(len);
+      if(len <= (1<<10)) return len.toFixed(1)  + " " + pref;
       else if(len <= (1<<20)) return (len/(1<<10)).toFixed(1) + " K" + pref;
       else if(len <= (1<<30)) return (len/(1<<20)).toFixed(1) + " M" + pref;
       else return (len/(1<<30)).toFixed(1) + " G" + pref;
