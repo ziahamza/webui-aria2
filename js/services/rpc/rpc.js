@@ -68,6 +68,9 @@ app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
     },
     // syscall is done only once
     once: function(name, params, cb) {
+      cb = cb || angular.noop;
+      params = params || [];
+
       subscriptions.push({
         once: true,
         name: 'aria2.' + name,
@@ -81,6 +84,9 @@ app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
     // callback is called each time with updated syscall data
     // after the global timeout
     subscribe: function(name, params, cb) {
+      cb = cb || angular.noop;
+      params = params || [];
+
       var handle = {
         once: false,
         name: 'aria2.' + name,

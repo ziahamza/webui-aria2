@@ -153,11 +153,11 @@
       <td class="download-controls" rowspan="2">
         <div class="btn-group">
 
-          <button ng-show="download.booleans.can_pause" class="btn download_pause"><i class="icon-pause"></i></button>
-          <button ng-show="download.booleans.can_play" class="btn download_play"><i class="icon-play"></i></button>
+          <button ng-show="download.booleans.can_pause" class="btn download_pause" ng-click="pause(download)"><i class="icon-pause"></i></button>
+          <button ng-show="download.booleans.can_play" class="btn download_play" ng-click="resume(download)"><i class="icon-play"></i></button>
           <button ng-show="download.booleans.can_restart" class="btn download_restart"><i class="icon-repeat"></i></button>
 
-          <button class="btn download_remove hidden-phone"><i class="icon-stop"></i></button>
+          <button class="btn download_remove hidden-phone" ng-click="remove(download)"><i class="icon-stop"></i></button>
 
           <button ng-show="download.booleans.has_settings" class="btn download_settings hidden-phone"><i class="icon-cog"></i></button>
 
