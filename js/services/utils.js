@@ -38,26 +38,6 @@ app.factory('$utils', function() {
       return dest;
     },
 
-    // change time units
-    changeTime: function(time) {
-      time = parseFloat(time);
-      if (isNaN(time) || !isFinite(time)) return " infinite";
-      if (!time) return " infinite";
-      if (time < 60) return time.toFixed(2) + " s";
-      else if (time < 60*60) return (time/60).toFixed(2) + " min";
-      else if (time < 60*60*24) return (time/(60*60)).toFixed(2) + " hours";
-      else return (time/(60*60*24)).toFixed(2) + " days!";
-    },
-
-    // change length units
-    changeLength: function(len, pref) {
-      len = parseFloat(len);
-      if(len <= (1<<10)) return len.toFixed(1)  + " " + pref;
-      else if(len <= (1<<20)) return (len/(1<<10)).toFixed(1) + " K" + pref;
-      else if(len <= (1<<30)) return (len/(1<<20)).toFixed(1) + " M" + pref;
-      else return (len/(1<<30)).toFixed(1) + " G" + pref;
-    },
-
     // get download chunks from aria2 bitfield
     getChunksFromHex: function(bitfield, numOfPieces) {
       var chunks =  [], len = 0, numPieces = parseInt(numOfPieces);

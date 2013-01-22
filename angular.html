@@ -35,6 +35,8 @@
   <script src="js/directives/chunkbar.js"></script>
   <script src="js/directives/dgraph.js"></script>
 
+  <script src="js/filters/bytes.js"></script>
+
   <script src="js/services/deps.js"></script>
   <script src="js/services/base64.js"></script>
   <script src="js/services/utils.js"></script>
@@ -151,9 +153,11 @@
       </td>
       <td class="download-controls" rowspan="2">
         <div class="btn-group">
+
           <button ng-show="download.booleans.can_pause" class="btn download_pause"><i class="icon-pause"></i></button>
           <button ng-show="download.booleans.can_play" class="btn download_play"><i class="icon-play"></i></button>
           <button ng-show="download.booleans.can_restart" class="btn download_restart"><i class="icon-repeat"></i></button>
+
           <button class="btn download_remove hidden-phone"><i class="icon-stop"></i></button>
 
           <button ng-show="download.booleans.has_settings" class="btn download_settings hidden-phone"><i class="icon-cog"></i></button>
@@ -178,32 +182,32 @@
         <ul class="stats pull-left">
 
           <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone hidden-tablet">Status: <span class="download-status">{{download.status}}</span></li>
-          <li ng-show="download.booleans.can_pause" class="label label-success">ETA: <span class="download-eta">{{download.eta}}</span></li>
-          <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
-          <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength}}</span></li>
+          <li ng-show="download.booleans.can_pause" class="label label-success">ETA: <span class="download-eta">{{download.eta | time}}</span></li>
+          <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
+          <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength | blength}}</span></li>
           <li ng-show="download.booleans.can_pause" class="label label-success hidden-phone hidden-tablet">Progress: <span class="download-percentage">{{download.percentage}}</span>%</li>
-          <li ng-show="download.booleans.can_pause" class="label label-success">Speed: <span class="download-downloadSpeed">{{download.downloadSpeed}}</span></li>
+          <li ng-show="download.booleans.can_pause" class="label label-success">Speed: <span class="download-downloadSpeed">{{download.downloadSpeed | bspeed}}</span></li>
           <!-- TODO: figure out how to do multiple ng-show
-          <li ng-show="download.booleans.bittorrent" class="label label-success hidden-phone">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed}}</span></li>
+          <li ng-show="download.booleans.bittorrent" class="label label-success hidden-phone">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed | bspeed}}</span></li>
           -->
 
 
           <li ng-show="download.booleans.can_play" class="label label-info">Status: <span class="download-status">{{download.status}}</span></li>
-          <li ng-show="download.booleans.can_play" class="label label-info">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
-          <li ng-show="download.booleans.can_play" class="label label-info hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength}}</span></li>
+          <li ng-show="download.booleans.can_play" class="label label-info">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
+          <li ng-show="download.booleans.can_play" class="label label-info hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength | blength}}</span></li>
           <li ng-show="download.booleans.can_play" class="label label-info hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
 
           <li ng-show="download.booleans.is_complete" class="label">Status: <span class="download-status">{{download.status}}</span></li>
           <li ng-show="download.booleans.is_complete" class="label hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
-          <li ng-show="download.booleans.is_complete" class="label">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+          <li ng-show="download.booleans.is_complete" class="label">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
 
           <li ng-show="download.booleans.is_removed" class="label label-warning">Status: <span class="download-status">{{download.status}}</span></li>
           <li ng-show="download.booleans.is_removed" class="label label-warning hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
-          <li ng-show="download.booleans.is_removed" class="label label-warning">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+          <li ng-show="download.booleans.is_removed" class="label label-warning">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
 
           <li ng-show="download.booleans.is_error" class="label label-important">Status: <span class="download-status">{{download.status}}</span></li>
           <li ng-show="download.booleans.is_error" class="label label-important hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
-          <li ng-show="download.booleans.is_error" class="label label-important">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
+          <li ng-show="download.booleans.is_error" class="label label-important">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
 
         </ul>
       </td>
@@ -241,26 +245,26 @@
             <li class="label">Status: <span class="download-status">{{download.status}}</span></li>
             <li class="label">GID: <span class="download-gid">{{download.gid}}</span></li>
             <li class="label">Dir: <span class="download-dir">{{download.dir}}</span></li>
-            <li class="label">Size: <span class="download-totalLength">{{download.totalLength}}</span></li>
-            <li class="label">Downloaded: <span class="download-completedLength">{{download.completedLength}}</span></li>
+            <li class="label">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
+            <li class="label">Downloaded: <span class="download-completedLength">{{download.completedLength | blength}}</span></li>
             <li class="label">Num of Pieces: <span class="download-numPieces">{{download.numPieces}}</span></li>
-            <li class="label">Piece Length: <span class="download-pieceLength">{{download.pieceLength}}</span></li>
-            <li class="label">ETA: <span class="download-eta">{{download.eta}}</span></li>
-            <li class="label">Down Speed: <span class="download-downloadSpeed">{{download.downloadSpeed}}</span></li>
+            <li class="label">Piece Length: <span class="download-pieceLength">{{download.pieceLength | blength}}</span></li>
+            <li class="label">ETA: <span class="download-eta">{{download.eta | time}}</span></li>
+            <li class="label">Down Speed: <span class="download-downloadSpeed">{{download.downloadSpeed | bspeed}}</span></li>
 
-            <li class="label" ng-show="download.booleans.bittorrent">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed}}</span></li>
-            <li class="label" ng-show="download.booleans.bittorrent">Upload Length: <span class="download-uploadLength">{{download.uploadLength}}</span></li>
+            <li class="label" ng-show="download.booleans.bittorrent">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed | bspeed}}</span></li>
+            <li class="label" ng-show="download.booleans.bittorrent">Upload Length: <span class="download-uploadLength">{{download.uploadLength | blength}}</span></li>
 
             <li class="label">Connections: <span class="download-connections">{{download.connections}}</span></li>
           </ul>
 
           <h4 class="hidden-phone">Download Files</h4>
           <ul class="download-files hidden-phone">
-            <li class="label" ng-repeat="file in download.files">{{file.path}} ({{file.length}})</li>
+            <li class="label" ng-repeat="file in download.files">{{file.path}} ({{file.length | blength}})</li>
           </ul>
 
           <div ng-show="download.booleans.can_pause">
-            <div class="download-graph" dspeed="download.dspeed" uspeed="download.uspeed" dgraph></div>
+            <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph></div>
           </div>
         </div>
       </td>
@@ -274,7 +278,6 @@
 
 <!-- {{{ modals -->
 <div ng-controller="ModalCtrl">
-
 </div>
 <!-- }}} -->
 

@@ -1,5 +1,5 @@
 
-app.directive('dgraph', ['$', '$utils', function($, utils) {
+app.directive('dgraph', ['$', '$filter', function($, filter) {
 
   return function(scope, elem, attrs) {
 
@@ -30,7 +30,7 @@ app.directive('dgraph', ['$', '$utils', function($, utils) {
       },
       yaxis: {
         tickFormatter: function(val, axis) {
-          return utils.changeLength(val, "B/s");
+          return filter('bspeed')(val);
         }
         ,
         min: 0

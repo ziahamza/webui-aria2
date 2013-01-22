@@ -41,37 +41,23 @@ function(scope, rpc, utils) {
   scope.getCtx = function(d, ctx) {
     ctx = ctx || {};
 
-    ctx.status = d.status;
-    ctx.bitfield = d.bitfield;
-    ctx.gid = d.gid;
-    ctx.numPieces = d.numPieces;
-    ctx.connections = d.connections;
-    ctx.dir = d.dir.replace(/\\/g, '/');
+    _.each([
+      'totalLength', 'completedLength', 'uploadLength',
+      'pieceLength', 'downloadSpeed', 'uploadSpeed',
+      'status', 'gid', 'bitfield', 'numPieces', 'connections'
+    ], function(e) {
+      ctx[e] = d[e];
+    });
 
+    ctx.dir = d.dir.replace(/\\/g, '/');
     ctx.files = _.map(d.files, function(e) {
-      e.length = utils.changeLength(e.length, "B");
       e.path = e.path.replace(/\\/g, '/').replace(ctx.dir, '.');
       return e;
     });
 
-    _.each(['downloadSpeed', 'uploadSpeed'], function(e) {
-      ctx[e] = utils.changeLength(d[e], 'B/s');
-    });
 
-    _.each([
-      'totalLength', /*'remainingLength',*/ 'completedLength',
-      'uploadLength', 'pieceLength'
-    ], function(e) {
-      ctx[e] = utils.changeLength(d[e], 'B');
-    });
 
-    // raw data for graphs
-    ctx.dspeed = d.downloadSpeed;
-    ctx.uspeed = d.uploadSpeed;
-
-    ctx.eta = utils.changeTime(
-      (d.totalLength-d.completedLength) / d.downloadSpeed
-    );
+    ctx.eta = (d.totalLength-d.completedLength) / d.downloadSpeed;
 
     var percentage = (d.completedLength / d.totalLength)*100;
     percentage = percentage.toFixed(2);
