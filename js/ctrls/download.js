@@ -20,10 +20,29 @@ function(scope, rpc, utils) {
   // otherwise permanantly remove it
   // d: the download ctx
   scope.remove = function(d) {
-    var method = d.type == 'stopped' ? 'removeDownloadResult' : 'remove';
+    var method = 'remove';
+    if (scope.getType(d) == 'stopped')
+      method = 'removeDownloadResult';
+
     rpc.once(method, [d.gid]);
   }
 
+  scope.restart = function(d) {
+    var uris =
+      _.chain(d.files).map(function(f) { return f.uris })
+      .filter(function(uris) { return uris.length })
+      .map(function(uris) {
+        return _.chain(uris)
+          .map(function(u) { return u.uri })
+          .uniq().value();
+      }).value();
+
+    if (uris.length > 0) {
+      rpc.once('removeDownloadResult', [d.gid], function() {
+        rpc.once('addUri', uris);
+      });
+    }
+  }
 
   // start filling in the model of active,
   // waiting and stopped download
@@ -59,52 +78,62 @@ function(scope, rpc, utils) {
     ctx = ctx || {};
 
     _.each([
-      'totalLength', 'completedLength', 'uploadLength',
-      'pieceLength', 'downloadSpeed', 'uploadSpeed',
+      'totalLength', 'completedLength', 'uploadLength', 'dir',
+      'pieceLength', 'downloadSpeed', 'uploadSpeed', 'files',
       'status', 'gid', 'bitfield', 'numPieces', 'connections'
     ], function(e) {
       ctx[e] = d[e];
     });
 
+    return ctx;
+  };
 
+  scope.canRestart = function(d) {
+    if (['active', 'paused'].indexOf(d.status) == -1
+        && !d.bittorrent)
+      return true;
+
+    return false;
+  };
+
+  scope.hasStatus = function(d, status) {
+    return d.status == status;
+  };
+
+  // get time left for the download with
+  // current download speed,
+  // could be smarter by different heuristics
+  scope.getEta = function(d) {
+    return (d.totalLength-d.completedLength) / d.downloadSpeed;
+  }
+
+  // gets the progress in percentages
+  scope.getProgress = function(d) {
     var percentage = (d.completedLength / d.totalLength)*100;
     percentage = percentage.toFixed(2);
     if(!percentage) percentage = 0;
 
-    ctx.percentage = percentage;
-    ctx.dir = d.dir.replace(/\\/g, '/');
-    ctx.eta = (d.totalLength-d.completedLength) / d.downloadSpeed;
+    return percentage;
+  };
 
+  // gets a pretty name for the download
+  scope.getName = function(d) {
+    if (d.bittorrent && d.bittorrent.info) {
+      return d.bittorrent.info.name;
+    }
+
+    return utils.getFileName(
+      d.files[0].path || d.files[0].uris[0].uri
+    );
+  }
+
+  // gets the type for the download as classified by the aria2 rpc calls
+  scope.getType = function(d) {
     var type = d.status;
     if (type == "paused") type = "waiting";
     if (["error", "removed", "complete"].indexOf(type) != -1)
       type = "stopped";
-    ctx.type = type;
-
-    ctx.files = _.map(d.files, function(e) {
-      e.path = e.path.replace(/\\/g, '/').replace(ctx.dir, '.');
-      return e;
-    });
-
-    if (d.bittorrent && d.bittorrent.info) {
-      ctx.name = d.bittorrent.info.name;
-    }
-    else {
-      ctx.name = utils.getFileName(ctx.files[0].path || ctx.files[0].uris[0].uri);
-    }
-
-    ctx.booleans = {
-      is_error: ctx.status === "error",
-      is_complete: ctx.status === "complete",
-      is_removed: ctx.status === "removed",
-      has_settings: ["active", "waiting", "paused"].indexOf(ctx.status) != -1,
-      can_pause: type == "active",
-      can_play: type == "waiting",
-      bittorrent: !!d.bittorrent,
-      can_restart: type == "stopped"
-    };
-
-    return ctx;
-  }
+    return type;
+  };
 
 }]);

@@ -41,6 +41,8 @@ app.factory('$utils', function() {
     // get download chunks from aria2 bitfield
     getChunksFromHex: function(bitfield, numOfPieces) {
       var chunks =  [], len = 0, numPieces = parseInt(numOfPieces);
+      if (!bitfield) return [];
+
       var totalDownloaded = 0;
       if (numPieces > 1) {
         var chunk_ratio = 1 / numPieces;
