@@ -62,15 +62,15 @@
 <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
   <div class="navbar-inner">
   <div class="container">
-    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-    <a class="btn btn-navbar"
+    <!--  using a span for collapse rather than a to fix the angular majic on anchors -->
+    <span class="btn btn-navbar"
       data-toggle="collapse"
       data-target=".nav-collapse">
 
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
-    </a>
+    </span>
 
     <a class="brand">{{ name }}</a>
 
