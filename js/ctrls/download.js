@@ -80,7 +80,8 @@ function(scope, rpc, utils) {
     _.each([
       'totalLength', 'completedLength', 'uploadLength', 'dir',
       'pieceLength', 'downloadSpeed', 'uploadSpeed', 'files',
-      'status', 'gid', 'bitfield', 'numPieces', 'connections'
+      'status', 'gid', 'bitfield', 'numPieces', 'connections',
+      'bittorrent'
     ], function(e) {
       ctx[e] = d[e];
     });
