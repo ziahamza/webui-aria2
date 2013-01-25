@@ -43,6 +43,13 @@ app.directive('dgraph', ['$', '$filter', function($, filter) {
 
       elem.height(elem.width() / 2);
 
+      graph.setData([dconf, uconf]);
+      graph.resize();
+      graph.setupGrid();
+      graph.draw();
+    };
+
+    function update() {
       var cnt = ((new Date - start)/1000).toFixed(0);
 
       dconf.data.push([cnt, dspeed]);
@@ -51,10 +58,10 @@ app.directive('dgraph', ['$', '$filter', function($, filter) {
       uconf.data.push([cnt, uspeed]);
       if (uconf.data.length > graphSize) uconf.data.shift();
 
-      graph.setData([dconf, uconf]);
-      graph.resize();
-      graph.setupGrid();
-      graph.draw();
+      // if any parents is collapsable, then confirm if it isnt
+      var collapsable = elem.parents('.collapse');
+      if (!collapsable.length || collapsable.hasClass('in'))
+        draw();
     };
 
     scope.$watch(attrs.dspeed, function(val) {
@@ -65,7 +72,7 @@ app.directive('dgraph', ['$', '$filter', function($, filter) {
       uspeed = val;
     });
 
-    var interval = setInterval(draw, 1000);
+    var interval = setInterval(update, 1000);
 
     elem.bind('$destroy', function() {
       clearInterval(interval);
