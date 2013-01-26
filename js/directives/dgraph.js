@@ -20,7 +20,8 @@ app.directive('dgraph', ['$', '$filter', function($, filter) {
       start = new Date
     ;
 
-    // jqplot doesnt draw graphs with no fixed height
+
+    // hack for the null height for flot elem
     elem.height(elem.width() / 2);
 
     var graph = $.plot(elem, [dconf, uconf], {
@@ -38,10 +39,10 @@ app.directive('dgraph', ['$', '$filter', function($, filter) {
     });
 
     var draw = function() {
-      var height = elem.height();
-      if (height <= 0) return;
+      var width = elem.width();
+      if (width == 0) return;
 
-      elem.height(elem.width() / 2);
+      elem.height(width / 2);
 
       graph.setData([dconf, uconf]);
       graph.resize();
@@ -74,8 +75,10 @@ app.directive('dgraph', ['$', '$filter', function($, filter) {
 
     var interval = setInterval(update, 1000);
 
+    angular.element(window).bind('resize', draw);
     elem.bind('$destroy', function() {
       clearInterval(interval);
     });
+
   };
 }]);

@@ -1,5 +1,5 @@
 app.constant('$name', 'webui-aria2');
-app.constant('$globalTimeout', 1000);
+app.constant('$globalTimeout', 5000);
 
 app.value('$', $);
 app.value('$_', _);

@@ -27,7 +27,9 @@
   <script src="js/libs/angular.js"></script>
 
   <script src="js/libs/jquery.flot.js"></script>
+  <!-- We do manual resize currently
   <script src="js/libs/jquery.flot.resize.js"></script>
+  -->
 
   <!-- webui core -->
   <script src="js/init.js"></script>
@@ -216,7 +218,7 @@
     <tr>
       <td class="download-progress" colspan="2" data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse">
 
-        <div ng-show="hasStatus(download, 'active')" class="progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
+        <div ng-show="hasStatus(download, 'active')" class="progress progress-striped" style="width: 100%; margin: 0; padding: 0;">
           <div class="bar" style="width: {{getProgress(download)}}%;"></div>
         </div>
 

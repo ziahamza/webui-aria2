@@ -20,7 +20,7 @@ app.factory('$jsoncall', ['$', '$json', '$base64', function($, JSON, base64) {
           params: params && params.length ? this.encode(params) : undefined
         },
         success: function(data) {
-          conn.avgTimeout = 3 * (new Date() - startTime);
+          conn.avgTimeout =  2000 + 3 * (new Date() - startTime);
           return success(data)
         },
         error: error,

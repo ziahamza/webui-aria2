@@ -2,8 +2,10 @@
 .modal {
   position: absolute;
 }
-@media all and (min-width: 980px) {
+@media (min-width: 980px) {
   body {
     padding-top: 60px;
   }
 }
+
+
