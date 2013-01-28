@@ -66,8 +66,10 @@ app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
       else
         configurations = [conf];
     },
-    // syscall is done only once
-    once: function(name, params, cb) {
+    // syscall is done only once, delay is optional
+    // and pass true to only dispatch it in the global timeout
+    // which can be used to batch up once calls
+    once: function(name, params, cb, delay) {
       cb = cb || angular.noop;
       params = params || [];
 
@@ -78,12 +80,16 @@ app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
         cb: cb
       });
 
-      this.forceUpdate();
+      if (!delay) {
+        this.forceUpdate();
+      }
     },
 
     // callback is called each time with updated syscall data
-    // after the global timeout
-    subscribe: function(name, params, cb) {
+    // after the global timeout, delay is optional and pass it
+    // true to dispatch the first syscall also on global timeout
+    // which can be used to batch the subscribe calls
+    subscribe: function(name, params, cb, delay) {
       cb = cb || angular.noop;
       params = params || [];
 
@@ -95,8 +101,7 @@ app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
       };
       subscriptions.push(handle);
 
-      this.forceUpdate();
-
+      if (!delay) this.forceUpdate();
       return handle;
     },
 

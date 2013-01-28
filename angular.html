@@ -16,15 +16,18 @@
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/download.css">
+  <link rel="stylesheet" href="css/modals.css">
 
 
   <!-- external javascript dependencies -->
   <script src="js/libs/jquery-1.8.3.js"></script>
   <script src="js/libs/underscore.js"></script>
 
-  <script src="js/libs/bootstrap.js"></script>
-
   <script src="js/libs/angular.js"></script>
+
+  <script src="js/libs/bootstrap.js"></script>
+  <script src="js/libs/angularui-bootstrap.js"></script>
+
 
   <script src="js/libs/jquery.flot.js"></script>
   <!-- We do manual resize currently
@@ -66,8 +69,7 @@
   <div class="container">
     <!--  using a span for collapse rather than a to fix the angular majic on anchors -->
     <span class="btn btn-navbar"
-      data-toggle="collapse"
-      data-target=".nav-collapse">
+      ng-click="collapsed = !collapsed">
 
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -76,27 +78,29 @@
 
     <a class="brand">{{ name }}</a>
 
-    <div class="nav-collapse">
+    <div class="nav-collapse" collapse="collapsed">
     <ul class="nav">
       <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <a class="dropdown-toggle" href="#">
           Add <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li>
-            <a href="#"><i class="icon-download"></i> Add Download URL</a>
+            <a href="#" data-toggle="modal" data-target=".modal-adduris">
+              <i class="icon-download"></i> By URIs
+            </a>
           </li>
           <li>
-            <a href="#"><i class="icon-file"></i> Add Metalink</a>
+            <a href="#"><i class="icon-file"></i> By Metalinks</a>
           </li>
           <li>
-            <a href="#"><i class="icon-file"></i> Add Torrent</a>
+            <a href="#"><i class="icon-file"></i> By Torrents</a>
           </li>
         </ul>
       </li>
 
       <li class="dropdown" id="stop_downloads">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <a class="dropdown-toggle" href="#">
         Manage <b class="caret"></b>
       </a>
       <ul class="dropdown-menu">
@@ -111,7 +115,7 @@
 
     <ul class="nav">
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <a href="#" class="dropdown-toggle" >
           Settings <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -126,7 +130,7 @@
 
     <ul class="nav pull-right">
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <a href="#" class="dropdown-toggle" >
           About <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -150,7 +154,7 @@
   <table ng-repeat="download in getDownloads()" class="download" data-gid="{{download.gid}}">
     <tbody>
     <tr>
-      <td data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse" class="download-overview">
+      <td ng-click="download.collapsed = !download.collapsed" class="download-overview">
         <b class="download-name">{{getName(download)}}</b>
       </td>
       <td class="download-controls" rowspan="2">
@@ -164,7 +168,7 @@
 
           <button class="btn download_settings hidden-phone"><i class="icon-cog"></i></button>
 
-          <button class="btn dropdown-toggle" data-toggle="dropdown">
+          <button class="btn dropdown-toggle">
             <i class="caret"></i>
           </button>
           <ul class="dropdown-menu">
@@ -173,7 +177,7 @@
 
             <li ng-show="download.bittorrent"><a href="#" class="torrent_info"><i class="icon-list-alt"></i> Peers</a></li>
 
-            <li><a href="#" data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
+            <li><a href="#" ng-click="download.collapsed = !download.collapsed"><i class="icon-info-sign"></i> More Info</a></li>
 
             <li class="visible-phone"><a href="#" ng-click="remove(download)"><i class="icon-remove"></i> Remove</a></li>
           </ul>
@@ -181,7 +185,7 @@
       </td>
     </tr>
     <tr>
-      <td data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse" class="download-overview">
+      <td ng-click="download.collapsed = !download.collapsed" class="download-overview">
         <ul class="stats pull-left">
 
           <li ng-show="hasStatus(download, 'active')" class="label label-success hidden-phone hidden-tablet">Status: <span class="download-status">{{download.status}}</span></li>
@@ -216,7 +220,7 @@
       </td>
     </tr>
     <tr>
-      <td class="download-progress" colspan="2" data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse">
+      <td class="download-progress" colspan="2" ng-click="download.collapsed = !download.collapsed">
 
         <div ng-show="hasStatus(download, 'active')" class="progress progress-striped" style="width: 100%; margin: 0; padding: 0;">
           <div class="bar" style="width: {{getProgress(download)}}%;"></div>
@@ -240,10 +244,10 @@
 
       </td>
     </tr>
-    <tr data-toggle="collapse" data-target="[data-gid={{download.gid}}] .download-detail .collapse" class="download-detail">
+    <tr ng-click="download.collapsed = !download.collapsed" class="download-detail">
       <td colspan="2">
-        <div class="collapse more_info">
-          <canvas bitfield="download.bitfield" pieces="download.numPieces" class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;" chunkbar></canvas>
+        <div class="more_info" collapse="download.collapsed">
+          <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;" chunkbar></canvas>
           <ul class="stats">
             <li class="label">Status: <span class="download-status">{{download.status}}</span></li>
             <li class="label">GID: <span class="download-gid">{{download.gid}}</span></li>
@@ -267,7 +271,7 @@
           </ul>
 
           <div ng-show="hasStatus(download, 'active')">
-            <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph></div>
+            <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph draw="!download.collapsed"></div>
           </div>
         </div>
       </td>
@@ -281,6 +285,49 @@
 
 <!-- {{{ modals -->
 <div ng-controller="ModalCtrl">
+
+<!--{{{ add new Download template -->
+<div class="modal hide modal-adduris">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Add Downloads By URIs</h3>
+	</div>
+	<form class="modal-body">
+    <fieldset>
+      <legend>Download URIs</legend>
+      <textarea rows="6" ng-model="uris"></textarea>
+      <p class="help-block">
+        {{ uris }} <br>
+        You can add multiple downloads (files)
+        at the same time by putting uris for each
+        file on a separate line.
+        <br>
+        You can also add multiple uris (mirrors) for the
+        *same* file. To do this separate the uris
+        by a space.
+        <br>
+        Aria2 will use multiple uris (or mirrors) to boost
+        the download speed for that file (download).
+        <br>
+        E.g. To add 2 files (downloads) f1.jpg
+        and f2.mp4 with 2 uris (mirrors) each,
+        add uris as following:
+        <br>
+        <!-- pre tags print tabs, so do not indent them! -->
+<pre>
+http://ex1.com/f1.jpg http://ex2.com/f1.jpg
+http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
+</pre>
+        A URI can be HTTP(S)/FTP/BitTorrent Magnet URI.
+      </p>
+    </fieldset>
+	</form>
+	<div class="modal-footer">
+		<button class="btn" ng-click="addUris()">Add Downloads</button>
+	</div>
+</div>
+<!-- add new Download template end }}}-->
+
 </div>
 <!-- }}} -->
 

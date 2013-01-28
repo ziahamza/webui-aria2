@@ -17,11 +17,15 @@ var draw = function(canvas, chunks, fillStyle) {
     x += dx;
   });
 };
+// put chunkbar and bitfield attributes in a canvas element
+// to use the directive, draw is optional and canvas is
+// only drawn when it is true if given
 app.directive('chunkbar', ['$utils', function(utils) {
   return function(scope, elem, attrs) {
-    var bitfield = "", pieces = 0;
+    var bitfield = "", pieces = 0, canDraw = true;
     var update = function() {
-      draw(elem[0], utils.getChunksFromHex(bitfield, pieces), attrs.fillStyle);
+      if (canDraw)
+        draw(elem[0], utils.getChunksFromHex(bitfield, pieces), attrs.fillStyle);
     };
     scope.$watch(attrs.bitfield, function(bf) {
       bitfield = bf;
@@ -31,6 +35,12 @@ app.directive('chunkbar', ['$utils', function(utils) {
       pieces = p;
       update();
     });
+
+    if (attrs.draw) {
+      scope.$watch(attrs.draw, function(val) {
+        canDraw = val;
+      });
+    }
 
     update();
   };

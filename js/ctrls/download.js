@@ -83,8 +83,13 @@ function(scope, rpc, utils) {
       'status', 'gid', 'bitfield', 'numPieces', 'connections',
       'bittorrent'
     ], function(e) {
-      ctx[e] = d[e];
+      if (ctx[e] != d[e])
+        ctx[e] = d[e];
     });
+
+    // collapse the download details initially
+    if (ctx.collapsed === undefined)
+      ctx.collapsed = true;
 
     return ctx;
   };

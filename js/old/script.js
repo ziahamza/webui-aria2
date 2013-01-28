@@ -426,9 +426,12 @@ function getTemplateCtx(data) {
 function updateDownloadTemplates(elem, ctx) {
 	elem = $(elem);
 
+	var oldctx = elem.data('ctx')  || {};
+
 	// update spans
 	for(var i in ctx) {
-		elem.find('.download-' + i).text(ctx[i]);
+		if (oldctx[i] != ctx[i])
+			elem.find('.download-' + i).text(ctx[i]);
 	}
 
 	// update files
@@ -439,7 +442,8 @@ function updateDownloadTemplates(elem, ctx) {
 	elem.find('.download-files').html(html);
 
 	// update progress bar
-	elem.find('.progress .bar').css('width', ctx.percentage + '%');
+	if (oldctx.percentage != ctx.percentage)
+		elem.find('.progress .bar').css('width', ctx.percentage + '%');
 
 	// update the chunks bar
 	var chunks = ctx.chunks;
@@ -462,6 +466,7 @@ function updateDownloadTemplates(elem, ctx) {
 			ctx.fillRect(x, 0, dx, height);
 		x += dx;
 	});
+	elem.data('ctx', ctx);
 }
 function deleteDownloadTemplates($top_elem, data) {
 	if(!data) {

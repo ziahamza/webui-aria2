@@ -1,7 +1,10 @@
-
-app.directive('dgraph', ['$', '$filter', function($, filter) {
+// graph takes dspeed and uspeed, it queries them every second and draws
+// the last 20 secs, it also takes draw as an optional attribute and only
+// draws the graph when it is true, if not given then graph is always drawn
+app.directive('dgraph', ['$', '$filter', '$parse', function($, filter, parse) {
 
   return function(scope, elem, attrs) {
+    var canDraw = true;
 
     var graphSize = 20
       , dspeed = 0, uspeed = 0
@@ -60,9 +63,9 @@ app.directive('dgraph', ['$', '$filter', function($, filter) {
       if (uconf.data.length > graphSize) uconf.data.shift();
 
       // if any parents is collapsable, then confirm if it isnt
-      var collapsable = elem.parents('.collapse');
-      if (!collapsable.length || collapsable.hasClass('in'))
+      if (canDraw)
         draw();
+
     };
 
     scope.$watch(attrs.dspeed, function(val) {
@@ -72,6 +75,12 @@ app.directive('dgraph', ['$', '$filter', function($, filter) {
     scope.$watch(attrs.useed, function(val) {
       uspeed = val;
     });
+
+    if (attrs.draw) {
+      scope.$watch(attrs.draw, function(val) {
+        canDraw = val;
+      });
+    }
 
     var interval = setInterval(update, 1000);
 
