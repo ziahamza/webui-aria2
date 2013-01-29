@@ -47,15 +47,17 @@
   <script src="js/services/deps.js"></script>
   <script src="js/services/base64.js"></script>
   <script src="js/services/utils.js"></script>
+  <script src="js/services/modals.js"></script>
 
   <script src="js/services/rpc/jsoncall.js"></script>
   <script src="js/services/rpc/sockcall.js"></script>
   <script src="js/services/rpc/syscall.js"></script>
   <script src="js/services/rpc/rpc.js"></script>
+  <script src="js/services/rpc/helpers.js"></script>
 
 
-  <script src="js/ctrls/nav.js"></script>
   <script src="js/ctrls/modal.js"></script>
+  <script src="js/ctrls/nav.js"></script>
   <script src="js/ctrls/download.js"></script>
 
 
@@ -87,7 +89,7 @@
         </a>
         <ul class="dropdown-menu">
           <li>
-            <a href="#" data-toggle="modal" data-target=".modal-adduris">
+            <a href="#" ng-click="addUris()">
               <i class="icon-download"></i> By URIs
             </a>
           </li>
@@ -292,7 +294,7 @@
 <div ng-controller="ModalCtrl">
 
 <!--{{{ add new Download template -->
-<div class="modal hide modal-adduris">
+<div class="modal hide modal-adduris" modal="getUris.shown">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">x</button>
 		<h3>Add Downloads By URIs</h3>
@@ -300,7 +302,7 @@
 	<form class="modal-body">
     <fieldset>
       <legend>Download URIs</legend>
-      <textarea rows="6" ng-model="uris"></textarea>
+      <textarea rows="6" ng-model="getUris.uris"></textarea>
       <p class="help-block">
         {{ uris }} <br>
         You can add multiple downloads (files)
@@ -328,7 +330,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
 	</form>
 	<div class="modal-footer">
-		<button class="btn" ng-click="addUris()">Add Downloads</button>
+		<button class="btn" ng-click="getUris.finish()">Add Downloads</button>
 	</div>
 </div>
 <!-- add new Download template end }}}-->

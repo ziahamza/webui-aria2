@@ -1,31 +1,42 @@
 angular
 .module('webui.ctrls.modal', [
-  'webui.services.rpc', 'webui.services.deps'
+  'webui.services.rpc', 'webui.services.deps', 'webui.services.modals'
 ])
-.controller('ModalCtrl', ['$_', '$scope', '$rpc', function(_, scope, rpc) {
-  scope.uris = '';
-  scope.addUris = function() {
-    console.log(scope.uris);
-    var cnt = 0;
-    var cb = function() {
-      cnt--;
-      if (!cnt) {
-        // close modal
-        console.log('closing modal');
-      }
-    };
-    _.chain(scope.uris.trim().split(/\n\r?/g))
-     .map(function(d) { return d.trim().split(/\s+/g) })
-     .filter(function(d) { return d.length })
-     .each(function(uris) {
-       cnt++;
-       // passing true to batch all the addUri calls
-       rpc.once('addUri', [uris], cb, true);
-     })
+.controller('ModalCtrl', [
+  '$_', '$scope', '$rpc', '$modals',
+  function(_, scope, rpc, modals) {
 
-    // now dispatch all addUri syscalls
-    rpc.forceUpdate();
+  scope.getUris = {
+    cb: null,
+    uris: '',
+    shown: false,
+    parse: function() {
+      return _
+        .chain(this.uris.trim().split(/\n\r?/g))
+        .map(function(d) { return d.trim().split(/\s+/g) })
+        .filter(function(d) { return d.length })
+        .value();
+    },
+    finish: function() {
+      var uris = this.parse();
+      this.uris = '';
 
-    scope.uris = '';
+      if (this.cb) this.cb(uris);
+
+      this.cb = null;
+      this.shown = false;
+    }
   };
+  modals.register('getUris', function(cb) {
+    if (scope.getUris.cb != null && scope.getUris.shown) {
+      // modal already shown, user is busy
+      // TODO: get a better method of passing this on
+      cb([]);
+    }
+    else {
+      scope.getUris.cb = cb;
+      scope.getUris.shown = true;
+    };
+  });
+
 }]);
