@@ -1,4 +1,6 @@
-app.filter('changeLength', function() {
+angular
+.module('webui.filters.bytes', [])
+.filter('changeLength', function() {
   return function(len, pref) {
     len = parseFloat(len);
     if(len <= (1<<10)) return len.toFixed(1)  + " " + pref;
@@ -6,21 +8,18 @@ app.filter('changeLength', function() {
     else if(len <= (1<<30)) return (len/(1<<20)).toFixed(1) + " M" + pref;
     else return (len/(1<<30)).toFixed(1) + " G" + pref;
   };
-});
-
-app.filter('blength', ['$filter', function(filter) {
+})
+.filter('blength', ['$filter', function(filter) {
   return function(len) {
     return filter('changeLength')(len, 'B');
   };
-}]);
-
-app.filter('bspeed', ['$filter', function(filter) {
+}])
+.filter('bspeed', ['$filter', function(filter) {
   return function(speed) {
     return filter('changeLength')(speed, 'B/s');
   };
-}]);
-
-app.filter('time', function() {
+}])
+.filter('time', function() {
   return function(time) {
     time = parseFloat(time);
     if (isNaN(time) || !isFinite(time)) return " infinite";

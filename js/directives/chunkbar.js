@@ -20,7 +20,9 @@ var draw = function(canvas, chunks, fillStyle) {
 // put chunkbar and bitfield attributes in a canvas element
 // to use the directive, draw is optional and canvas is
 // only drawn when it is true if given
-app.directive('chunkbar', ['$utils', function(utils) {
+angular
+.module('webui.directives.chunkbar', ['webui.services.utils'])
+.directive('chunkbar', ['$utils', function(utils) {
   return function(scope, elem, attrs) {
     var bitfield = "", pieces = 0, canDraw = true;
     var update = function() {

@@ -1,4 +1,6 @@
-app.factory('$base64', [function()  {
+angular
+  .module('webui.services.base64', [])
+  .factory('$base64', [function()  {
   var obj = {};
   var a64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
     a256 = {

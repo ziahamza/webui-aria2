@@ -1,4 +1,9 @@
-app.factory('$syscall', ['$log', '$jsoncall', '$sockcall', function(log, jsonRPC, sockRPC) {
+angular
+  .module('webui.services.rpc.syscall', [
+    'webui.services.rpc.jsoncall', 'webui.services.rpc.sockcall',
+    'webui.services.utils'
+  ])
+  .factory('$syscall', ['$log', '$jsoncall', '$sockcall', function(log, jsonRPC, sockRPC) {
   return {
     // called to initialize the rpc interface, call everytime configuration changes
     // conf has the following structure:

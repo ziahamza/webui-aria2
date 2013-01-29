@@ -1,4 +1,9 @@
-app.factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, name, utils) {
+angular
+  .module('webui.services.rpc.sockcall', [
+    'webui.services.deps', 'webui.services.utils', 'webui.services.base64'
+  ])
+  .factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, name, utils) {
+
   var sockRPC = {
     // true when sockrpc is ready to be used,
     // false when either initializing

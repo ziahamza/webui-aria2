@@ -1,4 +1,8 @@
-app.controller('ModalCtrl', ['$_', '$scope', '$rpc', function(_, scope, rpc) {
+angular
+.module('webui.ctrls.modal', [
+  'webui.services.rpc', 'webui.services.deps'
+])
+.controller('ModalCtrl', ['$_', '$scope', '$rpc', function(_, scope, rpc) {
   scope.uris = '';
   scope.addUris = function() {
     console.log(scope.uris);

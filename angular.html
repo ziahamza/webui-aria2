@@ -43,6 +43,7 @@
   <script src="js/filters/bytes.js"></script>
   <script src="js/filters/path.js"></script>
 
+  <script src="js/services/constants.js"></script>
   <script src="js/services/deps.js"></script>
   <script src="js/services/base64.js"></script>
   <script src="js/services/utils.js"></script>
@@ -99,7 +100,7 @@
         </ul>
       </li>
 
-      <li class="dropdown" id="stop_downloads">
+      <li class="dropdown" ng-show="false">
       <a class="dropdown-toggle" href="#">
         Manage <b class="caret"></b>
       </a>
@@ -113,7 +114,7 @@
 
     </ul>
 
-    <ul class="nav">
+    <ul class="nav" ng-show="false">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" >
           Settings <b class="caret"></b>
@@ -128,7 +129,7 @@
       </li>
     </ul>
 
-    <ul class="nav pull-right">
+    <ul class="nav pull-right" ng-show="false">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" >
           About <b class="caret"></b>
@@ -149,6 +150,10 @@
 
 <!-- {{{ downloads -->
 <div role="main" class="container" ng-controller="DownloadCtrl">
+
+  <div ng-show="!getDownloads().length" class="hero-unit">
+    <h3>Currently no downloads in line to display, use the Add download button to start downloading files!</h3>
+  </div>
 
   <!-- {{{ download template -->
   <table ng-repeat="download in getDownloads()" class="download" data-gid="{{download.gid}}">

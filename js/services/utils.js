@@ -1,4 +1,5 @@
-app.factory('$utils', function() {
+angular.module('webui.services.utils', [])
+.factory('$utils', function() {
   return {
     getFileName: function(path) {
       var seed = path.split(/[/\\]/);

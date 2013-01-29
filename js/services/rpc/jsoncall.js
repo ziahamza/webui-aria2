@@ -1,4 +1,7 @@
-app.factory('$jsoncall', ['$', '$json', '$base64', function($, JSON, base64) {
+angular
+  .module('webui.services.rpc.jsoncall', [
+    'webui.services.deps', 'webui.services.base64'])
+  .factory('$jsoncall', ['$', '$json', '$base64', function($, JSON, base64) {
   return {
     init: function(conf) {
       this.avgTimeout = 2000;

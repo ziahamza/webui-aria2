@@ -1,4 +1,8 @@
-app.factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
+angular
+  .module('webui.services.rpc', [
+    'webui.services.rpc.syscall', 'webui.services.constants'
+  ])
+  .factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
   var subscriptions = []
     , configurations = [{ host: 'localhost', port: 6800 }]
     , timeout = null
