@@ -20,6 +20,42 @@ angular.module('webui.services.rpc.helpers', [
 
       // now dispatch all addUri syscalls
       rpc.forceUpdate();
+    },
+    addTorrents: function(txts) {
+      var cnt = 0;
+      var cb = function(ret) {
+        cnt--;
+        if (!cnt) {
+          // close modal
+          console.log('closing modal');
+        }
+      };
+      _.each(txts, function(txt) {
+        cnt++;
+        // passing true to batch all the addUri calls
+        rpc.once('addTorrent', [txt], cb, true);
+      });
+
+      // now dispatch all addUri syscalls
+      rpc.forceUpdate();
+    },
+    addMetalinks: function(txts) {
+      var cnt = 0;
+      var cb = function(ret) {
+        cnt--;
+        if (!cnt) {
+          // close modal
+          console.log('closing modal');
+        }
+      };
+      _.each(txts, function(txt) {
+        cnt++;
+        // passing true to batch all the addUri calls
+        rpc.once('addMetalink', [txt], cb, true);
+      });
+
+      // now dispatch all addUri syscalls
+      rpc.forceUpdate();
     }
   };
 }]);

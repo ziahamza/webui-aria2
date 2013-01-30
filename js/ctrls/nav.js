@@ -13,7 +13,27 @@ angular
   scope.collapsed = true;
 
   scope.addUris = function() {
-    modals.invoke('getUris', rhelpers.addUris);
+    modals.invoke(
+      'getUris', _.bind(rhelpers.addUris, rhelpers)
+    );
+  };
+
+  scope.addTorrents = function() {
+    modals.invoke(
+      'getTorrents', _.bind(rhelpers.addTorrents, rhelpers)
+    );
+  };
+
+  scope.addMetalinks = function() {
+    modals.invoke(
+      'getMetalinks', _.bind(rhelpers.addMetalinks, rhelpers)
+    );
+  };
+
+  scope.addTorrent = function() {
+    modals.invoke(
+      'getTorrent', _.bind(rhelpers.addTorrents, rhelpers)
+    );
   };
 
 }]);

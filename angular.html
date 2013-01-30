@@ -39,6 +39,7 @@
 
   <script src="js/directives/chunkbar.js"></script>
   <script src="js/directives/dgraph.js"></script>
+  <script src="js/directives/fselect.js"></script>
 
   <script src="js/filters/bytes.js"></script>
   <script src="js/filters/path.js"></script>
@@ -94,10 +95,14 @@
             </a>
           </li>
           <li>
-            <a href="#"><i class="icon-file"></i> By Metalinks</a>
+            <a href="#" ng-click="addTorrents()">
+              <i class="icon-file"></i> By Torrents
+            </a>
           </li>
           <li>
-            <a href="#"><i class="icon-file"></i> By Torrents</a>
+            <a href="#" ng-click="addMetalinks()">
+              <i class="icon-file"></i> By Metalinks
+            </a>
           </li>
         </ul>
       </li>
@@ -296,7 +301,7 @@
 <!--{{{ add new Download template -->
 <div class="modal hide modal-adduris" modal="getUris.shown">
 	<div class="modal-header">
-		<button class="close" data-dismiss="modal">x</button>
+		<button class="close" ng-click="getUris.shown = false">x</button>
 		<h3>Add Downloads By URIs</h3>
 	</div>
 	<form class="modal-body">
@@ -304,7 +309,6 @@
       <legend>Download URIs</legend>
       <textarea rows="6" ng-model="getUris.uris"></textarea>
       <p class="help-block">
-        {{ uris }} <br>
         You can add multiple downloads (files)
         at the same time by putting uris for each
         file on a separate line.
@@ -330,10 +334,61 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
 	</form>
 	<div class="modal-footer">
-		<button class="btn" ng-click="getUris.finish()">Add Downloads</button>
+		<button class="btn" ng-click="getUris.shown = false">Cancel</button>
+		<button class="btn btn-primary" ng-click="getUris.finish()">Start</button>
 	</div>
 </div>
-<!-- add new Download template end }}}-->
+<!-- }}} -->
+
+<!-- {{{ add new torrent -->
+<div class="modal hide" modal="getTorrents.shown">
+	<div class="modal-header">
+		<button class="close" ng-click="getTorrents.shown = false">x</button>
+		<h3>Add Downloads By Torrents</h3>
+	</div>
+	<form class="modal-body">
+    <fieldset>
+      <legend>Select Torrents</legend>
+      <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
+      <p class="help-block">
+        Select the torrent from the local filesystem to start the download.
+        <br>
+        You can select multiple torrents to start multiple downloads
+        <br>
+        To add a magnet torrent url, use the add url option and add it there.
+      </p>
+    </fieldset>
+	</form>
+	<div class="modal-footer">
+		<button class="btn" ng-click="getTorrents.shown = false">Cancel</button>
+		<button class="btn btn-primary" ng-click="getTorrents.finish()">Start</button>
+	</div>
+</div
+<!-- }}} -->
+
+<!-- {{{ add new metalink -->
+<div class="modal hide" modal="getMetalinks.shown">
+	<div class="modal-header">
+		<button class="close" ng-click="getMetalinks.shown = false">x</button>
+		<h3>Add Downloads By Metalinks</h3>
+	</div>
+	<form class="modal-body">
+    <fieldset>
+      <legend>Select Metalinks</legend>
+      <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
+      <p class="help-block">
+        Select the metalink from the local filesystem to start the download.
+        <br>
+        You can select multiple metalinks to start multiple downloads
+      </p>
+    </fieldset>
+	</form>
+	<div class="modal-footer">
+		<button class="btn" ng-click="getMetalinks.shown = false">Cancel</button>
+		<button class="btn btn-primary" ng-click="getMetalinks.finish()">Start</button>
+	</div>
+</div
+<!-- }}} -->
 
 </div>
 <!-- }}} -->
