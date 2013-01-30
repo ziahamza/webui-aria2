@@ -5,7 +5,7 @@ angular.module('webui.services.rpc.helpers', [
   return {
     addUris: function(uris) {
       var cnt = 0;
-      var cb = function() {
+      var cb = function(ret) {
         cnt--;
         if (!cnt) {
           // close modal
@@ -15,7 +15,7 @@ angular.module('webui.services.rpc.helpers', [
       _.each(uris, function(uri) {
         cnt++;
         // passing true to batch all the addUri calls
-        rpc.once('addUri', [uris], cb, true);
+        rpc.once('addUri', [uri], cb, true);
       });
 
       // now dispatch all addUri syscalls
