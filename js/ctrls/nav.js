@@ -36,4 +36,10 @@ angular
     );
   };
 
+  scope.changeGSettings = function() {
+    modals.invoke('globalSettings', function() {
+      alert('closing dialog');
+    });
+  };
+
 }]);

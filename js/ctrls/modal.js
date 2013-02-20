@@ -26,17 +26,18 @@ var parseFiles = function(files, cb) {
 
 angular
 .module('webui.ctrls.modal', [
-  'webui.services.rpc', 'webui.services.deps', 'webui.services.modals'
+  'webui.services.rpc', 'webui.services.deps', 'webui.services.modals',
+  'webui.services.settings'
 ])
 .controller('ModalCtrl', [
-  '$_', '$scope', '$rpc', '$modals',
-  function(_, scope, rpc, modals) {
+  '$_', '$scope', '$rpc', '$modals', '$settings',
+  function(_, scope, rpc, modals, settings) {
 
   scope.getUris = {
-    cb: null,
     shown: false,
 
     uris: '',
+    init: function(cb) { this.shown = true; this.cb = cb },
     parse: function() {
       return _
         .chain(this.uris.trim().split(/\n\r?/g))
@@ -57,8 +58,8 @@ angular
 
   _.each(['getTorrents', 'getMetalinks'], function(name) {
     scope[name] =  {
-      cb: null,
       shown: false,
+      init: function(cb) { this.shown = true; this.cb = cb },
 
       files: [],
       finish: function() {
@@ -75,17 +76,47 @@ angular
     };
   });
 
-  _.each(['getUris', 'getTorrents', 'getMetalinks'], function(name) {
+  scope.globalSettings = {
+    shown: false,
+    settings: [],
+    init: function(cb) {
+      var self = this;
+      self.cb = cb;
+
+      rpc.once('getGlobalOption', [], function(data) {
+        var vals = data[0];
+        for (var i in vals) {
+          if (!(i in data)) {
+            data.push({ name: i, val: vals[i], desc: '' });
+          }
+          else data[i].val = vals[i];
+        }
+        console.log(vals);
+        self.shown = true;
+      });
+
+      self.settings = settings;
+    },
+    finish: function() {
+
+    }
+  };
+
+  _.each([
+    'getUris', 'getTorrents', 'getMetalinks',
+    'globalSettings'
+  ], function(name) {
     modals.register(name, function(cb) {
-      if (scope[name].cb != null && scope[name].shown) {
+      if (scope[name].open) {
         // modal already shown, user is busy
-        // TODO: get a better method of passing this on
+        // TODO: get a better method of passing this info
         cb([]);
       }
       else {
+        var args = Array.prototype.slice.call(arguments, 0);
         console.log('setting cb for ', name, cb);
-        scope[name].cb = cb;
-        scope[name].shown = true;
+        scope[name].open = true;
+        scope[name].init.apply(scope[name], args);
       };
     });
   });

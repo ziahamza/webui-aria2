@@ -124,16 +124,16 @@
 
     </ul>
 
-    <ul class="nav" ng-show="false">
+    <ul class="nav">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" >
           Settings <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#">
+          <li ng-show="false"><a href="#">
             <i class="icon-wrench"></i> Connection Settings</a>
           </li>
-          <li><a href="#">
+          <li><a href="#" ng-click="changeGSettings()">
             <i class="icon-wrench"></i> Global Settings</a></li>
         </ul>
       </li>
@@ -303,11 +303,11 @@
 
 <!--{{{ add new Download template -->
 <div class="modal hide modal-adduris" modal="getUris.shown">
-	<div class="modal-header">
-		<button class="close" ng-click="getUris.shown = false">x</button>
-		<h3>Add Downloads By URIs</h3>
-	</div>
-	<form class="modal-body">
+  <div class="modal-header">
+    <button class="close" ng-click="getUris.shown = false">x</button>
+    <h3>Add Downloads By URIs</h3>
+  </div>
+  <form class="modal-body">
     <fieldset>
       <legend>Download URIs</legend>
       <textarea rows="6" ng-model="getUris.uris"></textarea>
@@ -335,21 +335,21 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         A URI can be HTTP(S)/FTP/BitTorrent Magnet URI.
       </p>
     </fieldset>
-	</form>
-	<div class="modal-footer">
-		<button class="btn" ng-click="getUris.shown = false">Cancel</button>
-		<button class="btn btn-primary" ng-click="getUris.finish()">Start</button>
-	</div>
+  </form>
+  <div class="modal-footer">
+    <button class="btn" ng-click="getUris.shown = false">Cancel</button>
+    <button class="btn btn-primary" ng-click="getUris.finish()">Start</button>
+  </div>
 </div>
 <!-- }}} -->
 
 <!-- {{{ add new torrent -->
 <div class="modal hide" modal="getTorrents.shown">
-	<div class="modal-header">
-		<button class="close" ng-click="getTorrents.shown = false">x</button>
-		<h3>Add Downloads By Torrents</h3>
-	</div>
-	<form class="modal-body">
+  <div class="modal-header">
+    <button class="close" ng-click="getTorrents.shown = false">x</button>
+    <h3>Add Downloads By Torrents</h3>
+  </div>
+  <form class="modal-body">
     <fieldset>
       <legend>Select Torrents</legend>
       <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
@@ -361,21 +361,21 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         To add a magnet torrent url, use the add url option and add it there.
       </p>
     </fieldset>
-	</form>
-	<div class="modal-footer">
-		<button class="btn" ng-click="getTorrents.shown = false">Cancel</button>
-		<button class="btn btn-primary" ng-click="getTorrents.finish()">Start</button>
-	</div>
+  </form>
+  <div class="modal-footer">
+    <button class="btn" ng-click="getTorrents.shown = false">Cancel</button>
+    <button class="btn btn-primary" ng-click="getTorrents.finish()">Start</button>
+  </div>
 </div
 <!-- }}} -->
 
 <!-- {{{ add new metalink -->
 <div class="modal hide" modal="getMetalinks.shown">
-	<div class="modal-header">
-		<button class="close" ng-click="getMetalinks.shown = false">x</button>
-		<h3>Add Downloads By Metalinks</h3>
-	</div>
-	<form class="modal-body">
+  <div class="modal-header">
+    <button class="close" ng-click="getMetalinks.shown = false">x</button>
+    <h3>Add Downloads By Metalinks</h3>
+  </div>
+  <form class="modal-body">
     <fieldset>
       <legend>Select Metalinks</legend>
       <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
@@ -385,13 +385,49 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         You can select multiple metalinks to start multiple downloads
       </p>
     </fieldset>
-	</form>
-	<div class="modal-footer">
-		<button class="btn" ng-click="getMetalinks.shown = false">Cancel</button>
-		<button class="btn btn-primary" ng-click="getMetalinks.finish()">Start</button>
-	</div>
+  </form>
+  <div class="modal-footer">
+    <button class="btn" ng-click="getMetalinks.shown = false">Cancel</button>
+    <button class="btn btn-primary" ng-click="getMetalinks.finish()">Start</button>
+  </div>
 </div
 <!-- }}} -->
+
+<!-- {{{ global settings -->
+<div class="modal hide" modal="globalSettings.shown">
+  <div class="modal-header">
+    <button class="close" ng-click="globalSettings.shown = false">x</button>
+    <h3>Global Settings</h3>
+  </div>
+
+  <form class="form-horizontal modal-body">
+    <fieldset>
+      <legend>Global Settings</legend>
+      <div class="control-group">
+        <div ng-repeat="(name, val) in globalSettings.settings">
+          <label class="control-label">{{name}}</label>
+
+          <div class="controls">
+            <select ng-show="val.options.length">
+              <option ng-repeat="opt in val.options" value="{{opt}}">{{opt}}</option>
+            </select>
+            <input ng-show="!val.options.length" typ="text" class="input-xlarge" placeholder="{{val.val}}"/>
+
+            <p class="help-block">{{val.desc}}</p>
+          </div>
+          <br><br>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="modal-footer">
+    <button class="btn" ng-click="globalSettings.shown = false">Cancel</button>
+    <button class="btn btn-primary">Save</button>
+  </div>
+</div
+<!-- }}} -->
+
 
 </div>
 <!-- }}} -->
