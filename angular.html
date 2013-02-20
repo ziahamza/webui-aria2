@@ -304,7 +304,7 @@
 <!--{{{ add new Download template -->
 <div class="modal hide modal-adduris" modal="getUris.shown">
   <div class="modal-header">
-    <button class="close" ng-click="getUris.shown = false">x</button>
+    <button class="close" ng-click="getUris.close()">x</button>
     <h3>Add Downloads By URIs</h3>
   </div>
   <form class="modal-body">
@@ -337,8 +337,8 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getUris.shown = false">Cancel</button>
-    <button class="btn btn-primary" ng-click="getUris.finish()">Start</button>
+    <button class="btn" ng-click="getUris.close()">Cancel</button>
+    <button class="btn btn-primary" ng-click="getUris.success()">Start</button>
   </div>
 </div>
 <!-- }}} -->
@@ -346,7 +346,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 <!-- {{{ add new torrent -->
 <div class="modal hide" modal="getTorrents.shown">
   <div class="modal-header">
-    <button class="close" ng-click="getTorrents.shown = false">x</button>
+    <button class="close" ng-click="getTorrents.close()">x</button>
     <h3>Add Downloads By Torrents</h3>
   </div>
   <form class="modal-body">
@@ -363,8 +363,8 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getTorrents.shown = false">Cancel</button>
-    <button class="btn btn-primary" ng-click="getTorrents.finish()">Start</button>
+    <button class="btn" ng-click="getTorrents.close()">Cancel</button>
+    <button class="btn btn-primary" ng-click="getTorrents.success()">Start</button>
   </div>
 </div
 <!-- }}} -->
@@ -372,7 +372,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 <!-- {{{ add new metalink -->
 <div class="modal hide" modal="getMetalinks.shown">
   <div class="modal-header">
-    <button class="close" ng-click="getMetalinks.shown = false">x</button>
+    <button class="close" ng-click="getMetalinks.close()">x</button>
     <h3>Add Downloads By Metalinks</h3>
   </div>
   <form class="modal-body">
@@ -387,8 +387,8 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getMetalinks.shown = false">Cancel</button>
-    <button class="btn btn-primary" ng-click="getMetalinks.finish()">Start</button>
+    <button class="btn" ng-click="getMetalinks.close()">Cancel</button>
+    <button class="btn btn-primary" ng-click="getMetalinks.success()">Start</button>
   </div>
 </div
 <!-- }}} -->
@@ -396,7 +396,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 <!-- {{{ global settings -->
 <div class="modal hide" modal="globalSettings.shown">
   <div class="modal-header">
-    <button class="close" ng-click="globalSettings.shown = false">x</button>
+    <button class="close" ng-click="globalSettings.close()">x</button>
     <h3>Global Settings</h3>
   </div>
 
@@ -404,16 +404,14 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     <fieldset>
       <legend>Global Settings</legend>
       <div class="control-group">
-        <div ng-repeat="(name, val) in globalSettings.settings">
+        <div ng-repeat="(name, set) in globalSettings.settings">
           <label class="control-label">{{name}}</label>
 
           <div class="controls">
-            <select ng-show="val.options.length">
-              <option ng-repeat="opt in val.options" value="{{opt}}">{{opt}}</option>
+            <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
             </select>
-            <input ng-show="!val.options.length" typ="text" class="input-xlarge" placeholder="{{val.val}}"/>
-
-            <p class="help-block">{{val.desc}}</p>
+            <input ng-show="!set.options.length" typ="text" class="input-xlarge" ng-model="set.val"/>
+            <p class="help-block">{{set.desc}}</p>
           </div>
           <br><br>
         </div>
@@ -422,8 +420,8 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   </form>
 
   <div class="modal-footer">
-    <button class="btn" ng-click="globalSettings.shown = false">Cancel</button>
-    <button class="btn btn-primary">Save</button>
+    <button class="btn" ng-click="globalSettings.close()">Cancel</button>
+    <button class="btn btn-success" ng-click="globalSettings.success()">Save</button>
   </div>
 </div
 <!-- }}} -->

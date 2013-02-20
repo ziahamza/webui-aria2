@@ -30,8 +30,8 @@ angular
   'webui.services.settings'
 ])
 .controller('ModalCtrl', [
-  '$_', '$scope', '$rpc', '$modals', '$settings',
-  function(_, scope, rpc, modals, settings) {
+  '$_', '$scope', '$rpc', '$modals',
+  function(_, scope, rpc, modals) {
 
   scope.getUris = {
     shown: false,
@@ -45,14 +45,18 @@ angular
         .filter(function(d) { return d.length })
         .value();
     },
-    finish: function() {
+    success: function() {
       var uris = this.parse();
       this.uris = '';
 
       if (this.cb) this.cb(uris);
 
+      this.close();
+
+    },
+    close: function() {
+      this.shown = this.open = false;
       this.cb = null;
-      this.shown = false;
     }
   };
 
@@ -62,16 +66,19 @@ angular
       init: function(cb) { this.shown = true; this.cb = cb },
 
       files: [],
-      finish: function() {
+      success: function() {
         var self = this;
         console.log('parsing files');
         parseFiles(self.files, function(txts) {
           console.log('calling cb', this.cb);
           if (self.cb) self.cb(txts);
 
-          self.cb = null;
-          self.shown = false;
+          self.close();
         });
+      },
+      close: function() {
+        this.cb = null;
+        this.shown = false;
       }
     };
   });
@@ -79,26 +86,18 @@ angular
   scope.globalSettings = {
     shown: false,
     settings: [],
-    init: function(cb) {
-      var self = this;
-      self.cb = cb;
-
-      rpc.once('getGlobalOption', [], function(data) {
-        var vals = data[0];
-        for (var i in vals) {
-          if (!(i in data)) {
-            data.push({ name: i, val: vals[i], desc: '' });
-          }
-          else data[i].val = vals[i];
-        }
-        console.log(vals);
-        self.shown = true;
-      });
-
-      self.settings = settings;
+    init: function(settings, cb) {
+      this.cb = cb;
+      this.settings = settings;
+      this.shown = true;
     },
-    finish: function() {
-
+    success: function() {
+      if (this.cb) this.cb(this.settings);
+      this.close();
+    },
+    close: function() {
+      this.cb = null;
+      this.shown = this.open = false;
     }
   };
 
@@ -107,14 +106,13 @@ angular
     'globalSettings'
   ], function(name) {
     modals.register(name, function(cb) {
-      if (scope[name].open) {
+      if (scope[name].open && scope[name].cb) {
         // modal already shown, user is busy
         // TODO: get a better method of passing this info
         cb([]);
       }
       else {
         var args = Array.prototype.slice.call(arguments, 0);
-        console.log('setting cb for ', name, cb);
         scope[name].open = true;
         scope[name].init.apply(scope[name], args);
       };

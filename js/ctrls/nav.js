@@ -1,11 +1,12 @@
 angular
 .module('webui.ctrls.nav', [
   'webui.services.constants', 'webui.services.modals',
-  'webui.services.rpc.helpers'
+  'webui.services.rpc', 'webui.services.rpc.helpers',
+  'webui.services.settings'
 ])
 .controller('NavCtrl', [
-  '$scope', '$name', '$modals', '$rpchelpers',
-  function(scope, name, modals, rhelpers) {
+  '$scope', '$name', '$modals', '$rpc', '$rpchelpers', '$settings',
+  function(scope, name, modals, rpc, rhelpers, settings) {
 
   scope.name = name;
 
@@ -37,8 +38,23 @@ angular
   };
 
   scope.changeGSettings = function() {
-    modals.invoke('globalSettings', function() {
-      alert('closing dialog');
+    rpc.once('getGlobalOption', [], function(data) {
+      var vals = data[0];
+      for (var i in vals) {
+        if (!(i in settings)) {
+          settings[i] = { name: i, val: vals[i], desc: '' };
+        }
+        else {
+          settings[i].val = vals[i];
+        }
+      }
+
+      modals.invoke('globalSettings', settings, function(settings) {
+        var sets = {};
+        for (var i in settings) { sets[i] = settings[i].val };
+
+        rpc.once('changeGlobalOption', [sets]);
+      });
     });
   };
 
