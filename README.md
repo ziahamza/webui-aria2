@@ -1,6 +1,8 @@
 webui-aria2
 ===========
 
+![Main interface](http://i.imgur.com/kOVFU7b.png)
+
 The aim for this project is to create the worlds best and hottest interface to interact with aria2. aria2 is the worlds best file downloader, but sometimes the command line brings more power than necessary. The project was created as part of the GSOC scheme with tremendous support and feedback from the aria2 community.
 
 Very simple to use, no build scripts, no installation scripts. First start aria2 in the background either in your local machine or in a remote one. You can do that as follows:
