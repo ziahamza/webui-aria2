@@ -5,7 +5,6 @@ angular
 ])
 .controller('DownloadCtrl', [ '$scope', '$rpc', '$utils', '$settings', '$alerts',
 function(scope, rpc, utils, sett, alerts) {
-  console.log(sett);
   scope.active = [], scope.waiting = [], scope.stopped = [];
 
   // pause the download
@@ -52,7 +51,6 @@ function(scope, rpc, utils, sett, alerts) {
   // start filling in the model of active,
   // waiting and stopped download
   rpc.subscribe('tellActive', [], function(data) {
-    console.log('got active data');
     scope.$apply(function() {
       utils.mergeMap(data[0], scope.active, scope.getCtx);
     });

@@ -1,11 +1,11 @@
 angular.module('webui.services.rpc.helpers', [
-  'webui.services.deps', 'webui.services.rpc'
+  'webui.services.deps', 'webui.services.rpc', 'webui.services.alerts'
 ])
-.factory('$rpchelpers', ['$_', '$rpc', function(_, rpc) {
+.factory('$rpchelpers', ['$_', '$rpc', '$alerts', function(_, rpc, alerts) {
   return {
     addUris: function(uris) {
       var cnt = 0;
-      var cb = function(ret) {
+      var cb = function(data) {
         cnt--;
         if (!cnt) {
           // close modal
@@ -23,7 +23,7 @@ angular.module('webui.services.rpc.helpers', [
     },
     addTorrents: function(txts) {
       var cnt = 0;
-      var cb = function(ret) {
+      var cb = function(data) {
         cnt--;
         if (!cnt) {
           // close modal
@@ -41,7 +41,7 @@ angular.module('webui.services.rpc.helpers', [
     },
     addMetalinks: function(txts) {
       var cnt = 0;
-      var cb = function(ret) {
+      var cb = function(data) {
         cnt--;
         if (!cnt) {
           // close modal

@@ -36,11 +36,15 @@ angular
       name: 'system.multicall',
       params: [params],
       success: function(data) {
+
         // configuration worked, leave this as it is
         configurations = [];
         _.each(data.result, function(d, i) {
           var handle = subscriptions[i];
           if (handle) {
+            if (d.code) {
+              alerts.addAlert(d.message, 'error');
+            }
             handle.cb(d);
             if (handle.once) {
               subscriptions[i] = null;
