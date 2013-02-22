@@ -25,7 +25,6 @@
 
   <script src="js/libs/angular.js"></script>
 
-  <script src="js/libs/bootstrap.js"></script>
   <script src="js/libs/angularui-bootstrap.js"></script>
 
 
@@ -49,6 +48,7 @@
   <script src="js/services/base64.js"></script>
   <script src="js/services/utils.js"></script>
   <script src="js/services/modals.js"></script>
+  <script src="js/services/alerts.js"></script>
 
   <script src="js/services/settings/settings.js"></script>
   <script src="js/services/settings/filters.js"></script>
@@ -63,6 +63,7 @@
   <script src="js/ctrls/modal.js"></script>
   <script src="js/ctrls/nav.js"></script>
   <script src="js/ctrls/download.js"></script>
+  <script src="js/ctrls/alert.js"></script>
 
 
 </head>
@@ -158,9 +159,19 @@
 </div>
 <!-- }}} -->
 
-<!-- {{{ downloads -->
+
 <div role="main" class="container" ng-controller="DownloadCtrl">
 
+  <!-- {{{ alerts -->
+  <div ng-controller="AlertCtrl">
+    <div class="alert alert-{{alert.type}}" ng-repeat="alert in pendingAlerts">
+      <span ng-bind-html-unsafe="alert.msg"></span>
+      <button type="button" class="close" ng-click="removeAlert($index)">x</button>
+    </div>
+  </div>
+  <!-- }}} -->
+
+  <!-- {{{ downloads -->
   <div ng-show="!getDownloads().length" class="hero-unit">
     <h3>Currently no downloads in line to display, use the Add download button to start downloading files!</h3>
   </div>
@@ -295,8 +306,9 @@
   </table>
   <!-- }}} -->
 
+  <!-- }}} -->
+
 </div>
-<!-- }}} -->
 
 <!-- {{{ modals -->
 <div ng-controller="ModalCtrl">

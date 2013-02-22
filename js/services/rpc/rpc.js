@@ -1,8 +1,8 @@
 angular
   .module('webui.services.rpc', [
-    'webui.services.rpc.syscall', 'webui.services.constants'
+    'webui.services.rpc.syscall', 'webui.services.constants', 'webui.services.alerts'
   ])
-  .factory('$rpc', ['$syscall', '$globalTimeout', function(syscall, time) {
+  .factory('$rpc', ['$syscall', '$globalTimeout', '$alerts', function(syscall, time, alerts) {
   var subscriptions = []
     , configurations = [{ host: 'localhost', port: 6800 }]
     , timeout = null
@@ -27,6 +27,10 @@ angular
         params: s.params && s.params.length ? s.params : undefined
       };
     });
+
+
+    clearTimeout(timeout);
+    timeout = null;
 
     syscall.invoke({
       name: 'system.multicall',
@@ -54,7 +58,7 @@ angular
         // If some proposed configurations are still in the pipeline then retry
         if (configurations.length) update();
         else {
-          console.log('cannot connect!!!');
+          alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 server, retrying after ' + time / 1000 + ' secs', 'error');
           timeout = setTimeout(update, time);
         }
       }
@@ -119,13 +123,14 @@ angular
     // force the global syscall update
     forceUpdate: function() {
       if (timeout) {
+
         clearTimeout(timeout);
         timeout = null;
+
         update();
+
       }
-      else if (subscriptions.length) {
-        update();
-      }
+      else if (configurations.length) update();
       else {
         // a batch call is already in progress,
         // wait till it returns and force the next one

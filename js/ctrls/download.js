@@ -1,9 +1,10 @@
 angular
 .module('webui.ctrls.download', [
-  'webui.services.utils', 'webui.services.rpc', 'webui.services.settings'
+  'webui.services.utils', 'webui.services.rpc', 'webui.services.settings',
+  'webui.services.alerts'
 ])
-.controller('DownloadCtrl', [ '$scope', '$rpc', '$utils', '$settings',
-function(scope, rpc, utils, sett) {
+.controller('DownloadCtrl', [ '$scope', '$rpc', '$utils', '$settings', '$alerts',
+function(scope, rpc, utils, sett, alerts) {
   console.log(sett);
   scope.active = [], scope.waiting = [], scope.stopped = [];
 
