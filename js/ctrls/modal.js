@@ -86,9 +86,11 @@ angular
   scope.globalSettings = {
     shown: false,
     settings: [],
-    init: function(settings, cb) {
+    title: 'Settings',
+    init: function(settings, title, cb) {
       this.cb = cb;
       this.settings = settings;
+      this.title = title || title;
       this.shown = true;
     },
     success: function() {

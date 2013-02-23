@@ -49,7 +49,7 @@ angular
         }
       }
 
-      modals.invoke('globalSettings', settings, function(settings) {
+      modals.invoke('globalSettings', settings, 'Global Settings', function(settings) {
         var sets = {};
         for (var i in settings) { sets[i] = settings[i].val };
 

@@ -409,12 +409,11 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 <div class="modal hide" modal="globalSettings.shown">
   <div class="modal-header">
     <button class="close" ng-click="globalSettings.close()">x</button>
-    <h3>Global Settings</h3>
+    <h3>{{globalSettings.title}}</h3>
   </div>
 
   <form class="form-horizontal modal-body">
     <fieldset>
-      <legend>Global Settings</legend>
       <div class="control-group">
         <div ng-repeat="(name, set) in globalSettings.settings">
           <label class="control-label">{{name}}</label>
