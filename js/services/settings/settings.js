@@ -281,7 +281,7 @@ angular.module('webui.services.settings', [])
   },
 
   "index-out": {
-    val: '',
+    val: undefined,
     desc: "Set file path for file with index=INDEX. You can find the file index using the --show-files option. PATH is a relative path to the path specified in --dir option. You can use this option multiple times. Using this option, you can specify the output filenames of BitTorrent downloads."
   },
 
@@ -463,7 +463,7 @@ angular.module('webui.services.settings', [])
   },
 
   "checksum": {
-    val: '',
+    val: undefined,
     desc: "Set checksum. TYPE is hash type. The supported hash type is listed in Hash Algorithms in aria2c -v. DIGEST is hex digest. For example, setting sha-1 digest looks like this: sha-1=0192ba11326fe2298c8cb4de616f4d4140213838 This option applies only to HTTP(S)/FTP downloads."
   },
 

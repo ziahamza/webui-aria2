@@ -82,7 +82,7 @@ angular
     };
   });
 
-  scope.globalSettings = {
+  scope.settings = {
     shown: false,
     settings: [],
     title: 'Settings',
@@ -104,7 +104,7 @@ angular
 
   _.each([
     'getUris', 'getTorrents', 'getMetalinks',
-    'globalSettings'
+    'settings'
   ], function(name) {
     modals.register(name, function(cb) {
       if (scope[name].open && scope[name].cb) {

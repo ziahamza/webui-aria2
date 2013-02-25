@@ -1,9 +1,15 @@
 angular
 .module('webui.ctrls.download', [
-  'webui.services.utils', 'webui.services.rpc', 'webui.services.alerts'
+  'webui.services.utils', 'webui.services.rpc', 'webui.services.alerts',
+  'webui.services.settings', 'webui.services.modals'
 ])
-.controller('DownloadCtrl', [ '$scope', '$rpc', '$utils', '$alerts',
-function(scope, rpc, utils, sett, alerts) {
+.controller('DownloadCtrl', [
+  '$scope', '$rpc', '$utils', '$alerts', '$modals',
+  '$fileSettings', '$activeInclude', '$waitingExclude',
+function(
+  scope, rpc, utils, alerts, modals,
+  fsettings, activeInclude, waitingExclude
+) {
   scope.active = [], scope.waiting = [], scope.stopped = [];
 
   // pause the download
@@ -143,5 +149,35 @@ function(scope, rpc, utils, sett, alerts) {
       type = "stopped";
     return type;
   };
+
+  scope.showSettings = function(d) {
+    var type = this.getType(d)
+      , settings = {};
+
+    rpc.once('getOption', [d.gid], function(data) {
+      var vals = data[0];
+
+      window.fs = fsettings;
+      window.ai = activeInclude;
+      for (var i in fsettings) {
+        if (type == 'active' && activeInclude.indexOf(i) == -1) continue;
+
+        if (type == 'waiting' && waitingExclude.indexOf(i) != -1) continue;
+
+        settings[i] = fsettings[i];
+        settings[i].val = vals[i] || settings[i].val;
+      }
+      console.log(type);
+
+      modals.invoke('settings', settings, scope.getName(d) + ' settings', function(settings) {
+        var sets = {};
+        for (var i in settings) { sets[i] = settings[i].val };
+
+        rpc.once('changeOption', [d.gid, sets]);
+      });
+    });
+
+    return false;
+  }
 
 }]);

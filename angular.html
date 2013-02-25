@@ -177,35 +177,78 @@
   </div>
 
   <!-- {{{ download template -->
-  <table ng-repeat="download in getDownloads()" class="download" data-gid="{{download.gid}}">
+  <table
+    ng-repeat="download in getDownloads()"
+    class="download" data-gid="{{download.gid}}">
     <tbody>
     <tr>
-      <td ng-click="download.collapsed = !download.collapsed" class="download-overview">
+      <td
+        ng-click="download.collapsed = !download.collapsed"
+        class="download-overview">
         <b class="download-name">{{getName(download)}}</b>
       </td>
       <td class="download-controls" rowspan="2">
         <div class="btn-group">
 
-          <button ng-show="hasStatus(download, 'active')" class="btn download_pause" ng-click="pause(download)"><i class="icon-pause"></i></button>
-          <button ng-show="hasStatus(download, 'paused')" class="btn download_play" ng-click="resume(download)"><i class="icon-play"></i></button>
-          <button ng-show="canRestart(download)" class="btn download_restart" ng-click="restart(download)"><i class="icon-repeat"></i></button>
+          <button
+            ng-show="hasStatus(download, 'active')"
+            class="btn"
+            ng-click="pause(download)">
+            <i class="icon-pause"></i>
+          </button>
 
-          <button class="btn download_remove hidden-phone" ng-click="remove(download)"><i class="icon-stop"></i></button>
+          <button
+            ng-show="hasStatus(download, 'paused')"
+            class="btn"
+            ng-click="resume(download)">
+            <i class="icon-play"></i>
+          </button>
 
-          <button class="btn download_settings hidden-phone"><i class="icon-cog"></i></button>
+          <button
+            ng-show="canRestart(download)"
+            class="btn"
+            ng-click="restart(download)">
+            <i class="icon-repeat"></i>
+          </button>
+
+          <button
+            class="btn hidden-phone"
+            ng-click="remove(download)">
+            <i class="icon-stop"></i>
+          </button>
+
+          <button
+            class="btn hidden-phone"
+            ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
+            ng-click="showSettings(download)">
+            <i class="icon-cog"></i>
+          </button>
 
           <button class="btn dropdown-toggle">
             <i class="caret"></i>
           </button>
           <ul class="dropdown-menu">
 
-            <li class="visible-phone"><a href="#"><i class="icon-cog"></i> Settings</a></li>
+            <li class="visible-phone">
+              <a
+                ng-click="showSettings(download)"
+                ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
+                href="#"><i class="icon-cog"></i> Settings</a>
+            </li>
 
-            <li ng-show="download.bittorrent"><a href="#" class="torrent_info"><i class="icon-list-alt"></i> Peers</a></li>
+            <li ng-show="download.bittorrent">
+              <a href="#"><i class="icon-list-alt"></i> Peers</a>
+            </li>
 
-            <li><a href="#" ng-click="download.collapsed = !download.collapsed"><i class="icon-info-sign"></i> More Info</a></li>
+            <li>
+              <a ng-click="download.collapsed = !download.collapsed"
+                 href="#"><i class="icon-info-sign"></i> More Info</a>
+            </li>
 
-            <li class="visible-phone"><a href="#" ng-click="remove(download)"><i class="icon-remove"></i> Remove</a></li>
+            <li class="visible-phone">
+              <a ng-click="remove(download)"
+                 href="#"><i class="icon-remove"></i> Remove</a>
+            </li>
           </ul>
         </div>
       </td>
@@ -406,16 +449,16 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 <!-- }}} -->
 
 <!-- {{{ global settings -->
-<div class="modal hide" modal="globalSettings.shown">
+<div class="modal hide" modal="settings.shown">
   <div class="modal-header">
-    <button class="close" ng-click="globalSettings.close()">x</button>
-    <h3>{{globalSettings.title}}</h3>
+    <button class="close" ng-click="settings.close()">x</button>
+    <h3>{{settings.title}}</h3>
   </div>
 
   <form class="form-horizontal modal-body">
     <fieldset>
       <div class="control-group">
-        <div ng-repeat="(name, set) in globalSettings.settings">
+        <div ng-repeat="(name, set) in settings.settings">
           <label class="control-label">{{name}}</label>
 
           <div class="controls">
@@ -431,8 +474,8 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   </form>
 
   <div class="modal-footer">
-    <button class="btn" ng-click="globalSettings.close()">Cancel</button>
-    <button class="btn btn-success" ng-click="globalSettings.success()">Save</button>
+    <button class="btn" ng-click="settings.close()">Cancel</button>
+    <button class="btn btn-success" ng-click="settings.success()">Save</button>
   </div>
 </div
 <!-- }}} -->

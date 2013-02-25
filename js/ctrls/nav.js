@@ -54,7 +54,7 @@ angular
 
       _.forEach([fsettings, gsettings], function(sets) {
         for (var i in sets) {
-          if (i in gexclude) continue;
+          if (gexclude.indexOf(i) != -1) continue;
 
           settings[i] = sets[i];
         }
@@ -72,7 +72,7 @@ angular
         }
       }
 
-      modals.invoke('globalSettings', settings, 'Global Settings', function(settings) {
+      modals.invoke('settings', settings, 'Global Settings', function(settings) {
         var sets = {};
         for (var i in settings) { sets[i] = settings[i].val };
 
