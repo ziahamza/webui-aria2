@@ -5,8 +5,14 @@ angular
   'webui.services.settings'
 ])
 .controller('NavCtrl', [
-  '$scope', '$name', '$modals', '$rpc', '$rpchelpers', '$settings',
-  function(scope, name, modals, rpc, rhelpers, settings) {
+  '$scope', '$name', '$modals',
+  '$rpc', '$rpchelpers', '$fileSettings',
+  '$globalSettings', '$globalExclude',
+  function(
+    scope, name, modals,
+    rpc, rhelpers, fsettings,
+    gsettings, gexclude
+  ) {
 
   scope.name = name;
 
@@ -40,10 +46,27 @@ angular
   scope.changeGSettings = function() {
     rpc.once('getGlobalOption', [], function(data) {
       var vals = data[0];
+      var settings = {};
+
+      // global settings divided into
+      // file settings + some global specific
+      // settings
+
+      _.forEach([fsettings, gsettings], function(sets) {
+        for (var i in sets) {
+          if (i in gexclude) continue;
+
+          settings[i] = sets[i];
+        }
+      });
+
       for (var i in vals) {
+        if (i in gexclude) continue;
+
         if (!(i in settings)) {
           settings[i] = { name: i, val: vals[i], desc: '' };
         }
+
         else {
           settings[i].val = vals[i];
         }

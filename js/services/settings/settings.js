@@ -1,6 +1,6 @@
 angular.module('webui.services.settings', [])
-.value('$settings', {
-  // {{{ settings
+.value('$fileSettings', {
+  // {{{ settings (for files)
   "all-proxy": {
     val: '',
     desc: 'Use this proxy server for all   protocols. To erase previously defined proxy, use "". You can override this setting and specify a proxy server for a particular protocol using http-proxy, https-proxy and ftp-proxy options. This affects all URIs. The format of PROXY is [http://][USER:PASSWORD@]HOST[:PORT].'
@@ -478,4 +478,71 @@ angular.module('webui.services.settings', [])
     options: ["inorder", "feedback", "adaptive"]
   }
 //}}}
-});
+})
+.value('$globalSettings', {
+  // {{{ settings (global)
+  "download-result": {
+    desc: "This option changes the way Download Results is formatted. If OPT is default, print GID, status, average download speed and path/URI. If multiple files are involved, path/URI of first requested file is printed and remaining ones are omitted. If OPT is full, print GID, status, average download speed, percentage of progress and path/URI. The percentage of progress and path/URI are printed for each requested file in each row. Default: default",
+    val: 'default',
+    options: ["default", "full"]
+  },
+  "log": {
+    val: '',
+    desc: 'The file name of the log file. If - is specified, log is written to stdout. If empty string("") is specified, log is not written to file.'
+  },
+  "log-level": {
+    desc: "Set log level to output. LEVEL is either debug, info, notice, warn or error. Default: debug.",
+    val: 'debug',
+    options: ["debug", "info", "notice", "warn", "error"]
+  },
+  "max-concurrent-downloads": {
+    val: 5,
+    desc: "Set maximum number of parallel downloads for every static (HTTP/FTP) URI, torrent and metalink. See also --split option. Default: 5"
+  },
+  "max-download-result": {
+    val: 1000,
+    desc: "Set maximum number of download result kept in memory. The download results are completed/error/removed downloads. The download results are stored in FIFO queue and it can store at most NUM download results. When queue is full and new download result is created, oldest download result is removed from the front of the queue and new one is pushed to the back. Setting big number in this option may result high memory consumption after thousands of downloads. Specifying 0 means no download result is kept. Default: 1000"
+  },
+  "max-overall-download-limit": {
+    val: '0',
+    desc: "Set max overall download speed in bytes/sec. 0 means unrestricted. You can append K or M (1K = 1024, 1M = 1024K). To limit the download speed per download, use --max-download-limit option. Default: 0."
+  },
+  "max-overall-upload-limit": {
+    val: '0',
+    desc: "Set max overall upload speed in bytes/sec. 0 means unrestricted. You can append K or M (1K = 1024, 1M = 1024K). To limit the upload speed per torrent, use --max-upload-limit option. Default: 0."
+  },
+  "save-cookies": {
+    val: '',
+    desc: "Save Cookies to FILE in Mozilla/Firefox(1.x/2.x)/ Netscape format. If FILE already exists, it is overwritten. Session Cookies are also saved and their expiry values are treated as 0. Possible Values: /path/to/file."
+  },
+  "save-session": {
+    val: '',
+    desc: "Save error/unfinished downloads to FILE on exit. You can pass this output file to aria2c with --input-file option on restart."
+  },
+  "server-stat-of": {
+    val: '',
+    desc: "Specify the filename to which performance profile of the servers is saved. You can load saved data using --server-stat-if option. See Server Performance Profile subsection below for file format."
+  }
+  // }}}
+})
+.value('$globalExclude',  [
+	"checksum",
+	"index-out",
+	"out",
+	"pause",
+	"select-file"
+])
+.value('$waitingExclude',  [
+	"dry-run",
+	"metalink-base-uri",
+	"parameterized-uri",
+	"pause",
+	"piece-length"
+])
+.value('$activeInclude', [
+  "bt-max-peers",
+  "bt-request-peer-speed-limit",
+  "bt-remove-unselected-file",
+  "max-download-limit",
+  "max-upload-limit"
+]);

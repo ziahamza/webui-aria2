@@ -26,12 +26,11 @@ var parseFiles = function(files, cb) {
 
 angular
 .module('webui.ctrls.modal', [
-  'webui.services.rpc', 'webui.services.deps', 'webui.services.modals',
-  'webui.services.settings'
+  'webui.services.deps', 'webui.services.modals'
 ])
 .controller('ModalCtrl', [
-  '$_', '$scope', '$rpc', '$modals',
-  function(_, scope, rpc, modals) {
+  '$_', '$scope', '$modals',
+  function(_, scope, modals) {
 
   scope.getUris = {
     shown: false,
