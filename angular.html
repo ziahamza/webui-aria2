@@ -112,15 +112,32 @@
         </ul>
       </li>
 
-      <li class="dropdown" ng-show="false">
-      <a class="dropdown-toggle" href="#">
-        Manage <b class="caret"></b>
-      </a>
+      <li class="dropdown">
+      <a class="dropdown-toggle" href="#"> Manage <b class="caret"></b></a>
       <ul class="dropdown-menu">
-        <li><a href="#"><i class="icon-pause"></i> Pause All</a></li>
-        <li><a href="#"><i class="icon-play"></i> Resume Paused</a></li>
-        <li><a href="#"><i class="icon-remove"></i> Purge Completed</a></li>
-        <li><a href="#"><i class="icon-fire"></i> Remove All</a></li>
+        <li>
+          <a
+            href="#"
+            ng-click="forcePauseAll()"><i class="icon-pause"></i> Pause All</a>
+        </li>
+        <li>
+          <a
+            href="#"
+            ng-click="unpauseAll()"><i class="icon-play"></i> Resume Paused</a>
+        </li>
+        <li>
+          <a
+            href="#"
+            ng-click="purgeDownloadResult()"><i class="icon-remove"></i> Purge Completed</a>
+        </li>
+
+        <!-- not adding remove all as requires many rpc syscalls to finish
+        <li>
+          <a
+            href="#"
+            ng-click="removeAll()"><i class="icon-fire"></i> Remove All</a>
+        </li>
+        -->
       </ul>
       </li>
 
@@ -128,29 +145,36 @@
 
     <ul class="nav">
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" >
-          Settings <b class="caret"></b>
-        </a>
+        <a
+          href="#"
+          class="dropdown-toggle">Settings <b class="caret"></b></a>
+
         <ul class="dropdown-menu">
-          <li ng-show="false"><a href="#">
-            <i class="icon-wrench"></i> Connection Settings</a>
+          <li ng-show="false">
+            <a href="#"><i class="icon-wrench"></i> Connection Settings</a>
           </li>
-          <li><a href="#" ng-click="changeGSettings()">
-            <i class="icon-wrench"></i> Global Settings</a></li>
+
+          <li>
+            <a
+              ng-click="changeGSettings()"
+              href="#"><i class="icon-wrench"></i> Global Settings</a>
+          </li>
         </ul>
       </li>
     </ul>
 
     <ul class="nav pull-right" ng-show="false">
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" >
-          About <b class="caret"></b>
-        </a>
+        <a
+          class="dropdown-toggle"
+          href="#">Miscellaneous <b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li><a href="#">
-            <i class="icon-list-alt"></i> Global Statistics</a></li>
-          <li><a href="#">
-            <i class="icon-info-sign"></i> About</a></li>
+          <li>
+            <a href="#"><i class="icon-list-alt"></i> Global Statistics</a>
+          </li>
+          <li>
+            <a href="#"><i class="icon-info-sign"></i> About</a>
+          </li>
         </ul>
       </li>
     </ul>

@@ -157,8 +157,6 @@ function(
     rpc.once('getOption', [d.gid], function(data) {
       var vals = data[0];
 
-      window.fs = fsettings;
-      window.ai = activeInclude;
       for (var i in fsettings) {
         if (type == 'active' && activeInclude.indexOf(i) == -1) continue;
 
@@ -167,7 +165,6 @@ function(
         settings[i] = fsettings[i];
         settings[i].val = vals[i] || settings[i].val;
       }
-      console.log(type);
 
       modals.invoke('settings', settings, scope.getName(d) + ' settings', function(settings) {
         var sets = {};

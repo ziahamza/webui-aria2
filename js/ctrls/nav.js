@@ -14,10 +14,24 @@ angular
     gsettings, gexclude
   ) {
 
+  // app name
   scope.name = name;
 
   // initially collapsed in mobile resolution
   scope.collapsed = true;
+
+  // manage download functions
+  scope.forcePauseAll = function() {
+    rpc.once('forcePauseAll', []);
+  }
+
+  scope.purgeDownloadResult = function() {
+    rpc.once('purgeDownloadResult', []);
+  }
+
+  scope.unpauseAll = function() {
+    rpc.once('unpauseAll', []);
+  }
 
   scope.addUris = function() {
     modals.invoke(
