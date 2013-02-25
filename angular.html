@@ -29,6 +29,7 @@
 
 
   <script src="js/libs/jquery.flot.js"></script>
+
   <!-- We do manual resize currently
   <script src="js/libs/jquery.flot.resize.js"></script>
   -->
@@ -188,8 +189,8 @@
         <b class="download-name">{{getName(download)}}</b>
       </td>
       <td class="download-controls" rowspan="2">
+        <!-- {{{ download control buttons -->
         <div class="btn-group">
-
           <button
             ng-show="hasStatus(download, 'active')"
             class="btn"
@@ -251,41 +252,144 @@
             </li>
           </ul>
         </div>
+        <!-- }}} -->
       </td>
     </tr>
     <tr>
-      <td ng-click="download.collapsed = !download.collapsed" class="download-overview">
+      <td
+        ng-click="download.collapsed = !download.collapsed"
+        class="download-overview">
+        <!-- {{{ statistics -->
         <ul class="stats pull-left">
+          <!-- {{{ active download statistics -->
+          <li
+            ng-show="hasStatus(download, 'active')"
+            class="label label-success hidden-phone hidden-tablet">
+            <span>Status: {{download.status}}</span>
+          </li>
 
-          <li ng-show="hasStatus(download, 'active')" class="label label-success hidden-phone hidden-tablet">Status: <span class="download-status">{{download.status}}</span></li>
-          <li ng-show="hasStatus(download, 'active')" class="label label-success">ETA: <span class="download-eta">{{getEta(download) | time}}</span></li>
-          <li ng-show="hasStatus(download, 'active')" class="label label-success hidden-phone">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
-          <li ng-show="hasStatus(download, 'active')" class="label label-success hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength | blength}}</span></li>
-          <li ng-show="hasStatus(download, 'active')" class="label label-success hidden-phone hidden-tablet">Progress: <span class="download-percentage">{{getProgress(download)}}</span>%</li>
-          <li ng-show="hasStatus(download, 'active')" class="label label-success">Speed: <span class="download-downloadSpeed">{{download.downloadSpeed | bspeed}}</span></li>
+          <li
+            ng-show="hasStatus(download, 'active')"
+            class="label label-success">
+            <span>ETA: {{getEta(download) | time}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'active')"
+            class="label label-success hidden-phone">
+            <span>Size: {{download.totalLength | blength}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'active')"
+            class="label label-success hidden-phone">
+            <span>Downloaded: {{download.completedLength | blength}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'active')"
+            class="label label-success hidden-phone hidden-tablet">
+            <span>Progress: {{getProgress(download)}}%</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'active')"
+            class="label label-success">
+            <span>Speed: {{download.downloadSpeed | bspeed}}</span>
+          </li>
+
           <!-- TODO: figure out how to do multiple ng-show
           <li ng-show="download.bittorrent" class="label label-success hidden-phone">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed | bspeed}}</span></li>
           -->
 
+          <!-- }}} -->
+          <!-- {{{ paused download statistics -->
+          <li
+            ng-show="hasStatus(download, 'paused')"
+            class="label label-info">
+            <span>Status: {{download.status}}</span>
+          </li>
 
-          <li ng-show="hasStatus(download, 'paused')" class="label label-info">Status: <span class="download-status">{{download.status}}</span></li>
-          <li ng-show="hasStatus(download, 'paused')" class="label label-info">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
-          <li ng-show="hasStatus(download, 'paused')" class="label label-info hidden-phone">Downloaded: <span class="download-completedLength">{{download.completedLength | blength}}</span></li>
-          <li ng-show="hasStatus(download, 'paused')" class="label label-info hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
+          <li
+            ng-show="hasStatus(download, 'paused')"
+            class="label label-info">
+            <span>Size: {{download.totalLength | blength}}</span>
+          </li>
 
-          <li ng-show="hasStatus(download, 'complete')" class="label">Status: <span class="download-status">{{download.status}}</span></li>
-          <li ng-show="hasStatus(download, 'complete')" class="label hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
-          <li ng-show="hasStatus(download, 'complete')" class="label">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
+          <li
+            ng-show="hasStatus(download, 'paused')"
+            class="label label-info hidden-phone">
+            <span>Downloaded: {{download.completedLength | blength}}</span>
+          </li>
 
-          <li ng-show="hasStatus(download, 'removed')" class="label label-warning">Status: <span class="download-status">{{download.status}}</span></li>
-          <li ng-show="hasStatus(download, 'removed')" class="label label-warning hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
-          <li ng-show="hasStatus(download, 'removed')" class="label label-warning">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
+          <li
+            ng-show="hasStatus(download, 'paused')"
+            class="label label-info hidden-phone">
+            <span>Path: {{download.dir}}</span>
+          </li>
 
-          <li ng-show="hasStatus(download, 'error')" class="label label-important">Status: <span class="download-status">{{download.status}}</span></li>
-          <li ng-show="hasStatus(download, 'error')" class="label label-important hidden-phone">Path: <span class="download-dir">{{download.dir}}</span></li>
-          <li ng-show="hasStatus(download, 'error')" class="label label-important">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
+          <!--  }}} -->
+          <!-- {{{ complete download statistics -->
 
+          <li
+            ng-show="hasStatus(download, 'complete')"
+            class="label">
+            <span>Status: {{download.status}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'complete')"
+            class="label hidden-phone">
+            <span>Path: {{download.dir}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'complete')"
+            class="label">
+            <span>Size: {{download.totalLength | blength}}</span>
+          </li>
+
+          <!-- }}} -->
+          <!-- {{{ removed download statistics -->
+          <li
+            ng-show="hasStatus(download, 'removed')"
+            class="label label-warning">
+            <span>Status: {{download.status}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'removed')"
+            class="label label-warning hidden-phone">
+            <span>Path: {{download.dir}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'removed')"
+            class="label label-warning">
+            <span>Size: {{download.totalLength | blength}}</span>
+          </li>
+          <!-- }}} -->
+          <!-- {{{ error download statistics -->
+          <li
+            ng-show="hasStatus(download, 'error')"
+            class="label label-important">
+            <span>Status: {{download.status}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'error')"
+            class="label label-important hidden-phone">
+            <span>Path: {{download.dir}}</span>
+          </li>
+
+          <li
+            ng-show="hasStatus(download, 'error')"
+            class="label label-important">
+            <span>Size: {{download.totalLength | blength}}</span>
+          </li>
+          <!-- }}} -->
         </ul>
+        <!-- }}} -->
       </td>
     </tr>
     <tr>
@@ -356,7 +460,7 @@
 <!-- {{{ modals -->
 <div ng-controller="ModalCtrl">
 
-<!--{{{ add new Download template -->
+<!--{{{ add uri modal -->
 <div class="modal hide modal-adduris" modal="getUris.shown">
   <div class="modal-header">
     <button class="close" ng-click="getUris.close()">x</button>
@@ -398,7 +502,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 </div>
 <!-- }}} -->
 
-<!-- {{{ add new torrent -->
+<!-- {{{ add torrent modal -->
 <div class="modal hide" modal="getTorrents.shown">
   <div class="modal-header">
     <button class="close" ng-click="getTorrents.close()">x</button>
@@ -424,7 +528,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 </div
 <!-- }}} -->
 
-<!-- {{{ add new metalink -->
+<!-- {{{ add metalink modal -->
 <div class="modal hide" modal="getMetalinks.shown">
   <div class="modal-header">
     <button class="close" ng-click="getMetalinks.close()">x</button>
@@ -448,7 +552,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 </div
 <!-- }}} -->
 
-<!-- {{{ global settings -->
+<!-- {{{ settings modal -->
 <div class="modal hide" modal="settings.shown">
   <div class="modal-header">
     <button class="close" ng-click="settings.close()">x</button>
@@ -479,7 +583,6 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   </div>
 </div
 <!-- }}} -->
-
 
 </div>
 <!-- }}} -->
