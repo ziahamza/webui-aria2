@@ -18,7 +18,7 @@ angular
       return;
 
     if (configurations.length)
-      syscall.init(configurations.pop());
+      syscall.init(configurations[0]);
 
     subscriptions = _.filter(subscriptions, function(e) { return !!e });
     var params = _.map(subscriptions, function(s) {
@@ -37,8 +37,8 @@ angular
       params: [params],
       success: function(data) {
 
-        // configuration worked, leave this as it is
-        configurations = [];
+        // configuration worked, save it in cookie for next time!!
+        //
         _.each(data.result, function(d, i) {
           var handle = subscriptions[i];
           if (handle) {
@@ -60,7 +60,10 @@ angular
       },
       error: function() {
         // If some proposed configurations are still in the pipeline then retry
-        if (configurations.length) update();
+        if (configurations.length) {
+          configurations.shift();
+          update();
+        }
         else {
           alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 server, retrying after ' + time / 1000 + ' secs', 'error');
           timeout = setTimeout(update, time);

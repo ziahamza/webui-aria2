@@ -48,6 +48,7 @@
   <script src="js/services/deps.js"></script>
   <script src="js/services/base64.js"></script>
   <script src="js/services/utils.js"></script>
+
   <script src="js/services/modals.js"></script>
   <script src="js/services/alerts.js"></script>
 
@@ -151,7 +152,9 @@
 
         <ul class="dropdown-menu">
           <li ng-show="false">
-            <a href="#"><i class="icon-wrench"></i> Connection Settings</a>
+            <a
+              ng-click="changeCSettings()"
+              href="#"><i class="icon-wrench"></i> Connection Settings</a>
           </li>
 
           <li>
@@ -607,6 +610,76 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   </div>
 </div
 <!-- }}} -->
+
+<!--{{{ connection modal -->
+<div class="modal hide" modal="connection.shown">
+  <div class="modal-header">
+    <button class="close" ng-click="connection.close()">x</button>
+    <h3>Connection Settings</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <fieldset>
+        <legend>Aria2 RPC host and port</legend>
+        <div class="control-group">
+          <label class="control-label">Enter the host:</label>
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on">http(s)://</span><input type="text" class="input-xlarge"/>
+            </div>
+            <p class="help-block">
+              Enter the ip or dns name of the server on which the
+              rpc for aria2 is running (default = localhost)
+            </p>
+          </div>
+
+          <label class="control-label">Enter the port:</label>
+          <div class="controls">
+            <input type="text" class="input-xlarge"
+              ng-model="connection.port"
+              placeholder="{{connection.port}}"/>
+            <p class="help-block">
+              Enter the port of the server on which the rpc for
+              aria2 is running (default = 6800)
+            </p>
+          </div>
+
+          <label class="control-label">SSL/TLS encryption:</label>
+          <div class="controls">
+            <button type="button" class="btn" data-toggle="button">ON</button>
+            <p class="help-block">Enable SSL/TLS encryption.</p>
+          </div>
+
+          <label class="control-label">Enter the username (optional):</label>
+          <div class="controls">
+            <input type="text" class="input-xlarge"
+              ng-model="connection.auth.user"/>
+            <p class="help-block">
+              Enter the aria2 RPC username
+              (empty if authentication not enabled)
+            </p>
+          </div>
+
+          <label class="control-label">Enter the password (optional):</label>
+          <div class="controls">
+            <input type="password" class="input-xlarge"
+              ng-model="connection.auth.pass"/>
+            <p class="help-block">
+              Enter the aria2 RPC password
+              (empty if authentication not enabled)
+            </p>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button href="#" class="btn" ng-click="connection.close()">Retry with default configuration</button>
+    <button href="#" class="btn btn-primary" ng-click="connection.close()">Use custom IP and port settings</button>
+  </div>
+</div>
+<!-- }}} -->
+
 
 </div>
 <!-- }}} -->

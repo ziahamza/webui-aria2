@@ -57,6 +57,12 @@ angular
     );
   };
 
+  scope.changeCSettings = function() {
+    modals.invoke('connection', {}, function(data) {
+      console.log('connection modal closed, got back the follwing data', data);
+    });
+  }
+
   scope.changeGSettings = function() {
     rpc.once('getGlobalOption', [], function(data) {
       var vals = data[0];
@@ -86,7 +92,10 @@ angular
         }
       }
 
-      modals.invoke('settings', settings, 'Global Settings', function(settings) {
+      modals.invoke(
+        'settings', settings,
+        'Global Settings', function(settings) {
+
         var sets = {};
         for (var i in settings) { sets[i] = settings[i].val };
 

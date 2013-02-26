@@ -34,9 +34,11 @@ angular
 
   scope.getUris = {
     shown: false,
-
     uris: '',
-    init: function(cb) { this.shown = true; this.cb = cb },
+    init: function(cb) {
+      this.shown = this.open =  true;
+      this.cb = cb;
+    },
     parse: function() {
       return _
         .chain(this.uris.trim().split(/\n\r?/g))
@@ -59,10 +61,57 @@ angular
     }
   };
 
+  scope.settings = {
+    shown: false,
+    settings: [],
+    title: 'Settings',
+    init: function(settings, title, cb) {
+      this.cb = cb;
+      this.settings = settings;
+      this.title = title || title;
+      this.shown = this.open = true;
+    },
+    success: function() {
+      if (this.cb) this.cb(this.settings);
+      this.close();
+    },
+    close: function() {
+      this.cb = null;
+      this.shown = this.open = false;
+    }
+  };
+
+  scope.connection = {
+    shown: false,
+
+    host: 'localhost',
+    port: 6800,
+    auth: {
+      user: '',
+      pass: ''
+    },
+
+    init: function(defaults, cb) {
+      this.cb = cb;
+      this.open = this.shown = true;
+    },
+    success: function() {
+      this.close();
+    },
+    close: function() {
+      if (this.cb) this.cb();
+      this.cb = null;
+      this.open = this.shown = false;
+    }
+  };
+
   _.each(['getTorrents', 'getMetalinks'], function(name) {
     scope[name] =  {
       shown: false,
-      init: function(cb) { this.shown = true; this.cb = cb },
+      init: function(cb) {
+        this.shown = this.open =  true;
+        this.cb = cb;
+      },
 
       files: [],
       success: function() {
@@ -77,40 +126,20 @@ angular
       },
       close: function() {
         this.cb = null;
-        this.shown = false;
+        this.shown = this.open = false;
       }
     };
   });
 
-  scope.settings = {
-    shown: false,
-    settings: [],
-    title: 'Settings',
-    init: function(settings, title, cb) {
-      this.cb = cb;
-      this.settings = settings;
-      this.title = title || title;
-      this.shown = true;
-    },
-    success: function() {
-      if (this.cb) this.cb(this.settings);
-      this.close();
-    },
-    close: function() {
-      this.cb = null;
-      this.shown = this.open = false;
-    }
-  };
-
   _.each([
     'getUris', 'getTorrents', 'getMetalinks',
-    'settings'
+    'settings', 'connection'
   ], function(name) {
     modals.register(name, function(cb) {
-      if (scope[name].open && scope[name].cb) {
+      if (scope[name].open) {
         // modal already shown, user is busy
         // TODO: get a better method of passing this info
-        cb([]);
+        return;
       }
       else {
         var args = Array.prototype.slice.call(arguments, 0);
