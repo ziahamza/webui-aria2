@@ -71,7 +71,7 @@
 </head>
 <!-- }}} -->
 
-<body>
+<body ng-app="webui">
 
 <!-- {{{ header -->
 <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
@@ -151,7 +151,7 @@
           class="dropdown-toggle">Settings <b class="caret"></b></a>
 
         <ul class="dropdown-menu">
-          <li ng-show="false">
+          <li>
             <a
               ng-click="changeCSettings()"
               href="#"><i class="icon-wrench"></i> Connection Settings</a>
@@ -446,7 +446,7 @@
     </tr>
     <tr ng-click="download.collapsed = !download.collapsed" class="download-detail">
       <td colspan="2">
-        <div class="more_info" collapse="download.collapsed">
+        <div collapse="download.collapsed">
           <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;" chunkbar></canvas>
           <ul class="stats">
             <li class="label">Status: <span class="download-status">{{download.status}}</span></li>

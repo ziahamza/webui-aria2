@@ -1,9 +1,10 @@
 angular
-  .module('webui.services.rpc.syscall', [
-    'webui.services.rpc.jsoncall', 'webui.services.rpc.sockcall',
-    'webui.services.utils'
-  ])
-  .factory('$syscall', ['$log', '$jsoncall', '$sockcall', function(log, jsonRPC, sockRPC) {
+.module('webui.services.rpc.syscall', [
+  'webui.services.rpc.jsoncall', 'webui.services.rpc.sockcall',
+  'webui.services.utils', 'webui.services.alerts'
+])
+.factory('$syscall', ['$log', '$jsoncall', '$sockcall', '$alerts',
+function(log, jsonRPC, sockRPC, alerts) {
   return {
     // called to initialize the rpc interface, call everytime configuration changes
     // conf has the following structure:
@@ -16,6 +17,7 @@ angular
     //     pass (string): password for the http authentication if enabled
     //   }
     init: function(conf) {
+
       conf = conf || {
         host: 'localhost',
         port: 6800

@@ -13,10 +13,12 @@ angular.module('webui.ctrls.alert', [
     var obj = { msg: msg, type: type };
     scope.pendingAlerts.push(obj);
 
+    /*
     setTimeout(function() {
       var ind = scope.pendingAlerts.indexOf(obj);
       if (ind != -1) scope.removeAlert(ind);
     }, 5000);
+    */
 
     scope.$digest();
   });

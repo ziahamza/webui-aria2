@@ -66,7 +66,6 @@ angular
       // if any parents is collapsable, then confirm if it isnt
       if (canDraw)
         draw();
-
     };
 
     scope.$watch(attrs.dspeed, function(val) {

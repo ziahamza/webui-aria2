@@ -1,10 +1,13 @@
 angular
-  .module('webui.services.rpc', [
-    'webui.services.rpc.syscall', 'webui.services.constants', 'webui.services.alerts'
-  ])
-  .factory('$rpc', ['$syscall', '$globalTimeout', '$alerts', function(syscall, time, alerts) {
+.module('webui.services.rpc', [
+  'webui.services.rpc.syscall', 'webui.services.constants', 'webui.services.alerts'
+])
+.factory('$rpc', ['$syscall', '$globalTimeout', '$alerts',
+function(syscall, time, alerts) {
+
   var subscriptions = []
     , configurations = [{ host: 'localhost', port: 6800 }]
+    , currentConf = {}
     , timeout = null
     , forceNextUpdate = false;
 
@@ -14,11 +17,19 @@ angular
   // (i.e. serially) so should be private
   // to maintain that invariant
   var update = function() {
-    if (!subscriptions.length)
-      return;
 
-    if (configurations.length)
-      syscall.init(configurations[0]);
+    clearTimeout(timeout);
+    timeout = null;
+
+    if (!subscriptions.length) {
+      timeout = setTimeout(update, time);
+      return;
+    }
+
+    if (configurations.length) {
+      currentConf = configurations.shift();
+      syscall.init(currentConf);
+    }
 
     subscriptions = _.filter(subscriptions, function(e) { return !!e });
     var params = _.map(subscriptions, function(s) {
@@ -29,16 +40,19 @@ angular
     });
 
 
-    clearTimeout(timeout);
-    timeout = null;
 
     syscall.invoke({
       name: 'system.multicall',
       params: [params],
       success: function(data) {
 
-        // configuration worked, save it in cookie for next time!!
-        //
+        if (configurations.length) {
+          // configuration worked, save it in cookie for next time and
+          // delete the pipelined configurations!!
+          alerts.log('success alas!! saving current configuration');
+          configurations = [];
+        }
+
         _.each(data.result, function(d, i) {
           var handle = subscriptions[i];
           if (handle) {
@@ -54,15 +68,17 @@ angular
 
         if (forceNextUpdate) {
           forceNextUpdate = false;
-          return update();
+          timeout = setTimeout(update, 0);
         }
-        timeout = setTimeout(update, time);
+        else {
+          timeout = setTimeout(update, time);
+        }
       },
       error: function() {
         // If some proposed configurations are still in the pipeline then retry
         if (configurations.length) {
-          configurations.shift();
-          update();
+          alerts.log('trying another configuration, last one didnt connect');
+          timeout = setTimeout(update, 0);
         }
         else {
           alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 server, retrying after ' + time / 1000 + ' secs', 'error');
@@ -70,7 +86,11 @@ angular
         }
       }
     });
-  }
+  };
+
+  // initiate the update loop
+  timeout = setTimeout(update, time);
+
   return {
     // conf can be configuration or array of configurations,
     // each one will be tried one after the other till success,
@@ -130,14 +150,9 @@ angular
     // force the global syscall update
     forceUpdate: function() {
       if (timeout) {
-
         clearTimeout(timeout);
-        timeout = null;
-
-        update();
-
+        timeout = setTimeout(update, 0);
       }
-      else if (configurations.length) update();
       else {
         // a batch call is already in progress,
         // wait till it returns and force the next one

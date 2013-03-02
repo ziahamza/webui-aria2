@@ -12,6 +12,10 @@ angular.module('webui.services.alerts', ['webui.services.deps'])
     },
     addAlerter: function(cb) {
       alerters.push(cb);
+    },
+    // a simple function for debugging
+    log: function(msg) {
+      this.addAlert(msg, 'info');
     }
   };
 }]);

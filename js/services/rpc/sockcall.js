@@ -1,9 +1,10 @@
 angular
-  .module('webui.services.rpc.sockcall', [
-    'webui.services.deps', 'webui.services.utils', 'webui.services.base64'
-  ])
-  .factory('$sockcall', ['$_', '$json', '$name', '$utils', function(_, JSON, name, utils) {
-
+.module('webui.services.rpc.sockcall', [
+  'webui.services.deps', 'webui.services.utils', 'webui.services.base64',
+  'webui.services.alerts'
+])
+.factory('$sockcall', ['$_', '$json', '$name', '$utils', '$alerts',
+function(_, JSON, name, utils, alerts) {
   var sockRPC = {
     // true when sockrpc is ready to be used,
     // false when either initializing
@@ -70,11 +71,13 @@ angular
 
     // should be called initially to start using the sock rpc
     init: function(conf) {
+      sockRPC.initialized = false;
+
       if (typeof WebSocket == "undefined") {
+        alerts.addAlert('Web sockets not supported, falling back to jsonp', 'info');
         return;
       }
       sockRPC.conf = conf || sockRPC.conf;
-      sockRPC.initialized = false;
 
       sockRPC.scheme = sockRPC.conf.encryption ? 'wss' : 'ws';
 
@@ -92,6 +95,7 @@ angular
       catch (ex) {
         // ignoring IE securty exception on local ip addresses
         console.log('not using websocket for aria2 rpc due to: ', ex);
+        alerts.addAlert('Web sockets not working due to ' + ex.message, 'info');
       }
     },
   };
