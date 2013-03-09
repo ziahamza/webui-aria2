@@ -58,9 +58,9 @@ angular
   };
 
   scope.changeCSettings = function() {
-    modals.invoke('connection', {}, function(data) {
-      console.log('connection modal closed, got back the follwing data', data);
-    });
+    modals.invoke(
+      'connection', rpc.getConfiguration(), _.bind(rpc.configure, rpc)
+    );
   }
 
   scope.changeGSettings = function() {

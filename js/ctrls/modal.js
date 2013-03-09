@@ -84,11 +84,14 @@ angular
   scope.connection = {
     shown: false,
 
-    host: 'localhost',
-    port: 6800,
-    auth: {
-      user: '',
-      pass: ''
+    conf: {
+      host: 'localhost',
+      port: 6800,
+      encrypt: true,
+      auth: {
+        user: '',
+        pass: ''
+      }
     },
 
     init: function(defaults, cb) {
@@ -96,10 +99,15 @@ angular
       this.open = this.shown = true;
     },
     success: function() {
+      console.log(this);
+
+      if (this.cb) {
+        this.cb(this.conf);
+      }
+
       this.close();
     },
     close: function() {
-      if (this.cb) this.cb();
       this.cb = null;
       this.open = this.shown = false;
     }

@@ -33,7 +33,7 @@ angular
     },
     invoke: function(opts) {
       var rpc = this;
-      var scheme = rpc.serverConf.encryption ? 'https' : 'http';
+      var scheme = rpc.serverConf.encrypt ? 'https' : 'http';
       rpc.ariaRequest(
         scheme + '://' + rpc.serverConf.host + ':' + rpc.serverConf.port + '/jsonrpc',
         opts.name,
@@ -66,7 +66,10 @@ angular
               authUrl,
               opts.params,
               opts.success,
-              opts.error
+              function() {
+                console.log("jsonrpc disconnect!!!");
+                return opts.error();
+              }
             );
           }, rpc.avgTimeout);
         }

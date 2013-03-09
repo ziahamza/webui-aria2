@@ -11,7 +11,7 @@ function(log, jsonRPC, sockRPC, alerts) {
     // {
     //   host (string): host for the aria2 server
     //   port (number): port number for the aria2 server
-    //   encryption (boolean, optional): true if encryption is enabled in the aria2 server
+    //   encrypt (boolean, optional): true if encryption is enabled in the aria2 server
     //   auth (optional): {
     //     user (string): username for http authentication if enabled
     //     pass (string): password for the http authentication if enabled
@@ -22,7 +22,7 @@ function(log, jsonRPC, sockRPC, alerts) {
         host: 'localhost',
         port: 6800
       };
-      conf.encryption = conf.encryption || false;
+      conf.encrypt = conf.encrypt || false;
 
       jsonRPC.init(conf);
       sockRPC.init(conf);

@@ -6,7 +6,7 @@ angular
 function(syscall, time, alerts) {
 
   var subscriptions = []
-    , configurations = [{ host: 'localhost', port: 6800 }]
+    , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
     , currentConf = {}
     , timeout = null
     , forceNextUpdate = false;
@@ -38,7 +38,6 @@ function(syscall, time, alerts) {
         params: s.params && s.params.length ? s.params : undefined
       };
     });
-
 
 
     syscall.invoke({
@@ -96,11 +95,18 @@ function(syscall, time, alerts) {
     // each one will be tried one after the other till success,
     // for all options for one conf read rpc/syscall.js
     configure: function(conf) {
+      alerts.addAlert('Successfully changed aria2 connection configuration', 'success');
+
       if (conf instanceof Array)
         configurations = conf;
       else
         configurations = [conf];
+
     },
+
+    // get current configuration being used
+    getConfiguration: function() { return currentConf },
+
     // syscall is done only once, delay is optional
     // and pass true to only dispatch it in the global timeout
     // which can be used to batch up once calls

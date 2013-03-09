@@ -79,7 +79,7 @@ function(_, JSON, name, utils, alerts) {
       }
       sockRPC.conf = conf || sockRPC.conf;
 
-      sockRPC.scheme = sockRPC.conf.encryption ? 'wss' : 'ws';
+      sockRPC.scheme = sockRPC.conf.encrypt ? 'wss' : 'ws';
 
       if (sockRPC.sock) {
         sockRPC.onopen = sockRPC.sock.onmessage = sockRPC.sock.onerror = sockRPC.sock.onclose = null;

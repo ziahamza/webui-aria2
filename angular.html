@@ -632,7 +632,9 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
           <label class="control-label">Enter the host:</label>
           <div class="controls">
             <div class="input-prepend">
-              <span class="add-on">http(s)://</span><input type="text" class="input-xlarge"/>
+              <span class="add-on">http(s)://</span>
+              <input type="text" class="input-xlarge"
+                ng-model="connection.conf.host"/>
             </div>
             <p class="help-block">
               Enter the ip or dns name of the server on which the
@@ -643,8 +645,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
           <label class="control-label">Enter the port:</label>
           <div class="controls">
             <input type="text" class="input-xlarge"
-              ng-model="connection.port"
-              placeholder="{{connection.port}}"/>
+              ng-model="connection.conf.port"/>
             <p class="help-block">
               Enter the port of the server on which the rpc for
               aria2 is running (default = 6800)
@@ -653,14 +654,17 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 
           <label class="control-label">SSL/TLS encryption:</label>
           <div class="controls">
-            <button type="button" class="btn" data-toggle="button">ON</button>
+            <input type="checkbox"
+              ng-model="connection.conf.encrypt">
+              Enable encryption connection to aria2
+            </input>
             <p class="help-block">Enable SSL/TLS encryption.</p>
           </div>
 
           <label class="control-label">Enter the username (optional):</label>
           <div class="controls">
             <input type="text" class="input-xlarge"
-              ng-model="connection.auth.user"/>
+              ng-model="connection.conf.auth.user"/>
             <p class="help-block">
               Enter the aria2 RPC username
               (empty if authentication not enabled)
@@ -670,7 +674,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
           <label class="control-label">Enter the password (optional):</label>
           <div class="controls">
             <input type="password" class="input-xlarge"
-              ng-model="connection.auth.pass"/>
+              ng-model="connection.conf.auth.pass"/>
             <p class="help-block">
               Enter the aria2 RPC password
               (empty if authentication not enabled)
@@ -681,8 +685,11 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </form>
   </div>
   <div class="modal-footer">
-    <button href="#" class="btn" ng-click="connection.close()">Retry with default configuration</button>
-    <button href="#" class="btn btn-primary" ng-click="connection.close()">Use custom IP and port settings</button>
+    <button href="#" class="btn" ng-click="connection.close()">Cancel</button>
+    <button href="#"
+      class="btn btn-primary" ng-click="connection.success()">
+      Save Connection configuration
+    </button>
   </div>
 </div>
 <!-- }}} -->
