@@ -4,54 +4,28 @@ angular.module('webui.services.rpc.helpers', [
 .factory('$rpchelpers', ['$_', '$rpc', '$alerts', function(_, rpc, alerts) {
   return {
     addUris: function(uris) {
-      var cnt = 0;
-      var cb = function(data) {
-        cnt--;
-        if (!cnt) {
-          // close modal
-          console.log('closing modal');
-        }
-      };
       _.each(uris, function(uri) {
-        cnt++;
         // passing true to batch all the addUri calls
-        rpc.once('addUri', [uri], cb, true);
+        rpc.once('addUri', [uri], angular.noop, true);
+
       });
 
       // now dispatch all addUri syscalls
       rpc.forceUpdate();
     },
     addTorrents: function(txts) {
-      var cnt = 0;
-      var cb = function(data) {
-        cnt--;
-        if (!cnt) {
-          // close modal
-          console.log('closing modal');
-        }
-      };
       _.each(txts, function(txt) {
-        cnt++;
         // passing true to batch all the addUri calls
-        rpc.once('addTorrent', [txt], cb, true);
+        rpc.once('addTorrent', [txt], angular.noop, true);
       });
 
       // now dispatch all addUri syscalls
       rpc.forceUpdate();
     },
     addMetalinks: function(txts) {
-      var cnt = 0;
-      var cb = function(data) {
-        cnt--;
-        if (!cnt) {
-          // close modal
-          console.log('closing modal');
-        }
-      };
       _.each(txts, function(txt) {
-        cnt++;
         // passing true to batch all the addUri calls
-        rpc.once('addMetalink', [txt], cb, true);
+        rpc.once('addMetalink', [txt], angular.noop, true);
       });
 
       // now dispatch all addUri syscalls
