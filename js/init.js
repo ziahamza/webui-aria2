@@ -11,8 +11,6 @@ var webui = angular.module('webui', [
   'ui.bootstrap.modal', 'ui.bootstrap.alert'
 ]);
 
-/*
 $(function() {
   angular.bootstrap(document, ['webui'])
 });
-*/
