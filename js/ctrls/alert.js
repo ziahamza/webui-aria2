@@ -16,7 +16,7 @@ angular.module('webui.ctrls.alert', [
     setTimeout(function() {
       var ind = scope.pendingAlerts.indexOf(obj);
       if (ind != -1) scope.removeAlert(ind);
-    }, 5000);
+    }, 10000);
 
     scope.$digest();
   });

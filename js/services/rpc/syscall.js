@@ -43,6 +43,7 @@ function(log, jsonRPC, sockRPC, alerts) {
         return sockRPC.invoke(opts);
       }
       else {
+        console.log('calling json rpc');
         return jsonRPC.invoke(opts);
       }
     }

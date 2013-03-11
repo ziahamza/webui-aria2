@@ -87,7 +87,7 @@ angular
     conf: {
       host: 'localhost',
       port: 6800,
-      encrypt: true,
+      encrypt: false,
       auth: {
         user: '',
         pass: ''

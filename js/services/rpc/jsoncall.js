@@ -64,6 +64,7 @@ angular
           setTimeout(function() {
             rpc.ariaRequest(
               authUrl,
+              opts.name,
               opts.params,
               opts.success,
               function() {

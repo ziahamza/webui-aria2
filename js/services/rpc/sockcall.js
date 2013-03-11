@@ -24,13 +24,22 @@ function(_, JSON, name, utils, alerts) {
     scheme: 'ws',
 
     // called when a connection error occurs
-    onerror: function(err) {
+    onerror: function(ev) {
       _.each(sockRPC.handles, function(h) { h.error() });
       sockRPC.handles = [];
+      sockRPC.initialized = false;
+      alerts.log('Error while talking to aria2 over websocket');
+
+    },
+    onclose: function(ev) {
+      if (sockRPC.handles && sockRPC.handles.length)
+        sockRPC.onerror('Connection reset while pending calls to aria2');
+      sockRPC.initialized = false;
     },
 
     // when connection opens
     onopen: function() {
+      alerts.addAlert('Connected to aria2 successfully over websocket!', 'success');
       sockRPC.initialized = true;
     },
 
@@ -82,14 +91,15 @@ function(_, JSON, name, utils, alerts) {
       sockRPC.scheme = sockRPC.conf.encrypt ? 'wss' : 'ws';
 
       if (sockRPC.sock) {
-        sockRPC.onopen = sockRPC.sock.onmessage = sockRPC.sock.onerror = sockRPC.sock.onclose = null;
-        sockRPC.onerror();
+        sockRPC.sock.onopen = sockRPC.sock.onmessage = sockRPC.sock.onerror = sockRPC.sock.onclose = null;
+        sockRPC.onerror({message: 'Changing the websocket aria2 server details'});
       }
 
       try {
         sockRPC.sock = new WebSocket(sockRPC.scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc');
         sockRPC.sock.onopen = sockRPC.onopen;
-        sockRPC.sock.onclose = sockRPC.sock.onerror = sockRPC.onerror;
+        sockRPC.sock.onclose = sockRPC.onclose;
+        sockRPC.sock.onerror = sockRPC.onerror;
         sockRPC.sock.onmessage = sockRPC.onmessage;
       }
       catch (ex) {
