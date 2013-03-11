@@ -26,11 +26,11 @@ var parseFiles = function(files, cb) {
 
 angular
 .module('webui.ctrls.modal', [
-  'webui.services.deps', 'webui.services.modals'
+  'webui.services.deps', 'webui.services.modals', 'webui.services.rpc'
 ])
 .controller('ModalCtrl', [
-  '$_', '$scope', '$modals',
-  function(_, scope, modals) {
+  '$_', '$scope', '$modals', '$rpc',
+  function(_, scope, modals, rpc) {
 
   scope.getUris = {
     shown: false,
@@ -95,8 +95,12 @@ angular
     },
 
     init: function(defaults, cb) {
+      var conf = rpc.getConfiguration();
+      if (conf) this.conf = conf;
+
       this.cb = cb;
       this.open = this.shown = true;
+
     },
     success: function() {
       console.log(this);

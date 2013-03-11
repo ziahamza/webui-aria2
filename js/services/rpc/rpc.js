@@ -1,9 +1,10 @@
 angular
 .module('webui.services.rpc', [
-  'webui.services.rpc.syscall', 'webui.services.constants', 'webui.services.alerts'
+  'webui.services.rpc.syscall', 'webui.services.constants', 'webui.services.alerts',
+  'webui.services.utils'
 ])
-.factory('$rpc', ['$syscall', '$globalTimeout', '$alerts',
-function(syscall, time, alerts) {
+.factory('$rpc', ['$syscall', '$globalTimeout', '$alerts', '$utils',
+function(syscall, time, alerts, utils) {
 
   var subscriptions = []
     , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
@@ -11,6 +12,8 @@ function(syscall, time, alerts) {
     , timeout = null
     , forceNextUpdate = false;
 
+  var cookieConf = utils.getCookie('aria2conf');
+  if (cookieConf) configurations.unshift(cookieConf);
 
   // update is implemented such that
   // only one syscall at max is ongoing
@@ -52,6 +55,8 @@ function(syscall, time, alerts) {
           configurations = [];
         }
 
+        utils.setCookie('aria2conf', currentConf);
+
         _.each(data.result, function(d, i) {
           var handle = subscriptions[i];
           if (handle) {
@@ -80,7 +85,7 @@ function(syscall, time, alerts) {
           timeout = setTimeout(update, 0);
         }
         else {
-          alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 server, retrying after ' + time / 1000 + ' secs', 'error');
+          alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 server, retrying after ' + time / 1000 + ' secs. You might want to recheck the connection settings for your aria2 server by going to settings > connection settings', 'error');
           timeout = setTimeout(update, time);
         }
       }
@@ -101,7 +106,6 @@ function(syscall, time, alerts) {
         configurations = conf;
       else
         configurations = [conf];
-
     },
 
     // get current configuration being used
