@@ -56,22 +56,16 @@ function(
   // start filling in the model of active,
   // waiting and stopped download
   rpc.subscribe('tellActive', [], function(data) {
-    scope.$apply(function() {
-      utils.mergeMap(data[0], scope.active, scope.getCtx);
-    });
+    utils.mergeMap(data[0], scope.active, scope.getCtx);
   });
 
   rpc.subscribe('tellWaiting', [0, 1000], function(data) {
-    scope.$apply(function() {
-      utils.mergeMap(data[0], scope.waiting, scope.getCtx);
-    });
+    utils.mergeMap(data[0], scope.waiting, scope.getCtx);
   });
 
 
   rpc.subscribe('tellStopped', [0, 1000], function(data) {
-    scope.$apply(function() {
-      utils.mergeMap(data[0], scope.stopped, scope.getCtx);
-    });
+    utils.mergeMap(data[0], scope.stopped, scope.getCtx);
   });
 
   // actual downloads used by the view

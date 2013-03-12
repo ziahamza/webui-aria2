@@ -3,8 +3,10 @@ angular
   'webui.services.rpc.syscall', 'webui.services.constants', 'webui.services.alerts',
   'webui.services.utils'
 ])
-.factory('$rpc', ['$syscall', '$globalTimeout', '$alerts', '$utils',
-function(syscall, time, alerts, utils) {
+.factory('$rpc', [
+  '$syscall', '$globalTimeout', '$alerts', '$utils',
+  '$rootScope',
+function(syscall, time, alerts, utils, rootScope) {
 
   var subscriptions = []
     , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
@@ -69,6 +71,8 @@ function(syscall, time, alerts, utils) {
             }
           }
         });
+
+        rootScope.$apply();
 
         if (forceNextUpdate) {
           forceNextUpdate = false;
