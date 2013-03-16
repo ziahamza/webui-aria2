@@ -68,10 +68,55 @@ function(
     utils.mergeMap(data[0], scope.stopped, scope.getCtx);
   });
 
+  // max downloads shown in one page
+  scope.pageSize = 10;
+
+  // current displayed page
+  scope.currentPage = 1;
+
+  // the number of page controls displayed, i.e for 3 it will show
+  // x - 1 | x | x + 1
+  scope.maxPageControls = 3;
+
+  // total number of downloads, updates dynamically as downloads are
+  // stored in scope
+  scope.totalDownloads = 0;
+
+  // total maximum pages
+  scope.totalPages = 0;
+
   // actual downloads used by the view
   scope.getDownloads = function() {
-    return scope.active
-      .concat(scope.waiting).concat(scope.stopped);
+    var downloads = scope.active
+      .concat( scope.waiting ).concat( scope.stopped )
+
+    scope.totalDownloads = downloads.length;
+
+    scope.totalPages = Math.ceil(scope.totalDownloads / scope.pageSize)
+
+    downloads = downloads.slice( (scope.currentPage - 1) * scope.pageSize );
+    downloads.splice( scope.pageSize );
+
+    return downloads;
+  }
+
+  scope.setPage = function(pageNumber) {
+    scope.currentPage = pageNumber;
+    return false;
+  }
+
+  // get the pages to be displayed
+  scope.getPages = function() {
+    var minPage = scope.currentPage - scope.maxPageControls;
+
+    if (minPage < 1) minPage = 1;
+
+    var maxPage = scope.currentPage + scope.maxPageControls;
+
+    if (maxPage > scope.totalPages)
+      maxPage = scope.totalPages;
+
+    return _.range(minPage, maxPage + 1);
   }
 
   // convert the donwload form aria2 to once used by the view,
@@ -145,7 +190,7 @@ function(
   };
 
   scope.showSettings = function(d) {
-    var type = this.getType(d)
+    var type = scope.getType(d)
       , settings = {};
 
     rpc.once('getOption', [d.gid], function(data) {

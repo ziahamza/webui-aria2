@@ -3,7 +3,7 @@ angular
 .filter('changeLength', function() {
   return function(len, pref) {
     len = parseFloat(len);
-    if(len <= (1<<10)) return len.toFixed(1)  + " " + pref;
+    if (len <= (1<<10)) return len.toFixed(1)  + " " + pref;
     else if(len <= (1<<20)) return (len/(1<<10)).toFixed(1) + " K" + pref;
     else if(len <= (1<<30)) return (len/(1<<20)).toFixed(1) + " M" + pref;
     else return (len/(1<<30)).toFixed(1) + " G" + pref;

@@ -489,6 +489,29 @@
 
   <!-- }}} -->
 
+  <!-- {{{ download pagination -->
+  <div class="pagination pagination-right" ng-show="totalDownloads > pageSize">
+    <ul>
+      <li
+        ng-class="{disabled: currentPage == 1}"
+        ng-click="setPage(1)">
+        <a href="#">&laquo;</a>
+      </li>
+      <li
+        ng-repeat="page in getPages()"
+        ng-class="{active: currentPage == page}"
+        ng-click="setPage(page)">
+        <a href="#">{{page}}</a>
+      </li>
+      <li
+        ng-class="{disabled: currentPage == totalPages}"
+        ng-click="setPage(totalPages)">
+        <a href="#">&raquo;</a>
+      </li>
+    </ul>
+  </div>
+  <!-- }}} -->
+
 </div>
 
 <!-- {{{ modals -->
