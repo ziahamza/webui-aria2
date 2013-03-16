@@ -21,5 +21,4 @@ angular.module('webui.ctrls.alert', [
     scope.$digest();
   });
 
-
 }]);

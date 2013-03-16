@@ -74,9 +74,7 @@ function(
   // current displayed page
   scope.currentPage = 1;
 
-  // the number of page controls displayed, i.e for 3 it will show
-  // x - 1 | x | x + 1
-  scope.maxPageControls = 3;
+  scope.pageControlRadius = 3;
 
   // total number of downloads, updates dynamically as downloads are
   // stored in scope
@@ -107,11 +105,11 @@ function(
 
   // get the pages to be displayed
   scope.getPages = function() {
-    var minPage = scope.currentPage - scope.maxPageControls;
+    var minPage = scope.currentPage - scope.pageControlRadius;
 
     if (minPage < 1) minPage = 1;
 
-    var maxPage = scope.currentPage + scope.maxPageControls;
+    var maxPage = scope.currentPage + scope.pageControlRadius;
 
     if (maxPage > scope.totalPages)
       maxPage = scope.totalPages;
