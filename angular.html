@@ -339,25 +339,25 @@
           <!-- }}} -->
           <!-- {{{ paused download statistics -->
           <li
-            ng-show="hasStatus(download, 'paused')"
+            ng-show="hasStatus(download, ['paused', 'waiting'])"
             class="label label-info">
             <span>Status: {{download.status}}</span>
           </li>
 
           <li
-            ng-show="hasStatus(download, 'paused')"
+            ng-show="hasStatus(download, ['paused', 'waiting'])"
             class="label label-info">
             <span>Size: {{download.totalLength | blength}}</span>
           </li>
 
           <li
-            ng-show="hasStatus(download, 'paused')"
+            ng-show="hasStatus(download, ['paused', 'waiting'])"
             class="label label-info hidden-phone">
             <span>Downloaded: {{download.completedLength | blength}}</span>
           </li>
 
           <li
-            ng-show="hasStatus(download, 'paused')"
+            ng-show="hasStatus(download, ['paused', 'waiting'])"
             class="label label-info hidden-phone">
             <span>Path: {{download.dir}}</span>
           </li>
@@ -433,7 +433,7 @@
           <div class="bar" style="width: {{getProgress(download)}}%;"></div>
         </div>
 
-        <div ng-show="hasStatus(download, 'paused')" class="progress progress-info progress-striped" style="width: 100%; margin: 0; padding: 0;">
+        <div ng-show="hasStatus(download, ['paused', 'waiting'])" class="progress progress-info progress-striped" style="width: 100%; margin: 0; padding: 0;">
           <div class="bar" style="width: {{getProgress(download)}}%;"></div>
         </div>
 

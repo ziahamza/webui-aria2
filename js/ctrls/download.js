@@ -147,8 +147,14 @@ function(
     return false;
   };
 
-  scope.hasStatus = function(d, status) {
-    return d.status == status;
+  scope.hasStatus = function hasStatus(d, status) {
+    if (_.isArray(status)) {
+      if (status.length == 0) return false;
+      return hasStatus(d, status[0]) || hasStatus(d, status.slice(1));
+    }
+    else {
+      return d.status == status;
+    }
   };
 
   // get time left for the download with
