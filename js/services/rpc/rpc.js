@@ -59,20 +59,27 @@ function(syscall, time, alerts, utils, rootScope) {
 
         utils.setCookie('aria2conf', currentConf);
 
+        var cbs = [];
         _.each(data.result, function(d, i) {
           var handle = subscriptions[i];
           if (handle) {
             if (d.code) {
               alerts.addAlert(d.message, 'error');
             }
-            handle.cb(d);
+            // run them later as the cb itself can mutate the subscriptions
+            cbs.push({cb: handle.cb, data: d});
             if (handle.once) {
               subscriptions[i] = null;
             }
           }
         });
 
-        rootScope.$apply();
+
+        _.each(cbs, function(hnd) {
+          hnd.cb(hnd.data);
+        });
+
+        rootScope.$digest();
 
         if (forceNextUpdate) {
           forceNextUpdate = false;
@@ -122,7 +129,7 @@ function(syscall, time, alerts, utils, rootScope) {
       cb = cb || angular.noop;
       params = params || [];
 
-      subscriptions.push({
+      subscriptions.unshift({
         once: true,
         name: 'aria2.' + name,
         params: params,

@@ -28,12 +28,27 @@ function(
   // put it in stopped list if active,
   // otherwise permanantly remove it
   // d: the download ctx
-  scope.remove = function(d) {
+  scope.remove = function(d, cb) {
     var method = 'remove';
+
     if (scope.getType(d) == 'stopped')
       method = 'removeDownloadResult';
 
-    rpc.once(method, [d.gid]);
+    rpc.once(method, [d.gid], cb);
+
+    // also remove it from client cache assuming that it will be deleted in the aria2 list,
+    // but we could be wrong but the cache will update in next global update
+    var downloads = [scope.active, scope.waiting, scope.stopped], ind = -1, i;
+    for (i = 0; i < downloads.length; i++) {
+      ind = downloads[i].indexOf(d);
+      if (ind != -1) break;
+    }
+
+    if (ind == -1) {
+      return;
+    }
+
+    downloads[i].splice(ind, 1);
   }
 
   scope.restart = function(d) {
@@ -47,8 +62,8 @@ function(
       }).value();
 
     if (uris.length > 0) {
-      rpc.once('removeDownloadResult', [d.gid], function() {
-        rpc.once('addUri', uris);
+      scope.remove(d, function() {
+        rpc.once('addUri', uris, angular.noop, true);
       });
     }
   }
@@ -91,6 +106,10 @@ function(
     scope.totalDownloads = downloads.length;
 
     scope.totalPages = Math.ceil(scope.totalDownloads / scope.pageSize)
+
+    // fix the bug when downloads are deleted until no left on a specific page
+    if (scope.currentPage > scope.totalPages)
+      scope.currentPage = scope.totalPages;
 
     downloads = downloads.slice( (scope.currentPage - 1) * scope.pageSize );
     downloads.splice( scope.pageSize );
