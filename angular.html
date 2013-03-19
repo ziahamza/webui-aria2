@@ -212,6 +212,17 @@
   </div>
 
   <!-- {{{ download template -->
+
+  <!-- download filters -->
+  <form>
+    <fieldset>
+      <legend>Download Filters</legend>
+      <label>Page Size</label><input class="input" ng-model="pageSize"/>
+
+    </fieldset>
+  </form>
+
+  <!-- download template -->
   <table
     ng-repeat="download in getDownloads()"
     class="download" data-gid="{{download.gid}}">
@@ -511,6 +522,8 @@
     </ul>
   </div>
   <!-- }}} -->
+
+  <h3>Global Statistics</h3>
 
 </div>
 
