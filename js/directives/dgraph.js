@@ -69,11 +69,11 @@ angular
     };
 
     scope.$watch(attrs.dspeed, function(val) {
-      dspeed = val;
+      dspeed = parseFloat(val) || 0;
     });
 
     scope.$watch(attrs.useed, function(val) {
-      uspeed = val;
+      uspeed = parseFloat(val) || 0;
     });
 
     if (attrs.draw) {

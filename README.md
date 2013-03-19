@@ -14,11 +14,7 @@ Then download the webui, you can either do that by downloading this repository a
 
 Status
 ===========
-Usable but some bugs here and there. A complete overhaul is underway in the angular.html but its completely broken currently and once it is completed then it would replace the old index.html
-
-TODO
------------
-* Implement all features of the old version into the new architecture in angular.html
+A completely overhauled version is enabled by default. There are slight changes so if you still want to use the previous version then use the old.html instead of index.html.
 
 
 Dependencies

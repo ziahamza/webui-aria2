@@ -11,6 +11,7 @@ function(
   fsettings, activeInclude, waitingExclude
 ) {
   scope.active = [], scope.waiting = [], scope.stopped = [];
+  scope.gstats = scope.miscellaneous = {};
 
   // pause the download
   // d: the download ctx
@@ -83,6 +84,33 @@ function(
     utils.mergeMap(data[0], scope.stopped, scope.getCtx);
   });
 
+  rpc.subscribe('getGlobalStat', [], function(data) {
+    scope.gstats = data[0];
+  });
+
+  rpc.once('getVersion', [], function(data) {
+    scope.miscellaneous = data[0];
+  });
+
+  // total number of downloads, updates dynamically as downloads are
+  // stored in scope
+  scope.totalDownloads = 0;
+
+  // download search filter
+  scope.downloadFilter = "";
+
+  scope.filterDownloads = function(downloads) {
+    var filter = scope.downloadFilter;
+    if (!filter.length) return downloads;
+    return _.filter(downloads, function(d) {
+      if (!d.files.length) return true;
+
+      return _.filter(d.files, function(f) {
+        return f.path.search(filter) != -1;
+      }).length;
+    });
+  };
+
   // max downloads shown in one page
   scope.pageSize = 10;
 
@@ -91,17 +119,23 @@ function(
 
   scope.pageControlRadius = 3;
 
-  // total number of downloads, updates dynamically as downloads are
-  // stored in scope
-  scope.totalDownloads = 0;
-
   // total maximum pages
   scope.totalPages = 0;
 
+  // total amount of downloads returned by aria2
+  scope.totalAria2Downloads = function() {
+    return scope.active.length
+      + scope.waiting.length
+      + scope.stopped.length;
+  }
+
   // actual downloads used by the view
   scope.getDownloads = function() {
-    var downloads = scope.active
-      .concat( scope.waiting ).concat( scope.stopped )
+    var downloads =
+      scope.filterDownloads(
+        scope.active.concat( scope.waiting ).concat( scope.stopped )
+      )
+    ;
 
     scope.totalDownloads = downloads.length;
 

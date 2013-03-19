@@ -1,0 +1,728 @@
+<!-- vim: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab: -->
+<!doctype html>
+<html>
+
+<head>
+	<link rel="icon" href="favicon.ico" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>aria2 web client</title>
+
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/font-awesome.css">
+
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/download.css">
+
+
+	<!-- external javascript dependencies -->
+	<script src="js/libs/jquery-1.8.3.js"></script>
+	<script src="js/libs/jquery.flot.js"></script>
+	<script src="js/libs/jquery.flot.resize.js"></script>
+	<script src="js/libs/underscore.js"></script>
+	<script src="js/libs/bootstrap.js"></script>
+	<script src="js/libs/mustache.js"></script>
+	<script src="js/libs/piecon.js"></script>
+
+	<!-- webui core -->
+	<script src="js/old/aria2_settings.js"></script>
+	<script src="js/old/utils.js"></script>
+	<script src="js/old/connection.js"></script>
+
+
+	<!-- {{{ css styles -->
+	<style>
+	/* hack to fix the 1 px height for collapsed span elements */
+	.more_info {
+		min-height: 0px;
+	}
+
+
+	.button_set {
+		float: right;
+		margin-bottom: 5px;
+	}
+	.stat_graph {
+		margin-top: 25px;
+		height: 220px;
+	}
+	.active_settings {
+		text-align: center;
+		margin-bottom: 3px;
+	}
+	.download_item {
+		margin-bottom: 10px;
+		padding-top: 10px;
+		background-color: rgb(245, 245, 245);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		border-radius: 4px 4px 4px 4px;
+		box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+	}
+	.download_name {
+		overflow: hidden;
+		word-wrap: break-word;
+	}
+
+	</style>
+	<!-- }}} -->
+
+	<!-- {{{ download template -->
+	<script type="text/mustache" id="download_template">
+		<table class="{{type}}-download" data-gid="{{gid}}" data-settingsName={{sett_name}}>
+			<tbody>
+			<tr>
+				<td data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-overview">
+					<b class="download-name">{{name}}</b>
+				</td>
+				<td class="download-controls" rowspan="2">
+					<div class="btn-group">
+						{{#booleans.can_pause}}
+						<button class="btn download_pause"><i class="icon-pause"></i></button>
+						{{/booleans.can_pause}}
+						{{#booleans.can_play}}
+						<button class="btn download_play"><i class="icon-play"></i></button>
+						{{/booleans.can_play}}
+						{{#booleans.can_restart}}
+						<button class="btn download_restart"><i class="icon-repeat"></i></button>
+						{{/booleans.can_restart}}
+						<button class="btn download_remove hidden-phone"><i class="icon-stop"></i></button>
+						{{#booleans.has_settings}}
+						<button class="btn download_settings hidden-phone"><i class="icon-cog"></i></button>
+						{{/booleans.has_settings}}
+						<button class="btn dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							{{#booleans.has_settings}}
+							<li><a href="#" class="download_settings visible-phone"><i class="icon-cog"></i> Settings</a></li>
+							{{#booleans.bittorrent}}
+							<li><a href="#" class="torrent_info"><i class="icon-list-alt"></i> Peers</a></li>
+							{{/booleans.bittorrent}}
+							{{/booleans.has_settings}}
+							<li><a href="#" data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse"><i class="icon-info-sign"></i> More Info</a></li>
+							<li class="visible-phone"><a href="#" class="download_remove"><i class="icon-remove"></i> Remove</a></li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-overview">
+					<ul class="stats pull-left">
+						{{#booleans.can_pause}}
+						<li class="label label-success hidden-phone hidden-tablet">Status: <span class="download-status">{{status}}</span></li>
+						<li class="label label-success">ETA: <span class="download-eta">{{eta}}</span></li>
+						<li class="label label-success hidden-phone">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+						<li class="label label-success hidden-phone">Downloaded: <span class="download-completedLength">{{completedLength}}</span></li>
+						<li class="label label-success hidden-phone hidden-tablet">Progress: <span class="download-percentage">{{percentage}}</span>%</li>
+						<li class="label label-success">Speed: <span class="download-downloadSpeed">{{downloadSpeed}}</span></li>
+						{{#booleans.bittorrent}}
+						<li class="label label-success hidden-phone">Upload Speed: <span class="download-uploadSpeed">{{uploadSpeed}}</span></li>
+						{{/booleans.bittorrent}}
+						{{/booleans.can_pause}}
+						{{#booleans.can_play}}
+						<li class="label label-info">Status: <span class="download-status">{{status}}</span></li>
+						<li class="label label-info">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+						<li class="label label-info hidden-phone">Downloaded: <span class="download-completedLength">{{completedLength}}</span></li>
+						<li class="label label-info hidden-phone">Path: <span class="download-dir">{{dir}}</span></li>
+						{{/booleans.can_play}}
+						{{#booleans.is_complete}}
+						<li class="label">Status: <span class="download-status">{{status}}</span></li>
+						<li class="label hidden-phone">Path: <span class="download-dir">{{dir}}</span></li>
+						<li class="label">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+						{{/booleans.is_complete}}
+						{{#booleans.is_removed}}
+						<li class="label label-warning">Status: <span class="download-status">{{status}}</span></li>
+						<li class="label label-warning hidden-phone">Path: <span class="download-dir">{{dir}}</span></li>
+						<li class="label label-warning">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+						{{/booleans.is_removed}}
+						{{#booleans.is_error}}
+						<li class="label label-important">Status: <span class="download-status">{{status}}</span></li>
+						<li class="label label-important hidden-phone">Path: <span class="download-dir">{{dir}}</span></li>
+						<li class="label label-important">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+						{{/booleans.is_error}}
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td class="download-progress" colspan="2" data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse">
+					{{#booleans.can_pause}}
+					<div class="progress progress-striped active" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: {{percentage}}%;"></div>
+					</div>
+					{{/booleans.can_pause}}
+					{{#booleans.can_play}}
+					<div class="progress progress-info progress-striped" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: {{percentage}}%;"></div>
+					</div>
+					{{/booleans.can_play}}
+					{{#booleans.is_error}}
+					<div class="progress progress-danger progress-striped" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: {{percentage}}%;"></div>
+					</div>
+					{{/booleans.is_error}}
+					{{#booleans.is_removed}}
+					<div class="progress progress-warning progress-striped" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: {{percentage}}%;"></div>
+					</div>
+					{{/booleans.is_removed}}
+					{{#booleans.is_complete}}
+					<div class="progress progress-success progress-striped" style="width: 100%; margin: 0; padding: 0;">
+						<div class="bar" style="width: {{percentage}}%;"></div>
+					</div>
+					{{/booleans.is_complete}}
+
+				</td>
+			</tr>
+			<tr data-toggle="collapse" data-target="[data-gid={{gid}}] .download-detail .collapse" class="download-detail">
+				<td colspan="2">
+					<div class="collapse more_info">
+						<canvas class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;"></canvas>
+						<ul class="stats">
+							<li class="label">Status: <span class="download-status">{{status}}</span></li>
+							<li class="label">GID: <span class="download-gid">{{gid}}</span></li>
+							<li class="label">Dir: <span class="download-dir">{{dir}}</span></li>
+							<li class="label">Size: <span class="download-totalLength">{{totalLength}}</span></li>
+							<li class="label">Downloaded: <span class="download-completedLength">{{completedLength}}</span></li>
+							<li class="label">Num of Pieces: <span class="download-numPieces">{{numPieces}}</span></li>
+							<li class="label">Piece Length: <span class="download-pieceLength">{{pieceLength}}</span></li>
+							<li class="label">ETA: <span class="download-eta">{{eta}}</span></li>
+							<li class="label">Down Speed: <span class="download-downloadSpeed">{{downloadSpeed}}</span></li>
+							{{#booleans.bittorrent}}
+							<li class="label">Upload Speed: <span class="download-uploadSpeed">{{uploadSpeed}}</span></li>
+							<li class="label">Upload Length: <span class="download-uploadLength">{{uploadLength}}</span></li>
+							{{/booleans.bittorrent}}
+							<li class="label">Connections: <span class="download-connections">{{connections}}</span></li>
+						</ul>
+
+						<h4 class="hidden-phone">Download Files</h4>
+						<ul class="download-files hidden-phone">
+							{{#files}}
+							<li class="label">{{path}} ({{length}})</li>
+							{{/files}}
+						</ul>
+
+						<div>
+							<div class="download-graph"></div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		</table>
+	</script>
+	<!-- }}} -->
+
+	<!--{{{  start global settings item template -->
+	<script type="text/mustache" id="global_general_settings_template">
+	{{#settings}}
+	<fieldset>
+		<legend>{{name}}</legend>
+			<div class="control-group">
+				{{#values}}
+				<label class="control-label" for="input_settings_{{name}}">{{name}}</label>
+				<div class="controls">
+					{{^options}}
+						{{#has_value}}
+						<input typ="text" class="input-xlarge" id="input_settings_{{name}}" value="{{value}}"/>
+						{{/has_value}}
+
+						{{^has_value}}
+						<input typ="text" class="input-xlarge" placeholder="default" id="input_settings_{{name}}"/>
+						{{/has_value}}
+					{{/options}}
+
+					{{#option}}
+						{{#has_value}}
+						<select id="input_settings_{{name}}">
+						{{/has_value}}
+
+						{{^has_value}}
+						<select id="input_settings_{{name}}">
+								<option value="no_val">Default</option>
+						{{/has_value}}
+
+					{{/option}}
+
+					{{#options}}
+
+						{{#has_value}}
+						<option value="{{& val}}">{{disp}}</option>
+						{{/has_value}}
+
+						{{^has_value}}
+						<option value="{{& .}}">{{.}}</option>
+						{{/has_value}}
+
+					{{/options}}
+
+					{{#option}}
+					</select>
+					{{/option}}
+
+					<p class="help-block">{{desc}}</p>
+					<br><br>
+				</div>
+				{{/values}}
+			</div>
+		</fieldset>
+		{{/settings}}
+
+	</script>
+	<!-- global settings template end }}}-->
+
+	<!-- {{{ torrent info template -->
+	<script type="text/mustache" id="torrent_info_template">
+		<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Peers for {{info_name}}</h3>
+		</div>
+		<div class="modal-body">
+			<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<td>Address</td>
+					<td>Peer Choking Aria2</td>
+					<td>Aria2 Choking Peer</td>
+					<td>Seeder</td>
+					<td>Upload Speed</td>
+					<td>Download Speed</td>
+				</thead>
+				<tbody>
+					{{#peers}}
+					<tr>
+						<td>{{ip}}:{{port}}</td>
+						<td>{{peerChoking}}</td>
+						<td>{{amChoking}}</td>
+						<td>{{seeder}}</td>
+						<td>{{downloadSpeed}}</td>
+						<td>{{uploadSpeed}}</td>
+					{{/peers}}
+					{{^peers}}
+						<td colspan="6" style="text-align: center;"><h2>No peers connected!</h2></td>
+					{{/peers}}
+				</tbody>
+			</table>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-success" data-dismiss="modal">Close</button>
+		</div>
+	</script>
+	<!-- }}} -->
+
+	<!--{{{ download settings template -->
+	<script type="text/mustache" id="download_settings_template">
+
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>{{settings_name}} Download Settings</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id="dynamic_download_settings" data-downloadSettingsGid="{{gid}}">
+		{{#settings}}
+			<fieldset>
+				<legend>{{name}}</legend>
+				<div class="control-group">
+					{{#values}}
+					<label class="control-label" for="download_settings_{{name}}">{{name}}</label>
+					<div class="controls">
+						{{^options}}
+							{{#has_value}}
+							<input typ="text" class="input-xlarge" id="download_settings_{{name}}" value="{{value}}"/>
+							{{/has_value}}
+
+							{{^has_value}}
+							<input typ="text" class="input-xlarge" placeholder="default" id="download_settings_{{name}}"/>
+							{{/has_value}}
+						{{/options}}
+
+						{{#option}}
+							{{#has_value}}
+							<select id="download_settings_{{name}}">
+							{{/has_value}}
+
+							{{^has_value}}
+							<select id="download_settings_{{name}}">
+								<option value="no_val">Default</option>
+							{{/has_value}}
+
+						{{/option}}
+
+						{{#options}}
+
+							{{#has_value}}
+							<option value="{{& val}}">{{disp}}</option>
+							{{/has_value}}
+
+							{{^has_value}}
+							<option value="{{& .}}">{{.}}</option>
+							{{/has_value}}
+
+						{{/options}}
+
+						{{#option}}
+						</select>
+						{{/option}}
+
+						<p class="help-block">{{desc}}</p>
+						<br><br>
+					</div>
+					{{/values}}
+				</div>
+			</fieldset>
+			{{/settings}}
+
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button id="save_download_settings" class="btn btn-success">Save</button>
+	</div>
+	</script>
+	<!-- download settings template }}}-->
+
+</head>
+<body>
+<!-- {{{ top nav bar -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+	<div class="container">
+		<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</a>
+
+		<a class="brand" href="#">aria2 Web-Client</a>
+		<div class="nav-collapse">
+		<ul class="nav">
+			<li class="dropdown" id="add_download">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#add_download">
+				Add <b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a id="newDownload" href="#"><i class="icon-download"></i> Add Download URL</a></li>
+				<li><a id="newDownload_metalink" href="#"><i class="icon-file"></i> Add Metalink</a></li>
+				<li><a id="newDownload_torrent" href="#"><i class="icon-file"></i> Add Torrent</a></li>
+			</ul>
+			</li>
+			<li class="dropdown" id="stop_downloads">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#stop_downloads">
+				Manage
+				<b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a href="#" onclick="force_pause_all()"><i class="icon-pause"></i> Pause All</a></li>
+				<li><a href="#" onclick="resume_paused()"><i class="icon-play"></i> Resume Paused</a></li>
+				<li><a href="#" onclick="purge_all()"><i class="icon-remove"></i> Purge Completed</a></li>
+				<li><a href="#" onclick="force_remove_all()"><i class="icon-fire"></i> Remove All</a></li>
+			</ul>
+			</li>
+		</ul>
+
+		<ul class="nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Settings <b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#" onclick="custom_aria2_connect()">
+						<i class="icon-wrench"></i> Connection Settings</a>
+					</li>
+					<li><a href="#" onclick="custom_global_settings()">
+						<i class="icon-wrench"></i> Global Settings</a></li>
+				</ul>
+			</li>
+		</ul>
+
+		<ul class="nav pull-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					About <b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#" onclick="custom_global_statistics()">
+						<i class="icon-list-alt"></i> Global Statistics</a></li>
+					<li><a href="#" onclick="show_about()">
+						<i class="icon-info-sign"></i> About</a></li>
+				</ul>
+			</li>
+		</ul>
+		</div><!--/.nav-collapse -->
+	</div>
+	</div>
+</div>
+<!-- }}} -->
+
+<div role="main" class="container">
+	<!-- Download items here -->
+
+	<div id="active_downloads"></div>
+
+	<div id="waiting_downloads"></div>
+
+	<div id="stopped_downloads"></div>
+
+</div>
+
+
+<!--{{{ Hidden dialogs and out of screen HTML elements  -->
+
+<!--{{{ error connection template -->
+<div class="modal hide" id="error_connect">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Connection to aria failed :( </h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			Make sure that aria2c is running and rpc is enabled.
+			aria2c --enable-rpc
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="window.location.reload(true)" class="btn">Retry</a>
+		<a href="#" onclick="custom_aria2_connect()" class="btn btn-primary">Use custom IP and port settings</a>
+	</div>
+</div>
+<!-- error connection end }}}-->
+
+<!--{{{ No file api template -->
+<div class="modal hide" id="error_file_api">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Unfortunately your browser does not support HTML5 File Api :( </h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			To use this feature, please upgrade your browser to a somewhat recent version.
+			If you have no clue then head on to <a href="http://firefox.com">http://firefox.com</a>
+			and follow instructions there.
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="clear_dialogs()" class="btn">Close</a>
+	</div>
+</div>
+<!-- no file api end }}}-->
+
+<!--{{{ About template -->
+<div class="modal hide" id="about_modal">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>About </h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			aria2 version: <span class="about_aria_version"></span>
+			<br>
+			Web-Client status: <span class="about_webclient_version"></span>
+		</p>
+		<p>
+			To download the latest version of the project head on to
+			<a href="https://github.com/ziahamza/webui-aria2">http://github.com/ziahamza/webui-aria2</a>
+			<br>
+			Or you can open the latest version in browser through <a href="http://ziahamza.github.com/webui-aria2">http://ziahamza.github.com/webui-aria2</a>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="clear_dialogs()" class="btn">Close</a>
+	</div>
+</div>
+<!-- About end }}}-->
+
+<!--{{{ global statistics template -->
+<div class="modal hide" id="global_statistics_modal">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>aria2 Global Statistics</h3>
+	</div>
+	<div class="modal-body">
+		<p class="row-fluid global_statistics_list" style="text-align: center;">
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Overall Download Speed: <span class="stat_downloadSpeed"></span></h5>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Overall Upload Speed: <span class="stat_uploadSpeed"></span></h5>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Active Downloads: <span class="stat_numActive"></span></h5>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Waiting Downloads: <span class="stat_numWaiting"></span></h5>
+			<h5 class="span3 badge" style="text-align: center; margin: 5px;">Total Stopped Downloads: <span class="stat_numStopped"></span></h5>
+			<div class="span5 stat_graph">
+			</div>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="clear_dialogs()" class="btn">Close</a>
+	</div>
+</div>
+<!-- global statistics end }}}-->
+
+<!--{{{ change aria2 rpc host and port template -->
+<div class="modal hide" id="change_conf">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Connection Settings</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Aria2 RPC host and port</legend>
+				<div class="control-group">
+					<label class="control-label" for="input_host">Enter the host:</label>
+					<div class="controls">
+						<div class="input-prepend"><span class="add-on">http(s)://</span><input type="text" class="input-xlarge" id="input_host" placeholder="localhost"/></div>
+						<p class="help-block">Enter the ip or dns name of the server on which the rpc for aria2 is running (default = localhost)</p>
+					</div>
+					<label class="control-label" for="input_port">Enter the port:</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" placeholder="6800" id="input_port"/>
+						<p class="help-block">Enter the port of the server on which the rpc for aria2 is running (default = 6800)</p>
+					</div>
+
+					<label class="control-label" for="input_encryption">SSL/TLS encryption:</label>
+					<div class="controls">
+						<button type="button" class="btn" data-toggle="button" id="input_encryption">ON</button>
+						<p class="help-block">Enable SSL/TLS encryption.</p>
+					</div>
+
+					<label class="control-label" for="input_user">Enter the username (optional):</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="input_user"/>
+						<p class="help-block">Enter the aria2 RPC username (empty if authentication not enabled)</p>
+					</div>
+					<label class="control-label" for="input_pass">Enter the password (optional):</label>
+					<div class="controls">
+						<input type="password" class="input-xlarge" id="input_pass"/>
+						<p class="help-block">Enter the aria2 RPC password (empty if authentication not enabled)</p>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="window.location.reload(true)" class="btn">Retry with default configuration</a>
+		<a href="#" onclick="update_server_conf()" class="btn btn-primary">Use custom IP and port settings</a>
+	</div>
+</div>
+<!-- change aria2 rpc host and port template }}}-->
+
+<!--{{{ add new torrent -->
+<div class="modal hide" id="new_torrent">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Add new Torrents</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label" for="input_torrent">Select the torrent file:</label>
+					<div class="controls">
+						<input type="file" class="input-xlarge" id="input_torrent" multiple/>
+						<p class="help-block">
+							Select the local torrent file to start download.
+							To add a magnet torrent url, use the add url option and add it there.
+							Note that you can select multiple torrent files to start at once.
+						</p>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="add_torrent()" class="btn">Add</a>
+		<a href="#" onclick="clear_dialogs()" class="btn">Cancel</a>
+	</div>
+</div>
+<!-- add new torrent end }}}-->
+
+<!--{{{ add new metalink -->
+<div class="modal hide" id="new_metalink">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Add new Metalinks</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Metalink File upload</legend>
+				<div class="control-group">
+					<label class="control-label" for="input_metalink">Select the Metalink file:</label>
+					<div class="controls">
+						<input type="file" class="input-xlarge" id="input_metalink" multiple/>
+						<p class="help-block">
+						Please select a local metalink file to initiate its downloads. Note that you
+						can select multiple metalink files at once to start
+						</p>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a href="#" onclick="add_metalink()" class="btn">Add</a>
+		<a href="#" onclick="clear_dialogs()" class="btn">Cancel</a>
+	</div>
+</div>
+<!-- add new metalink end }}}-->
+
+<!--{{{ add new Download template -->
+<div class="modal hide" id="newDownload_modal">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Add a new Download</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Download urls</legend>
+				<div class="control-group">
+					<label class="control-label" for="newDownload_url">Enter url for the Download:</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="newDownload_url" placeholder="http://example.com"/>
+						<button class="btn" href="#" id="multiple_uris"><i class="icon-plus-sign"></i></button>
+						<span class="help-block">URI can be HTTP(S)/FTP/BitTorrent Magnet URI. You can add multiple uris for the SAME file and the aria2 will accelerate download by downloading from many uris at the same time.</span>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button id="addNewDownload" class="btn">Add Download</button>
+	</div>
+</div>
+<!-- add new Download template end }}}-->
+
+<!--{{{ global settings template start -->
+<div class="modal hide" id="global_settings_modal">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">x</button>
+		<h3>Global Settings</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id="dynamic_global_settings">
+			<!-- dynamic settings injection here -->
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button id="save_global_settings" class="btn btn-success">Save</button>
+	</div>
+</div>
+<!-- global settings template end }}}-->
+
+<!--{{{ download settings template start -->
+<div class="modal hide" id="download_settings_modal">
+</div>
+<!-- download settings template end }}}-->
+
+<!--{{{ torrent info modal -->
+<div class="modal hide" id="torrent_info_modal" style="width: 600px;">
+</div>
+<!-- }}} -->
+
+<!-- }}} hidden modals end -->
+
+<script src="js/old/plugins.js"></script>
+
+<script src="js/old/script.js"></script>
+
+
+</body>
+</html>
