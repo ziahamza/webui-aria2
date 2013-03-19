@@ -14,6 +14,14 @@ function(syscall, time, alerts, utils, rootScope) {
     , timeout = null
     , forceNextUpdate = false;
 
+	if (window.location.protocol === "http:") {
+		configurations.unshift({
+      host: window.location.hostname,
+      port: 6800,
+      encrypt: false
+    });
+	}
+
   var cookieConf = utils.getCookie('aria2conf');
   if (cookieConf) configurations.unshift(cookieConf);
 
