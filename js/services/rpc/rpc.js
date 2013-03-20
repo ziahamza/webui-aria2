@@ -5,8 +5,8 @@ angular
 ])
 .factory('$rpc', [
   '$syscall', '$globalTimeout', '$alerts', '$utils',
-  '$rootScope',
-function(syscall, time, alerts, utils, rootScope) {
+  '$rootScope', '$location',
+function(syscall, time, alerts, utils, rootScope, uri) {
 
   var subscriptions = []
     , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
@@ -14,13 +14,15 @@ function(syscall, time, alerts, utils, rootScope) {
     , timeout = null
     , forceNextUpdate = false;
 
-	if (window.location.protocol === "http:") {
-		configurations.unshift({
-      host: window.location.hostname,
+  if (['http', 'https'].indexOf(uri.protocol()) != -1) {
+    console.log(uri.host());
+    configurations.unshift({
+      host: uri.host(),
       port: 6800,
       encrypt: false
     });
-	}
+    console.log(configurations);
+  }
 
   var cookieConf = utils.getCookie('aria2conf');
   if (cookieConf) configurations.unshift(cookieConf);
