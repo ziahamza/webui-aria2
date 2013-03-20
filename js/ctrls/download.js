@@ -11,7 +11,7 @@ function(
   fsettings, activeInclude, waitingExclude
 ) {
   scope.active = [], scope.waiting = [], scope.stopped = [];
-  scope.gstats = scope.miscellaneous = {};
+  scope.gstats = {};
 
   // pause the download
   // d: the download ctx

@@ -107,12 +107,12 @@
               <i class="icon-download"></i> By URIs
             </a>
           </li>
-          <li>
+          <li ng-show="isFeatureEnabled('BitTorrent')">
             <a href="#" ng-click="addTorrents()">
               <i class="icon-file"></i> By Torrents
             </a>
           </li>
-          <li>
+          <li ng-show="isFeatureEnabled('Metalink')">
             <a href="#" ng-click="addMetalinks()">
               <i class="icon-file"></i> By Metalinks
             </a>
@@ -194,7 +194,7 @@
 </div>
 <!-- }}} -->
 
-
+<!-- {{{ body -->
 <div role="main" class="container" ng-controller="DownloadCtrl">
 
   <!-- {{{ alerts -->
@@ -521,6 +521,7 @@
   </div>
   <!-- }}} -->
 
+  <!-- {{{ global statistics -->
   <h3>Global Statistics</h3>
 
   <div class="download-graph"
@@ -529,6 +530,9 @@
     dgraph>
   </div>
 
+  <!-- }}} -->
+
+  <!-- {{{ miscellaneous -->
   <h3>Miscellaneous</h3>
   <b>Aria2 Version {{miscellaneous.version}}</b>
   <br><br>
@@ -546,9 +550,11 @@
     <br>
     Or you can open the latest version in browser through <a href="http://ziahamza.github.com/webui-aria2">http://ziahamza.github.com/webui-aria2</a>
   </p>
+  <!-- }}} -->
 
 </div>
 
+<!-- }}} -->
 
 <!-- {{{ modals -->
 <div ng-controller="ModalCtrl">

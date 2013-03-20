@@ -17,6 +17,8 @@ angular
   // app name
   scope.name = name;
 
+  scope.isFeatureEnabled = function(f) { return rhelpers.isFeatureEnabled(f) };
+
   // initially collapsed in mobile resolution
   scope.collapsed = true;
 
