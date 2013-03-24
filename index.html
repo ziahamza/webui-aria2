@@ -207,7 +207,7 @@
   <!-- }}} -->
 
   <!-- {{{ downloads -->
-  <div ng-show="!totalAria2Downloads()" class="hero-unit">
+  <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">
     <h3>Currently no downloads in line to display, use the Add download button to start downloading files!</h3>
   </div>
 
@@ -522,12 +522,12 @@
   <!-- }}} -->
 
   <!-- {{{ global statistics -->
-  <h3>Global Statistics</h3>
+  <h3 ng-show="totalAria2Downloads()">Global Statistics</h3>
 
   <div class="download-graph"
     dspeed="gstats.downloadSpeed"
     uspeed="gstats.uploadSpeed"
-    dgraph>
+    dgraph ng-show="totalAria2Downloads()">
   </div>
 
   <!-- }}} -->

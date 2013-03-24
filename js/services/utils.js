@@ -38,7 +38,7 @@ angular.module('webui.services.utils', [])
     mergeMap: function(arr, dest, func) {
       if (!dest) dest = [];
 
-      for (i = 0; i < dest.length; i++) {
+      for (var i = 0; i < dest.length; i++) {
         if (i >= arr.length) {
           // remove the deleted downloads
           dest.splice(i, dest.length - arr.length);
