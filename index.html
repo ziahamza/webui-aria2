@@ -242,7 +242,7 @@
           </button>
 
           <button
-            ng-show="hasStatus(download, 'paused')"
+            ng-show="hasStatus(download, ['paused', 'waiting'])"
             class="btn"
             ng-click="resume(download)">
             <i class="icon-play"></i>
