@@ -18,6 +18,8 @@ angular.module('webui.services.utils', [])
           return JSON.parse(unescape(cvalue));
         }
       }
+
+      return null;
     },
     getFileName: function(path) {
       var seed = path.split(/[/\\]/);

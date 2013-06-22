@@ -25,7 +25,9 @@ function(syscall, time, alerts, utils, rootScope, uri) {
   }
 
   var cookieConf = utils.getCookie('aria2conf');
-  if (cookieConf) configurations.unshift(cookieConf);
+
+  // try at the end, so that it is not overwridden in case it doesnt work
+  if (cookieConf) configurations.push(cookieConf);
 
   // update is implemented such that
   // only one syscall at max is ongoing
