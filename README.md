@@ -16,7 +16,6 @@ Status
 ===========
 A completely overhauled version is enabled by default. There are slight changes so if you still want to use the previous version then use the old.html instead of index.html.
 
-
 Dependencies
 ============
 Well, I guess you cannot run it without aria2 installed locally or on a network location. And not sure if a web browser counts as a dependency on GUI desktops :)

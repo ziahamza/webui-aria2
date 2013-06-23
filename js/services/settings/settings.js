@@ -18,32 +18,38 @@ angular.module('webui.services.settings', [])
 
   "allow-overwrite": {
     val: false,
+    options: ["true", "false"],
     desc: "Restart download from scratch if the corresponding control file doesn't exist. See also auto-file-renaming option. Default: false"
   },
 
   "allow-piece-length-change": {
     val: false,
+    options: ["true", "false"],
     desc: "If false is given, aria2 aborts download when a piece length is different from one in a control file. If true is given, you can proceed but some download progress will be lost. Default: false"
   },
 
   "always-resume": {
     val: true,
+    options: ["true", "false"],
     desc: "Always resume download. If true is given, aria2 always tries to resume download and if resume is not possible, aborts download. If false is given, when all given URIs do not support resume or aria2 encounters N URIs which does not support resume (N is the value specified using --max-resume-failure-tries option), aria2 downloads file from scratch. See --max-resume-failure-tries option. Default: true"
   },
 
   "async-dns": {
     val: true,
+    options: ["true", "false"],
     desc: "Enable asynchronous DNS. Default: true"
   },
 
   "auto-file-renaming": {
     val: true,
+    options: ["true", "false"],
     desc: "Rename file name if the same file already exists. This option works only in HTTP(S)/FTP download. The new file name has a dot and a number(1..9999) appended. Default: true"
   },
 
   "bt-enable-lpd": {
     desc: "Enable Local Peer Discovery. If a private flag is set in a torrent, aria2 doesn't use this feature for that download even if true is given. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "bt-exclude-tracker": {
@@ -59,7 +65,8 @@ angular.module('webui.services.settings', [])
 
   "bt-hash-check-seed": {
     desc: "If true is given, after hash check using --check-integrity option and file is complete, continue to seed file. If you want to check file and download it only when it is damaged or incomplete, set this option to false. This option has effect only on BitTorrent download. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "bt-max-open-files": {
@@ -74,7 +81,8 @@ angular.module('webui.services.settings', [])
 
   "bt-metadata-only": {
     desc: "Download metadata only. The file(s) described in metadata will not be downloaded. This option has effect only when BitTorrent Magnet URI is used. See also --bt-save-metadata option. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "bt-min-crypto-level": {
@@ -95,17 +103,20 @@ angular.module('webui.services.settings', [])
 
   "bt-require-crypto": {
     desc: "If true is given, aria2 doesn't accept and establish connection with legacy BitTorrent handshake(19BitTorrent protocol). Thus aria2 always uses Obfuscation handshake. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "bt-save-metadata": {
     desc: "Save metadata as .torrent file. This option has effect only when BitTorrent Magnet URI is used. The filename is hex encoded info hash with suffix .torrent. The directory to be saved is the same directory where download file is saved. If the same file already exists, metadata is not saved. See also --bt-metadata-only option. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "bt-seed-unverified": {
     desc: "Seed previously downloaded files without verifying piece hashes. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "bt-stop-timeout": {
@@ -135,17 +146,20 @@ angular.module('webui.services.settings', [])
 
   "bt-remove-unselected-file": {
     desc: "Removes the unselected files when download is completed in BitTorrent. To select files, use --select-file option. If it is not used, all files are assumed to be selected. Please use this option with care because it will actually remove files from your disk. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "check-integrity": {
     desc: "Check file integrity by validating piece hashes or a hash of entire file. This option has effect only in BitTorrent, Metalink downloads with checksums or HTTP(S)/FTP downloads with --checksum option. If piece hashes are provided, this option can detect damaged portions of a file and re-download them. If a hash of entire file is provided, hash check is only done when file has been already download. This is determined by file length. If hash check fails, file is re-downloaded from scratch. If both piece hashes and a hash of entire file are provided, only piece hashes are used. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "conditional-get": {
     desc: "Download file only when the local file is older than remote file. This function only works with HTTP(S) downloads only. It does not work if file size is specified in Metalink. It also ignores Content-Disposition header. If a control file exists, this option will be ignored. This function uses If-Modified-Since header to get only newer file conditionally. When getting modification time of local file, it uses user supplied filename(see --out option) or filename part in URI if --out is not specified. To overwrite existing file, --allow-overwrite is required. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "connect-timeout": {
@@ -155,7 +169,8 @@ angular.module('webui.services.settings', [])
 
   "continue": {
     desc: "Continue downloading a partially downloaded file. Use this option to resume a download started by a web browser or another program which downloads files sequentially from the beginning. Currently this option is only applicable to HTTP(S)/FTP downloads.",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "dir": {
@@ -165,27 +180,32 @@ angular.module('webui.services.settings', [])
 
   "dry-run": {
     desc: "If true is given, aria2 just checks whether the remote file is available and doesn't download data. This option has effect on HTTP/FTP download. BitTorrent downloads are canceled if true is specified. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "enable-async-dns6": {
     desc: "Enable IPv6 name resolution in asynchronous DNS resolver. This option will be ignored when --async-dns=false. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "enable-http-keep-alive": {
     desc: "Enable HTTP/1.1 persistent connection. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "enable-http-pipelining": {
     desc: "Enable HTTP/1.1 pipelining. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "enable-peer-exchange": {
     desc: "Enable Peer Exchange extension. If a private flag is set in a torrent, this feature is disabled for that download even if true is given. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "file-allocation": {
@@ -196,12 +216,14 @@ angular.module('webui.services.settings', [])
 
   "follow-metalink": {
     desc: "If true or mem is specified, when a file whose suffix is .meta4 or .metalink or content type of application/metalink4+xml or application/metalink+xml is downloaded, aria2 parses it as a metalink file and downloads files mentioned in it. If mem is specified, a metalink file is not written to the disk, but is just kept in memory. If false is specified, the action mentioned above is not taken. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "follow-torrent": {
     desc: "If true or mem is specified, when a file whose suffix is .torrent or content type is application/x-bittorrent is downloaded, aria2 parses it as a torrent file and downloads files mentioned in it. If mem is specified, a torrent file is not written to the disk, but is just kept in memory. If false is specified, the action mentioned above is not taken. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "ftp-passwd": {
@@ -211,7 +233,8 @@ angular.module('webui.services.settings', [])
 
   "ftp-pasv": {
     desc: "Use the passive mode in FTP. If false is given, the active mode will be used. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "ftp-proxy": {
@@ -231,7 +254,8 @@ angular.module('webui.services.settings', [])
 
   "ftp-reuse-connection": {
     desc: "Reuse connection in FTP. Default: true.",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "ftp-type": {
@@ -252,17 +276,20 @@ angular.module('webui.services.settings', [])
 
   "http-accept-gzip": {
     desc: "Send Accept: deflate, gzip request header and inflate response if remote server responds with Content-Encoding: gzip or Content-Encoding: deflate. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "http-auth-challenge": {
     desc: "Send HTTP authorization header only when it is requested by the server. If false is set, then authorization header is always sent to the server. There is an exception: if username and password are embedded in URI, authorization header is always sent to the server regardless of this option. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "http-no-cache": {
     desc: "Send Cache-Control: no-cache and Pragma: no-cache header to avoid cached content. If false is given, these headers are not sent and you can add Cache-Control header with a directive you like using --header option. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "http-proxy": {
@@ -322,7 +349,8 @@ angular.module('webui.services.settings', [])
 
   "metalink-enable-unique-protocol": {
     desc: "If true is given and several protocols are available for a mirror in a metalink file, aria2 uses one of them. Use --metalink-preferred-protocol option to specify the preference of protocol. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "metalink-language": {
@@ -357,7 +385,8 @@ angular.module('webui.services.settings', [])
 
   "no-netrc": {
     desc: "Disables netrc support. netrc support is enabled by default.Note netrc file is only read at the startup if --no-netrc is false. So if --no-netrc is true at the startup, no netrc is available throughout the session. You cannot get netrc enabled even if you change this setting.",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "no-proxy": {
@@ -372,7 +401,8 @@ angular.module('webui.services.settings', [])
 
   "parameterized-uri": {
     desc: "Enable parameterized URI support. You can specify set of parts: http://{sv1,sv2,sv3}/foo.iso. Also you can specify numeric sequences with step counter: http://host/image[000-100:2].img. A step counter can be omitted. If all URIs do not point to the same file, such as the second example above, -Z option is required. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "proxy-method": {
@@ -383,7 +413,8 @@ angular.module('webui.services.settings', [])
 
   "realtime-chunk-checksum": {
     desc: "Validate chunk of data by calculating checksum while downloading a file if chunk checksums are provided. Default: true",
-    val: true
+    val: true,
+    options: ["true", "false"],
   },
 
   "referer": {
@@ -393,12 +424,14 @@ angular.module('webui.services.settings', [])
 
   "remote-time": {
     desc: "Retrieve timestamp of the remote file from the remote HTTP/FTP server and if it is available, apply it to the local file. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "remove-control-file": {
     desc: "Remove control file before download. Using with --allow-overwrite=true, download always starts from scratch. This will be useful for users behind proxy server which disables resume.",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "seed-ratio": {
@@ -428,7 +461,8 @@ angular.module('webui.services.settings', [])
 
   "use-head": {
     desc: "Use HEAD method for the first request to the HTTP server. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "user-agent": {
@@ -448,7 +482,8 @@ angular.module('webui.services.settings', [])
 
   "pause": {
     desc: "Pause download after added. This option is effective only when --enable-rpc=true is given. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "stream-piece-selector": {
@@ -459,7 +494,8 @@ angular.module('webui.services.settings', [])
 
   "hash-check-only": {
     desc: "If true is given, after hash check using --check-integrity option, abort download whether or not download is complete. Default: false",
-    val: false
+    val: false,
+    options: ["true", "false"],
   },
 
   "checksum": {

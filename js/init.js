@@ -6,6 +6,7 @@ var webui = angular.module('webui', [
   'webui.filters.bytes', 'webui.filters.path',
   'webui.directives.chunkbar', 'webui.directives.dgraph', 'webui.directives.fselect',
   'webui.ctrls.download', 'webui.ctrls.nav', 'webui.ctrls.modal', 'webui.ctrls.alert',
+  'webui.ctrls.props',
   // external deps
   'ui.bootstrap.collapse', 'ui.bootstrap.dropdownToggle',
   'ui.bootstrap.modal', 'ui.bootstrap.alert'

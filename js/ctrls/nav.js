@@ -2,16 +2,18 @@ angular
 .module('webui.ctrls.nav', [
   'webui.services.constants', 'webui.services.modals',
   'webui.services.rpc', 'webui.services.rpc.helpers',
-  'webui.services.settings'
+  'webui.services.settings', 'webui.services.utils'
 ])
 .controller('NavCtrl', [
   '$scope', '$name', '$modals',
   '$rpc', '$rpchelpers', '$fileSettings',
   '$globalSettings', '$globalExclude',
+  '$utils',
   function(
     scope, name, modals,
     rpc, rhelpers, fsettings,
-    gsettings, gexclude
+    gsettings, gexclude,
+    utils
   ) {
 
   // app name
@@ -67,6 +69,8 @@ angular
 
   scope.changeGSettings = function() {
     rpc.once('getGlobalOption', [], function(data) {
+      var starred = utils.getCookie('aria2props');
+      if (!starred || !starred.indexOf) starred = [];
       var vals = data[0];
       var settings = {};
 
@@ -79,6 +83,7 @@ angular
           if (gexclude.indexOf(i) != -1) continue;
 
           settings[i] = sets[i];
+          settings[i].starred = starred.indexOf(i) != -1;
         }
       });
 
@@ -86,7 +91,7 @@ angular
         if (i in gexclude) continue;
 
         if (!(i in settings)) {
-          settings[i] = { name: i, val: vals[i], desc: '' };
+          settings[i] = { name: i, val: vals[i], desc: '', starred: starred.indexOf(i) != -1 };
         }
 
         else {
@@ -99,9 +104,17 @@ angular
         'Global Settings', function(settings) {
 
         var sets = {};
-        for (var i in settings) { sets[i] = settings[i].val };
+        var starred = [];
+        for (var i in settings) {
+          sets[i] = settings[i].val
+          if (settings[i].starred) {
+            starred.push(i);
+          }
+        };
 
+        console.log('saving aria2 starred:', starred);
         rpc.once('changeGlobalOption', [sets]);
+        utils.setCookie('aria2props', starred);
       });
     });
   };

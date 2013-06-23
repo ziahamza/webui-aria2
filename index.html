@@ -73,6 +73,7 @@
   <script src="js/ctrls/nav.js"></script>
   <script src="js/ctrls/download.js"></script>
   <script src="js/ctrls/alert.js"></script>
+  <script src="js/ctrls/props.js"></script>
 
 
 </head>
@@ -198,7 +199,7 @@
 <div role="main" class="container" ng-controller="DownloadCtrl">
 
   <!-- {{{ alerts -->
-  <div ng-controller="AlertCtrl">
+  <div ng-controller="AlertCtrl" class="row">
     <div class="alert alert-{{alert.type}}" ng-repeat="alert in pendingAlerts">
       <span ng-bind-html-unsafe="alert.msg"></span>
       <button type="button" class="close" ng-click="removeAlert($index)">x</button>
@@ -206,24 +207,45 @@
   </div>
   <!-- }}} -->
 
+  <!-- starred properties {{{ -->
+  <div ng-controller="StarredPropsCtrl" ng-show="properties.length">
+    <h3>Quick Access Settings</h3>
+    <form class="row">
+      <fieldset>
+        <div class="span4" ng-repeat="prop in properties">
+            <label>{{prop.name}}</label>
+            <select ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val">
+            </select>
+            <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
+        </div>
+        <div class="span12"><button ng-disabled="!enabled()" ng-click="save()">Save</button></div>
+      </fieldset>
+    </form>
+  </div>
+  <!--}}} -->
+
   <!-- {{{ downloads -->
   <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">
     <h3>Currently no downloads in line to display, use the Add download button to start downloading files!</h3>
   </div>
 
+
   <!-- {{{ download template -->
-  <form ng-show="totalAria2Downloads()">
+
+  <form class="row" ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length">
     <fieldset>
-      <label>Search</label>
-      <input type="text" ng-model="downloadFilter"></input>
-      <br>
-      <b>Found: {{totalDownloads}} / {{totalAria2Downloads()}} </b>
+      <div class="span4">
+        <label>Search</label>
+        <input typ="text" ng-model="downloadFilter" class="input-large"/>
+        <br>
+        <b>Found: {{totalDownloads}} / {{totalAria2Downloads()}} </b>
+      </div>
     </fieldset>
   </form>
 
   <table
     ng-repeat="download in getDownloads()"
-    class="download" data-gid="{{download.gid}}">
+    class="row download" data-gid="{{download.gid}}">
     <tbody>
     <tr>
       <td
@@ -545,10 +567,10 @@
   </ul>
   <br>
   <p>
-    To download the latest version of the project head on to
+    To download the latest version of the project, add issues or to contribute back head on to
     <a href="https://github.com/ziahamza/webui-aria2">http://github.com/ziahamza/webui-aria2</a>
     <br>
-    Or you can open the latest version in browser through <a href="http://ziahamza.github.com/webui-aria2">http://ziahamza.github.com/webui-aria2</a>
+    Or you can open the latest version in browser through <a href="http://ziahamza.github.com/webui-aria2">http://ziahamza.github.io/webui-aria2</a>
   </p>
   <!-- }}} -->
 
@@ -668,6 +690,9 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
             <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
             </select>
             <input ng-show="!set.options.length" typ="text" class="input-xlarge" ng-model="set.val"/>
+            <label class="checkbox">
+              <input type="checkbox" ng-model="set.starred"/> Quick Access (shown on the main page)
+            </label>
             <p class="help-block">{{set.desc}}</p>
           </div>
           <br><br>
