@@ -62,9 +62,9 @@ angular.module('webui.services.utils', [])
     getTitle: function(stats) {
       var title =
         '('
-        + ' a:' +  stats.numActive
-        + ' p:' + stats.numWaiting
-        + ' s:' + stats.numStopped
+        + ' active:' +  stats.numActive
+        + ' waiting:' + stats.numWaiting
+        + ' stopped:' + stats.numStopped
         + ') '
         + 'aria2 Web Client';
 
