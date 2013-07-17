@@ -6,9 +6,11 @@ angular
 .controller('DownloadCtrl', [
   '$scope', '$rpc', '$utils', '$alerts', '$modals',
   '$fileSettings', '$activeInclude', '$waitingExclude',
+  // for document title
+  '$window',
 function(
   scope, rpc, utils, alerts, modals,
-  fsettings, activeInclude, waitingExclude
+  fsettings, activeInclude, waitingExclude, window
 ) {
   scope.active = [], scope.waiting = [], scope.stopped = [];
   scope.gstats = {};
@@ -86,6 +88,8 @@ function(
 
   rpc.subscribe('getGlobalStat', [], function(data) {
     scope.gstats = data[0];
+    window.document.title = utils.getTitle(scope.gstats);
+
   });
 
   rpc.once('getVersion', [], function(data) {

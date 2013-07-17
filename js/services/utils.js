@@ -1,5 +1,5 @@
 angular.module('webui.services.utils', [])
-.factory('$utils', function() {
+.factory('$utils', ['$filter', function(filter) {
   return {
     // saves the key value pair in cookies
     setCookie: function(key, value) {
@@ -58,6 +58,18 @@ angular.module('webui.services.utils', [])
 
       return dest;
     },
+    // get info title from global statistics
+    getTitle: function(stats) {
+      var title =
+        '('
+        + ' a:' +  stats.numActive
+        + ' p:' + stats.numWaiting
+        + ' s:' + stats.numStopped
+        + ') '
+        + 'aria2 Web Client';
+
+      return title;
+    },
 
     // get download chunks from aria2 bitfield
     getChunksFromHex: function(bitfield, numOfPieces) {
@@ -93,4 +105,4 @@ angular.module('webui.services.utils', [])
       return chunks;
     }
   };
-});
+}]);
