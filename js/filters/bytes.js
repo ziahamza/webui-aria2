@@ -20,14 +20,21 @@ angular
   };
 }])
 .filter('time', function() {
+  function pad(f) {
+    return ("0" + f).substr(-2);
+  }
+
   return function(time) {
-    time = parseFloat(time);
-    if (isNaN(time) || !isFinite(time)) return " infinite";
-    if (!time) return " infinite";
-    if (time < 60) return time.toFixed(2) + " s";
-    else if (time < 60*60) return (time/60).toFixed(2) + " min";
-    else if (time < 60*60*24) return (time/(60*60)).toFixed(2) + " hours";
-    else return (time/(60*60*24)).toFixed(2) + " days!";
+    time = parseInt(time, 10);
+    if (!time || !isFinite(time)) return "∞";
+    var secs = time % 60;
+    if (time < 60) return secs + "s";
+    var mins = Math.floor((time % 3600) / 60)
+    if (time < 3600) return pad(mins) + ":" + pad(secs);
+    var hrs = Math.floor((time % 86400) / 3600);
+    if (time < 86400) return pad(hrs) + ":" + pad(mins) + ":" + pad(secs);
+    var days = Math.floor(time / 86400);
+    return days + "::" +  pad(hrs) + ":" + pad(mins) + ":" + pad(secs);
   };
 });
 
