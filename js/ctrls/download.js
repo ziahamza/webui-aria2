@@ -110,7 +110,8 @@ function(
       if (!d.files.length) return true;
 
       return _.filter(d.files, function(f) {
-        return f.path.search(filter) != -1;
+        return f.path.toLowerCase().indexOf(filter.toLowerCase()) != -1;
+        // return f.path.search(filter) != -1;
       }).length;
     });
   };
