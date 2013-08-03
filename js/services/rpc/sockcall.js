@@ -63,7 +63,7 @@ function(_, JSON, name, utils, alerts) {
     invoke: function(opts) {
       var data =  {
         jsonrpc: 2.0,
-        id: name + '_' + utils.randStr(),
+        id: utils.uuid(),
         method: opts.name,
         params: opts.params && opts.params.length ? opts.params : undefined
       };
