@@ -1,5 +1,31 @@
 angular.module('webui.services.utils', [])
 .factory('$utils', ['$filter', function(filter) {
+  var rnd16 = (function() {
+    "use strict";
+    var rndBuffer = Uint8Array(16);
+    var rnd16Weak = function() {
+      for (var i = 0, r; i < 16; i++) {
+        if (!(i % 0x3)) r = Math.random() * 0x100000000 | 0;
+        rndBuffer[i] = r >>> ((i & 0x3) << 0x3) & 0xff;
+      }
+      return rndBuffer;
+    };
+
+    if (!crypto.getRandomValues) {
+      return rnd16Weak;
+    }
+    return function() {
+      try {
+        crypto.getRandomValues(rndBuffer);
+        return rndBuffer;
+      }
+      catch (ex) {
+        // Entropy might be exhausted
+        return rnd16Weak();
+      }
+    };
+  })();
+
   return {
     // saves the key value pair in cookies
     setCookie: function(key, value) {
@@ -25,13 +51,26 @@ angular.module('webui.services.utils', [])
       var seed = path.split(/[/\\]/);
       return seed[seed.length - 1];
     },
-    randStr: function() {
-      var str = [];
-      var hexDigits = "0123456789abcdef";
-      for (var i = 0; i < 36; i++) {
-        str[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    uuid: (function() {
+      var bt = [];
+      for (var i = 0; i <  0x100; ++i) {
+        bt.push((i + 0x100).toString(16).substr(1));
       }
-      return str.join("");
+      Object.freeze(bt);
+
+      return function() {
+        var r = rnd16();
+        r[6] = (r[6] & 0xf) | 0x40; // Version 4
+        r[8] = (r[8] & 0x3f) | 0x80; // Version 4y
+        return bt[r[0]] + bt[r[1]] + bt[r[2]] + bt[r[3]] + "-" +
+          bt[r[4]] + bt[r[5]] + "-" +
+          bt[r[6]] + bt[r[7]] + "-" +
+          bt[r[8]] + bt[r[9]] + "-" +
+          bt[r[10]] + bt[r[11]] + bt[r[12]] + bt[r[13]] + bt[r[14]] + bt[r[15]];
+      };
+    })(),
+    randStr: function() {
+      return this.uuid();
     },
 
     // maps the array in place to the destination
