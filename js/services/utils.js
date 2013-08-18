@@ -2,7 +2,7 @@ angular.module('webui.services.utils', [])
 .factory('$utils', ['$filter', function(filter) {
   var rnd16 = (function() {
     "use strict";
-    var rndBuffer = Uint8Array(16);
+    var rndBuffer = new Uint8Array(16);
     var rnd16Weak = function() {
       for (var i = 0, r; i < 16; i++) {
         if (!(i % 0x3)) r = Math.random() * 0x100000000 | 0;
