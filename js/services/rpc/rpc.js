@@ -20,6 +20,11 @@ function(syscall, time, alerts, utils, rootScope, uri) {
       host: uri.host(),
       port: 6800,
       encrypt: false
+    },
+    {
+      host: uri.host(),
+      port: uri.port(),
+      encrypt: ( uri.protocol() == 'https' )
     });
     console.log(configurations);
   }
