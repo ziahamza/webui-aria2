@@ -9,25 +9,10 @@ angular
 function(syscall, time, alerts, utils, rootScope, uri) {
 
   var subscriptions = []
-    , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
+    , configurations = [{ host: uri.host(), port: uri.port(), encrypt: ( uri.protocol() == 'https' )}]
     , currentConf = {}
     , timeout = null
     , forceNextUpdate = false;
-
-  if (['http', 'https'].indexOf(uri.protocol()) != -1) {
-    console.log(uri.host());
-    configurations.unshift({
-      host: uri.host(),
-      port: 6800,
-      encrypt: false
-    },
-    {
-      host: uri.host(),
-      port: uri.port(),
-      encrypt: ( uri.protocol() == 'https' )
-    });
-    console.log(configurations);
-  }
 
   var cookieConf = utils.getCookie('aria2conf');
 
