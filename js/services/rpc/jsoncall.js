@@ -16,12 +16,12 @@ angular
       $.ajax({
         url: url,
         timeout: this.avgTimeout,
-        data: {
+        data: JSON.stringify({
           jsonrpc: 2.0,
           id: 'webui',
           method: funcName,
-          params: params && params.length ? this.encode(params) : undefined
-        },
+          params: params && params.length ? params : undefined
+        }),
         success: function(data) {
           conn.avgTimeout =  2000 + 3 * (new Date() - startTime);
           return success(data)
