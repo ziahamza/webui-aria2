@@ -28,7 +28,8 @@ angular
         },
         error: error,
         dataType: 'jsonp',
-        jsonp: 'jsoncallback'
+        jsonp: 'jsoncallback',
+        type: 'POST'
       });
     },
     invoke: function(opts) {
