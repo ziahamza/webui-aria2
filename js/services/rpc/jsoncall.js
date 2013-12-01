@@ -27,8 +27,7 @@ angular
           return success(data)
         },
         error: error,
-        dataType: 'jsonp',
-        jsonp: 'jsoncallback',
+        dataType: 'json',
         type: 'POST'
       });
     },
