@@ -72,7 +72,7 @@ angular
       dspeed = parseFloat(val) || 0;
     });
 
-    scope.$watch(attrs.useed, function(val) {
+    scope.$watch(attrs.uspeed, function(val) {
       uspeed = parseFloat(val) || 0;
     });
 
