@@ -38,7 +38,11 @@ function(syscall, time, alerts, utils, rootScope, uri) {
     clearTimeout(timeout);
     timeout = null;
 
-    if (!subscriptions.length) {
+    subscriptions = _.filter(subscriptions, function(e) {
+      return !!e && e.once !== 2;
+    });
+    var subs = subscriptions.slice();
+    if (!subs.length) {
       timeout = setTimeout(update, time);
       return;
     }
@@ -48,14 +52,12 @@ function(syscall, time, alerts, utils, rootScope, uri) {
       syscall.init(currentConf);
     }
 
-    subscriptions = _.filter(subscriptions, function(e) { return !!e });
-    var params = _.map(subscriptions, function(s) {
+    var params = _.map(subs, function(s) {
       return {
         methodName: s.name,
         params: s.params && s.params.length ? s.params : undefined
       };
     });
-
 
     syscall.invoke({
       name: 'system.multicall',
@@ -73,15 +75,16 @@ function(syscall, time, alerts, utils, rootScope, uri) {
 
         var cbs = [];
         _.each(data.result, function(d, i) {
-          var handle = subscriptions[i];
+          var handle = subs[i];
           if (handle) {
             if (d.code) {
+              console.error(handle, d);
               alerts.addAlert(d.message, 'error');
             }
             // run them later as the cb itself can mutate the subscriptions
             cbs.push({cb: handle.cb, data: d});
             if (handle.once) {
-              subscriptions[i] = null;
+              handle.once = 2;
             }
           }
         });
