@@ -582,7 +582,7 @@
 <div ng-controller="ModalCtrl">
 
 <!--{{{ add uri modal -->
-<div class="modal hide modal-adduris" modal="getUris.shown">
+<div class="modal hide modal-adduris modal-large" modal="getUris.shown">
   <div class="modal-header">
     <button class="close" ng-click="getUris.close()">x</button>
     <h3>Add Downloads By URIs</h3>
@@ -590,19 +590,16 @@
   <form class="modal-body">
     <fieldset>
       <legend>Download URIs</legend>
-      <textarea rows="6" ng-model="getUris.uris"></textarea>
       <p class="help-block">
-        You can add multiple downloads (files)
+        - You can add multiple downloads (files)
         at the same time by putting uris for each
-        file on a separate line.
-        <br>
-        You can also add multiple uris (mirrors) for the
+        file on a separate line. <br>
+        - You can also add multiple uris (mirrors) for the
         *same* file. To do this separate the uris
-        by a space.
-        <br>
-        Aria2 will use multiple uris (or mirrors) to boost
-        the download speed for that file (download).
-        <br>
+        by a space. <br>
+        - A URI can be HTTP(S)/FTP/BitTorrent Magnet URI.
+        - Aria2 will use multiple uris (or mirrors) to boost
+        the download speed for that file (download). <br>
         E.g. To add 2 files (downloads) f1.jpg
         and f2.mp4 with 2 uris (mirrors) each,
         add uris as following:
@@ -612,8 +609,8 @@
 http://ex1.com/f1.jpg http://ex2.com/f1.jpg
 http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 </pre>
-        A URI can be HTTP(S)/FTP/BitTorrent Magnet URI.
       </p>
+      <textarea rows="6" ng-model="getUris.uris"></textarea>
     </fieldset>
   </form>
   <div class="modal-footer">
@@ -632,14 +629,12 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   <form class="modal-body">
     <fieldset>
       <legend>Select Torrents</legend>
-      <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
       <p class="help-block">
-        Select the torrent from the local filesystem to start the download.
-        <br>
-        You can select multiple torrents to start multiple downloads
-        <br>
-        To add a magnet torrent url, use the add url option and add it there.
+        - Select the torrent from the local filesystem to start the download. <br>
+        - You can select multiple torrents to start multiple downloads <br>
+        - To add a magnet torrent url, use the add url option and add it there.
       </p>
+      <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
     </fieldset>
   </form>
   <div class="modal-footer">
@@ -658,12 +653,11 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   <form class="modal-body">
     <fieldset>
       <legend>Select Metalinks</legend>
-      <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
       <p class="help-block">
-        Select the metalink from the local filesystem to start the download.
-        <br>
-        You can select multiple metalinks to start multiple downloads
+        - Select the metalink from the local filesystem to start the download. <br>
+        - You can select multiple metalinks to start multiple downloads
       </p>
+      <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
     </fieldset>
   </form>
   <div class="modal-footer">
@@ -674,7 +668,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 <!-- }}} -->
 
 <!-- {{{ settings modal -->
-<div class="modal hide" modal="settings.shown">
+<div class="modal hide modal-large" modal="settings.shown">
   <div class="modal-header">
     <button class="close" ng-click="settings.close()">x</button>
     <h3>{{settings.title}}</h3>
@@ -709,7 +703,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 <!-- }}} -->
 
 <!--{{{ connection modal -->
-<div class="modal hide" modal="connection.shown">
+<div class="modal hide modal-large" modal="connection.shown">
   <div class="modal-header">
     <button class="close" ng-click="connection.close()">x</button>
     <h3>Connection Settings</h3>
