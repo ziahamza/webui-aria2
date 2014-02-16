@@ -1,3 +1,13 @@
 .modal-adduris textarea {
   width: 100%;
 }
+
+.modal-large {
+    width: 80%; /* respsonsive width */
+    margin-left:-40%; /* width/2) */
+}
+
+.modal-body {
+    padding-bottom: 0px;
+    margin-bottom: 5px;
+}
