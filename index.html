@@ -237,12 +237,26 @@
   <!--}}} -->
 
   <!-- {{{ downloads -->
-  <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">
-    <h3>Currently no downloads in line to display, use the Add download button to start downloading files!</h3>
+  <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
+  <div ng-show="!totalAria2Downloads()" class="hero-unit">
+    Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
   </div>
 
 
+  <!-- {{{ global statistics -->
+  <h3 ng-show="totalAria2Downloads()">Global Statistics</h3>
+
+  <div ng-class="{'large-graph': large_graph}" class="download-graph"
+    dspeed="gstats.downloadSpeed"
+    uspeed="gstats.uploadSpeed"
+    dgraph ng-show="totalAria2Downloads()"
+    ng-click="large_graph = !large_graph">
+  </div>
+    <!-- }}} -->
+
+
   <!-- {{{ download template -->
+   <h3 ng-show="totalAria2Downloads()">Download List</h3>
 
   <form class="row" ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length">
     <fieldset>
@@ -555,16 +569,7 @@
   </div>
   <!-- }}} -->
 
-  <!-- {{{ global statistics -->
-  <h3 ng-show="totalAria2Downloads()">Global Statistics</h3>
 
-  <div class="download-graph"
-    dspeed="gstats.downloadSpeed"
-    uspeed="gstats.uploadSpeed"
-    dgraph ng-show="totalAria2Downloads()">
-  </div>
-
-  <!-- }}} -->
 
 </div>
 
@@ -819,6 +824,9 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 
 </div>
 <!-- }}} -->
+
+<!-- Bottom Padding -->
+<br /><br /><br /><br /><br />
 
 </body>
 </html>
