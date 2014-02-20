@@ -1,3 +1,26 @@
+.label-active, .badge-active, .progress-active .bar {
+  background-color: #62C462;
+}
+.progress-success .bar {
+  background-color: #468847 !important;
+}
+
+.alerts {
+  position: fixed;
+  left: 1em;
+  right: 1em;
+  bottom: 1em;
+  z-index: 900;
+  margin: 0;
+  padding: 0;
+  background: white;
+  background: rgba(255,255,255,0.7);
+}
+.alert {
+  margin: 1em;
+  border-width: 0.5ex;
+}
+
 /* fix modal overflow on low resolutions */
 .modal {
   position: absolute;
@@ -8,4 +31,8 @@
   }
 }
 
+.download-graph {
+  font-size: x-small;
+  font-family: sans-serif;
+}
 

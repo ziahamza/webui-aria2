@@ -144,7 +144,7 @@ function(
 
     scope.totalDownloads = downloads.length;
 
-    scope.totalPages = Math.ceil(scope.totalDownloads / scope.pageSize)
+    scope.totalPages = Math.ceil(scope.totalDownloads / scope.pageSize) || 1;
 
     // fix the bug when downloads are deleted until no left on a specific page
     if (scope.currentPage > scope.totalPages)
@@ -241,6 +241,23 @@ function(
   scope.getEta = function(d) {
     return (d.totalLength-d.completedLength) / d.downloadSpeed;
   }
+
+  scope.getProgressClass = function(d) {
+    switch (d.status) {
+      case "paused":
+        return "progress-info";
+      case "error":
+        return "progress-danger";
+      case "removed":
+        return "progress-warning";
+      case "active":
+        return "progress-active";
+      case "complete":
+        return "progress-success";
+      default:
+        return "";
+    }
+  };
 
   // gets the progress in percentages
   scope.getProgress = function(d) {
