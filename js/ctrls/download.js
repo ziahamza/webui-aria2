@@ -204,6 +204,7 @@ function(
 
     if (d.bittorrent) {
       ctx.bittorrentName = d.bittorrent.info && d.bittorrent.info.name;
+      ctx.bittorrent = true;
     }
     else {
       delete ctx.bittorrentName;
