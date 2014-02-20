@@ -182,13 +182,32 @@ function(
 
     _.each([
       'totalLength', 'completedLength', 'uploadLength', 'dir',
-      'pieceLength', 'downloadSpeed', 'uploadSpeed', 'files',
-      'status', 'gid', 'bitfield', 'numPieces', 'connections',
-      'bittorrent'
+      'pieceLength', 'downloadSpeed', 'uploadSpeed', 'status',
+      'gid', 'numPieces', 'connections', 'bitfield'
     ], function(e) {
-      if (ctx[e] != d[e])
-        ctx[e] = d[e];
+      ctx[e] = d[e];
     });
+
+    var files = d["files"];
+    if (files) {
+      var cfiles = ctx["files"] || (ctx["files"] = []);
+      for (var i = 0; i < files.length; ++i) {
+        var file = cfiles[i] || (cfiles[i] = {});
+        file.path = files[i].path;
+        file.length = files[i].length;
+      }
+      cfiles.length = files.length;
+    }
+    else {
+      delete ctx["files"];
+    }
+
+    if (d.bittorrent) {
+      ctx.bittorrentName = d.bittorrent.info && d.bittorrent.info.name;
+    }
+    else {
+      delete ctx.bittorrentName;
+    }
 
     // collapse the download details initially
     if (ctx.collapsed === undefined)
@@ -224,7 +243,7 @@ function(
 
   // gets the progress in percentages
   scope.getProgress = function(d) {
-    var percentage = (d.completedLength / d.totalLength)*100;
+    var percentage = (d.completedLength / d.totalLength)*100 || 0;
     percentage = percentage.toFixed(2);
     if(!percentage) percentage = 0;
 
@@ -233,8 +252,8 @@ function(
 
   // gets a pretty name for the download
   scope.getName = function(d) {
-    if (d.bittorrent && d.bittorrent.info) {
-      return d.bittorrent.info.name;
+    if (d.bittorrentName) {
+      return d.bittorrentName;
     }
 
     return utils.getFileName(
