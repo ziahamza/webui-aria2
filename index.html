@@ -260,14 +260,40 @@
   <!-- {{{ download template -->
    <h3 ng-show="totalAria2Downloads()">Download List</h3>
 
-  <form class="row" ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length">
+  <form ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length" id="filters">
     <fieldset>
-      <div class="span4">
-        <label for="downloadFilter">Search</label>
-        <input id="downloadFilter" type="text" ng-model="downloadFilter" ng-change="onDownloadFilter()" class="input-large"/>
-        <br>
-        <b>Found: {{totalDownloads}} / {{totalAria2Downloads()}} </b>
-      </div>
+      <label for="download-filter" id="download-filter-label">Search</label>
+      <input id="download-filter" type="text" ng-model="downloadFilter" ng-change="onDownloadFilter()" class="input-large"/>
+      <button ng-click="clearFilter()" class="btn btn-default btn-mini">Clear</button>
+      <br>
+      <label for="filter-active">
+        <input type="checkbox" ng-model="filterActive" id="filter-active">
+        active
+      </label>
+      <label for="filter-waiting">
+        <input type="checkbox" ng-model="filterWaiting" id="filter-waiting">
+        waiting
+      </label>
+      <label for="filter-complete">
+        <input type="checkbox" ng-model="filterComplete" id="filter-complete">
+        complete
+      </label>
+      <label for="filter-error">
+        <input type="checkbox" ng-model="filterError" id="filter-error">
+        error
+      </label>
+      <label for="filter-paused">
+        <input type="checkbox" ng-model="filterPaused" id="filter-paused">
+        paused
+      </label>
+      <label for="filter-removed">
+        <input type="checkbox" ng-model="filterRemoved" id="filter-removed">
+        removed
+      </label>
+      <button ng-click="toggleStateFilters()" class="btn btn-default btn-mini">Toggle</button>
+      <br>
+      <b>Found: {{totalDownloads}} / {{totalAria2Downloads()}} </b>
+      <button ng-click="resetFilters()" class="btn btn-mini">Reset</button>
     </fieldset>
   </form>
 

@@ -125,16 +125,45 @@ function(
     if (!scope.downloadFilterCommitted) {
       return downloads;
     }
-    var filter = scope.downloadFilterCommitted;
+    var filter = scope.downloadFilterCommitted.
+      replace(/[{}()\[\]\\^$.?]/g, "\\$&").
+      replace(/\*/g, ".*").
+      replace(/\./g, ".");
+    filter = new RegExp(filter, "i");
     return _.filter(downloads, function(d) {
-      if (!d.files.length) return true;
-
+      if (filter.test(d.name)) return true;
       return _.filter(d.files, function(f) {
-        return f.path.toLowerCase().indexOf(filter.toLowerCase()) != -1;
-        // return f.path.search(filter) != -1;
+        return filter.test(f.relpath);
       }).length;
     });
   };
+
+  scope.clearFilter = function() {
+    scope.downloadFilter = scope.downloadFilterCommitted = "";
+  };
+
+  scope.toggleStateFilters = function() {
+    scope.filterActive = !scope.filterActive;
+    scope.filterWaiting = !scope.filterWaiting;
+    scope.filterComplete = !scope.filterComplete;
+    scope.filterError = !scope.filterError;
+    scope.filterPaused = !scope.filterPaused;
+    scope.filterRemoved = !scope.filterRemoved;
+  };
+
+  scope.resetFilters = function() {
+    scope.filterActive =
+      scope.filterWaiting =
+      scope.filterComplete =
+      scope.filterError =
+      scope.filterPaused =
+      scope.filterRemoved =
+      true;
+    scope.clearFilter();
+  };
+
+  scope.resetFilters();
+
 
   // max downloads shown in one page
   scope.pageSize = 10;
@@ -156,11 +185,37 @@ function(
 
   // actual downloads used by the view
   scope.getDownloads = function() {
-    var downloads =
-      scope.filterDownloads(
-        scope.active.concat( scope.waiting ).concat( scope.stopped )
-      )
-    ;
+    var downloads = [];
+    if (scope.filterActive) {
+      downloads = scope.active;
+    }
+    if (scope.filterWaiting) {
+      downloads = downloads.concat(_.filter(scope.waiting, function (e) {
+        return e.status == "waiting";
+      }));
+    }
+    if (scope.filterPaused) {
+      downloads = downloads.concat(_.filter(scope.waiting, function (e) {
+        return e.status == "paused";
+      }));
+    }
+    if (scope.filterError) {
+      downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+        return e.status == "error";
+      }));
+    }
+    if (scope.filterComplete) {
+      downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+        return e.status == "complete";
+      }));
+    }
+    if (scope.filterRemoved) {
+      downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+        return e.status == "removed";
+      }));
+    }
+
+    downloads = scope.filterDownloads(downloads);
 
     scope.totalDownloads = downloads.length;
 

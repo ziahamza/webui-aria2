@@ -41,3 +41,12 @@
   font-family: sans-serif;
 }
 
+#download-filter {
+  margin: 0;
+  height: auto;
+}
+
+#filters label {
+  display: inline-block;
+  white-space: nowrap;
+}
