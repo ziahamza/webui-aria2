@@ -1,5 +1,5 @@
 // graph takes dspeed and uspeed, it queries them every second and draws
-// the last 20 secs, it also takes draw as an optional attribute and only
+// the last 180 secs, it also takes draw as an optional attribute and only
 // draws the graph when it is true, if not given then graph is always drawn
 angular
 .module('webui.directives.dgraph', ['webui.filters.bytes', 'webui.services.deps'])
@@ -7,7 +7,7 @@ angular
   return function(scope, elem, attrs) {
     var canDraw = true;
 
-    var graphSize = 20
+    var graphSize = 180
       , dspeed = 0, uspeed = 0
       , dconf = {
         label: "Download Speed",

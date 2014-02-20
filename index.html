@@ -170,6 +170,18 @@
               ng-click="changeGSettings()"
               href="#"><i class="icon-wrench"></i> Global Settings</a>
           </li>
+
+          <li>
+            <a
+              ng-click="showServerInfo()"
+              href="#"><i class="icon-info-sign"></i> Server info</a>
+          </li>
+
+          <li>
+            <a
+              ng-click="showAbout()"
+              href="#"><i class="icon-question-sign"></i> About and contribute</a>
+          </li>
         </ul>
       </li>
     </ul>
@@ -225,12 +237,26 @@
   <!--}}} -->
 
   <!-- {{{ downloads -->
-  <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">
-    <h3>Currently no downloads in line to display, use the Add download button to start downloading files!</h3>
+  <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
+  <div ng-show="!totalAria2Downloads()" class="hero-unit">
+    Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
   </div>
 
 
+  <!-- {{{ global statistics -->
+  <h3 ng-show="totalAria2Downloads()">Global Statistics</h3>
+
+  <div ng-class="{'large-graph': large_graph}" class="download-graph"
+    dspeed="gstats.downloadSpeed"
+    uspeed="gstats.uploadSpeed"
+    dgraph ng-show="totalAria2Downloads()"
+    ng-click="large_graph = !large_graph">
+  </div>
+    <!-- }}} -->
+
+
   <!-- {{{ download template -->
+   <h3 ng-show="totalAria2Downloads()">Download List</h3>
 
   <form class="row" ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length">
     <fieldset>
@@ -543,36 +569,7 @@
   </div>
   <!-- }}} -->
 
-  <!-- {{{ global statistics -->
-  <h3 ng-show="totalAria2Downloads()">Global Statistics</h3>
 
-  <div class="download-graph"
-    dspeed="gstats.downloadSpeed"
-    uspeed="gstats.uploadSpeed"
-    dgraph ng-show="totalAria2Downloads()">
-  </div>
-
-  <!-- }}} -->
-
-  <!-- {{{ miscellaneous -->
-  <h3>Miscellaneous</h3>
-  <b>Aria2 Version {{miscellaneous.version}}</b>
-  <br><br>
-  <b>Features Enabled</b>
-  <ul>
-    <li
-      ng-repeat="feature in miscellaneous.enabledFeatures">
-      <span>{{feature}}</span>
-    </li>
-  </ul>
-  <br>
-  <p>
-    To download the latest version of the project, add issues or to contribute back head on to
-    <a href="https://github.com/ziahamza/webui-aria2">http://github.com/ziahamza/webui-aria2</a>
-    <br>
-    Or you can open the latest version in browser through <a href="http://ziahamza.github.io/webui-aria2">http://ziahamza.github.io/webui-aria2</a>
-  </p>
-  <!-- }}} -->
 
 </div>
 
@@ -779,8 +776,57 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 <!-- }}} -->
 
 
+<!-- {{{ server info modal -->
+<div class="modal hide" modal="server_info.shown">
+  <div class="modal-header">
+    <button class="close" ng-click="server_info.close()">x</button>
+    <h3>Aria2 server info</h3>
+  </div>
+  <div class="modal-body">
+      <b>Aria2 Version {{miscellaneous.version}}</b>
+      <br><br>
+      <b>Features Enabled</b>
+        <ul>
+        <li
+          ng-repeat="feature in miscellaneous.enabledFeatures">
+          <span>{{feature}}</span>
+        </li>
+        </ul>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" ng-click="server_info.close()">Close</button>
+  </div>
+</div
+<!-- }}} -->
+
+<!-- {{{ about modal -->
+<div class="modal hide" modal="about.shown">
+  <div class="modal-header">
+    <button class="close" ng-click="about.close()">x</button>
+    <h3>About and contribute</h3>
+  </div>
+  <div class="modal-body">
+      <p>
+        To download the latest version of the project,<br />
+         add issues or to contribute back head on to:<br />
+        <a href="https://github.com/ziahamza/webui-aria2">http://github.com/ziahamza/webui-aria2</a>
+        <br /><br />
+        Or you can open the latest version in browser through:<br />
+        <a href="http://ziahamza.github.io/webui-aria2">http://ziahamza.github.io/webui-aria2</a>
+      </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" ng-click="about.close()">Close</button>
+  </div>
+</div
+<!-- }}} -->
+
+
 </div>
 <!-- }}} -->
+
+<!-- Bottom Padding -->
+<br /><br /><br /><br /><br />
 
 </body>
 </html>

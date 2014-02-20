@@ -143,9 +143,26 @@ angular
     };
   });
 
+  _.each(['server_info', 'about'], function(name) {
+    scope[name] =  {
+      shown: false,
+      init: function(cb) {
+        this.shown = this.open =  true;
+      },
+
+      close: function() {
+        this.shown = this.open = false;
+      }
+    };
+  });
+
+  rpc.once('getVersion', [], function(data) {
+      scope.miscellaneous = data[0];
+      });
+  
   _.each([
     'getUris', 'getTorrents', 'getMetalinks',
-    'settings', 'connection'
+    'settings', 'connection', 'server_info', 'about'
   ], function(name) {
     modals.register(name, function(cb) {
       if (scope[name].open) {

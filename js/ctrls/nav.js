@@ -118,4 +118,17 @@ angular
       });
     });
   };
+
+  scope.showServerInfo = function() {
+    modals.invoke(
+      'server_info'
+    );
+  };
+
+  scope.showAbout = function() {
+    modals.invoke(
+      'about'
+    );
+  }
+  
 }]);
