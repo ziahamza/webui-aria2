@@ -12,6 +12,7 @@
   <title>aria2 web client</title>
 
   <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap-responsive.css">
   <link rel="stylesheet" href="css/font-awesome.css">
 
   <link rel="stylesheet" href="css/style.css">
@@ -27,7 +28,7 @@
 
 
   <!-- external javascript dependencies -->
-  <script src="js/libs/jquery-1.8.3.js"></script>
+  <script src="js/libs/jquery-2.1.0.js"></script>
   <script src="js/libs/underscore.js"></script>
 
   <script src="js/libs/angular.js"></script>
@@ -213,7 +214,7 @@
   <!-- {{{ alerts -->
   <div ng-controller="AlertCtrl" class="row">
     <div class="alert alert-{{alert.type}}" ng-repeat="alert in pendingAlerts">
-      <span ng-bind-html-unsafe="alert.msg"></span>
+      <span ng-bind-html="alert.msg"></span>
       <button type="button" class="close" ng-click="removeAlert($index)">x</button>
     </div>
   </div>
@@ -579,9 +580,9 @@
 <div ng-controller="ModalCtrl">
 
 <!--{{{ add uri modal -->
-<div class="modal hide modal-adduris modal-large" modal="getUris.shown">
+<script type="text/ng-template" id="getUris.html">
   <div class="modal-header">
-    <button class="close" ng-click="getUris.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Add Downloads By URIs</h3>
   </div>
   <form class="modal-body">
@@ -607,20 +608,20 @@ http://ex1.com/f1.jpg http://ex2.com/f1.jpg
 http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 </pre>
       </p>
-      <textarea rows="6" ng-model="getUris.uris"></textarea>
+      <textarea rows="6" style="width: 100%" ng-model="getUris.uris"></textarea>
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getUris.close()">Cancel</button>
-    <button class="btn btn-primary" ng-click="getUris.success()">Start</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-success" ng-click="$close()">Start</button>
   </div>
-</div>
+</script>
 <!-- }}} -->
 
 <!-- {{{ add torrent modal -->
-<div class="modal hide" modal="getTorrents.shown">
+<script type="text/ng-template" id="getTorrents.html">
   <div class="modal-header">
-    <button class="close" ng-click="getTorrents.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Add Downloads By Torrents</h3>
   </div>
   <form class="modal-body">
@@ -635,16 +636,16 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getTorrents.close()">Cancel</button>
-    <button class="btn btn-primary" ng-click="getTorrents.success()">Start</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-success" ng-click="$close()">Start</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 <!-- {{{ add metalink modal -->
-<div class="modal hide" modal="getMetalinks.shown">
+<script type="text/ng-template" id="getMetalinks.html">
   <div class="modal-header">
-    <button class="close" ng-click="getMetalinks.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Add Downloads By Metalinks</h3>
   </div>
   <form class="modal-body">
@@ -658,16 +659,16 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getMetalinks.close()">Cancel</button>
-    <button class="btn btn-primary" ng-click="getMetalinks.success()">Start</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-success" ng-click="$close()">Start</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 <!-- {{{ settings modal -->
-<div class="modal hide modal-large" modal="settings.shown">
+<script type="text/ng-template" id="settings.html">
   <div class="modal-header">
-    <button class="close" ng-click="settings.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>{{settings.title}}</h3>
   </div>
 
@@ -693,16 +694,16 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   </form>
 
   <div class="modal-footer">
-    <button class="btn" ng-click="settings.close()">Cancel</button>
-    <button class="btn btn-success" ng-click="settings.success()">Save</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-success" ng-click="$close()">Save</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 <!--{{{ connection modal -->
-<div class="modal hide modal-large" modal="connection.shown">
+<script type="text/ng-template" id="connection.html">
   <div class="modal-header">
-    <button class="close" ng-click="connection.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Connection Settings</h3>
   </div>
   <div class="modal-body">
@@ -766,20 +767,19 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </form>
   </div>
   <div class="modal-footer">
-    <button href="#" class="btn" ng-click="connection.close()">Cancel</button>
-    <button href="#"
-      class="btn btn-primary" ng-click="connection.success()">
+    <button href="#" class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button href="#" class="btn btn-success" ng-click="$close()">
       Save Connection configuration
     </button>
   </div>
-</div>
+</script>
 <!-- }}} -->
 
 
 <!-- {{{ server info modal -->
-<div class="modal hide" modal="server_info.shown">
+<script type="text/ng-template" id="server_info.html">
   <div class="modal-header">
-    <button class="close" ng-click="server_info.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Aria2 server info</h3>
   </div>
   <div class="modal-body">
@@ -794,15 +794,15 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         </ul>
   </div>
   <div class="modal-footer">
-    <button class="btn" ng-click="server_info.close()">Close</button>
+    <button class="btn" ng-click="$dismiss()">Close</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 <!-- {{{ about modal -->
-<div class="modal hide" modal="about.shown">
+<script type="text/ng-template" id="about.html">
   <div class="modal-header">
-    <button class="close" ng-click="about.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>About and contribute</h3>
   </div>
   <div class="modal-body">
@@ -816,9 +816,9 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
       </p>
   </div>
   <div class="modal-footer">
-    <button class="btn" ng-click="about.close()">Close</button>
+    <button class="btn" ng-click="$dismiss()">Close</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 
