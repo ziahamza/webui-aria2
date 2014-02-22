@@ -67,7 +67,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
         if (configurations.length) {
           // configuration worked, save it in cookie for next time and
           // delete the pipelined configurations!!
-          alerts.log('success alas!! saving current configuration');
+          alerts.log('Success alas! Saving the current configuration…');
           configurations = [];
         }
 
@@ -107,11 +107,11 @@ function(syscall, time, alerts, utils, rootScope, uri) {
       error: function() {
         // If some proposed configurations are still in the pipeline then retry
         if (configurations.length) {
-          alerts.log('trying another configuration, last one didnt connect');
+          alerts.log("The last connection attempt was unsuccessful. Trying another configuration");
           timeout = setTimeout(update, 0);
         }
         else {
-          alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 server, retrying after ' + time / 1000 + ' secs. You might want to recheck the connection settings for your aria2 server by going to settings > connection settings', 'error');
+          alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 RPC server. Will retry in ' + time / 1000 + ' secs. You might want to check the connection settings by going to Settings > Connection Settings', 'error');
           timeout = setTimeout(update, time);
         }
       }
