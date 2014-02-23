@@ -12,6 +12,10 @@ function(
   scope, rpc, utils, alerts, modals,
   fsettings, activeInclude, waitingExclude, window
 ) {
+
+  var re_slashes = /\\/g;
+  var slash = "/";
+
   scope.active = [], scope.waiting = [], scope.stopped = [];
   scope.gstats = {};
 
@@ -192,9 +196,16 @@ function(
     if (files) {
       var cfiles = ctx["files"] || (ctx["files"] = []);
       for (var i = 0; i < files.length; ++i) {
-        var file = cfiles[i] || (cfiles[i] = {});
-        file.path = files[i].path;
-        file.length = files[i].length;
+        var cfile = cfiles[i] || (cfiles[i] = {});
+        var file = files[i];
+        if (file.path !== cfile.path) {
+          cfile.path = file.path;
+          cfile.length = file.length;
+          cfile.relpath = file.path.replace(re_slashes, slash);
+          if (!cfile.relpath.startsWith("[")) { // METADATA
+            cfile.relpath = cfile.relpath.substr(ctx.dir.length + 1);
+          }
+        }
       }
       cfiles.length = files.length;
     }

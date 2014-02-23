@@ -50,7 +50,6 @@
   <script src="js/directives/fselect.js"></script>
 
   <script src="js/filters/bytes.js"></script>
-  <script src="js/filters/path.js"></script>
 
   <script src="js/services/constants.js"></script>
   <script src="js/services/deps.js"></script>
@@ -508,7 +507,7 @@
             <li class="label" title="Piece Length"><i class="icon-puzzle-piece"></i> Length&nbsp; <span class="download-pieceLength">{{download.pieceLength | blength}}</span></li>
           </ul>
           <ul class="download-files hidden-phone download-item">
-            <li class="label" ng-repeat="file in download.files">{{file.path | prelative:download.dir}} ({{file.length | blength}})</li>
+            <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.length | blength}})</li>
           </ul>
           <div ng-show="hasStatus(download, 'active')" class="download-item">
             <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph draw="!download.collapsed"></div>
