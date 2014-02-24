@@ -226,22 +226,18 @@
     Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
   </div>
 
-
   <!-- {{{ global statistics -->
-  <h3 ng-show="totalAria2Downloads()">Global Statistics</h3>
-
-  <div ng-class="{'large-graph': large_graph}" class="download-graph hidden-phone"
+  <div ng-class="{'large-graph': large_graph}" id="download-graph" class="download-graph"
     dspeed="gstats.downloadSpeed"
     uspeed="gstats.uploadSpeed"
     dgraph ng-show="totalAria2Downloads()"
     draw="true"
     ng-click="large_graph = !large_graph">
   </div>
-    <!-- }}} -->
-
+  <!-- }}} -->
 
   <!-- {{{ download template -->
-   <h3 ng-show="totalAria2Downloads()">Download List</h3>
+  <h3 ng-show="totalAria2Downloads()">Download List</h3>
 
   <form ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length" id="filters">
     <fieldset>
@@ -279,6 +275,7 @@
       <button ng-click="resetFilters()" class="btn btn-mini">Reset</button>
     </fieldset>
   </form>
+
 
   <table
     ng-repeat="download in getDownloads()"

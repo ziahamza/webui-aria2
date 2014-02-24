@@ -4,6 +4,7 @@
 angular
 .module('webui.directives.dgraph', ['webui.filters.bytes', 'webui.services.deps'])
 .directive('dgraph', ['$', '$filter', '$parse', function($, filter, parse) {
+  var ratio = 0.4;
   var xfmt = "%H:%M:%S";
   var yTicks = 7; // Number of y-axis ticks (sans 0)
   var yTickBase = 10240; // y-axis ticks must be a multiple of this (bytes).
@@ -37,7 +38,7 @@ angular
     ;
 
     // hack for the null height for flot elem
-    elem.height(elem.width() / 2);
+    elem.height(elem.width() * ratio);
 
     var graph = $.plot(elem, [dconf, uconf], {
       legend: {
@@ -84,7 +85,7 @@ angular
       var width = elem.width();
       if (width == 0) return;
 
-      elem.height(width / 2);
+      elem.height(width * ratio);
 
       graph.setData([dconf, uconf]);
       graph.resize();

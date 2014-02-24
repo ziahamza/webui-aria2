@@ -41,6 +41,16 @@
   font-family: sans-serif;
 }
 
+#download-graph {
+  float: right;
+}
+@media (max-width: 767px) {
+  #download-graph {
+    float: none;
+    width: 100%;
+  }
+}
+
 #download-filter {
   margin: 0;
   height: auto;
