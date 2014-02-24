@@ -1,3 +1,7 @@
+.pagination ul > li:not(.disabled) {
+  cursor: pointer;
+}
+
 .pagination ul > li.active > a {
   color: #fff;
   background-color: #428bca;

@@ -276,6 +276,22 @@
     </fieldset>
   </form>
 
+  <span class="clearfix"></span>
+
+  <div class="pagination pagination-right" ng-show="totalDownloads > pageSize">
+    <pagination
+      total-items="totalDownloads"
+      items-per-page="pageSize"
+      max-size="6"
+      page="currentPage"
+      boundary-links="true"
+      previous-text="&lsaquo;"
+      next-text="&rsaquo;"
+      first-text="&laquo;"
+      last-text="&raquo;"
+      >
+    </pagination>
+  </div>
 
   <table
     ng-repeat="download in getDownloads()"
@@ -531,34 +547,18 @@
 
   <!-- {{{ download pagination -->
   <div class="pagination pagination-right" ng-show="totalDownloads > pageSize">
-    <ul>
-      <li
-        ng-class="{disabled: currentPage == 1}"
-        ng-click="setPage(1)">
-        <a href="#">&laquo;</a>
-      </li>
-      <li
-        ng-class="{disabled: currentPage == 1}"
-        ng-click="advancePage(-1)">
-        <a href="#">‹</a>
-      </li>
-      <li
-        ng-repeat="page in getPages()"
-        ng-class="{active: currentPage == page}"
-        ng-click="setPage(page)">
-        <a href="#">{{page}}</a>
-      </li>
-      <li
-        ng-class="{disabled: currentPage == totalPages}"
-        ng-click="advancePage(1)">
-        <a href="#">›</a>
-      </li>
-      <li
-        ng-class="{disabled: currentPage == totalPages}"
-        ng-click="setPage(totalPages)">
-        <a href="#">&raquo;</a>
-      </li>
-    </ul>
+    <pagination
+      total-items="totalDownloads"
+      items-per-page="pageSize"
+      max-size="6"
+      page="currentPage"
+      boundary-links="true"
+      previous-text="&lsaquo;"
+      next-text="&rsaquo;"
+      first-text="&laquo;"
+      last-text="&raquo;"
+      >
+    </pagination>
   </div>
   <!-- }}} -->
 

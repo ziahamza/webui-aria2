@@ -1,5 +1,6 @@
 angular
 .module('webui.ctrls.download', [
+  "ui.bootstrap",
   'webui.services.utils', 'webui.services.rpc', 'webui.services.alerts',
   'webui.services.settings', 'webui.services.modals'
 ])
@@ -171,11 +172,6 @@ function(
   // current displayed page
   scope.currentPage = 1;
 
-  scope.pageControlRadius = 3;
-
-  // total maximum pages
-  scope.totalPages = 0;
-
   // total amount of downloads returned by aria2
   scope.totalAria2Downloads = function() {
     return scope.active.length
@@ -219,40 +215,10 @@ function(
 
     scope.totalDownloads = downloads.length;
 
-    scope.totalPages = Math.ceil(scope.totalDownloads / scope.pageSize) || 1;
-
-    // fix the bug when downloads are deleted until no left on a specific page
-    if (scope.currentPage > scope.totalPages)
-      scope.currentPage = scope.totalPages;
-
     downloads = downloads.slice( (scope.currentPage - 1) * scope.pageSize );
     downloads.splice( scope.pageSize );
 
     return downloads;
-  }
-
-  scope.setPage = function(pageNumber) {
-    scope.currentPage = pageNumber;
-    scope.currentPage = Math.max(Math.min(scope.currentPage, scope.totalPages), 1);
-    return false;
-  };
-
-  scope.advancePage = function(num) {
-    return scope.setPage(scope.currentPage + num);
-  };
-
-  // get the pages to be displayed
-  scope.getPages = function() {
-    var minPage = scope.currentPage - scope.pageControlRadius;
-
-    if (minPage < 1) minPage = 1;
-
-    var maxPage = scope.currentPage + scope.pageControlRadius;
-
-    if (maxPage > scope.totalPages)
-      maxPage = scope.totalPages;
-
-    return _.range(minPage, maxPage + 1);
   }
 
   // convert the donwload form aria2 to once used by the view,
