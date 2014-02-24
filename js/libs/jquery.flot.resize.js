@@ -1,15 +1,15 @@
-/*
-Flot plugin for automatically redrawing plots when the placeholder
-size changes, e.g. on window resizes.
+/* Flot plugin for automatically redrawing plots as the placeholder resizes.
 
-It works by listening for changes on the placeholder div (through the
-jQuery resize event plugin) - if the size changes, it will redraw the
-plot.
+Copyright (c) 2007-2013 IOLA and Ole Laursen.
+Licensed under the MIT license.
 
-There are no options. If you need to disable the plugin for some
-plots, you can just fix the size of their placeholders.
+It works by listening for changes on the placeholder div (through the jQuery
+resize event plugin) - if the size changes, it will redraw the plot.
+
+There are no options. If you need to disable the plugin for some plots, you
+can just fix the size of their placeholders.
+
 */
-
 
 /* Inline dependency:
  * jQuery resize event - v1.1 - 3/14/2010
@@ -19,8 +19,8 @@ plots, you can just fix the size of their placeholders.
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
-(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.width(),h:l.height()});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.width();r.h=p!==c?p:q.height();n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.width(),l=n.height(),o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
 
+(function($,t,n){function p(){for(var n=r.length-1;n>=0;n--){var o=$(r[n]);if(o[0]==t||o.is(":visible")){var h=o.width(),d=o.height(),v=o.data(a);!v||h===v.w&&d===v.h?i[f]=i[l]:(i[f]=i[c],o.trigger(u,[v.w=h,v.h=d]))}else v=o.data(a),v.w=0,v.h=0}s!==null&&(s=t.requestAnimationFrame(p))}var r=[],i=$.resize=$.extend($.resize,{}),s,o="setTimeout",u="resize",a=u+"-special-event",f="delay",l="pendingDelay",c="activeDelay",h="throttleWindow";i[l]=250,i[c]=20,i[f]=i[l],i[h]=!0,$.event.special[u]={setup:function(){if(!i[h]&&this[o])return!1;var t=$(this);r.push(this),t.data(a,{w:t.width(),h:t.height()}),r.length===1&&(s=n,p())},teardown:function(){if(!i[h]&&this[o])return!1;var t=$(this);for(var n=r.length-1;n>=0;n--)if(r[n]==this){r.splice(n,1);break}t.removeData(a),r.length||(cancelAnimationFrame(s),s=null)},add:function(t){function s(t,i,s){var o=$(this),u=o.data(a);u.w=i!==n?i:o.width(),u.h=s!==n?s:o.height(),r.apply(this,arguments)}if(!i[h]&&this[o])return!1;var r;if($.isFunction(t))return r=t,s;r=t.handler,t.handler=s}},t.requestAnimationFrame||(t.requestAnimationFrame=function(){return t.webkitRequestAnimationFrame||t.mozRequestAnimationFrame||t.oRequestAnimationFrame||t.msRequestAnimationFrame||function(e,n){return t.setTimeout(e,i[f])}}()),t.cancelAnimationFrame||(t.cancelAnimationFrame=function(){return t.webkitCancelRequestAnimationFrame||t.mozCancelRequestAnimationFrame||t.oCancelRequestAnimationFrame||t.msCancelRequestAnimationFrame||clearTimeout}())})(jQuery,this);
 
 (function ($) {
     var options = { }; // no options
@@ -38,7 +38,7 @@ plots, you can just fix the size of their placeholders.
             plot.setupGrid();
             plot.draw();
         }
-
+        
         function bindEvents(plot, eventHolder) {
             plot.getPlaceholder().resize(onResize);
         }
@@ -46,11 +46,11 @@ plots, you can just fix the size of their placeholders.
         function shutdown(plot, eventHolder) {
             plot.getPlaceholder().unbind("resize", onResize);
         }
-
+        
         plot.hooks.bindEvents.push(bindEvents);
         plot.hooks.shutdown.push(shutdown);
     }
-
+    
     $.plot.plugins.push({
         init: init,
         options: options,

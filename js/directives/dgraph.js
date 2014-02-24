@@ -4,40 +4,78 @@
 angular
 .module('webui.directives.dgraph', ['webui.filters.bytes', 'webui.services.deps'])
 .directive('dgraph', ['$', '$filter', '$parse', function($, filter, parse) {
+  var xfmt = "%H:%M:%S";
+  var yTicks = 7; // Number of y-axis ticks (sans 0)
+  var yTickBase = 10240; // y-axis ticks must be a multiple of this (bytes).
+  try {
+    // Try to detect AM/PM locales.
+    if (!/16/.test(new Date(2000,0,1,16,7,9).toLocaleTimeString())) {
+      xfmt = "%I:%M:%S %P";
+    }
+  }
+  catch (ex) {
+    // Ignore. Browser does not support toLocaleTimeString.
+  }
+
   return function(scope, elem, attrs) {
-    var canDraw = true;
+    var canDraw = false;
 
     var graphSize = 180
-      , dspeed = 0, uspeed = 0
+      , dspeed = 0, uspeed = 0, hasSpeeds = false
       , dconf = {
-        label: "Download Speed",
-        data: [],
-        color: "#ff0000",
-        lines: { show: true }
-      }
-      , uconf = {
-        label: "Upload Speed",
+        label: "DOWN",
         data: [],
         color: "#00ff00",
         lines: { show: true }
-      },
-      start = new Date
+      }
+      , uconf = {
+        label: "UP",
+        data: [],
+        color: "#0000ff",
+        lines: { show: true }
+      }
     ;
-
 
     // hack for the null height for flot elem
     elem.height(elem.width() / 2);
 
     var graph = $.plot(elem, [dconf, uconf], {
-      legend: { show: true },
+      legend: {
+        show: true,
+        backgroundOpacity: 0,
+        margin: [10, 20],
+        labelFormatter: function(label, series) {
+          if (!series.data.length) {
+            return label;
+          }
+          return label + " (" + filter("bspeed")(series.data[series.data.length-1][1]) + ")";
+        },
+        position: "sw"
+      },
       xaxis: {
-        show: true
+        show: true,
+        mode: "time",
+        timeformat: xfmt,
+        minTickSize: [30, "second"] // 180 / 30 == 6
       },
       yaxis: {
+        position: "right",
+        ticks: function(axis) {
+          var res = [0];
+          var round = Math.max(1, Math.ceil(axis.max / yTickBase));
+          var step = Math.max(1, Math.ceil(round / yTicks));
+          for (var s = 1; s <= yTicks; ++s) {
+            var c = yTickBase * step * s;
+            res.push(c);
+            if (c > axis.max) {
+              break;
+            }
+          }
+          return res;
+        },
         tickFormatter: function(val, axis) {
           return filter('bspeed')(val);
-        }
-        ,
+        },
         min: 0
       }
     });
@@ -55,32 +93,51 @@ angular
     };
 
     function update() {
-      var cnt = ((new Date - start)/1000).toFixed(0);
+      if (!hasSpeeds) {
+        return;
+      }
 
+      // Convoluted way to get the local date timestamp instead of the UTC one.
+      var cnt = new Date();
+      cnt = Date.UTC(
+        cnt.getFullYear(),
+        cnt.getMonth(),
+        cnt.getDate(),
+        cnt.getHours(),
+        cnt.getMinutes(),
+        cnt.getSeconds());
+
+      if (dconf.data.length === graphSize) dconf.data.shift();
       dconf.data.push([cnt, dspeed]);
-      if (dconf.data.length > graphSize) dconf.data.shift();
 
+      if (uconf.data.length === graphSize) uconf.data.shift();
       uconf.data.push([cnt, uspeed]);
-      if (uconf.data.length > graphSize) uconf.data.shift();
 
       // if any parents is collapsable, then confirm if it isnt
-      if (canDraw)
+      if (canDraw) {
         draw();
+      }
     };
 
     scope.$watch(attrs.dspeed, function(val) {
+      if (val === undefined) {
+        return;
+      }
+      hasSpeeds = true;
       dspeed = parseFloat(val) || 0;
     });
 
     scope.$watch(attrs.uspeed, function(val) {
+      if (val === undefined) {
+        return;
+      }
+      hasSpeeds = true;
       uspeed = parseFloat(val) || 0;
     });
 
-    if (attrs.draw) {
-      scope.$watch(attrs.draw, function(val) {
-        canDraw = val;
-      });
-    }
+    scope.$watch(attrs.draw, function(val) {
+      canDraw = val;
+    });
 
     var interval = setInterval(update, 1000);
 

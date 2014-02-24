@@ -37,6 +37,7 @@
 
 
   <script src="js/libs/jquery.flot.js"></script>
+  <script src="js/libs/jquery.flot.time.js"></script>
 
   <!-- We do manual resize currently
   <script src="js/libs/jquery.flot.resize.js"></script>
@@ -250,6 +251,7 @@
     dspeed="gstats.downloadSpeed"
     uspeed="gstats.uploadSpeed"
     dgraph ng-show="totalAria2Downloads()"
+    draw="true"
     ng-click="large_graph = !large_graph">
   </div>
     <!-- }}} -->
