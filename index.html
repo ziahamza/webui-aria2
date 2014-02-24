@@ -220,23 +220,6 @@
   </div>
   <!-- }}} -->
 
-  <!-- starred properties {{{ -->
-  <div ng-controller="StarredPropsCtrl" ng-show="properties.length">
-    <h3>Quick Access Settings</h3>
-    <form class="row">
-      <fieldset>
-        <div class="span4" ng-repeat="prop in properties">
-            <label>{{prop.name}}</label>
-            <select ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val">
-            </select>
-            <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
-        </div>
-        <div class="span12"><button ng-disabled="!enabled()" ng-click="save()">Save</button></div>
-      </fieldset>
-    </form>
-  </div>
-  <!--}}} -->
-
   <!-- {{{ downloads -->
   <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
   <div ng-show="!totalAria2Downloads()" class="hero-unit">
@@ -581,6 +564,24 @@
     </ul>
   </div>
   <!-- }}} -->
+
+  <!-- starred properties {{{ -->
+  <div ng-controller="StarredPropsCtrl" ng-show="properties.length">
+    <h3>Quick Access Settings</h3>
+    <form class="row">
+      <fieldset>
+        <div class="span4" ng-repeat="prop in properties">
+            <label>{{prop.name}}</label>
+            <select ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val">
+            </select>
+            <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
+        </div>
+        <div class="span12"><button ng-disabled="!enabled()" ng-click="save()">Save</button></div>
+      </fieldset>
+    </form>
+  </div>
+  <!--}}} -->
+
 
 
 
