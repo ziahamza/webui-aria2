@@ -247,7 +247,7 @@
   <!-- {{{ global statistics -->
   <h3 ng-show="totalAria2Downloads()">Global Statistics</h3>
 
-  <div ng-class="{'large-graph': large_graph}" class="download-graph"
+  <div ng-class="{'large-graph': large_graph}" class="download-graph hidden-phone"
     dspeed="gstats.downloadSpeed"
     uspeed="gstats.uploadSpeed"
     dgraph ng-show="totalAria2Downloads()"
@@ -511,7 +511,7 @@
           <ul class="download-files hidden-phone download-item">
             <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.fmtLength}})</li>
           </ul>
-          <div ng-show="hasStatus(download, 'active')" class="download-item">
+          <div ng-show="hasStatus(download, 'active')" class="download-item hidden-phone">
             <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph draw="!download.collapsed"></div>
           </div>
         </div>
