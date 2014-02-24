@@ -106,10 +106,26 @@ function(
 
   // download search filter
   scope.downloadFilter = "";
+  scope.downloadFilterCommitted = "";
+
+  scope.onDownloadFilter = function() {
+    if (scope.downloadFilterTimer) {
+      clearTimeout(scope.downloadFilterTimer);
+    }
+    scope.downloadFilterTimer = setTimeout(function() {
+      delete scope.downloadFilterTimer;
+      if (scope.downloadFilterCommitted !== scope.downloadFilter) {
+        scope.downloadFilterCommitted = scope.downloadFilter;
+        scope.$digest();
+      }
+    }, 500);
+  };
 
   scope.filterDownloads = function(downloads) {
-    var filter = scope.downloadFilter;
-    if (!filter.length) return downloads;
+    if (!scope.downloadFilterCommitted) {
+      return downloads;
+    }
+    var filter = scope.downloadFilterCommitted;
     return _.filter(downloads, function(d) {
       if (!d.files.length) return true;
 
@@ -187,27 +203,79 @@ function(
   // convert the donwload form aria2 to once used by the view,
   // minor additions of some fields and checks
   scope.getCtx = function(d, ctx) {
-    ctx = ctx || {};
+    if (!ctx) {
+      ctx = {
+        dir: d.dir,
+        status: d.status,
+        gid: d.gid,
+        numPieces: d.numPieces,
+        connections: d.connections,
+        bitfield: d.bitfield,
+        totalLength: d.totalLength,
+        fmtTotalLength: utils.fmtsize(d.totalLength),
+        completedLength: d.completedLength,
+        fmtCompletedLength: utils.fmtsize(d.completedLength),
+        uploadLength: d.uploadLength,
+        fmtUploadLength: utils.fmtsize(d.uploadLength),
+        pieceLength: d.pieceLength,
+        fmtPieceLength: utils.fmtsize(d.pieceLength),
+        downloadSpeed: d.downloadSpeed,
+        fmtDownloadSpeed: utils.fmtspeed(d.downloadSpeed),
+        uploadSpeed: d.uploadSpeed,
+        fmtUploadSpeed: utils.fmtspeed(d.uploadSpeed),
+        files: []
+      };
+    }
+    else {
+      ctx.dir = d.dir;
+      ctx.status = d.status;
+      ctx.gid = d.gid;
+      ctx.numPieces = d.numPieces;
+      ctx.connections = d.connections;
+      ctx.bitfield = d.bitfield;
+      if (ctx.totalLength !== d.totalLength) {
+        ctx.totalLength = d.totalLength;
+        ctx.fmtTotalLength = utils.fmtsize(d.totalLength);
+      }
+      if (ctx.completedLength !== d.completedLength) {
+        ctx.completedLength = d.completedLength;
+        ctx.fmtCompletedLength = utils.fmtsize(d.completedLength);
+      }
+      if (ctx.uploadLength !== d.uploadength) {
+        ctx.uploadLength = d.uploadlength;
+        ctx.fmtUploadLength = utils.fmtsize(d.uploadLength);
+      }
+      if (ctx.pieceLength !== d.pieceLength) {
+        ctx.pieceLength = d.pieceLength;
+        ctx.fmtPieceLength = utils.fmtsize(d.pieceLength);
+      }
+      if (ctx.downloadSpeed !== d.downloadSpeed) {
+        ctx.downloadSpeed =  d.downloadSpeed;
+        ctx.fmtDownloadSpeed = utils.fmtspeed(d.downloadSpeed);
+      }
+      if (ctx.uploadSpeed !== d.uploadSpeed) {
+        ctx.uploadSpeed =  d.uploadSpeed;
+        ctx.fmtUploadSpeed = utils.fmtspeed(d.uploadSpeed);
+      }
+    }
 
-    _.each([
-      'totalLength', 'completedLength', 'uploadLength', 'dir',
-      'pieceLength', 'downloadSpeed', 'uploadSpeed', 'status',
-      'gid', 'numPieces', 'connections', 'bitfield'
-    ], function(e) {
-      ctx[e] = d[e];
-    });
-
-    var files = d["files"];
+    var dlName;
+    var files = d.files;
     if (files) {
-      var cfiles = ctx["files"] || (ctx["files"] = []);
+      dlName = files[0].path || d.files[0].uris[0].uri;
+      var cfiles = ctx.files;
       for (var i = 0; i < files.length; ++i) {
         var cfile = cfiles[i] || (cfiles[i] = {});
         var file = files[i];
         if (file.path !== cfile.path) {
           cfile.path = file.path;
           cfile.length = file.length;
+          cfile.fmtLength = utils.fmtsize(file.length);
           cfile.relpath = file.path.replace(re_slashes, slash);
-          if (!cfile.relpath.startsWith("[")) { // METADATA
+          if (!cfile.relpath) {
+            cfile.relpath = (file.uris && file.uris[0] && file.uris[0].uri) || "Unknown";
+          }
+          else if (!cfile.relpath.startsWith("[")) { // METADATA
             cfile.relpath = cfile.relpath.substr(ctx.dir.length + 1);
           }
         }
@@ -215,20 +283,24 @@ function(
       cfiles.length = files.length;
     }
     else {
-      delete ctx["files"];
+      delete ctx.files;
     }
 
+    var btName;
     if (d.bittorrent) {
-      ctx.bittorrentName = d.bittorrent.info && d.bittorrent.info.name;
+      btName = d.bittorrent.info && d.bittorrent.info.name;
       ctx.bittorrent = true;
     }
     else {
-      delete ctx.bittorrentName;
+      delete ctx.bittorrent;
     }
 
+    ctx.name = btName || utils.getFileName(dlName) || dlName || "Unknown";
+
     // collapse the download details initially
-    if (ctx.collapsed === undefined)
+    if (ctx.collapsed === undefined) {
       ctx.collapsed = true;
+    }
 
     return ctx;
   };
@@ -284,17 +356,6 @@ function(
     return percentage;
   };
 
-  // gets a pretty name for the download
-  scope.getName = function(d) {
-    if (d.bittorrentName) {
-      return d.bittorrentName;
-    }
-
-    return utils.getFileName(
-      d.files[0].path || d.files[0].uris[0].uri
-    );
-  }
-
   // gets the type for the download as classified by the aria2 rpc calls
   scope.getType = function(d) {
     var type = d.status;
@@ -320,7 +381,7 @@ function(
         settings[i].val = vals[i] || settings[i].val;
       }
 
-      modals.invoke('settings', settings, scope.getName(d) + ' settings', function(settings) {
+      modals.invoke('settings', settings, scope.name + ' settings', function(settings) {
         var sets = {};
         for (var i in settings) { sets[i] = settings[i].val };
 
