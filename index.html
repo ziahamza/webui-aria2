@@ -530,10 +530,20 @@
         <a href="#">&laquo;</a>
       </li>
       <li
+        ng-class="{disabled: currentPage == 1}"
+        ng-click="advancePage(-1)">
+        <a href="#">‹</a>
+      </li>
+      <li
         ng-repeat="page in getPages()"
         ng-class="{active: currentPage == page}"
         ng-click="setPage(page)">
         <a href="#">{{page}}</a>
+      </li>
+      <li
+        ng-class="{disabled: currentPage == totalPages}"
+        ng-click="advancePage(1)">
+        <a href="#">›</a>
       </li>
       <li
         ng-class="{disabled: currentPage == totalPages}"

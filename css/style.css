@@ -1,3 +1,8 @@
+.pagination ul > li.active > a {
+  color: #fff;
+  background-color: #428bca;
+}
+
 .label-active, .badge-active, .progress-active .bar {
   background-color: #62C462;
 }

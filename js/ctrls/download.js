@@ -162,8 +162,13 @@ function(
 
   scope.setPage = function(pageNumber) {
     scope.currentPage = pageNumber;
+    scope.currentPage = Math.max(Math.min(scope.currentPage, scope.totalPages), 1);
     return false;
-  }
+  };
+
+  scope.advancePage = function(num) {
+    return scope.setPage(scope.currentPage + num);
+  };
 
   // get the pages to be displayed
   scope.getPages = function() {
