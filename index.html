@@ -12,7 +12,7 @@
   <title>aria2 web client</title>
 
   <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/font-awesome.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/download.css">
@@ -89,9 +89,9 @@
     <span class="btn btn-navbar"
       ng-click="collapsed = !collapsed">
 
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+      <span class="fa fa-fw fa-bar"></span>
+      <span class="fa fa-fw fa-bar"></span>
+      <span class="fa fa-fw fa-bar"></span>
     </span>
 
     <a class="brand">{{ name }}</a>
@@ -105,17 +105,17 @@
         <ul class="dropdown-menu">
           <li>
             <a href="#" ng-click="addUris()">
-              <i class="icon-download"></i> By URIs
+              <i class="fa fa-fw fa-arrow-circle-o-down"></i> By URIs
             </a>
           </li>
           <li ng-show="isFeatureEnabled('BitTorrent')">
             <a href="#" ng-click="addTorrents()">
-              <i class="icon-file"></i> By Torrents
+              <i class="fa fa-fw fa-cloud-download"></i> By Torrents
             </a>
           </li>
           <li ng-show="isFeatureEnabled('Metalink')">
             <a href="#" ng-click="addMetalinks()">
-              <i class="icon-file"></i> By Metalinks
+              <i class="fa fa-fw fa-file-text-o"></i> By Metalinks
             </a>
           </li>
         </ul>
@@ -127,24 +127,24 @@
         <li>
           <a
             href="#"
-            ng-click="forcePauseAll()"><i class="icon-pause"></i> Pause All</a>
+            ng-click="forcePauseAll()"><i class="fa fa-fw fa-pause"></i> Pause All</a>
         </li>
         <li>
           <a
             href="#"
-            ng-click="unpauseAll()"><i class="icon-play"></i> Resume Paused</a>
+            ng-click="unpauseAll()"><i class="fa fa-fw fa-play"></i> Resume Paused</a>
         </li>
         <li>
           <a
             href="#"
-            ng-click="purgeDownloadResult()"><i class="icon-remove"></i> Purge Completed</a>
+            ng-click="purgeDownloadResult()"><i class="fa fa-fw fa-times-circle"></i> Purge Completed</a>
         </li>
 
         <!-- not adding remove all as requires many rpc syscalls to finish
         <li>
           <a
             href="#"
-            ng-click="removeAll()"><i class="icon-fire"></i> Remove All</a>
+            ng-click="removeAll()"><i class="fa fa-fw fa-fire"></i> Remove All</a>
         </li>
         -->
       </ul>
@@ -162,25 +162,25 @@
           <li>
             <a
               ng-click="changeCSettings()"
-              href="#"><i class="icon-wrench"></i> Connection Settings</a>
+              href="#"><i class="fa fa-fw fa-wrench"></i> Connection Settings</a>
           </li>
 
           <li>
             <a
               ng-click="changeGSettings()"
-              href="#"><i class="icon-wrench"></i> Global Settings</a>
+              href="#"><i class="fa fa-fw fa-wrench"></i> Global Settings</a>
           </li>
 
           <li>
             <a
               ng-click="showServerInfo()"
-              href="#"><i class="icon-info-sign"></i> Server info</a>
+              href="#"><i class="fa fa-fw fa-info-circle"></i> Server info</a>
           </li>
 
           <li>
             <a
               ng-click="showAbout()"
-              href="#"><i class="icon-question-sign"></i> About and contribute</a>
+              href="#"><i class="fa fa-fw fa-question-circle"></i> About and contribute</a>
           </li>
         </ul>
       </li>
@@ -193,10 +193,10 @@
           href="#">Miscellaneous <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li>
-            <a href="#"><i class="icon-list-alt"></i> Global Statistics</a>
+            <a href="#"><i class="fa fa-fw fa-list-alt"></i> Global Statistics</a>
           </li>
           <li>
-            <a href="#"><i class="icon-info-sign"></i> About</a>
+            <a href="#"><i class="fa fa-fw fa-info-circle"></i> About</a>
           </li>
         </ul>
       </li>
@@ -286,34 +286,34 @@
             ng-show="hasStatus(download, 'active')"
             class="btn"
             ng-click="pause(download)">
-            <i class="icon-pause"></i>
+            <i class="fa fa-fw fa-pause"></i>
           </button>
 
           <button
             ng-show="hasStatus(download, ['paused', 'waiting'])"
             class="btn"
             ng-click="resume(download)">
-            <i class="icon-play"></i>
+            <i class="fa fa-fw fa-play"></i>
           </button>
 
           <button
             ng-show="canRestart(download)"
             class="btn"
             ng-click="restart(download)">
-            <i class="icon-repeat"></i>
+            <i class="fa fa-fw fa-repeat"></i>
           </button>
 
           <button
             class="btn hidden-phone"
             ng-click="remove(download)">
-            <i class="icon-stop"></i>
+            <i class="fa fa-fw fa-stop"></i>
           </button>
 
           <button
             class="btn hidden-phone"
             ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
             ng-click="showSettings(download)">
-            <i class="icon-cog"></i>
+            <i class="fa fa-fw fa-cog"></i>
           </button>
 
           <button class="btn dropdown-toggle">
@@ -325,21 +325,21 @@
               <a
                 ng-click="showSettings(download)"
                 ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-                href="#"><i class="icon-cog"></i> Settings</a>
+                href="#"><i class="fa fa-fw fa-cog"></i> Settings</a>
             </li>
 
             <li ng-show="download.bittorrent && false">
-              <a href="#"><i class="icon-list-alt"></i> Peers</a>
+              <a href="#"><i class="fa fa-fw fa-list-alt"></i> Peers</a>
             </li>
 
             <li>
               <a ng-click="download.collapsed = !download.collapsed"
-                 href="#"><i class="icon-info-sign"></i> More Info</a>
+                 href="#"><i class="fa fa-fw fa-info-circle"></i> More Info</a>
             </li>
 
             <li class="visible-phone">
               <a ng-click="remove(download)"
-                 href="#"><i class="icon-remove"></i> Remove</a>
+                 href="#"><i class="fa fa-fw fa-times"></i> Remove</a>
             </li>
           </ul>
         </div>
