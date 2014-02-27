@@ -283,7 +283,6 @@ function(
     var dlName;
     var files = d.files;
     if (files) {
-      dlName = files[0].path || d.files[0].uris[0].uri;
       var cfiles = ctx.files;
       for (var i = 0; i < files.length; ++i) {
         var cfile = cfiles[i] || (cfiles[i] = {});
@@ -302,6 +301,9 @@ function(
         }
       }
       cfiles.length = files.length;
+      if (cfiles.length) {
+        dlName = cfiles[0].relpath;
+      }
     }
     else {
       delete ctx.files;
@@ -316,7 +318,7 @@ function(
       delete ctx.bittorrent;
     }
 
-    ctx.name = btName || utils.getFileName(dlName) || dlName || "Unknown";
+    ctx.name = btName || dlName || "Unknown";
 
     // collapse the download details initially
     if (ctx.collapsed === undefined) {
