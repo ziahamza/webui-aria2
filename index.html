@@ -211,8 +211,8 @@
 <div role="main" class="container" ng-controller="DownloadCtrl">
 
   <!-- {{{ alerts -->
-  <div ng-controller="AlertCtrl" class="row">
-    <div class="alert alert-{{alert.type}}" ng-repeat="alert in pendingAlerts">
+  <div ng-controller="AlertCtrl" class="row download-alert-holder">
+    <div class="alert alert-{{alert.type}} download-alert-item" ng-repeat="alert in pendingAlerts">
       <span ng-bind-html-unsafe="alert.msg"></span>
       <button type="button" class="close" ng-click="removeAlert($index)">x</button>
     </div>

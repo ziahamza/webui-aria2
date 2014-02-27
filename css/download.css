@@ -1,3 +1,14 @@
+.download-alert-holder {
+  position: fixed;
+  _position: absolute;
+  right: 10px;
+}
+
+.download-alert-item {
+    float: right;
+    clear: right;
+}
+
 .download-name {
   font-size: 12px;
   word-wrap: break-word;
