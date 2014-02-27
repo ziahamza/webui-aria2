@@ -89,9 +89,9 @@
     <span class="btn btn-navbar"
       ng-click="collapsed = !collapsed">
 
-      <span class="fa fa-fw fa-bar"></span>
-      <span class="fa fa-fw fa-bar"></span>
-      <span class="fa fa-fw fa-bar"></span>
+      <span class="fa fa-fw fa-bars"></span>
+      <span class="fa fa-fw fa-bars"></span>
+      <span class="fa fa-fw fa-bars"></span>
     </span>
 
     <a class="brand">{{ name }}</a>
@@ -239,7 +239,7 @@
   <!-- {{{ downloads -->
   <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
   <div ng-show="!totalAria2Downloads()" class="hero-unit">
-    Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
+    Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files !
   </div>
 
 
@@ -607,7 +607,25 @@ http://ex1.com/f1.jpg http://ex2.com/f1.jpg
 http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 </pre>
       </p>
-      <textarea rows="6" ng-model="getUris.uris"></textarea>
+      <textarea rows="4" ng-model="getUris.uris"></textarea>
+      <div>
+          <div ng-click="getUris.collapsed = !getUris.collapsed" class="modal-advanced-title">
+              Advanced options
+              <i ng-hide="!getUris.collapsed" class="fa fa-fw fa-caret-right"></i>
+              <i ng-hide="getUris.collapsed" class="fa fa-fw fa-caret-down"></i>
+          </div>
+          <div collapse="getUris.collapsed" class="form-horizontal control-group modal-advanced-options">
+              <label class="control-label"><br />Download directory:</label>
+              <div class="controls">
+                <p class="help-block">
+                  Enter the directory on the server where to store the
+                  downloaded files (Server default when empty)
+                </p>
+                <input type="text" class="input-xxlarge modal-form-input-verylarge"
+                    ng-model="getUris.advanced_opts.dir"/>
+              </div>
+          </div>
+      </div>
     </fieldset>
   </form>
   <div class="modal-footer">
@@ -631,7 +649,25 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         - You can select multiple torrents to start multiple downloads <br>
         - To add a magnet torrent url, use the add url option and add it there.
       </p>
-      <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
+      <input type="file" class="input-xlarge" style="margin-bottom: 20px;" fselect="getTorrents.files" multiple/>
+      <div>
+          <div ng-click="getTorrents.collapsed = !getTorrents.collapsed" class="modal-advanced-title">
+              Advanced options
+              <i ng-hide="!getTorrents.collapsed" class="fa fa-fw fa-caret-right"></i>
+              <i ng-hide="getTorrents.collapsed" class="fa fa-fw fa-caret-down"></i>
+          </div>
+          <div collapse="getTorrents.collapsed" class="form-horizontal control-group modal-advanced-options">
+              <label class="control-label"><br />Download directory:</label>
+              <div class="controls">
+                <p class="help-block">
+                  Enter the directory on the server where to store the<br />
+                  downloaded files (Server default when empty)
+                </p>
+                <input type="text" class="input-xlarge modal-form-input-verylarge"
+                    ng-model="getTorrents.advanced_opts.dir"/>
+              </div>
+          </div>
+      </div>
     </fieldset>
   </form>
   <div class="modal-footer">
@@ -654,7 +690,25 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         - Select the metalink from the local filesystem to start the download. <br>
         - You can select multiple metalinks to start multiple downloads
       </p>
-      <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
+      <input type="file" class="input-xlarge" style="margin-bottom: 20px;" fselect="getMetalinks.files" multiple/>
+      <div>
+          <div ng-click="getMetalinks.collapsed = !getMetalinks.collapsed" class="modal-advanced-title">
+              Advanced options
+              <i ng-hide="!getMetalinks.collapsed" class="fa fa-fw fa-caret-right"></i>
+              <i ng-hide="getMetalinks.collapsed" class="fa fa-fw fa-caret-down"></i>
+          </div>
+          <div collapse="getMetalinks.collapsed" class="form-horizontal control-group modal-advanced-options">
+              <label class="control-label"><br />Download directory:</label>
+              <div class="controls">
+                <p class="help-block">
+                  Enter the directory on the server where to store the
+                  downloaded files (Server default when empty)
+                </p>
+                <input type="text" class="input-xxlarge modal-form-input-verylarge"
+                    ng-model="getMetalinks.advanced_opts.dir"/>
+              </div>
+          </div>
+      </div>
     </fieldset>
   </form>
   <div class="modal-footer">
@@ -725,7 +779,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 
           <label class="control-label">Enter the port:</label>
           <div class="controls">
-            <input type="text" class="input-xlarge"
+            <input type="text" class="input-xlarge modal-form-input-number"
               ng-model="connection.conf.port"/>
             <p class="help-block">
               Enter the port of the server on which the rpc for
