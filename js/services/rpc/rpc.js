@@ -9,7 +9,9 @@ angular
 function(syscall, time, alerts, utils, rootScope, uri) {
 
   var subscriptions = []
-    , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
+    //, configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
+    // To have the host serving this page instead of localhost by default
+    , configurations = [{ host: window.location.hostname, port: 6800, encrypt: false }]
     , currentConf = {}
     , timeout = null
     , forceNextUpdate = false;
@@ -67,7 +69,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
         if (configurations.length) {
           // configuration worked, save it in cookie for next time and
           // delete the pipelined configurations!!
-          alerts.log('success alas!! saving current configuration');
+          alerts.log('Success alas!! saving current configuration');
           configurations = [];
         }
 
@@ -107,7 +109,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
       error: function() {
         // If some proposed configurations are still in the pipeline then retry
         if (configurations.length) {
-          alerts.log('trying another configuration, last one didnt connect');
+          alerts.log('Trying another configuration, last one didnt connect');
           timeout = setTimeout(update, 0);
         }
         else {

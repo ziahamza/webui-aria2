@@ -34,7 +34,11 @@ angular
 
   scope.getUris = {
     shown: false,
+    collapsed: true,
     uris: '',
+    advanced_opts: {
+      dir: ''
+    },
     init: function(cb) {
       this.shown = this.open =  true;
       this.cb = cb;
@@ -46,11 +50,19 @@ angular
         .filter(function(d) { return d.length })
         .value();
     },
+    check_opts: function(options_dict){
+      var new_options_dict = {};
+      for (var key in options_dict) {
+        var value = options_dict[key];
+        if (value) new_options_dict[key] = value.trim();
+      }
+      return new_options_dict;
+    },
     success: function() {
       var uris = this.parse();
       this.uris = '';
 
-      if (this.cb) this.cb(uris);
+      if (this.cb) this.cb(uris, this.check_opts(this.advanced_opts));
 
       this.close();
 
@@ -85,7 +97,9 @@ angular
     shown: false,
 
     conf: {
-      host: 'localhost',
+      //host: 'localhost',
+      // To have the host serving this page instead of localhost by default
+      host: window.location.hostname,
       port: 6800,
       encrypt: false,
       auth: {
@@ -120,18 +134,30 @@ angular
   _.each(['getTorrents', 'getMetalinks'], function(name) {
     scope[name] =  {
       shown: false,
+      collapsed: true,
+      advanced_opts: {
+        dir: ''
+      },
       init: function(cb) {
         this.shown = this.open =  true;
         this.cb = cb;
+      },
+      check_opts: function(options_dict){
+        var new_options_dict = {};
+        for (var key in options_dict) {
+          var value = options_dict[key];
+          if (value) new_options_dict[key] = value.trim();
+        }
+        return new_options_dict;
       },
 
       files: [],
       success: function() {
         var self = this;
-        console.log('parsing files');
+        //console.log('parsing files');
         parseFiles(self.files, function(txts) {
-          console.log('calling cb', this.cb);
-          if (self.cb) self.cb(txts);
+          //console.log('calling cb', self.cb);
+          if (self.cb) self.cb(txts, self.check_opts(self.advanced_opts));
 
           self.close();
         });
