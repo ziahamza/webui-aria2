@@ -11,10 +11,10 @@ angular.module('webui.ctrls.alert', [
   alerts.addAlerter(function(msg, type) {
     type = type || 'warning';
     var obj = { msg: msg, type: type };
-    //scope.pendingAlerts.push(obj);
+    scope.pendingAlerts.push(obj);
     // Use the following one instead to display notifications from more recent
     // to older
-    scope.pendingAlerts.splice(0, 0, obj);
+    //scope.pendingAlerts.splice(0, 0, obj);
 
     setTimeout(function() {
       var ind = scope.pendingAlerts.indexOf(obj);
