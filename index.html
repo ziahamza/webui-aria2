@@ -573,7 +573,8 @@
             </select>
             <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
         </div>
-        <div class="span12"><button ng-disabled="!enabled()" ng-click="save()">Save</button></div>
+
+        <div class="span12" style="margin-top: 1ex"><button ng-disabled="!enabled()" ng-click="save()" class="btn btn-small">Save</button></div>
       </fieldset>
     </form>
   </div>
