@@ -97,7 +97,9 @@ angular
     shown: false,
 
     conf: {
-      host: 'localhost',
+      //host: 'localhost',
+      // To have the host serving this page instead of localhost by default
+      host: window.location.hostname,
       port: 6800,
       encrypt: false,
       auth: {

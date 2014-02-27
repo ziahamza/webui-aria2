@@ -9,7 +9,9 @@ angular
 function(syscall, time, alerts, utils, rootScope, uri) {
 
   var subscriptions = []
-    , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
+    //, configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
+    // To have the host serving this page instead of localhost by default
+    , configurations = [{ host: window.location.hostname, port: 6800, encrypt: false }]
     , currentConf = {}
     , timeout = null
     , forceNextUpdate = false;
