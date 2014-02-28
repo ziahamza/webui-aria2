@@ -48,9 +48,8 @@
 .stats li {
   margin-bottom: 2px;
   padding: 0.75ex;
-  width: 20ex;
+  min-width: 20ex;
   text-align: center;
-  overflow: scroll;
 }
 
 .download-item {

@@ -451,12 +451,12 @@
             <span title="Download Status"><i class="icon-check">&nbsp;</i> {{download.status}}</span>
           </li>
 
-          <li class="label label-success hidden-phone">
-            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
-          </li>
-
           <li class="label label-success">
             <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+          </li>
+
+          <li class="label label-success hidden-phone">
+            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
           </li>
 
           <!-- }}} -->
@@ -469,14 +469,15 @@
           </li>
 
           <li ng-show="hasStatus(download, 'removed')"
+            class="label label-warning">
+            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+          </li>
+
+          <li ng-show="hasStatus(download, 'removed')"
             class="label label-warning hidden-phone">
             <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
           </li>
 
-          <li ng-show="hasStatus(download, 'removed')"
-            class="label label-warning">
-            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
-          </li>
           <!-- }}} -->
         </ul>
 
@@ -486,13 +487,14 @@
             <span title="Download Status"><i class="icon-remove-sign">&nbsp;</i> {{download.status}}</span>
           </li>
 
+          <li class="label label-important">
+            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+          </li>
+
           <li class="label label-important hidden-phone">
             <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
           </li>
 
-          <li class="label label-important">
-            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
-          </li>
           <!-- }}} -->
         </ul>
 
@@ -513,7 +515,6 @@
             <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
           </div>
           <ul class="stats download-item">
-            <li class="label" title="Download Path"><i class="icon-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
             <li class="label" title="Estimated Time"><i class="icon-time">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
             <li class="label" title="Download Size"><i class="icon-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
             <li class="label" title="Downloaded"><i class="icon-download-alt">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
@@ -527,6 +528,7 @@
             <li class="label" title="Download GID"><i class="icon-reorder">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
             <li class="label" title="Number of Pieces"># of <i class="icon-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
             <li class="label" title="Piece Length"><i class="icon-puzzle-piece"></i> Length&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
+            <li class="label" title="Download Path"><i class="icon-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
           </ul>
           <ul class="download-files hidden-phone download-item">
             <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.fmtLength}})</li>
