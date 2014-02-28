@@ -239,7 +239,7 @@
   <!-- {{{ download template -->
   <h3 ng-show="totalAria2Downloads()">Download List</h3>
 
-  <form ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length" id="filters">
+  <form ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length" id="filters" class="clearfix">
     <fieldset>
       <label for="download-filter" id="download-filter-label">Search</label>
       <input id="download-filter" type="text" ng-model="downloadFilter" ng-change="onDownloadFilter()" class="input-large"/>
@@ -275,8 +275,6 @@
       <button ng-click="resetFilters()" class="btn btn-mini">Reset</button>
     </fieldset>
   </form>
-
-  <span class="clearfix"></span>
 
   <div class="pagination pagination-right" ng-show="totalDownloads > pageSize">
     <pagination

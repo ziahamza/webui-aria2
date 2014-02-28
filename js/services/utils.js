@@ -11,7 +11,7 @@ angular.module('webui.services.utils', [])
       return rndBuffer;
     };
 
-    if (!crypto.getRandomValues) {
+    if (!window.crypto || !crypto.getRandomValues) {
       return rnd16Weak;
     }
     return function() {
