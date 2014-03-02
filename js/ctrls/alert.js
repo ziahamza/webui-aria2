@@ -1,7 +1,8 @@
 angular.module('webui.ctrls.alert', [
   'webui.services.alerts'
 ])
-.controller('AlertCtrl', ['$scope', '$alerts', function(scope, alerts) {
+.controller('AlertCtrl', ['$scope', '$alerts', '$sce',
+            function(scope, alerts, sce) {
   scope.pendingAlerts = [];
 
   scope.removeAlert = function(ind) {
@@ -10,13 +11,13 @@ angular.module('webui.ctrls.alert', [
 
   alerts.addAlerter(function(msg, type) {
     type = type || 'warning';
-    var obj = { msg: msg, type: type };
+    var obj = { msg: sce.trustAsHtml(msg), type: type };
     scope.pendingAlerts.push(obj);
 
     setTimeout(function() {
       var ind = scope.pendingAlerts.indexOf(obj);
       if (ind != -1) scope.removeAlert(ind);
-    }, 10000);
+    }, type == "error" ? 10000 : 3000);
 
     scope.$digest();
   });

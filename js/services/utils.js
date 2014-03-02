@@ -11,7 +11,7 @@ angular.module('webui.services.utils', [])
       return rndBuffer;
     };
 
-    if (!crypto.getRandomValues) {
+    if (!window.crypto || !crypto.getRandomValues) {
       return rnd16Weak;
     }
     return function() {
@@ -26,7 +26,28 @@ angular.module('webui.services.utils', [])
     };
   })();
 
-  return {
+  var utils = {
+
+    fmtsize: function(len) {
+      len = +len; // coerce to number
+      if (len <= 1024) {
+        return len.toFixed(0)  + " B";
+      }
+      len /= 1024;
+      if (len <= 1024) {
+        return len.toFixed(1) + " KB"
+      }
+      len /= 1024;
+      if (len <= 1024) {
+        return len.toFixed(2) + " MB";
+      }
+      len /= 1024;
+      return len.toFixed(3) + " GB";
+    },
+
+    fmtspeed: function(speed) {
+      return utils.fmtsize(speed) + "/s";
+    },
     // saves the key value pair in cookies
     setCookie: function(key, value) {
       var exdate = new Date();
@@ -70,30 +91,28 @@ angular.module('webui.services.utils', [])
       };
     })(),
     randStr: function() {
-      return this.uuid();
+      return utils.uuid();
     },
 
     // maps the array in place to the destination
     // arr, dest (optional): array
     // func: a merge mapping  func, see ctrls/download.js
     mergeMap: function(arr, dest, func) {
-      if (!dest) dest = [];
+      if (!dest) {
+        dest = [];
+      }
 
-      for (var i = 0; i < dest.length; i++) {
-        if (i >= arr.length) {
-          // remove the deleted downloads
-          dest.splice(i, dest.length - arr.length);
-          break;
-        }
-        if (!dest[i]) dest[i] = {};
-
+      for (var i = 0, e = Math.min(arr.length, dest.length); i < e; ++i) {
         func(arr[i], dest[i]);
       }
 
-      // insert newly created downloads
+      // Insert newly created downloads
       while (i < arr.length) {
         dest.push(func(arr[i++]));
       }
+
+      // Truncate if necessary.
+      dest.length = arr.length;
 
       return dest;
     },
@@ -144,4 +163,5 @@ angular.module('webui.services.utils', [])
       return chunks;
     }
   };
+  return utils;
 }]);

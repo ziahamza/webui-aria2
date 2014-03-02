@@ -12,6 +12,7 @@
   <title>aria2 web client</title>
 
   <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap-responsive.css">
   <link rel="stylesheet" href="css/font-awesome.css">
 
   <link rel="stylesheet" href="css/style.css">
@@ -27,7 +28,7 @@
 
 
   <!-- external javascript dependencies -->
-  <script src="js/libs/jquery-1.8.3.js"></script>
+  <script src="js/libs/jquery-2.1.0.js"></script>
   <script src="js/libs/underscore.js"></script>
 
   <script src="js/libs/angular.js"></script>
@@ -36,6 +37,7 @@
 
 
   <script src="js/libs/jquery.flot.js"></script>
+  <script src="js/libs/jquery.flot.time.js"></script>
 
   <!-- We do manual resize currently
   <script src="js/libs/jquery.flot.resize.js"></script>
@@ -49,7 +51,6 @@
   <script src="js/directives/fselect.js"></script>
 
   <script src="js/filters/bytes.js"></script>
-  <script src="js/filters/path.js"></script>
 
   <script src="js/services/constants.js"></script>
   <script src="js/services/deps.js"></script>
@@ -105,17 +106,17 @@
         <ul class="dropdown-menu">
           <li>
             <a href="#" ng-click="addUris()">
-              <i class="icon-download"></i> By URIs
+              <i class="icon-download">&nbsp;</i> By URIs
             </a>
           </li>
           <li ng-show="isFeatureEnabled('BitTorrent')">
             <a href="#" ng-click="addTorrents()">
-              <i class="icon-file"></i> By Torrents
+              <i class="icon-file">&nbsp;</i> By Torrents
             </a>
           </li>
           <li ng-show="isFeatureEnabled('Metalink')">
             <a href="#" ng-click="addMetalinks()">
-              <i class="icon-file"></i> By Metalinks
+              <i class="icon-file">&nbsp;</i> By Metalinks
             </a>
           </li>
         </ul>
@@ -127,24 +128,24 @@
         <li>
           <a
             href="#"
-            ng-click="forcePauseAll()"><i class="icon-pause"></i> Pause All</a>
+            ng-click="forcePauseAll()"><i class="icon-pause">&nbsp;</i> Pause All</a>
         </li>
         <li>
           <a
             href="#"
-            ng-click="unpauseAll()"><i class="icon-play"></i> Resume Paused</a>
+            ng-click="unpauseAll()"><i class="icon-play">&nbsp;</i> Resume Paused</a>
         </li>
         <li>
           <a
             href="#"
-            ng-click="purgeDownloadResult()"><i class="icon-remove"></i> Purge Completed</a>
+            ng-click="purgeDownloadResult()"><i class="icon-remove">&nbsp;</i> Purge Completed</a>
         </li>
 
         <!-- not adding remove all as requires many rpc syscalls to finish
         <li>
           <a
             href="#"
-            ng-click="removeAll()"><i class="icon-fire"></i> Remove All</a>
+            ng-click="removeAll()"><i class="icon-fire">&nbsp;</i> Remove All</a>
         </li>
         -->
       </ul>
@@ -162,25 +163,25 @@
           <li>
             <a
               ng-click="changeCSettings()"
-              href="#"><i class="icon-wrench"></i> Connection Settings</a>
+              href="#"><i class="icon-wrench">&nbsp;</i> Connection Settings</a>
           </li>
 
           <li>
             <a
               ng-click="changeGSettings()"
-              href="#"><i class="icon-wrench"></i> Global Settings</a>
+              href="#"><i class="icon-wrench">&nbsp;</i> Global Settings</a>
           </li>
 
           <li>
             <a
               ng-click="showServerInfo()"
-              href="#"><i class="icon-info-sign"></i> Server info</a>
+              href="#"><i class="icon-info-sign">&nbsp;</i> Server info</a>
           </li>
 
           <li>
             <a
               ng-click="showAbout()"
-              href="#"><i class="icon-question-sign"></i> About and contribute</a>
+              href="#"><i class="icon-question-sign">&nbsp;</i> About and contribute</a>
           </li>
         </ul>
       </li>
@@ -193,10 +194,10 @@
           href="#">Miscellaneous <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li>
-            <a href="#"><i class="icon-list-alt"></i> Global Statistics</a>
+            <a href="#"><i class="icon-list-alt">&nbsp;</i> Global Statistics</a>
           </li>
           <li>
-            <a href="#"><i class="icon-info-sign"></i> About</a>
+            <a href="#"><i class="icon-info-sign">&nbsp;</i> About</a>
           </li>
         </ul>
       </li>
@@ -211,30 +212,13 @@
 <div role="main" class="container" ng-controller="DownloadCtrl">
 
   <!-- {{{ alerts -->
-  <div ng-controller="AlertCtrl" class="row">
+  <div ng-controller="AlertCtrl" class="row alerts">
     <div class="alert alert-{{alert.type}}" ng-repeat="alert in pendingAlerts">
-      <span ng-bind-html-unsafe="alert.msg"></span>
+      <span ng-bind-html="alert.msg"></span>
       <button type="button" class="close" ng-click="removeAlert($index)">x</button>
     </div>
   </div>
   <!-- }}} -->
-
-  <!-- starred properties {{{ -->
-  <div ng-controller="StarredPropsCtrl" ng-show="properties.length">
-    <h3>Quick Access Settings</h3>
-    <form class="row">
-      <fieldset>
-        <div class="span4" ng-repeat="prop in properties">
-            <label>{{prop.name}}</label>
-            <select ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val">
-            </select>
-            <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
-        </div>
-        <div class="span12"><button ng-disabled="!enabled()" ng-click="save()">Save</button></div>
-      </fieldset>
-    </form>
-  </div>
-  <!--}}} -->
 
   <!-- {{{ downloads -->
   <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
@@ -242,44 +226,80 @@
     Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
   </div>
 
-
   <!-- {{{ global statistics -->
-  <h3 ng-show="totalAria2Downloads()">Global Statistics</h3>
-
-  <div ng-class="{'large-graph': large_graph}" class="download-graph"
+  <div ng-class="{'large-graph': large_graph}" id="download-graph" class="download-graph"
     dspeed="gstats.downloadSpeed"
     uspeed="gstats.uploadSpeed"
     dgraph ng-show="totalAria2Downloads()"
+    draw="true"
     ng-click="large_graph = !large_graph">
   </div>
-    <!-- }}} -->
-
+  <!-- }}} -->
 
   <!-- {{{ download template -->
-   <h3 ng-show="totalAria2Downloads()">Download List</h3>
+  <h3 ng-show="totalAria2Downloads()">Download List</h3>
 
-  <form class="row" ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length">
+  <form ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length" id="filters" class="clearfix">
     <fieldset>
-      <div class="span4">
-        <label>Search</label>
-        <input typ="text" ng-model="downloadFilter" class="input-large"/>
-        <br>
-        <b>Found: {{totalDownloads}} / {{totalAria2Downloads()}} </b>
-      </div>
+      <label for="download-filter" id="download-filter-label">Search</label>
+      <input id="download-filter" type="text" ng-model="downloadFilter" ng-change="onDownloadFilter()" class="input-large"/>
+      <button ng-click="clearFilter()" class="btn btn-default btn-mini">Clear</button>
+      <br>
+      <label for="filter-active">
+        <input type="checkbox" ng-model="filterActive" id="filter-active">
+        active
+      </label>
+      <label for="filter-waiting">
+        <input type="checkbox" ng-model="filterWaiting" id="filter-waiting">
+        waiting
+      </label>
+      <label for="filter-complete">
+        <input type="checkbox" ng-model="filterComplete" id="filter-complete">
+        complete
+      </label>
+      <label for="filter-error">
+        <input type="checkbox" ng-model="filterError" id="filter-error">
+        error
+      </label>
+      <label for="filter-paused">
+        <input type="checkbox" ng-model="filterPaused" id="filter-paused">
+        paused
+      </label>
+      <label for="filter-removed">
+        <input type="checkbox" ng-model="filterRemoved" id="filter-removed">
+        removed
+      </label>
+      <button ng-click="toggleStateFilters()" class="btn btn-default btn-mini">Toggle</button>
+      <br>
+      <b>Found: {{totalDownloads}} / {{totalAria2Downloads()}} </b>
+      <button ng-click="resetFilters()" class="btn btn-mini">Reset</button>
     </fieldset>
   </form>
+
+  <div class="pagination pagination-right" ng-show="totalDownloads > pageSize">
+    <pagination
+      total-items="totalDownloads"
+      items-per-page="pageSize"
+      max-size="6"
+      page="currentPage"
+      boundary-links="true"
+      previous-text="&lsaquo;"
+      next-text="&rsaquo;"
+      first-text="&laquo;"
+      last-text="&raquo;"
+      >
+    </pagination>
+  </div>
 
   <table
     ng-repeat="download in getDownloads()"
     class="row download" data-gid="{{download.gid}}">
     <tbody>
     <tr>
-      <td
-        ng-click="download.collapsed = !download.collapsed"
-        class="download-overview">
-        <b class="download-name">{{getName(download)}}</b>
+      <td class="download-name download-item" ng-click="download.collapsed = !download.collapsed">
+        {{download.name}}
       </td>
-      <td class="download-controls" rowspan="2">
+      <td class="download-controls download-item" rowspan="2">
         <!-- {{{ download control buttons -->
         <div class="btn-group">
           <button
@@ -325,21 +345,21 @@
               <a
                 ng-click="showSettings(download)"
                 ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-                href="#"><i class="icon-cog"></i> Settings</a>
+                href="#"><i class="icon-cog">&nbsp;</i> Settings</a>
             </li>
 
             <li ng-show="download.bittorrent && false">
-              <a href="#"><i class="icon-list-alt"></i> Peers</a>
+              <a href="#"><i class="icon-list-alt">&nbsp;</i> Peers</a>
             </li>
 
             <li>
               <a ng-click="download.collapsed = !download.collapsed"
-                 href="#"><i class="icon-info-sign"></i> More Info</a>
+                 href="#"><i class="icon-info-sign">&nbsp;</i> More Info</a>
             </li>
 
             <li class="visible-phone">
               <a ng-click="remove(download)"
-                 href="#"><i class="icon-remove"></i> Remove</a>
+                 href="#"><i class="icon-remove">&nbsp;</i> Remove</a>
             </li>
           </ul>
         </div>
@@ -347,194 +367,173 @@
       </td>
     </tr>
     <tr>
-      <td
-        ng-click="download.collapsed = !download.collapsed"
-        class="download-overview">
+      <td class="download-overview download-item" ng-click="download.collapsed = !download.collapsed">
         <!-- {{{ statistics -->
-        <ul class="stats pull-left">
+        <ul class="stats pull-left" ng-show="hasStatus(download, 'active')">
           <!-- {{{ active download statistics -->
-          <li
-            ng-show="hasStatus(download, 'active')"
-            class="label label-success hidden-phone hidden-tablet">
-            <span>Status: {{download.status}}</span>
+          <li class="label label-active hidden-phone hidden-tablet">
+            <span title="Download status"><i class="icon-play">&nbsp;</i> {{download.status}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, 'active')"
-            class="label label-success">
-            <span>ETA: {{getEta(download) | time}}</span>
+          <li class="label" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
+            <span title="Download Speed"><i class="icon-download">&nbsp;</i> {{download.downloadSpeed | bspeed}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, 'active')"
-            class="label label-success hidden-phone">
-            <span>Size: {{download.totalLength | blength}}</span>
+          <li ng-show="download.bittorrent" class="label hidden-phone" ng-class="{'label-active': download.uploadSpeed > 2048}">
+            <span title="Upload Speed"><i class="icon-upload">&nbsp;</i> {{download.uploadSpeed | bspeed}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, 'active')"
-            class="label label-success hidden-phone">
-            <span>Downloaded: {{download.completedLength | blength}}</span>
+          <li class="label label-active">
+            <span title="Estimated time"><i class="icon-time">&nbsp;</i> {{getEta(download) | time}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, 'active')"
-            class="label label-success hidden-phone hidden-tablet">
-            <span>Progress: {{getProgress(download)}}%</span>
+          <li class="label label-active hidden-phone">
+            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, 'active')"
-            class="label label-success">
-            <span>Speed: {{download.downloadSpeed | bspeed}}</span>
+          <li class="label label-active hidden-phone">
+            <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
           </li>
 
-          <!-- TODO: figure out how to do multiple ng-show
-          <li ng-show="download.bittorrent" class="label label-success hidden-phone">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed | bspeed}}</span></li>
-          -->
+          <li class="label label-active hidden-phone hidden-tablet">
+            <span title="Progress"><i class="icon-chevron-right">&nbsp;</i> {{getProgress(download)}}%</span>
+          </li>
 
           <!-- }}} -->
+        </ul>
+
+        <ul class="stats pull-left" ng-show="hasStatus(download, 'paused')">
           <!-- {{{ paused download statistics -->
-          <li
-            ng-show="hasStatus(download, ['paused', 'waiting'])"
-            class="label label-info">
-            <span>Status: {{download.status}}</span>
+          <li class="label label-info">
+            <span title="Download Status"><i class="icon-pause">&nbsp;</i> {{download.status}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, ['paused', 'waiting'])"
-            class="label label-info">
-            <span>Size: {{download.totalLength | blength}}</span>
+          <li class="label label-info">
+            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, ['paused', 'waiting'])"
-            class="label label-info hidden-phone">
-            <span>Downloaded: {{download.completedLength | blength}}</span>
+          <li class="label label-info hidden-phone">
+            <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, ['paused', 'waiting'])"
-            class="label label-info hidden-phone">
-            <span>Path: {{download.dir}}</span>
+          <li class="label label-info hidden-phone">
+            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
           </li>
 
           <!--  }}} -->
+        </ul>
+
+        <ul class="stats pull-left" ng-show="hasStatus(download, 'waiting')">
+          <!-- {{{ paused download statistics -->
+          <li class="label">
+            <span title="Download Status"><i class="icon-caret-right">&nbsp;</i> {{download.status}}</span>
+          </li>
+
+          <li class="label">
+            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+          </li>
+
+          <li class="label hidden-phone">
+            <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
+          </li>
+
+          <li class="label hidden-phone">
+            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+          </li>
+
+          <!--  }}} -->
+        </ul>
+
+        <ul class="stats pull-left" ng-show="hasStatus(download, 'complete')">
           <!-- {{{ complete download statistics -->
 
-          <li
-            ng-show="hasStatus(download, 'complete')"
-            class="label">
-            <span>Status: {{download.status}}</span>
+          <li class="label label-success">
+            <span title="Download Status"><i class="icon-check">&nbsp;</i> {{download.status}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, 'complete')"
-            class="label hidden-phone">
-            <span>Path: {{download.dir}}</span>
+          <li class="label label-success">
+            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
           </li>
 
-          <li
-            ng-show="hasStatus(download, 'complete')"
-            class="label">
-            <span>Size: {{download.totalLength | blength}}</span>
+          <li class="label label-success hidden-phone">
+            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
           </li>
 
-          <!-- }}} -->
-          <!-- {{{ removed download statistics -->
-          <li
-            ng-show="hasStatus(download, 'removed')"
-            class="label label-warning">
-            <span>Status: {{download.status}}</span>
-          </li>
-
-          <li
-            ng-show="hasStatus(download, 'removed')"
-            class="label label-warning hidden-phone">
-            <span>Path: {{download.dir}}</span>
-          </li>
-
-          <li
-            ng-show="hasStatus(download, 'removed')"
-            class="label label-warning">
-            <span>Size: {{download.totalLength | blength}}</span>
-          </li>
-          <!-- }}} -->
-          <!-- {{{ error download statistics -->
-          <li
-            ng-show="hasStatus(download, 'error')"
-            class="label label-important">
-            <span>Status: {{download.status}}</span>
-          </li>
-
-          <li
-            ng-show="hasStatus(download, 'error')"
-            class="label label-important hidden-phone">
-            <span>Path: {{download.dir}}</span>
-          </li>
-
-          <li
-            ng-show="hasStatus(download, 'error')"
-            class="label label-important">
-            <span>Size: {{download.totalLength | blength}}</span>
-          </li>
           <!-- }}} -->
         </ul>
+
+        <ul class="stats pull-left" ng-show="hasStatus(download, 'removed')">
+          <!-- {{{ removed download statistics -->
+          <li class="label label-warning">
+            <span title="Download Status"><i class="icon-remove">&nbsp;</i> {{download.status}}</span>
+          </li>
+
+          <li ng-show="hasStatus(download, 'removed')"
+            class="label label-warning">
+            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+          </li>
+
+          <li ng-show="hasStatus(download, 'removed')"
+            class="label label-warning hidden-phone">
+            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+          </li>
+
+          <!-- }}} -->
+        </ul>
+
+        <ul class="stats pull-left" ng-show="hasStatus(download, 'error')">
+          <!-- {{{ error download statistics -->
+          <li class="label label-important">
+            <span title="Download Status"><i class="icon-remove-sign">&nbsp;</i> {{download.status}}</span>
+          </li>
+
+          <li class="label label-important">
+            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+          </li>
+
+          <li class="label label-important hidden-phone">
+            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+          </li>
+
+          <!-- }}} -->
+        </ul>
+
         <!-- }}} -->
       </td>
     </tr>
     <tr>
-      <td class="download-progress" colspan="2" ng-click="download.collapsed = !download.collapsed">
-
-        <div ng-show="hasStatus(download, 'active')" class="progress progress-striped" style="width: 100%; margin: 0; padding: 0;">
+      <td class="download-progress download-item" colspan="2" ng-click="download.collapsed = !download.collapsed">
+        <div class="progress progress-striped" ng-class="getProgressClass(download)">
           <div class="bar" style="width: {{getProgress(download)}}%;"></div>
         </div>
-
-        <div ng-show="hasStatus(download, ['paused', 'waiting'])" class="progress progress-info progress-striped" style="width: 100%; margin: 0; padding: 0;">
-          <div class="bar" style="width: {{getProgress(download)}}%;"></div>
-        </div>
-
-        <div ng-show="hasStatus(download, 'error')" class="progress progress-danger progress-striped" style="width: 100%; margin: 0; padding: 0;">
-          <div class="bar" style="width: {{getProgress(download)}}%;"></div>
-        </div>
-
-        <div ng-show="hasStatus(download, 'removed')" class="progress progress-warning progress-striped" style="width: 100%; margin: 0; padding: 0;">
-          <div class="bar" style="width: {{getProgress(download)}}%;"></div>
-        </div>
-
-        <div ng-show="hasStatus(download, 'complete')" class="progress progress-success progress-striped" style="width: 100%; margin: 0; padding: 0;">
-          <div class="bar" style="width: {{getProgress(download)}}%;"></div>
-        </div>
-
       </td>
     </tr>
-    <tr ng-click="download.collapsed = !download.collapsed" class="download-detail">
-      <td colspan="2">
+    <tr>
+      <td colspan="2" ng-click="download.collapsed = !download.collapsed">
         <div collapse="download.collapsed">
-          <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" style="width: 100%; margin: 5px;" chunkbar></canvas>
-          <ul class="stats">
-            <li class="label">Status: <span class="download-status">{{download.status}}</span></li>
-            <li class="label">GID: <span class="download-gid">{{download.gid}}</span></li>
-            <li class="label">Dir: <span class="download-dir">{{download.dir}}</span></li>
-            <li class="label">Size: <span class="download-totalLength">{{download.totalLength | blength}}</span></li>
-            <li class="label">Downloaded: <span class="download-completedLength">{{download.completedLength | blength}}</span></li>
-            <li class="label">Num of Pieces: <span class="download-numPieces">{{download.numPieces}}</span></li>
-            <li class="label">Piece Length: <span class="download-pieceLength">{{download.pieceLength | blength}}</span></li>
-            <li class="label">ETA: <span class="download-eta">{{getEta(download) | time}}</span></li>
-            <li class="label">Down Speed: <span class="download-downloadSpeed">{{download.downloadSpeed | bspeed}}</span></li>
+          <div class="download-item" ng-show="download.numPieces > 1">
+            <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
+          </div>
+          <ul class="stats download-item">
+            <li class="label" title="Estimated Time"><i class="icon-time">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
+            <li class="label" title="Download Size"><i class="icon-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
+            <li class="label" title="Downloaded"><i class="icon-download-alt">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
+            <li class="label" title="Download Speed"><i class="icon-download">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
 
-            <li class="label" ng-show="download.bittorrent">Upload Speed: <span class="download-uploadSpeed">{{download.uploadSpeed | bspeed}}</span></li>
-            <li class="label" ng-show="download.bittorrent">Upload Length: <span class="download-uploadLength">{{download.uploadLength | blength}}</span></li>
+            <li class="label" title="Upload Speed" ng-show="download.bittorrent"><i class="icon-upload">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
+            <li class="label" title="Uploaded" ng-show="download.bittorrent"><i class="icon-upload-alt">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
 
-            <li class="label">Connections: <span class="download-connections">{{download.connections}}</span></li>
+            <li class="label" title="Connections"><i class="icon-link">&nbsp;</i> <span class="download-connections">{{download.connections}}</span></li>
+
+            <li class="label" title="Download GID"><i class="icon-reorder">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
+            <li class="label" title="Number of Pieces"># of <i class="icon-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
+            <li class="label" title="Piece Length"><i class="icon-puzzle-piece"></i> Length&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
+            <li class="label" title="Download Path"><i class="icon-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
           </ul>
-
-          <h4 class="hidden-phone">Download Files</h4>
-          <ul class="download-files hidden-phone">
-            <li class="label" ng-repeat="file in download.files">{{file.path | prelative:download.dir}} ({{file.length | blength}})</li>
+          <ul class="download-files hidden-phone download-item">
+            <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.fmtLength}})</li>
           </ul>
-
-          <div ng-show="hasStatus(download, 'active')">
+          <div ng-show="hasStatus(download, 'active')" class="download-item hidden-phone">
             <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph draw="!download.collapsed"></div>
           </div>
         </div>
@@ -548,26 +547,39 @@
 
   <!-- {{{ download pagination -->
   <div class="pagination pagination-right" ng-show="totalDownloads > pageSize">
-    <ul>
-      <li
-        ng-class="{disabled: currentPage == 1}"
-        ng-click="setPage(1)">
-        <a href="#">&laquo;</a>
-      </li>
-      <li
-        ng-repeat="page in getPages()"
-        ng-class="{active: currentPage == page}"
-        ng-click="setPage(page)">
-        <a href="#">{{page}}</a>
-      </li>
-      <li
-        ng-class="{disabled: currentPage == totalPages}"
-        ng-click="setPage(totalPages)">
-        <a href="#">&raquo;</a>
-      </li>
-    </ul>
+    <pagination
+      total-items="totalDownloads"
+      items-per-page="pageSize"
+      max-size="6"
+      page="currentPage"
+      boundary-links="true"
+      previous-text="&lsaquo;"
+      next-text="&rsaquo;"
+      first-text="&laquo;"
+      last-text="&raquo;"
+      >
+    </pagination>
   </div>
   <!-- }}} -->
+
+  <!-- starred properties {{{ -->
+  <div ng-controller="StarredPropsCtrl" ng-show="properties.length">
+    <h3>Quick Access Settings</h3>
+    <form class="row">
+      <fieldset>
+        <div class="span4" ng-repeat="prop in properties">
+            <label>{{prop.name}}</label>
+            <select ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val">
+            </select>
+            <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
+        </div>
+
+        <div class="span12" style="margin-top: 1ex"><button ng-disabled="!enabled()" ng-click="save()" class="btn btn-small">Save</button></div>
+      </fieldset>
+    </form>
+  </div>
+  <!--}}} -->
+
 
 
 
@@ -579,9 +591,9 @@
 <div ng-controller="ModalCtrl">
 
 <!--{{{ add uri modal -->
-<div class="modal hide modal-adduris modal-large" modal="getUris.shown">
+<script type="text/ng-template" id="getUris.html">
   <div class="modal-header">
-    <button class="close" ng-click="getUris.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Add Downloads By URIs</h3>
   </div>
   <form class="modal-body">
@@ -607,20 +619,20 @@ http://ex1.com/f1.jpg http://ex2.com/f1.jpg
 http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 </pre>
       </p>
-      <textarea rows="6" ng-model="getUris.uris"></textarea>
+      <textarea rows="6" style="width: 100%" ng-model="getUris.uris"></textarea>
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getUris.close()">Cancel</button>
-    <button class="btn btn-primary" ng-click="getUris.success()">Start</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-success" ng-click="$close()">Start</button>
   </div>
-</div>
+</script>
 <!-- }}} -->
 
 <!-- {{{ add torrent modal -->
-<div class="modal hide" modal="getTorrents.shown">
+<script type="text/ng-template" id="getTorrents.html">
   <div class="modal-header">
-    <button class="close" ng-click="getTorrents.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Add Downloads By Torrents</h3>
   </div>
   <form class="modal-body">
@@ -635,16 +647,16 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getTorrents.close()">Cancel</button>
-    <button class="btn btn-primary" ng-click="getTorrents.success()">Start</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-success" ng-click="$close()">Start</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 <!-- {{{ add metalink modal -->
-<div class="modal hide" modal="getMetalinks.shown">
+<script type="text/ng-template" id="getMetalinks.html">
   <div class="modal-header">
-    <button class="close" ng-click="getMetalinks.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Add Downloads By Metalinks</h3>
   </div>
   <form class="modal-body">
@@ -658,16 +670,16 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </fieldset>
   </form>
   <div class="modal-footer">
-    <button class="btn" ng-click="getMetalinks.close()">Cancel</button>
-    <button class="btn btn-primary" ng-click="getMetalinks.success()">Start</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-success" ng-click="$close()">Start</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 <!-- {{{ settings modal -->
-<div class="modal hide modal-large" modal="settings.shown">
+<script type="text/ng-template" id="settings.html">
   <div class="modal-header">
-    <button class="close" ng-click="settings.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>{{settings.title}}</h3>
   </div>
 
@@ -693,16 +705,16 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   </form>
 
   <div class="modal-footer">
-    <button class="btn" ng-click="settings.close()">Cancel</button>
-    <button class="btn btn-success" ng-click="settings.success()">Save</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-success" ng-click="$close()">Save</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 <!--{{{ connection modal -->
-<div class="modal hide modal-large" modal="connection.shown">
+<script type="text/ng-template" id="connection.html">
   <div class="modal-header">
-    <button class="close" ng-click="connection.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Connection Settings</h3>
   </div>
   <div class="modal-body">
@@ -766,20 +778,19 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
     </form>
   </div>
   <div class="modal-footer">
-    <button href="#" class="btn" ng-click="connection.close()">Cancel</button>
-    <button href="#"
-      class="btn btn-primary" ng-click="connection.success()">
+    <button href="#" class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+    <button href="#" class="btn btn-success" ng-click="$close()">
       Save Connection configuration
     </button>
   </div>
-</div>
+</script>
 <!-- }}} -->
 
 
 <!-- {{{ server info modal -->
-<div class="modal hide" modal="server_info.shown">
+<script type="text/ng-template" id="server_info.html">
   <div class="modal-header">
-    <button class="close" ng-click="server_info.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>Aria2 server info</h3>
   </div>
   <div class="modal-body">
@@ -794,15 +805,15 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         </ul>
   </div>
   <div class="modal-footer">
-    <button class="btn" ng-click="server_info.close()">Close</button>
+    <button class="btn" ng-click="$dismiss()">Close</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 <!-- {{{ about modal -->
-<div class="modal hide" modal="about.shown">
+<script type="text/ng-template" id="about.html">
   <div class="modal-header">
-    <button class="close" ng-click="about.close()">x</button>
+    <button class="close" ng-click="$dismiss()">x</button>
     <h3>About and contribute</h3>
   </div>
   <div class="modal-body">
@@ -816,9 +827,9 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
       </p>
   </div>
   <div class="modal-footer">
-    <button class="btn" ng-click="about.close()">Close</button>
+    <button class="btn" ng-click="$dismiss()">Close</button>
   </div>
-</div
+</script>
 <!-- }}} -->
 
 

@@ -26,18 +26,30 @@ var parseFiles = function(files, cb) {
 
 angular
 .module('webui.ctrls.modal', [
-  'webui.services.deps', 'webui.services.modals', 'webui.services.rpc'
+  "ui.bootstrap", 'webui.services.deps', 'webui.services.modals', 'webui.services.rpc'
 ])
 .controller('ModalCtrl', [
-  '$_', '$scope', '$modals', '$rpc',
-  function(_, scope, modals, rpc) {
+  '$_', '$scope', '$modal', "$modals", '$rpc',
+  function(_, scope, $modal, modals, rpc) {
 
   scope.getUris = {
-    shown: false,
-    uris: '',
-    init: function(cb) {
-      this.shown = this.open =  true;
+    open: function(cb) {
+      var self = this;
+      this.uris = "";
       this.cb = cb;
+      this.inst = $modal.open({
+        templateUrl: "getUris.html",
+        scope: scope
+      });
+      this.inst.result.then(function() {
+        delete self.inst;
+        if (self.cb) {
+          self.cb(self.parse());
+        }
+      },
+      function() {
+        delete self.inst;
+      });
     },
     parse: function() {
       return _
@@ -45,113 +57,90 @@ angular
         .map(function(d) { return d.trim().split(/\s+/g) })
         .filter(function(d) { return d.length })
         .value();
-    },
-    success: function() {
-      var uris = this.parse();
-      this.uris = '';
-
-      if (this.cb) this.cb(uris);
-
-      this.close();
-
-    },
-    close: function() {
-      this.shown = this.open = false;
-      this.cb = null;
     }
   };
 
   scope.settings = {
-    shown: false,
-    settings: [],
-    title: 'Settings',
-    init: function(settings, title, cb) {
-      this.cb = cb;
+    open: function(settings, title, cb) {
+      var self = this;
       this.settings = settings;
-      this.title = title || title;
-      this.shown = this.open = true;
-    },
-    success: function() {
-      if (this.cb) this.cb(this.settings);
-      this.close();
-    },
-    close: function() {
-      this.cb = null;
-      this.shown = this.open = false;
+      this.title = title;
+      this.inst = $modal.open({
+        templateUrl: "settings.html",
+        scope: scope
+      });
+      this.inst.result.then(function() {
+        delete self.inst;
+        if (cb) {
+          cb(self.settings);
+        }
+      },
+      function() {
+        delete self.inst;
+      });
     }
   };
 
   scope.connection = {
-    shown: false,
+    open: function(defaults, cb) {
+      var self = this;
 
-    conf: {
-      host: 'localhost',
-      port: 6800,
-      encrypt: false,
-      auth: {
-        user: '',
-        pass: ''
-      }
-    },
-
-    init: function(defaults, cb) {
-      var conf = rpc.getConfiguration();
-      if (conf) this.conf = conf;
-
-      this.cb = cb;
-      this.open = this.shown = true;
-
-    },
-    success: function() {
-      console.log(this);
-
-      if (this.cb) {
-        this.cb(this.conf);
-      }
-
-      this.close();
-    },
-    close: function() {
-      this.cb = null;
-      this.open = this.shown = false;
+      // XXX We need to actually clone this!
+      this.conf = rpc.getConfiguration();
+      this.inst = $modal.open({
+        templateUrl: "connection.html",
+        scope: scope
+      });
+      this.inst.result.then(function() {
+        delete self.inst;
+        if (cb) {
+          cb(self.conf);
+        }
+      },
+      function() {
+        delete self.inst;
+      });
     }
   };
 
   _.each(['getTorrents', 'getMetalinks'], function(name) {
-    scope[name] =  {
-      shown: false,
-      init: function(cb) {
-        this.shown = this.open =  true;
-        this.cb = cb;
-      },
-
-      files: [],
-      success: function() {
+    scope[name] = {
+      open: function(cb) {
         var self = this;
-        console.log('parsing files');
-        parseFiles(self.files, function(txts) {
-          console.log('calling cb', this.cb);
-          if (self.cb) self.cb(txts);
-
-          self.close();
+        this.files = [];
+        this.inst = $modal.open({
+          templateUrl: name + ".html",
+          scope: scope
         });
-      },
-      close: function() {
-        this.cb = null;
-        this.shown = this.open = false;
+        this.inst.result.then(function() {
+          delete self.inst;
+          if (cb) {
+            parseFiles(self.files, function(txts) {
+              cb(txts);
+            });
+          }
+        },
+        function() {
+          delete self.inst;
+        });
       }
     };
   });
 
-  _.each(['server_info', 'about'], function(name) {
-    scope[name] =  {
-      shown: false,
-      init: function(cb) {
-        this.shown = this.open =  true;
-      },
-
-      close: function() {
-        this.shown = this.open = false;
+  _.each(["about", "server_info"], function(name) {
+    scope[name] = {
+      open: function() {
+        var self = this;
+        this.inst = $modal.open({
+          templateUrl: name + ".html",
+          scope: scope
+        });
+        this.inst.result.then(function() {
+          delete self.inst;
+        },
+        function() {
+          delete self.inst;
+        });
       }
     };
   });
@@ -159,22 +148,18 @@ angular
   rpc.once('getVersion', [], function(data) {
       scope.miscellaneous = data[0];
       });
-  
+
   _.each([
     'getUris', 'getTorrents', 'getMetalinks',
     'settings', 'connection', 'server_info', 'about'
   ], function(name) {
-    modals.register(name, function(cb) {
-      if (scope[name].open) {
-        // modal already shown, user is busy
-        // TODO: get a better method of passing this info
+    modals.register(name, function() {
+      if (scope[name].inst) {
+        // Already open.
         return;
       }
-      else {
-        var args = Array.prototype.slice.call(arguments, 0);
-        scope[name].open = true;
-        scope[name].init.apply(scope[name], args);
-      };
+      var args = Array.prototype.slice.call(arguments, 0);
+      scope[name].open.apply(scope[name], args);
     });
   });
 

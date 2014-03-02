@@ -28,18 +28,18 @@ function(_, JSON, name, utils, alerts) {
       _.each(sockRPC.handles, function(h) { h.error() });
       sockRPC.handles = [];
       sockRPC.initialized = false;
-      alerts.log('Cannot talk to aria2 over websocket, resorting to http requests');
+      alerts.log('Cannot talk to aria2 over WebSockets! Switching to regular HTTP requests…');
 
     },
     onclose: function(ev) {
       if (sockRPC.handles && sockRPC.handles.length)
-        sockRPC.onerror('Connection reset while pending calls to aria2');
+        sockRPC.onerror('Connection reset while calling aria2');
       sockRPC.initialized = false;
     },
 
     // when connection opens
     onopen: function() {
-      alerts.addAlert('Connected to aria2 successfully over websocket!', 'success');
+      alerts.addAlert('Successfully connected to aria2 over a WebSocket!', 'success');
       sockRPC.initialized = true;
     },
 
@@ -83,7 +83,7 @@ function(_, JSON, name, utils, alerts) {
       sockRPC.initialized = false;
 
       if (typeof WebSocket == "undefined") {
-        alerts.addAlert('Web sockets not supported, falling back to jsonp', 'info');
+        alerts.addAlert('Web sockets are not supported! Falling back to JSONP.', 'info');
         return;
       }
       sockRPC.conf = conf || sockRPC.conf;

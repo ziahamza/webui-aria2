@@ -1,5 +1,6 @@
 angular
 .module('webui.ctrls.download', [
+  "ui.bootstrap",
   'webui.services.utils', 'webui.services.rpc', 'webui.services.alerts',
   'webui.services.settings', 'webui.services.modals'
 ])
@@ -12,6 +13,10 @@ function(
   scope, rpc, utils, alerts, modals,
   fsettings, activeInclude, waitingExclude, window
 ) {
+
+  var re_slashes = /\\/g;
+  var slash = "/";
+
   scope.active = [], scope.waiting = [], scope.stopped = [];
   scope.gstats = {};
 
@@ -102,30 +107,70 @@ function(
 
   // download search filter
   scope.downloadFilter = "";
+  scope.downloadFilterCommitted = "";
+
+  scope.onDownloadFilter = function() {
+    if (scope.downloadFilterTimer) {
+      clearTimeout(scope.downloadFilterTimer);
+    }
+    scope.downloadFilterTimer = setTimeout(function() {
+      delete scope.downloadFilterTimer;
+      if (scope.downloadFilterCommitted !== scope.downloadFilter) {
+        scope.downloadFilterCommitted = scope.downloadFilter;
+        scope.$digest();
+      }
+    }, 500);
+  };
 
   scope.filterDownloads = function(downloads) {
-    var filter = scope.downloadFilter;
-    if (!filter.length) return downloads;
+    if (!scope.downloadFilterCommitted) {
+      return downloads;
+    }
+    var filter = scope.downloadFilterCommitted.
+      replace(/[{}()\[\]\\^$.?]/g, "\\$&").
+      replace(/\*/g, ".*").
+      replace(/\./g, ".");
+    filter = new RegExp(filter, "i");
     return _.filter(downloads, function(d) {
-      if (!d.files.length) return true;
-
+      if (filter.test(d.name)) return true;
       return _.filter(d.files, function(f) {
-        return f.path.toLowerCase().indexOf(filter.toLowerCase()) != -1;
-        // return f.path.search(filter) != -1;
+        return filter.test(f.relpath);
       }).length;
     });
   };
+
+  scope.clearFilter = function() {
+    scope.downloadFilter = scope.downloadFilterCommitted = "";
+  };
+
+  scope.toggleStateFilters = function() {
+    scope.filterActive = !scope.filterActive;
+    scope.filterWaiting = !scope.filterWaiting;
+    scope.filterComplete = !scope.filterComplete;
+    scope.filterError = !scope.filterError;
+    scope.filterPaused = !scope.filterPaused;
+    scope.filterRemoved = !scope.filterRemoved;
+  };
+
+  scope.resetFilters = function() {
+    scope.filterActive =
+      scope.filterWaiting =
+      scope.filterComplete =
+      scope.filterError =
+      scope.filterPaused =
+      scope.filterRemoved =
+      true;
+    scope.clearFilter();
+  };
+
+  scope.resetFilters();
+
 
   // max downloads shown in one page
   scope.pageSize = 10;
 
   // current displayed page
   scope.currentPage = 1;
-
-  scope.pageControlRadius = 3;
-
-  // total maximum pages
-  scope.totalPages = 0;
 
   // total amount of downloads returned by aria2
   scope.totalAria2Downloads = function() {
@@ -136,19 +181,39 @@ function(
 
   // actual downloads used by the view
   scope.getDownloads = function() {
-    var downloads =
-      scope.filterDownloads(
-        scope.active.concat( scope.waiting ).concat( scope.stopped )
-      )
-    ;
+    var downloads = [];
+    if (scope.filterActive) {
+      downloads = scope.active;
+    }
+    if (scope.filterWaiting) {
+      downloads = downloads.concat(_.filter(scope.waiting, function (e) {
+        return e.status == "waiting";
+      }));
+    }
+    if (scope.filterPaused) {
+      downloads = downloads.concat(_.filter(scope.waiting, function (e) {
+        return e.status == "paused";
+      }));
+    }
+    if (scope.filterError) {
+      downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+        return e.status == "error";
+      }));
+    }
+    if (scope.filterComplete) {
+      downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+        return e.status == "complete";
+      }));
+    }
+    if (scope.filterRemoved) {
+      downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+        return e.status == "removed";
+      }));
+    }
+
+    downloads = scope.filterDownloads(downloads);
 
     scope.totalDownloads = downloads.length;
-
-    scope.totalPages = Math.ceil(scope.totalDownloads / scope.pageSize)
-
-    // fix the bug when downloads are deleted until no left on a specific page
-    if (scope.currentPage > scope.totalPages)
-      scope.currentPage = scope.totalPages;
 
     downloads = downloads.slice( (scope.currentPage - 1) * scope.pageSize );
     downloads.splice( scope.pageSize );
@@ -156,63 +221,109 @@ function(
     return downloads;
   }
 
-  scope.setPage = function(pageNumber) {
-    scope.currentPage = pageNumber;
-    return false;
-  }
-
-  // get the pages to be displayed
-  scope.getPages = function() {
-    var minPage = scope.currentPage - scope.pageControlRadius;
-
-    if (minPage < 1) minPage = 1;
-
-    var maxPage = scope.currentPage + scope.pageControlRadius;
-
-    if (maxPage > scope.totalPages)
-      maxPage = scope.totalPages;
-
-    return _.range(minPage, maxPage + 1);
-  }
-
   // convert the donwload form aria2 to once used by the view,
   // minor additions of some fields and checks
   scope.getCtx = function(d, ctx) {
-    ctx = ctx || {};
-
-    _.each([
-      'totalLength', 'completedLength', 'uploadLength', 'dir',
-      'pieceLength', 'downloadSpeed', 'uploadSpeed', 'status',
-      'gid', 'numPieces', 'connections', 'bitfield'
-    ], function(e) {
-      ctx[e] = d[e];
-    });
-
-    var files = d["files"];
-    if (files) {
-      var cfiles = ctx["files"] || (ctx["files"] = []);
-      for (var i = 0; i < files.length; ++i) {
-        var file = cfiles[i] || (cfiles[i] = {});
-        file.path = files[i].path;
-        file.length = files[i].length;
-      }
-      cfiles.length = files.length;
+    if (!ctx) {
+      ctx = {
+        dir: d.dir,
+        status: d.status,
+        gid: d.gid,
+        numPieces: d.numPieces,
+        connections: d.connections,
+        bitfield: d.bitfield,
+        totalLength: d.totalLength,
+        fmtTotalLength: utils.fmtsize(d.totalLength),
+        completedLength: d.completedLength,
+        fmtCompletedLength: utils.fmtsize(d.completedLength),
+        uploadLength: d.uploadLength,
+        fmtUploadLength: utils.fmtsize(d.uploadLength),
+        pieceLength: d.pieceLength,
+        fmtPieceLength: utils.fmtsize(d.pieceLength),
+        downloadSpeed: d.downloadSpeed,
+        fmtDownloadSpeed: utils.fmtspeed(d.downloadSpeed),
+        uploadSpeed: d.uploadSpeed,
+        fmtUploadSpeed: utils.fmtspeed(d.uploadSpeed),
+        files: []
+      };
     }
     else {
-      delete ctx["files"];
+      ctx.dir = d.dir;
+      ctx.status = d.status;
+      ctx.gid = d.gid;
+      ctx.numPieces = d.numPieces;
+      ctx.connections = d.connections;
+      ctx.bitfield = d.bitfield;
+      if (ctx.totalLength !== d.totalLength) {
+        ctx.totalLength = d.totalLength;
+        ctx.fmtTotalLength = utils.fmtsize(d.totalLength);
+      }
+      if (ctx.completedLength !== d.completedLength) {
+        ctx.completedLength = d.completedLength;
+        ctx.fmtCompletedLength = utils.fmtsize(d.completedLength);
+      }
+      if (ctx.uploadLength !== d.uploadength) {
+        ctx.uploadLength = d.uploadlength;
+        ctx.fmtUploadLength = utils.fmtsize(d.uploadLength);
+      }
+      if (ctx.pieceLength !== d.pieceLength) {
+        ctx.pieceLength = d.pieceLength;
+        ctx.fmtPieceLength = utils.fmtsize(d.pieceLength);
+      }
+      if (ctx.downloadSpeed !== d.downloadSpeed) {
+        ctx.downloadSpeed =  d.downloadSpeed;
+        ctx.fmtDownloadSpeed = utils.fmtspeed(d.downloadSpeed);
+      }
+      if (ctx.uploadSpeed !== d.uploadSpeed) {
+        ctx.uploadSpeed =  d.uploadSpeed;
+        ctx.fmtUploadSpeed = utils.fmtspeed(d.uploadSpeed);
+      }
     }
 
+    var dlName;
+    var files = d.files;
+    if (files) {
+      var cfiles = ctx.files;
+      for (var i = 0; i < files.length; ++i) {
+        var cfile = cfiles[i] || (cfiles[i] = {});
+        var file = files[i];
+        if (file.path !== cfile.path) {
+          cfile.path = file.path;
+          cfile.length = file.length;
+          cfile.fmtLength = utils.fmtsize(file.length);
+          cfile.relpath = file.path.replace(re_slashes, slash);
+          if (!cfile.relpath) {
+            cfile.relpath = (file.uris && file.uris[0] && file.uris[0].uri) || "Unknown";
+          }
+          else if (!cfile.relpath.startsWith("[")) { // METADATA
+            cfile.relpath = cfile.relpath.substr(ctx.dir.length + 1);
+          }
+        }
+      }
+      cfiles.length = files.length;
+      if (cfiles.length) {
+        dlName = cfiles[0].relpath;
+      }
+    }
+    else {
+      delete ctx.files;
+    }
+
+    var btName;
     if (d.bittorrent) {
-      ctx.bittorrentName = d.bittorrent.info && d.bittorrent.info.name;
+      btName = d.bittorrent.info && d.bittorrent.info.name;
       ctx.bittorrent = true;
     }
     else {
-      delete ctx.bittorrentName;
+      delete ctx.bittorrent;
     }
 
+    ctx.name = btName || dlName || "Unknown";
+
     // collapse the download details initially
-    if (ctx.collapsed === undefined)
+    if (ctx.collapsed === undefined) {
       ctx.collapsed = true;
+    }
 
     return ctx;
   };
@@ -242,6 +353,23 @@ function(
     return (d.totalLength-d.completedLength) / d.downloadSpeed;
   }
 
+  scope.getProgressClass = function(d) {
+    switch (d.status) {
+      case "paused":
+        return "progress-info";
+      case "error":
+        return "progress-danger";
+      case "removed":
+        return "progress-warning";
+      case "active":
+        return "progress-active";
+      case "complete":
+        return "progress-success";
+      default:
+        return "";
+    }
+  };
+
   // gets the progress in percentages
   scope.getProgress = function(d) {
     var percentage = (d.completedLength / d.totalLength)*100 || 0;
@@ -250,17 +378,6 @@ function(
 
     return percentage;
   };
-
-  // gets a pretty name for the download
-  scope.getName = function(d) {
-    if (d.bittorrentName) {
-      return d.bittorrentName;
-    }
-
-    return utils.getFileName(
-      d.files[0].path || d.files[0].uris[0].uri
-    );
-  }
 
   // gets the type for the download as classified by the aria2 rpc calls
   scope.getType = function(d) {
@@ -287,7 +404,7 @@ function(
         settings[i].val = vals[i] || settings[i].val;
       }
 
-      modals.invoke('settings', settings, scope.getName(d) + ' settings', function(settings) {
+      modals.invoke('settings', settings, scope.name + ' settings', function(settings) {
         var sets = {};
         for (var i in settings) { sets[i] = settings[i].val };
 
