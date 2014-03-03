@@ -258,6 +258,7 @@ function(
         fmtDownloadSpeed: utils.fmtspeed(d.downloadSpeed),
         uploadSpeed: d.uploadSpeed,
         fmtUploadSpeed: utils.fmtspeed(d.uploadSpeed),
+        collapsed: true,
         files: []
       };
     }
@@ -333,10 +334,9 @@ function(
     }
 
     ctx.name = btName || dlName || "Unknown";
-
-    // collapse the download details initially
-    if (ctx.collapsed === undefined) {
-      ctx.collapsed = true;
+    ctx.metadata = ctx.name.startsWith("[METADATA]");
+    if (ctx.metadata) {
+      ctx.name = ctx.name.substr(10);
     }
 
     return ctx;
