@@ -371,9 +371,9 @@
       </td>
     </tr>
     <tr>
-      <td class="download-overview download-item" ng-click="download.collapsed = !download.collapsed">
+      <td class="download-overview download-item" ng-click="download.collapsed = !download.collapsed" ng-switch="download.status">
         <!-- {{{ statistics -->
-        <ul class="stats pull-left" ng-show="hasStatus(download, 'active')">
+        <ul class="stats pull-left" ng-switch-when="active">
           <!-- {{{ active download statistics -->
           <li class="label label-active hidden-phone hidden-tablet">
             <span title="Download status"><i class="icon-play">&nbsp;</i> {{download.status}}</span>
@@ -406,7 +406,7 @@
           <!-- }}} -->
         </ul>
 
-        <ul class="stats pull-left" ng-show="hasStatus(download, 'paused')">
+        <ul class="stats pull-left" ng-switch-when="paused">
           <!-- {{{ paused download statistics -->
           <li class="label label-info">
             <span title="Download Status"><i class="icon-pause">&nbsp;</i> {{download.status}}</span>
@@ -427,7 +427,7 @@
           <!--  }}} -->
         </ul>
 
-        <ul class="stats pull-left" ng-show="hasStatus(download, 'waiting')">
+        <ul class="stats pull-left" ng-switch-when="waiting">
           <!-- {{{ paused download statistics -->
           <li class="label">
             <span title="Download Status"><i class="icon-caret-right">&nbsp;</i> {{download.status}}</span>
@@ -448,7 +448,7 @@
           <!--  }}} -->
         </ul>
 
-        <ul class="stats pull-left" ng-show="hasStatus(download, 'complete')">
+        <ul class="stats pull-left" ng-switch-when="complete">
           <!-- {{{ complete download statistics -->
 
           <li class="label label-success">
@@ -466,26 +466,24 @@
           <!-- }}} -->
         </ul>
 
-        <ul class="stats pull-left" ng-show="hasStatus(download, 'removed')">
+        <ul class="stats pull-left" ng-switch-when="removed">
           <!-- {{{ removed download statistics -->
           <li class="label label-warning">
             <span title="Download Status"><i class="icon-remove">&nbsp;</i> {{download.status}}</span>
           </li>
 
-          <li ng-show="hasStatus(download, 'removed')"
-            class="label label-warning">
+          <li class="label label-warning">
             <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
           </li>
 
-          <li ng-show="hasStatus(download, 'removed')"
-            class="label label-warning hidden-phone">
+          <li class="label label-warning hidden-phone">
             <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
           </li>
 
           <!-- }}} -->
         </ul>
 
-        <ul class="stats pull-left" ng-show="hasStatus(download, 'error')">
+        <ul class="stats pull-left" ng-switch-when="error">
           <!-- {{{ error download statistics -->
           <li class="label label-important">
             <span title="Download Status"><i class="icon-remove-sign">&nbsp;</i> {{download.status}}</span>
@@ -513,8 +511,8 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2" ng-click="download.collapsed = !download.collapsed">
-        <div collapse="download.collapsed">
+      <td colspan="2" ng-click="download.collapsed = !download.collapsed" ng-switch="download.collapsed">
+        <div ng-switch-when="false">
           <div class="download-item" ng-show="download.numPieces > 1">
             <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
           </div>
