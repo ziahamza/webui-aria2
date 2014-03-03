@@ -242,7 +242,7 @@
   <form ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length" id="filters" class="clearfix">
     <fieldset>
       <label for="download-filter" id="download-filter-label">Search</label>
-      <input id="download-filter" type="text" ng-model="downloadFilter" ng-change="onDownloadFilter()" class="input-large"/>
+      <input id="download-filter" type="text" ng-model="downloadFilter" autocomplete="off" ng-change="onDownloadFilter()" class="input-large"/>
       <button ng-click="clearFilter()" class="btn btn-default btn-mini">Clear</button>
       <br>
       <label for="filter-active">
