@@ -301,7 +301,7 @@
     <tbody>
     <tr>
       <td class="download-name download-item" ng-click="download.collapsed = !download.collapsed">
-        {{download.name}}
+        <i class="icon-magnet" style="color: red;" ng-show="download.metadata"></i> {{download.name}}
       </td>
       <td class="download-controls download-item" rowspan="2">
         <!-- {{{ download control buttons -->
