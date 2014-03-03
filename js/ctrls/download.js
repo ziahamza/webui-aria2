@@ -55,6 +55,11 @@ function(
   }
 
   scope.restart = function(d) {
+    // XXX broken in general: does not work with torrents
+    // XXX broken in general: does not carry over prefs
+    // XXX broken in particular: uris no longer stored in context object
+    throw new Error("broken");
+
     var uris =
       _.chain(d.files).map(function(f) { return f.uris })
       .filter(function(uris) { return uris.length })
