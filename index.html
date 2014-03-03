@@ -307,14 +307,14 @@
         <!-- {{{ download control buttons -->
         <div class="btn-group">
           <button
-            ng-show="hasStatus(download, 'active')"
+            ng-show="hasStatus(download, ['active', 'waiting'])"
             class="btn"
             ng-click="pause(download)">
             <i class="icon-pause"></i>
           </button>
 
           <button
-            ng-show="hasStatus(download, ['paused', 'waiting'])"
+            ng-show="hasStatus(download, 'paused')"
             class="btn"
             ng-click="resume(download)">
             <i class="icon-play"></i>
