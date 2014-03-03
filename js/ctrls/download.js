@@ -144,6 +144,7 @@ function(
   };
 
   scope.toggleStateFilters = function() {
+    scope.filterSpeed = !scope.filterSpeed;
     scope.filterActive = !scope.filterActive;
     scope.filterWaiting = !scope.filterWaiting;
     scope.filterComplete = !scope.filterComplete;
@@ -153,7 +154,8 @@ function(
   };
 
   scope.resetFilters = function() {
-    scope.filterActive =
+    scope.filterSpeed =
+      scope.filterActive =
       scope.filterWaiting =
       scope.filterComplete =
       scope.filterError =
@@ -183,7 +185,19 @@ function(
   scope.getDownloads = function() {
     var downloads = [];
     if (scope.filterActive) {
-      downloads = scope.active;
+      if (!scope.filterSpeed) {
+        downloads = _.filter(scope.active, function (e) {
+          return !+e.uploadSpeed && !+e.downloadSpeed;
+        });
+      }
+      else {
+        downloads = scope.active;
+      }
+    }
+    else if (scope.filterSpeed) {
+      downloads = _.filter(scope.active, function (e) {
+        return +e.uploadSpeed || +e.downloadSpeed;
+      });
     }
     if (scope.filterWaiting) {
       downloads = downloads.concat(_.filter(scope.waiting, function (e) {

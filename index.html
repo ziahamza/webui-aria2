@@ -245,6 +245,10 @@
       <input id="download-filter" type="text" ng-model="downloadFilter" autocomplete="off" ng-change="onDownloadFilter()" class="input-large"/>
       <button ng-click="clearFilter()" class="btn btn-default btn-mini">Clear</button>
       <br>
+      <label for="filter-speed">
+        <input type="checkbox" ng-model="filterSpeed" id="filter-speed">
+        running
+      </label>
       <label for="filter-active">
         <input type="checkbox" ng-model="filterActive" id="filter-active">
         active
