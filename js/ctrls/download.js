@@ -285,7 +285,7 @@ function(
     if (files) {
       var cfiles = ctx.files;
       for (var i = 0; i < files.length; ++i) {
-        var cfile = cfiles[i] || (cfiles[i] = {});
+        var cfile = cfiles[i] || (cfiles[i] = {});
         var file = files[i];
         if (file.path !== cfile.path) {
           cfile.path = file.path;
