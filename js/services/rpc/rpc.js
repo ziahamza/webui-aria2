@@ -39,7 +39,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
     timeout = null;
 
     subscriptions = _.filter(subscriptions, function(e) {
-      return !!e && e.once !== 2;
+      return !!e && e.once !== 2;
     });
     var subs = subscriptions.slice();
     if (!subs.length) {
