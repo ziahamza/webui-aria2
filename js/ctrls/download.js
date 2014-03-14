@@ -318,7 +318,7 @@ function(
       delete ctx.bittorrent;
     }
 
-    ctx.name = btName || dlName || "Unknown";
+    ctx.name = btName || dlName || "Unknown";
 
     // collapse the download details initially
     if (ctx.collapsed === undefined) {
@@ -353,7 +353,7 @@ function(
     return (d.totalLength-d.completedLength) / d.downloadSpeed;
   }
 
-  scope.getProgressClass = function(d) {
+  scope.getProgressClass = function(d) {
     switch (d.status) {
       case "paused":
         return "progress-info";
