@@ -11,7 +11,7 @@ angular.module('webui.services.utils', [])
       return rndBuffer;
     };
 
-    if (!window.crypto || !crypto.getRandomValues) {
+    if (!window.crypto || !crypto.getRandomValues) {
       return rnd16Weak;
     }
     return function() {
@@ -82,7 +82,7 @@ angular.module('webui.services.utils', [])
       return function() {
         var r = rnd16();
         r[6] = (r[6] & 0xf) | 0x40; // Version 4
-        r[8] = (r[8] & 0x3f) | 0x80; // Version 4y
+        r[8] = (r[8] & 0x3f) | 0x80; // Version 4y
         return bt[r[0]] + bt[r[1]] + bt[r[2]] + bt[r[3]] + "-" +
           bt[r[4]] + bt[r[5]] + "-" +
           bt[r[6]] + bt[r[7]] + "-" +

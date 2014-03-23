@@ -61,7 +61,7 @@ angular
       },
       yaxis: {
         position: "right",
-        ticks: function(axis) {
+        ticks: function(axis) {
           var res = [0];
           var round = Math.max(1, Math.ceil(axis.max / yTickBase));
           var step = Math.max(1, Math.ceil(round / yTicks));

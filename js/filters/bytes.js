@@ -12,7 +12,7 @@ angular.module('webui.filters.bytes', ["webui.services.utils"])
 
   return function(time) {
     time = parseInt(time, 10);
-    if (!time || !isFinite(time)) return "∞";
+    if (!time || !isFinite(time)) return "∞";
     var secs = time % 60;
     if (time < 60) return secs + "s";
     var mins = Math.floor((time % 3600) / 60)
