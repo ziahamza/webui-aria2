@@ -295,6 +295,10 @@
     </pagination>
   </div>
 
+  <form>
+    <label><input type="checkbox" ng-model="hideLinkedMetadata" id="hide-linked-metadata"> Hide linked meta-data</label>
+  </form>
+
   <table
     ng-repeat="download in getDownloads()"
     class="row download" data-gid="{{download.gid}}">

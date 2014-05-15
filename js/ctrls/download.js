@@ -16,9 +16,11 @@ function(
 
   var re_slashes = /\\/g;
   var slash = "/";
+  var allStopped = [];
 
   scope.active = [], scope.waiting = [], scope.stopped = [];
   scope.gstats = {};
+  scope.hideLinkedMetadata = true;
 
   // pause the download
   // d: the download ctx
@@ -42,21 +44,22 @@ function(
     if (scope.getType(d) == 'stopped')
       method = 'removeDownloadResult';
 
+    if (d.followedFrom) {
+      scope.remove(d.followedFrom, function() {});
+      d.followedFrom = null;
+    }
     rpc.once(method, [d.gid], cb);
 
-    // also remove it from client cache assuming that it will be deleted in the aria2 list,
-    // but we could be wrong but the cache will update in next global update
-    var downloads = [scope.active, scope.waiting, scope.stopped], ind = -1, i;
-    for (i = 0; i < downloads.length; i++) {
-      ind = downloads[i].indexOf(d);
-      if (ind != -1) break;
-    }
-
-    if (ind == -1) {
+    var lists = [scope.active, scope.waiting, scope.stopped], ind = -1, i;
+    for (var i = 0; i < lists.length; ++i) {
+      var list = lists[i];
+      var idx = list.indexOf(d);
+      if (idx < 0) {
+        continue;
+      }
+      list.splice(idx, 1);
       return;
     }
-
-    downloads[i].splice(ind, 1);
   }
 
   scope.restart = function(d) {
@@ -79,26 +82,57 @@ function(
   // start filling in the model of active,
   // waiting and stopped download
   rpc.subscribe('tellActive', [], function(data) {
-    utils.mergeMap(data[0], scope.active, scope.getCtx);
+    scope.$apply(function() {
+      utils.mergeMap(data[0], scope.active, scope.getCtx);
+    });
   });
 
   rpc.subscribe('tellWaiting', [0, 1000], function(data) {
-    utils.mergeMap(data[0], scope.waiting, scope.getCtx);
+    scope.$apply(function() {
+      utils.mergeMap(data[0], scope.waiting, scope.getCtx);
+    });
   });
 
 
   rpc.subscribe('tellStopped', [0, 1000], function(data) {
-    utils.mergeMap(data[0], scope.stopped, scope.getCtx);
+    scope.$apply(function() {
+      if (!scope.hideLinkedMetadata) {
+        utils.mergeMap(data[0], scope.stopped, scope.getCtx);
+        return;
+      }
+      utils.mergeMap(data[0], allStopped, scope.getCtx);
+      var gids = {};
+      _.forEach(allStopped, function(e) {
+        gids[e.gid] = e;
+      });
+      _.forEach(scope.active, function(e) {
+        gids[e.gid] = e;
+      });
+      _.forEach(scope.waiting, function(e) {
+        gids[e.gid] = e;
+      });
+      scope.stopped = _.filter(allStopped, function(e) {
+        if (!e.metadata || !e.followedBy || !(e.followedBy in gids)) {
+          return true;
+        }
+        var linked = gids[e.followedBy];
+        linked.followedFrom = e;
+        return false;
+      });
+    });
   });
 
   rpc.subscribe('getGlobalStat', [], function(data) {
-    scope.gstats = data[0];
-    window.document.title = utils.getTitle(scope.gstats);
-
+    scope.$apply(function() {
+      scope.gstats = data[0];
+      window.document.title = utils.getTitle(scope.gstats);
+    });
   });
 
   rpc.once('getVersion', [], function(data) {
-    scope.miscellaneous = data[0];
+    scope.$apply(function() {
+      scope.miscellaneous = data[0];
+    });
   });
 
   // total number of downloads, updates dynamically as downloads are
@@ -243,6 +277,9 @@ function(
         dir: d.dir,
         status: d.status,
         gid: d.gid,
+        followedBy: (d.followedBy && d.followedBy.length == 1
+          ? d.followedBy[0] : null),
+        followedFrom: null,
         numPieces: d.numPieces,
         connections: d.connections,
         bitfield: d.bitfield,
@@ -266,6 +303,9 @@ function(
       ctx.dir = d.dir;
       ctx.status = d.status;
       ctx.gid = d.gid;
+      ctx.followedBy = (d.followedBy && d.followedBy.length == 1
+        ? d.followedBy[0] : null);
+      ctx.followedFrom = null;
       ctx.numPieces = d.numPieces;
       ctx.connections = d.connections;
       ctx.bitfield = d.bitfield;
