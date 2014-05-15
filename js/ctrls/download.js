@@ -38,14 +38,17 @@ function(
   // put it in stopped list if active,
   // otherwise permanantly remove it
   // d: the download ctx
-  scope.remove = function(d, cb) {
+  scope.remove = function(d, cb, noConfirm) {
+    if (!noConfirm && !confirm("Remove %s and associated meta-data?".replace("%s", d.name))) {
+      return;
+    }
     var method = 'remove';
 
     if (scope.getType(d) == 'stopped')
       method = 'removeDownloadResult';
 
     if (d.followedFrom) {
-      scope.remove(d.followedFrom, function() {});
+      scope.remove(d.followedFrom, function() {}, true);
       d.followedFrom = null;
     }
     rpc.once(method, [d.gid], cb);
