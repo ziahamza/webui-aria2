@@ -246,31 +246,31 @@
       <button ng-click="clearFilter()" class="btn btn-default btn-mini">Clear</button>
       <br>
       <label for="filter-speed">
-        <input type="checkbox" ng-model="filterSpeed" id="filter-speed">
+        <input type="checkbox" ng-model="filterSpeed" ng-change="persistFilters()" id="filter-speed">
         running
       </label>
       <label for="filter-active">
-        <input type="checkbox" ng-model="filterActive" id="filter-active">
+        <input type="checkbox" ng-model="filterActive" ng-change="persistFilters()" id="filter-active">
         active
       </label>
       <label for="filter-waiting">
-        <input type="checkbox" ng-model="filterWaiting" id="filter-waiting">
+        <input type="checkbox" ng-model="filterWaiting" ng-change="persistFilters()" id="filter-waiting">
         waiting
       </label>
       <label for="filter-complete">
-        <input type="checkbox" ng-model="filterComplete" id="filter-complete">
+        <input type="checkbox" ng-model="filterComplete" ng-change="persistFilters()" id="filter-complete">
         complete
       </label>
       <label for="filter-error">
-        <input type="checkbox" ng-model="filterError" id="filter-error">
+        <input type="checkbox" ng-model="filterError" ng-change="persistFilters()" id="filter-error">
         error
       </label>
       <label for="filter-paused">
-        <input type="checkbox" ng-model="filterPaused" id="filter-paused">
+        <input type="checkbox" ng-model="filterPaused" ng-change="persistFilters()" id="filter-paused">
         paused
       </label>
       <label for="filter-removed">
-        <input type="checkbox" ng-model="filterRemoved" id="filter-removed">
+        <input type="checkbox" ng-model="filterRemoved" ng-change="persistFilters()" id="filter-removed">
         removed
       </label>
       <button ng-click="toggleStateFilters()" class="btn btn-default btn-mini">Toggle</button>

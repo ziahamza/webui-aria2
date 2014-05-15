@@ -188,6 +188,7 @@ function(
     scope.filterError = !scope.filterError;
     scope.filterPaused = !scope.filterPaused;
     scope.filterRemoved = !scope.filterRemoved;
+    scope.persistFilters();
   };
 
   scope.resetFilters = function() {
@@ -200,9 +201,38 @@ function(
       scope.filterRemoved =
       true;
     scope.clearFilter();
+    scope.persistFilters();
   };
 
-  scope.resetFilters();
+  scope.persistFilters = function() {
+    var o = JSON.stringify({
+      s: scope.filterSpeed,
+      a: scope.filterActive,
+      w: scope.filterWaiting,
+      c: scope.filterComplete,
+      e: scope.filterError,
+      p: scope.filterPaused,
+      r: scope.filterRemoved
+    });
+    utils.setCookie("aria2filters", o);
+  };
+
+  scope.loadFilters = function() {
+    var o = JSON.parse(utils.getCookie("aria2filters"));
+    if (!o) {
+      scope.resetFilters();
+      return;
+    }
+    scope.filterSpeed = !!o.s;
+    scope.filterActive = !!o.a;
+    scope.filterWaiting = !!o.w;
+    scope.filterComplete = !!o.c;
+    scope.filterError = !!o.e;
+    scope.filterPaused = !!o.p;
+    scope.filterRemoved = !!o.r;
+  };
+
+  scope.loadFilters();
 
 
   // max downloads shown in one page
