@@ -387,7 +387,7 @@
             <span title="Download Speed"><i class="icon-download">&nbsp;</i> {{download.downloadSpeed | bspeed}}</span>
           </li>
 
-          <li ng-show="download.bittorrent" class="label hidden-phone" ng-class="{'label-active': download.uploadSpeed > 2048}">
+          <li ng-show="download.bittorrent" class="label hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
             <span title="Upload Speed"><i class="icon-upload">&nbsp;</i> {{download.uploadSpeed | bspeed}}</span>
           </li>
 
