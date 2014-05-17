@@ -239,44 +239,51 @@
   <!-- {{{ download template -->
   <h3 ng-show="totalAria2Downloads()">Download List</h3>
 
-  <form ng-show="(totalAria2Downloads() > pageSize) || downloadFilter.length" id="filters" class="clearfix">
+  <form id="filters" class="clearfix">
     <fieldset>
-      <label for="download-filter" id="download-filter-label">Search</label>
-      <input id="download-filter" type="text" ng-model="downloadFilter" autocomplete="off" ng-change="onDownloadFilter()" class="input-large"/>
-      <button ng-click="clearFilter()" class="btn btn-default btn-mini">Clear</button>
-      <br>
-      <label for="filter-speed">
-        <input type="checkbox" ng-model="filterSpeed" ng-change="persistFilters()" id="filter-speed">
-        running
-      </label>
-      <label for="filter-active">
-        <input type="checkbox" ng-model="filterActive" ng-change="persistFilters()" id="filter-active">
-        active
-      </label>
-      <label for="filter-waiting">
-        <input type="checkbox" ng-model="filterWaiting" ng-change="persistFilters()" id="filter-waiting">
-        waiting
-      </label>
-      <label for="filter-complete">
-        <input type="checkbox" ng-model="filterComplete" ng-change="persistFilters()" id="filter-complete">
-        complete
-      </label>
-      <label for="filter-error">
-        <input type="checkbox" ng-model="filterError" ng-change="persistFilters()" id="filter-error">
-        error
-      </label>
-      <label for="filter-paused">
-        <input type="checkbox" ng-model="filterPaused" ng-change="persistFilters()" id="filter-paused">
-        paused
-      </label>
-      <label for="filter-removed">
-        <input type="checkbox" ng-model="filterRemoved" ng-change="persistFilters()" id="filter-removed">
-        removed
-      </label>
-      <button ng-click="toggleStateFilters()" class="btn btn-default btn-mini">Toggle</button>
-      <br>
-      <b>Found: {{totalDownloads}} / {{totalAria2Downloads()}} </b>
-      <button ng-click="resetFilters()" class="btn btn-mini">Reset</button>
+      <p>
+        <label for="download-filter" id="download-filter-label">Search
+          <input id="download-filter" type="text" ng-model="downloadFilter" autocomplete="off" ng-change="onDownloadFilter()" class="input-large"/></label>
+        <button ng-click="clearFilter()" class="btn btn-default btn-mini">Clear</button>
+      </p>
+      <p>
+        <label for="filter-speed">
+          <input type="checkbox" ng-model="filterSpeed" ng-change="persistFilters()" id="filter-speed">
+          Running
+        </label>
+        <label for="filter-active">
+          <input type="checkbox" ng-model="filterActive" ng-change="persistFilters()" id="filter-active">
+          Active
+        </label>
+        <label for="filter-waiting">
+          <input type="checkbox" ng-model="filterWaiting" ng-change="persistFilters()" id="filter-waiting">
+          Waiting
+        </label>
+        <label for="filter-complete">
+          <input type="checkbox" ng-model="filterComplete" ng-change="persistFilters()" id="filter-complete">
+          Complete
+        </label>
+        <label for="filter-error">
+          <input type="checkbox" ng-model="filterError" ng-change="persistFilters()" id="filter-error">
+          Error
+        </label>
+        <label for="filter-paused">
+          <input type="checkbox" ng-model="filterPaused" ng-change="persistFilters()" id="filter-paused">
+          Paused
+        </label>
+        <label for="filter-removed">
+          <input type="checkbox" ng-model="filterRemoved" ng-change="persistFilters()" id="filter-removed">
+          Removed
+        </label>
+        <button ng-click="toggleStateFilters()" class="btn btn-default btn-mini">Toggle</button>
+      </p>
+      <p>
+        <label><input type="checkbox" ng-model="hideLinkedMetadata" id="hide-linked-metadata"> Hide linked meta-data</label>
+      </p>
+      <p>
+        Displaying <strong>{{totalDownloads}}</strong> of <em>{{totalAria2Downloads()}}</em> downloads
+        &nbsp;<button ng-click="resetFilters()" class="btn btn-default btn-mini">Reset filters</button>
+      </p>
     </fieldset>
   </form>
 
@@ -294,10 +301,6 @@
       >
     </pagination>
   </div>
-
-  <form>
-    <label><input type="checkbox" ng-model="hideLinkedMetadata" id="hide-linked-metadata"> Hide linked meta-data</label>
-  </form>
 
   <table
     ng-repeat="download in getDownloads()"
