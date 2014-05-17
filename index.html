@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>aria2 web client</title>
+  <title ng-controller="NavCtrl">{{ name }}</title>
 
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/bootstrap-responsive.css">
@@ -95,7 +95,7 @@
       <span class="icon-bar"></span>
     </span>
 
-    <a class="brand">{{ name }}</a>
+    <a class="brand"><span class="icon-circle-arrow-down"></span> {{ name }}</a>
 
     <div class="nav-collapse" collapse="collapsed">
     <ul class="nav">
