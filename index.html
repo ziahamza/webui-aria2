@@ -577,20 +577,19 @@
     <form class="row">
       <fieldset>
         <div class="span4" ng-repeat="prop in properties">
-            <label>{{prop.name}}</label>
-            <select ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val">
-            </select>
-            <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
+          <label title="{{prop.desc}}">
+            <div>{{prop.name}}</div>
+            <div>
+              <select ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val"></select>
+              <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
+            </div>
+          </label>
         </div>
-
-        <div class="span12" style="margin-top: 1ex"><button ng-disabled="!enabled()" ng-click="save()" class="btn btn-small">Save</button></div>
+        <div class="span12" style="margin-top: 1ex"><button ng-disabled="!enabled()" ng-click="save()" class="btn btn-small">Save settings</button></div>
       </fieldset>
     </form>
   </div>
   <!--}}} -->
-
-
-
 
 </div>
 
