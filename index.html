@@ -747,11 +747,10 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 
           <label class="control-label">SSL/TLS encryption:</label>
           <div class="controls">
-            <input type="checkbox"
-              ng-model="connection.conf.encrypt">
-              Enable encryption connection to aria2
-            </input>
-            <p class="help-block">Enable SSL/TLS encryption.</p>
+            <label>
+              <input type="checkbox" ng-model="connection.conf.encrypt"/>
+              Enable SSL/TLS encryption.
+            </label>
           </div>
 
           <label class="control-label">Enter the secret token (optional):</label>
