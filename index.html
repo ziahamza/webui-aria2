@@ -746,11 +746,20 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 
           <label class="control-label">SSL/TLS encryption:</label>
           <div class="controls">
-            <input type="checkbox"
-              ng-model="connection.conf.encrypt">
-              Enable encryption connection to aria2
-            </input>
-            <p class="help-block">Enable SSL/TLS encryption.</p>
+            <label>
+              <input type="checkbox" ng-model="connection.conf.encrypt"/>
+              Enable SSL/TLS encryption.
+            </label>
+          </div>
+
+          <label class="control-label">Enter the secret token (optional):</label>
+          <div class="controls">
+            <label>
+              <input type="text" class="input-xlarge" ng-model="connection.conf.auth.token"/>
+              <p class="help-block">
+              Enter the aria2 RPC secret token (leave empty if authentication is not enabled)>
+              </p>
+            </label>
           </div>
 
           <label class="control-label">Enter the username (optional):</label>

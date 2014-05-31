@@ -12,11 +12,20 @@ angular.module('webui.ctrls.alert', [
   alerts.addAlerter(function(msg, type) {
     type = type || 'warning';
     var obj = { msg: sce.trustAsHtml(msg), type: type };
+    scope.pendingAlerts = _.filter(scope.pendingAlerts, function(al) {
+      return !al.expired;
+    });
     scope.pendingAlerts.push(obj);
 
     setTimeout(function() {
       var ind = scope.pendingAlerts.indexOf(obj);
-      if (ind != -1) scope.removeAlert(ind);
+      if (ind != -1) {
+        scope.pendingAlerts[ind].expired = true;
+
+        // only remove if more notifications are pending in the pipeline
+        if (scope.pendingAlerts.length > 1)
+          scope.removeAlert(ind);
+      }
     }, type == "error" ? 10000 : 3000);
 
     scope.$digest();

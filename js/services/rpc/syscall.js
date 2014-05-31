@@ -13,6 +13,7 @@ function(log, jsonRPC, sockRPC, alerts) {
     //   port (number): port number for the aria2 server
     //   encrypt (boolean, optional): true if encryption is enabled in the aria2 server
     //   auth (optional): {
+    //     token (string): secret token for authentication (--rpc-secret)
     //     user (string): username for http authentication if enabled
     //     pass (string): password for the http authentication if enabled
     //   }
