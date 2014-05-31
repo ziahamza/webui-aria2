@@ -11,6 +11,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
   var subscriptions = []
     , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
     , currentConf = {}
+    , currentToken
     , timeout = null
     , forceNextUpdate = false;
 
@@ -49,20 +50,50 @@ function(syscall, time, alerts, utils, rootScope, uri) {
 
     if (configurations.length) {
       currentConf = configurations.shift();
+      if (currentConf && currentConf.auth && currentConf.auth.token) {
+        currentToken = currentConf.auth.token;
+      }
+      else {
+        currentToken = null;
+      }
       syscall.init(currentConf);
     }
 
     var params = _.map(subs, function(s) {
+      var p = s.params;
+      if (currentToken) {
+        p = ["token:" + currentToken].concat(p || []);
+      }
       return {
         methodName: s.name,
-        params: s.params && s.params.length ? s.params : undefined
+        params: p && p.length ? p : undefined
       };
     });
+
+    var error = function() {
+      // If some proposed configurations are still in the pipeline then retry
+      if (configurations.length) {
+        alerts.log("The last connection attempt was unsuccessful. Trying another configuration");
+        timeout = setTimeout(update, 0);
+      }
+      else {
+        alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 RPC server. Will retry in ' + time / 1000 + ' secs. You might want to check the connection settings by going to Settings > Connection Settings', 'error');
+        timeout = setTimeout(update, time);
+      }
+    };
 
     syscall.invoke({
       name: 'system.multicall',
       params: [params],
       success: function(data) {
+
+        var failed = _.any(data.result, function(d) {
+          return d.code && d.message === "Unauthorized";
+        });
+        if (failed) {
+          error();
+          return;
+        }
 
         if (configurations.length) {
           // configuration worked, save it in cookie for next time and
@@ -104,17 +135,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
           timeout = setTimeout(update, time);
         }
       },
-      error: function() {
-        // If some proposed configurations are still in the pipeline then retry
-        if (configurations.length) {
-          alerts.log("The last connection attempt was unsuccessful. Trying another configuration");
-          timeout = setTimeout(update, 0);
-        }
-        else {
-          alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 RPC server. Will retry in ' + time / 1000 + ' secs. You might want to check the connection settings by going to Settings > Connection Settings', 'error');
-          timeout = setTimeout(update, time);
-        }
-      }
+      error: error
     });
   };
 

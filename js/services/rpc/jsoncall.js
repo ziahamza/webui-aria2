@@ -24,7 +24,7 @@ angular
         },
         success: function(data) {
           conn.avgTimeout =  2000 + 3 * (new Date() - startTime);
-          return success(data)
+          return success(data);
         },
         error: error,
         dataType: 'jsonp',
@@ -42,7 +42,7 @@ angular
         function() {
           // check if authentication details are given, if yes then use a hack to support
           // http authentication otherwise emit error
-          if (!rpc.serverConf.auth) {
+          if (!rpc.serverConf.auth || !rpc.serverConf.auth.user) {
             console.log("jsonrpc disconnect!!!");
             return opts.error();
           }
