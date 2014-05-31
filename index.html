@@ -517,7 +517,7 @@
     </tr>
     <tr>
       <td colspan="2" ng-click="download.collapsed = !download.collapsed" ng-switch="download.collapsed">
-        <div ng-switch-when="false">
+        <div collapse="download.collapsed">
           <div class="download-item" ng-show="download.numPieces > 1">
             <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
           </div>
