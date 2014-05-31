@@ -1,3 +1,8 @@
+input[type=checkbox], input[type=radio] {
+  vertical-align: middle;
+  position: relative;
+}
+
 .pagination ul > li:not(.disabled) {
   cursor: pointer;
 }

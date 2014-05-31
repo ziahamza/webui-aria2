@@ -1,5 +1,5 @@
-angular.module('webui.services.utils', [])
-.factory('$utils', ['$filter', function(filter) {
+angular.module('webui.services.utils', ['webui.services.constants'])
+.factory('$utils', ['$filter', "$name", function(filter, $name) {
   var rnd16 = (function() {
     "use strict";
     var rndBuffer = new Uint8Array(16);
@@ -119,12 +119,11 @@ angular.module('webui.services.utils', [])
     // get info title from global statistics
     getTitle: function(stats) {
       var title =
-        '('
-        + ' active:' +  stats.numActive
-        + ' waiting:' + stats.numWaiting
-        + ' stopped:' + stats.numStopped
-        + ') '
-        + 'aria2 Web Client';
+        'active: ' +  stats.numActive
+        + ' - waiting: ' + stats.numWaiting
+        + ' - stopped: ' + stats.numStopped
+        + ' — '
+        + $name;
 
       return title;
     },
