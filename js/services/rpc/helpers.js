@@ -11,10 +11,10 @@ angular.module('webui.services.rpc.helpers', [
     getAria2Version: function() {
       return miscellaneous.version;
     },
-    addUris: function(uris) {
+    addUris: function(uris, settings) {
       _.each(uris, function(uri) {
         // passing true to batch all the addUri calls
-        rpc.once('addUri', [uri], angular.noop, true);
+        rpc.once('addUri', [uri, settings], angular.noop, true);
       });
 
       // now dispatch all addUri syscalls
