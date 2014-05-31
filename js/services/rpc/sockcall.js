@@ -28,7 +28,6 @@ function(_, JSON, name, utils, alerts) {
       _.each(sockRPC.handles, function(h) { h.error() });
       sockRPC.handles = [];
       sockRPC.initialized = false;
-      alerts.log('Cannot talk to aria2 over WebSockets. Switching to regular HTTP requests…');
     },
     onclose: function(ev) {
       if (sockRPC.handles && sockRPC.handles.length)

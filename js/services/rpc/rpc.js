@@ -15,7 +15,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
     , timeout = null
     , forceNextUpdate = false;
 
-  if (['http', 'https'].indexOf(uri.protocol()) != -1) {
+  if (['http', 'https'].indexOf(uri.protocol()) != -1 && uri.host() != 'localhost') {
     console.log(uri.host());
     configurations.unshift({
       host: uri.host(),
@@ -102,7 +102,10 @@ function(syscall, time, alerts, utils, rootScope, uri) {
         if (configurations.length) {
           // configuration worked, save it in cookie for next time and
           // delete the pipelined configurations!!
-          alerts.addAlert('Successfully connected to Aria2 through its remote RPC…', 'success');
+          if (currentToken)
+            alerts.addAlert('Successfully connected to Aria2 through its remote RPC …', 'success');
+          else
+            alerts.addAlert('Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)');
           configurations = [];
         }
 
