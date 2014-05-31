@@ -28,7 +28,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
   var cookieConf = utils.getCookie('aria2conf');
 
   // try at the end, so that it is not overwridden in case it doesnt work
-  if (cookieConf) configurations.push(cookieConf);
+  if (cookieConf) configurations.unshift(cookieConf);
 
   // update is implemented such that
   // only one syscall at max is ongoing
@@ -49,7 +49,7 @@ function(syscall, time, alerts, utils, rootScope, uri) {
     }
 
     if (configurations.length) {
-      currentConf = configurations.shift();
+      currentConf = configurations[0];
       if (currentConf && currentConf.auth && currentConf.auth.token) {
         currentToken = currentConf.auth.token;
       }
@@ -71,14 +71,17 @@ function(syscall, time, alerts, utils, rootScope, uri) {
     });
 
     var error = function() {
+      var ind = configurations.indexOf(currentConf);
+      if (ind != -1) configurations.splice(ind, 1);
+
       // If some proposed configurations are still in the pipeline then retry
       if (configurations.length) {
         alerts.log("The last connection attempt was unsuccessful. Trying another configuration");
         timeout = setTimeout(update, 0);
       }
       else {
-        alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 RPC server. Will retry in ' + time / 1000 + ' secs. You might want to check the connection settings by going to Settings > Connection Settings', 'error');
-        timeout = setTimeout(update, time);
+        alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings', 'error');
+        timeout = setTimeout(update, 10000);
       }
     };
 
@@ -86,19 +89,20 @@ function(syscall, time, alerts, utils, rootScope, uri) {
       name: 'system.multicall',
       params: [params],
       success: function(data) {
-
         var failed = _.any(data.result, function(d) {
           return d.code && d.message === "Unauthorized";
         });
+
         if (failed) {
-          error();
+          alerts.addAlert('<strong>Oh Snap!</strong> Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details  by going to Settings > Connection Settings', 'error');
+          timeout = setTimeout(update, 10000);
           return;
         }
 
         if (configurations.length) {
           // configuration worked, save it in cookie for next time and
           // delete the pipelined configurations!!
-          alerts.log('Success alas! Saving the current configuration…');
+          alerts.addAlert('Successfully connected to Aria2 through its remote RPC…', 'success');
           configurations = [];
         }
 
@@ -147,12 +151,17 @@ function(syscall, time, alerts, utils, rootScope, uri) {
     // each one will be tried one after the other till success,
     // for all options for one conf read rpc/syscall.js
     configure: function(conf) {
-      alerts.addAlert('Successfully changed aria2 connection configuration', 'success');
+      alerts.addAlert('Trying to connect to aria2 using the new connection configuration', 'info');
 
       if (conf instanceof Array)
         configurations = conf;
       else
         configurations = [conf];
+
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = setTimeout(update, 0);
+      }
     },
 
     // get current configuration being used
