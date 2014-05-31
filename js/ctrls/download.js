@@ -54,28 +54,6 @@ function(
     rpc.once(method, [d.gid], cb);
   }
 
-  scope.restart = function(d) {
-    // XXX broken in general: does not work with torrents
-    // XXX broken in general: does not carry over prefs
-    // XXX broken in particular: uris no longer stored in context object
-    throw new Error("broken");
-
-    var uris =
-      _.chain(d.files).map(function(f) { return f.uris })
-      .filter(function(uris) { return uris.length })
-      .map(function(uris) {
-        return _.chain(uris)
-          .map(function(u) { return u.uri })
-          .uniq().value();
-      }).value();
-
-    if (uris.length > 0) {
-      scope.remove(d, function() {
-        rpc.once('addUri', uris, angular.noop, true);
-      });
-    }
-  }
-
   // start filling in the model of active,
   // waiting and stopped download
   rpc.subscribe('tellActive', [], function(data) {
@@ -407,14 +385,6 @@ function(
     }
 
     return ctx;
-  };
-
-  scope.canRestart = function(d) {
-    if (['active', 'paused'].indexOf(d.status) == -1
-        && !d.bittorrent)
-      return true;
-
-    return false;
   };
 
   scope.hasStatus = function hasStatus(d, status) {
