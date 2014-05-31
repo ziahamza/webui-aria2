@@ -4,15 +4,17 @@ angular
   'webui.services.utils', 'webui.services.rpc', 'webui.services.alerts',
   'webui.services.settings', 'webui.services.modals'
 ])
-.controller('DownloadCtrl', [
-  '$scope', '$rpc', '$utils', '$alerts', '$modals',
+.controller('MainCtrl', [
+  '$scope', '$name', '$rpc', '$utils', '$alerts', '$modals',
   '$fileSettings', '$activeInclude', '$waitingExclude',
   // for document title
   '$window',
 function(
-  scope, rpc, utils, alerts, modals,
+  scope, name, rpc, utils, alerts, modals,
   fsettings, activeInclude, waitingExclude, window
 ) {
+
+  scope.name = name;
 
   var re_slashes = /\\/g;
   var slash = "/";

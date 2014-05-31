@@ -5,19 +5,16 @@ angular
   'webui.services.settings', 'webui.services.utils'
 ])
 .controller('NavCtrl', [
-  '$scope', '$name', '$modals',
+  '$scope', '$modals',
   '$rpc', '$rpchelpers', '$fileSettings',
   '$globalSettings', '$globalExclude',
   '$utils',
   function(
-    scope, name, modals,
+    scope, modals,
     rpc, rhelpers, fsettings,
     gsettings, gexclude,
     utils
   ) {
-
-  // app name
-  scope.name = name;
 
   scope.isFeatureEnabled = function(f) { return rhelpers.isFeatureEnabled(f) };
 
@@ -82,7 +79,7 @@ angular
         for (var i in sets) {
           if (gexclude.indexOf(i) != -1) continue;
 
-          settings[i] = sets[i];
+          settings[i] = _.cloneDeep(sets[i]);
           settings[i].starred = starred.indexOf(i) != -1;
         }
       });
@@ -101,7 +98,7 @@ angular
 
       modals.invoke(
         'settings', settings,
-        'Global Settings', function(settings) {
+        'Global Settings', 'Save', function(settings) {
 
         var sets = {};
         var starred = [];
@@ -130,5 +127,5 @@ angular
       'about'
     );
   }
-  
+
 }]);

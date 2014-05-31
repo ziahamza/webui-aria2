@@ -29,13 +29,14 @@ angular
   "ui.bootstrap", 'webui.services.deps', 'webui.services.modals', 'webui.services.rpc'
 ])
 .controller('ModalCtrl', [
-  '$_', '$scope', '$modal', "$modals", '$rpc',
-  function(_, scope, $modal, modals, rpc) {
+  '$_', '$scope', '$modal', "$modals", '$rpc','$fileSettings',
+  function(_, scope, $modal, modals, rpc, fsettings) {
 
   scope.getUris = {
     open: function(cb) {
       var self = this;
       this.uris = "";
+      this.settings = {};
       this.cb = cb;
       this.inst = $modal.open({
         templateUrl: "getUris.html",
@@ -44,11 +45,31 @@ angular
       this.inst.result.then(function() {
         delete self.inst;
         if (self.cb) {
-          self.cb(self.parse());
+          var settings = {};
+          for (var i in self.settings) {
+            settings[i] = self.settings[i].val;
+          }
+
+          console.log('sending settings:', settings);
+          self.cb(self.parse(), settings);
         }
       },
       function() {
         delete self.inst;
+      });
+    },
+    advance_opts: function() {
+      var self = this;
+      modals.invoke(
+        'settings', _.cloneDeep(fsettings),
+        'Advance Download Options', 'Add', function(settings) {
+
+        for (var i in settings) {
+          if (fsettings[i].val != settings[i].val)
+            self.settings[i] = settings[i]
+        };
+
+        console.log('got back new settings:', self.settings);
       });
     },
     parse: function() {
@@ -61,10 +82,11 @@ angular
   };
 
   scope.settings = {
-    open: function(settings, title, cb) {
+    open: function(settings, title, actionText, cb) {
       var self = this;
       this.settings = settings;
       this.title = title;
+      this.actionText = actionText;
       this.inst = $modal.open({
         templateUrl: "settings.html",
         scope: scope
@@ -108,6 +130,7 @@ angular
       open: function(cb) {
         var self = this;
         this.files = [];
+        this.settings = {};
         this.inst = $modal.open({
           templateUrl: name + ".html",
           scope: scope
@@ -116,12 +139,32 @@ angular
           delete self.inst;
           if (cb) {
             parseFiles(self.files, function(txts) {
-              cb(txts);
+              var settings = {};
+              for (var i in self.settings) {
+                settings[i] = self.settings[i].val;
+              }
+
+              console.log('sending settings:', settings);
+              cb(txts, settings);
             });
           }
         },
         function() {
           delete self.inst;
+        });
+      },
+      advance_opts: function() {
+        var self = this;
+        modals.invoke(
+          'settings', _.cloneDeep(fsettings),
+          'Advance Download Options', 'Add', function(settings) {
+
+          for (var i in settings) {
+            if (fsettings[i].val != settings[i].val)
+              self.settings[i] = settings[i]
+          };
+
+          console.log('got back new settings:', self.settings);
         });
       }
     };
