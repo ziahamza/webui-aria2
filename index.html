@@ -216,7 +216,7 @@
 <!-- }}} -->
 
 <!-- {{{ body -->
-<div role="main" class="container">
+<div role="main" class="container-fluid">
 
   <!-- {{{ alerts -->
   <div ng-controller="AlertCtrl" class="row alerts">
@@ -227,325 +227,350 @@
   </div>
   <!-- }}} -->
 
-  <!-- {{{ downloads -->
-  <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
-  <div ng-show="!totalAria2Downloads()" class="hero-unit">
-    Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
+<div class="row-fluid">
+  <div class="span3">
+    <!-- {{{ nav side bar -->
+    <div class="well sidebar-nav">
+      <ul id="filters" class="clearfix nav nav-list">
+        <li class="nav-header">Download Filters</li>
+        <li>
+          <label for="filter-speed">
+            <input type="checkbox" ng-model="filterSpeed" ng-change="persistFilters()" id="filter-speed">
+            Running
+          </label>
+        </li>
+        <li class="active">
+          <label for="filter-active">
+            <input type="checkbox" ng-model="filterActive" ng-change="persistFilters()" id="filter-active">
+            Active
+          </label>
+        </li>
+        <li>
+          <label for="filter-waiting">
+            <input type="checkbox" ng-model="filterWaiting" ng-change="persistFilters()" id="filter-waiting">
+            Waiting
+          </label>
+        </li>
+        <li>
+          <label for="filter-complete">
+            <input type="checkbox" ng-model="filterComplete" ng-change="persistFilters()" id="filter-complete">
+            Complete
+          </label>
+        </li>
+        <li>
+          <label for="filter-error">
+            <input type="checkbox" ng-model="filterError" ng-change="persistFilters()" id="filter-error">
+            Error
+          </label>
+        </li>
+        <li>
+          <label for="filter-paused">
+            <input type="checkbox" ng-model="filterPaused" ng-change="persistFilters()" id="filter-paused">
+            Paused
+          </label>
+        </li>
+        <li>
+          <label for="filter-removed">
+            <input type="checkbox" ng-model="filterRemoved" ng-change="persistFilters()" id="filter-removed">
+            Removed
+          </label>
+        </li>
+        <li>
+          <label><input type="checkbox" ng-model="hideLinkedMetadata" id="hide-linked-metadata"> Hide linked meta-data</label>
+          <p>
+          Displaying <strong>{{totalDownloads}}</strong> of <em>{{totalAria2Downloads()}}</em> downloads
+          </p>
+          <p>
+            <button ng-click="toggleStateFilters()" class="btn btn-default btn-mini">Toggle</button>
+            <button ng-click="resetFilters()" class="btn btn-default btn-mini">Reset filters</button>
+          </p>
+        </li>
+      </ul>
+
+      <ul class="clearfix nav nav-list" ng-controller="StarredPropsCtrl" ng-show="properties.length">
+
+        <li class="nav-header">Quick Access Settings</li>
+        <li ng-repeat="prop in properties">
+          <label title="{{prop.desc}}">
+            <div>{{prop.name}}</div>
+            <div class="control-group">
+              <select style="width: 100%;" ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val"></select>
+              <input style="width: 100%;" ng-show="!prop.options.length" type="text" class="input-large" ng-model="prop.val"/>
+            </div>
+          </label>
+        </li>
+        <li>
+          <button ng-disabled="!enabled()" ng-click="save()" class="btn btn-small">Save settings</button>
+        </li>
+      </ul>
+    </div>
+    <!-- }}} -->
   </div>
 
-  <!-- {{{ global statistics -->
-  <div ng-class="{'large-graph': large_graph}" id="download-graph" class="download-graph"
-    dspeed="gstats.downloadSpeed"
-    uspeed="gstats.uploadSpeed"
-    dgraph ng-show="totalAria2Downloads()"
-    draw="true"
-    ng-click="large_graph = !large_graph">
-  </div>
-  <!-- }}} -->
+  <div class="span9">
+    <!-- {{{ downloads -->
+    <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
+    <div ng-show="!totalAria2Downloads()" class="hero-unit">
+      Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
+    </div>
 
-  <!-- {{{ download template -->
-  <form id="filters" class="clearfix">
-    <fieldset>
-      <p>
-        <label for="filter-speed">
-          <input type="checkbox" ng-model="filterSpeed" ng-change="persistFilters()" id="filter-speed">
-          Running
-        </label>
-        <label for="filter-active">
-          <input type="checkbox" ng-model="filterActive" ng-change="persistFilters()" id="filter-active">
-          Active
-        </label>
-        <label for="filter-waiting">
-          <input type="checkbox" ng-model="filterWaiting" ng-change="persistFilters()" id="filter-waiting">
-          Waiting
-        </label>
-        <label for="filter-complete">
-          <input type="checkbox" ng-model="filterComplete" ng-change="persistFilters()" id="filter-complete">
-          Complete
-        </label>
-        <label for="filter-error">
-          <input type="checkbox" ng-model="filterError" ng-change="persistFilters()" id="filter-error">
-          Error
-        </label>
-        <label for="filter-paused">
-          <input type="checkbox" ng-model="filterPaused" ng-change="persistFilters()" id="filter-paused">
-          Paused
-        </label>
-        <label for="filter-removed">
-          <input type="checkbox" ng-model="filterRemoved" ng-change="persistFilters()" id="filter-removed">
-          Removed
-        </label>
-        <button ng-click="toggleStateFilters()" class="btn btn-default btn-mini">Toggle</button>
-      </p>
-      <p>
-        <label><input type="checkbox" ng-model="hideLinkedMetadata" id="hide-linked-metadata"> Hide linked meta-data</label>
-      </p>
-      <p>
-        Displaying <strong>{{totalDownloads}}</strong> of <em>{{totalAria2Downloads()}}</em> downloads
-        &nbsp;<button ng-click="resetFilters()" class="btn btn-default btn-mini">Reset filters</button>
-      </p>
-    </fieldset>
-  </form>
+    <!-- {{{ global statistics -->
+    <div ng-class="{'large-graph': large_graph}" id="download-graph" class="download-graph"
+      dspeed="gstats.downloadSpeed"
+      uspeed="gstats.uploadSpeed"
+      dgraph ng-show="totalAria2Downloads()"
+      draw="true"
+      ng-click="large_graph = !large_graph">
+    </div>
+    <!-- }}} -->
 
-  <div class="pagination pagination-right" ng-show="totalDownloads > pageSize">
-    <pagination
-      total-items="totalDownloads"
-      items-per-page="pageSize"
-      max-size="6"
-      page="currentPage"
-      boundary-links="true"
-      previous-text="&lsaquo;"
-      next-text="&rsaquo;"
-      first-text="&laquo;"
-      last-text="&raquo;"
-      >
-    </pagination>
-  </div>
+    <!-- {{{ download template -->
 
-  <table
-    ng-repeat="download in getDownloads()"
-    class="row download" data-gid="{{download.gid}}">
-    <tbody>
-    <tr>
-      <td class="download-name download-item" ng-click="download.collapsed = !download.collapsed">
-        <i class="icon-magnet" style="color: red;" ng-show="download.metadata"></i> {{download.name}}
-      </td>
-      <td class="download-controls download-item" rowspan="2">
-        <!-- {{{ download control buttons -->
-        <div class="btn-group">
-          <button
-            ng-show="hasStatus(download, ['active', 'waiting'])"
-            class="btn"
-            ng-click="pause(download)">
-            <i class="icon-pause"></i>
-          </button>
+    <table
+      ng-repeat="download in getDownloads()"
+      class="row download" data-gid="{{download.gid}}">
+      <tbody>
+      <tr>
+        <td class="download-name download-item" ng-click="download.collapsed = !download.collapsed">
+          <i class="icon-magnet" style="color: red;" ng-show="download.metadata"></i> {{download.name}}
+        </td>
+        <td class="download-controls download-item" rowspan="2">
+          <!-- {{{ download control buttons -->
+          <div class="btn-group">
+            <button
+              ng-show="hasStatus(download, ['active', 'waiting'])"
+              class="btn"
+              ng-click="pause(download)">
+              <i class="icon-pause"></i>
+            </button>
 
-          <button
-            ng-show="hasStatus(download, 'paused')"
-            class="btn"
-            ng-click="resume(download)">
-            <i class="icon-play"></i>
-          </button>
+            <button
+              ng-show="hasStatus(download, 'paused')"
+              class="btn"
+              ng-click="resume(download)">
+              <i class="icon-play"></i>
+            </button>
 
-          <button
-            class="btn hidden-phone"
-            ng-click="remove(download)">
-            <i class="icon-stop"></i>
-          </button>
+            <button
+              class="btn hidden-phone"
+              ng-click="remove(download)">
+              <i class="icon-stop"></i>
+            </button>
 
-          <button
-            class="btn hidden-phone"
-            ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-            ng-click="showSettings(download)">
-            <i class="icon-cog"></i>
-          </button>
+            <button
+              class="btn hidden-phone"
+              ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
+              ng-click="showSettings(download)">
+              <i class="icon-cog"></i>
+            </button>
 
-          <button class="btn dropdown-toggle">
-            <i class="caret"></i>
-          </button>
-          <ul class="dropdown-menu">
+            <button class="btn dropdown-toggle">
+              <i class="caret"></i>
+            </button>
+            <ul class="dropdown-menu">
 
-            <li class="visible-phone">
-              <a
-                ng-click="showSettings(download)"
-                ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-                href="#"><i class="icon-cog">&nbsp;</i> Settings</a>
-            </li>
+              <li class="visible-phone">
+                <a
+                  ng-click="showSettings(download)"
+                  ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
+                  href="#"><i class="icon-cog">&nbsp;</i> Settings</a>
+              </li>
 
-            <li ng-show="download.bittorrent && false">
-              <a href="#"><i class="icon-list-alt">&nbsp;</i> Peers</a>
-            </li>
+              <li ng-show="download.bittorrent && false">
+                <a href="#"><i class="icon-list-alt">&nbsp;</i> Peers</a>
+              </li>
 
-            <li>
-              <a ng-click="download.collapsed = !download.collapsed"
-                 href="#"><i class="icon-info-sign">&nbsp;</i> More Info</a>
-            </li>
+              <li>
+                <a ng-click="download.collapsed = !download.collapsed"
+                   href="#"><i class="icon-info-sign">&nbsp;</i> More Info</a>
+              </li>
 
-            <li class="visible-phone">
-              <a ng-click="remove(download)"
-                 href="#"><i class="icon-remove">&nbsp;</i> Remove</a>
-            </li>
-          </ul>
-        </div>
-        <!-- }}} -->
-      </td>
-    </tr>
-    <tr>
-      <td class="download-overview download-item" ng-click="download.collapsed = !download.collapsed" ng-switch="download.status">
-        <!-- {{{ statistics -->
-        <ul class="stats pull-left" ng-switch-when="active">
-          <!-- {{{ active download statistics -->
-          <li class="label label-active hidden-phone hidden-tablet">
-            <span title="Download status"><i class="icon-play">&nbsp;</i> {{download.status}}</span>
-          </li>
-
-          <li class="label" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
-            <span title="Download Speed"><i class="icon-download">&nbsp;</i> {{download.downloadSpeed | bspeed}}</span>
-          </li>
-
-          <li ng-show="download.bittorrent" class="label hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
-            <span title="Upload Speed"><i class="icon-upload">&nbsp;</i> {{download.uploadSpeed | bspeed}}</span>
-          </li>
-
-          <li class="label label-active">
-            <span title="Estimated time"><i class="icon-time">&nbsp;</i> {{getEta(download) | time}}</span>
-          </li>
-
-          <li class="label label-active hidden-phone">
-            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
-          </li>
-
-          <li class="label label-active hidden-phone">
-            <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
-          </li>
-
-          <li class="label label-active hidden-phone hidden-tablet">
-            <span title="Progress"><i class="icon-chevron-right">&nbsp;</i> {{getProgress(download)}}%</span>
-          </li>
-
-          <!-- }}} -->
-        </ul>
-
-        <ul class="stats pull-left" ng-switch-when="paused">
-          <!-- {{{ paused download statistics -->
-          <li class="label label-info">
-            <span title="Download Status"><i class="icon-pause">&nbsp;</i> {{download.status}}</span>
-          </li>
-
-          <li class="label label-info">
-            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
-          </li>
-
-          <li class="label label-info hidden-phone">
-            <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
-          </li>
-
-          <li class="label label-info hidden-phone">
-            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
-          </li>
-
-          <!--  }}} -->
-        </ul>
-
-        <ul class="stats pull-left" ng-switch-when="waiting">
-          <!-- {{{ paused download statistics -->
-          <li class="label">
-            <span title="Download Status"><i class="icon-caret-right">&nbsp;</i> {{download.status}}</span>
-          </li>
-
-          <li class="label">
-            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
-          </li>
-
-          <li class="label hidden-phone">
-            <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
-          </li>
-
-          <li class="label hidden-phone">
-            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
-          </li>
-
-          <!--  }}} -->
-        </ul>
-
-        <ul class="stats pull-left" ng-switch-when="complete">
-          <!-- {{{ complete download statistics -->
-
-          <li class="label label-success">
-            <span title="Download Status"><i class="icon-check">&nbsp;</i> {{download.status}}</span>
-          </li>
-
-          <li class="label label-success">
-            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
-          </li>
-
-          <li class="label label-success hidden-phone">
-            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
-          </li>
-
-          <!-- }}} -->
-        </ul>
-
-        <ul class="stats pull-left" ng-switch-when="removed">
-          <!-- {{{ removed download statistics -->
-          <li class="label label-warning">
-            <span title="Download Status"><i class="icon-remove">&nbsp;</i> {{download.status}}</span>
-          </li>
-
-          <li class="label label-warning">
-            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
-          </li>
-
-          <li class="label label-warning hidden-phone">
-            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
-          </li>
-
-          <!-- }}} -->
-        </ul>
-
-        <ul class="stats pull-left" ng-switch-when="error">
-          <!-- {{{ error download statistics -->
-          <li class="label label-important">
-            <span title="Download Status"><i class="icon-remove-sign">&nbsp;</i> {{download.status}}</span>
-          </li>
-
-          <li class="label label-important">
-            <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
-          </li>
-
-          <li class="label label-important hidden-phone">
-            <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
-          </li>
-
-          <!-- }}} -->
-        </ul>
-
-        <!-- }}} -->
-      </td>
-    </tr>
-    <tr>
-      <td class="download-progress download-item" colspan="2" ng-click="download.collapsed = !download.collapsed">
-        <div class="progress progress-striped" ng-class="getProgressClass(download)">
-          <div class="bar" style="width: {{getProgress(download)}}%;"></div>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" ng-click="download.collapsed = !download.collapsed" ng-switch="download.collapsed">
-        <div collapse="download.collapsed">
-          <div class="download-item" ng-show="download.numPieces > 1">
-            <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
+              <li class="visible-phone">
+                <a ng-click="remove(download)"
+                   href="#"><i class="icon-remove">&nbsp;</i> Remove</a>
+              </li>
+            </ul>
           </div>
-          <ul class="stats download-item">
-            <li class="label" title="Estimated Time"><i class="icon-time">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
-            <li class="label" title="Download Size"><i class="icon-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
-            <li class="label" title="Downloaded"><i class="icon-download-alt">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
-            <li class="label" title="Download Speed"><i class="icon-download">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
+          <!-- }}} -->
+        </td>
+      </tr>
+      <tr>
+        <td class="download-overview download-item" ng-click="download.collapsed = !download.collapsed" ng-switch="download.status">
+          <!-- {{{ statistics -->
+          <ul class="stats pull-left" ng-switch-when="active">
+            <!-- {{{ active download statistics -->
+            <li class="label label-active hidden-phone hidden-tablet">
+              <span title="Download status"><i class="icon-play">&nbsp;</i> {{download.status}}</span>
+            </li>
 
-            <li class="label" title="Upload Speed" ng-show="download.bittorrent"><i class="icon-upload">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
-            <li class="label" title="Uploaded" ng-show="download.bittorrent"><i class="icon-upload-alt">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
+            <li class="label" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
+              <span title="Download Speed"><i class="icon-download">&nbsp;</i> {{download.downloadSpeed | bspeed}}</span>
+            </li>
 
-            <li class="label" title="Connections"><i class="icon-link">&nbsp;</i> <span class="download-connections">{{download.connections}}</span></li>
+            <li ng-show="download.bittorrent" class="label hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
+              <span title="Upload Speed"><i class="icon-upload">&nbsp;</i> {{download.uploadSpeed | bspeed}}</span>
+            </li>
 
-            <li class="label" title="Download GID"><i class="icon-reorder">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
-            <li class="label" title="Number of Pieces"># of <i class="icon-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
-            <li class="label" title="Piece Length"><i class="icon-puzzle-piece"></i> Length&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
-            <li class="label" title="Download Path"><i class="icon-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
+            <li class="label label-active">
+              <span title="Estimated time"><i class="icon-time">&nbsp;</i> {{getEta(download) | time}}</span>
+            </li>
+
+            <li class="label label-active hidden-phone">
+              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+            </li>
+
+            <li class="label label-active hidden-phone">
+              <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
+            </li>
+
+            <li class="label label-active hidden-phone hidden-tablet">
+              <span title="Progress"><i class="icon-chevron-right">&nbsp;</i> {{getProgress(download)}}%</span>
+            </li>
+
+            <!-- }}} -->
           </ul>
-          <ul class="download-files hidden-phone download-item">
-            <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.fmtLength}})</li>
+
+          <ul class="stats pull-left" ng-switch-when="paused">
+            <!-- {{{ paused download statistics -->
+            <li class="label label-info">
+              <span title="Download Status"><i class="icon-pause">&nbsp;</i> {{download.status}}</span>
+            </li>
+
+            <li class="label label-info">
+              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+            </li>
+
+            <li class="label label-info hidden-phone">
+              <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
+            </li>
+
+            <li class="label label-info hidden-phone">
+              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+            </li>
+
+            <!--  }}} -->
           </ul>
-          <div ng-show="hasStatus(download, 'active')" class="download-item hidden-phone">
-            <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph draw="!download.collapsed"></div>
+
+          <ul class="stats pull-left" ng-switch-when="waiting">
+            <!-- {{{ paused download statistics -->
+            <li class="label">
+              <span title="Download Status"><i class="icon-caret-right">&nbsp;</i> {{download.status}}</span>
+            </li>
+
+            <li class="label">
+              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+            </li>
+
+            <li class="label hidden-phone">
+              <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
+            </li>
+
+            <li class="label hidden-phone">
+              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+            </li>
+
+            <!--  }}} -->
+          </ul>
+
+          <ul class="stats pull-left" ng-switch-when="complete">
+            <!-- {{{ complete download statistics -->
+
+            <li class="label label-success">
+              <span title="Download Status"><i class="icon-check">&nbsp;</i> {{download.status}}</span>
+            </li>
+
+            <li class="label label-success">
+              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+            </li>
+
+            <li class="label label-success hidden-phone">
+              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+            </li>
+
+            <!-- }}} -->
+          </ul>
+
+          <ul class="stats pull-left" ng-switch-when="removed">
+            <!-- {{{ removed download statistics -->
+            <li class="label label-warning">
+              <span title="Download Status"><i class="icon-remove">&nbsp;</i> {{download.status}}</span>
+            </li>
+
+            <li class="label label-warning">
+              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+            </li>
+
+            <li class="label label-warning hidden-phone">
+              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+            </li>
+
+            <!-- }}} -->
+          </ul>
+
+          <ul class="stats pull-left" ng-switch-when="error">
+            <!-- {{{ error download statistics -->
+            <li class="label label-important">
+              <span title="Download Status"><i class="icon-remove-sign">&nbsp;</i> {{download.status}}</span>
+            </li>
+
+            <li class="label label-important">
+              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+            </li>
+
+            <li class="label label-important hidden-phone">
+              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+            </li>
+
+            <!-- }}} -->
+          </ul>
+
+          <!-- }}} -->
+        </td>
+      </tr>
+      <tr>
+        <td class="download-progress download-item" colspan="2" ng-click="download.collapsed = !download.collapsed">
+          <div class="progress progress-striped" ng-class="getProgressClass(download)">
+            <div class="bar" style="width: {{getProgress(download)}}%;"></div>
           </div>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-  </table>
-  <!-- }}} -->
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" ng-click="download.collapsed = !download.collapsed" ng-switch="download.collapsed">
+          <div collapse="download.collapsed">
+            <div class="download-item" ng-show="download.numPieces > 1">
+              <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
+            </div>
+            <ul class="stats download-item">
+              <li class="label" title="Estimated Time"><i class="icon-time">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
+              <li class="label" title="Download Size"><i class="icon-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
+              <li class="label" title="Downloaded"><i class="icon-download-alt">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
+              <li class="label" title="Download Speed"><i class="icon-download">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
 
-  <!-- }}} -->
+              <li class="label" title="Upload Speed" ng-show="download.bittorrent"><i class="icon-upload">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
+              <li class="label" title="Uploaded" ng-show="download.bittorrent"><i class="icon-upload-alt">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
+
+              <li class="label" title="Connections"><i class="icon-link">&nbsp;</i> <span class="download-connections">{{download.connections}}</span></li>
+
+              <li class="label" title="Download GID"><i class="icon-reorder">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
+              <li class="label" title="Number of Pieces"># of <i class="icon-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
+              <li class="label" title="Piece Length"><i class="icon-puzzle-piece"></i> Length&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
+              <li class="label" title="Download Path"><i class="icon-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
+            </ul>
+            <ul class="download-files hidden-phone download-item">
+              <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.fmtLength}})</li>
+            </ul>
+            <div ng-show="hasStatus(download, 'active')" class="download-item hidden-phone">
+              <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph draw="!download.collapsed"></div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+    <!-- }}} -->
+
+    <!-- }}} -->
+  </div>
 
   <!-- {{{ download pagination -->
   <div class="pagination pagination-right" ng-show="totalDownloads > pageSize">
@@ -564,26 +589,7 @@
   </div>
   <!-- }}} -->
 
-  <!-- starred properties {{{ -->
-  <div ng-controller="StarredPropsCtrl" ng-show="properties.length">
-    <h3>Quick Access Settings</h3>
-    <form class="row">
-      <fieldset>
-        <div class="span4" ng-repeat="prop in properties">
-          <label title="{{prop.desc}}">
-            <div>{{prop.name}}</div>
-            <div>
-              <select ng-show="prop.options.length" ng-options="opt for opt in prop.options" ng-model="prop.val"></select>
-              <input ng-show="!prop.options.length" typ="text" class="input-large" ng-model="prop.val"/>
-            </div>
-          </label>
-        </div>
-        <div class="span12" style="margin-top: 1ex"><button ng-disabled="!enabled()" ng-click="save()" class="btn btn-small">Save settings</button></div>
-      </fieldset>
-    </form>
-  </div>
-  <!--}}} -->
-
+</div>
 </div>
 
 <!-- }}} -->
