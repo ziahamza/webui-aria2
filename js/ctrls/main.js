@@ -36,6 +36,38 @@ function(
     rpc.once('unpause', [d.gid]);
   }
 
+  scope.restart = function(d) {
+    // assumes downloads which are started by URIs, not torrents.
+    // the preferences are also not transferred, just simple restart
+
+    rpc.once('getFiles', [d.gid], function(data) {
+      var files = data[0];
+      var uris =
+        _.chain(files).map(function(f) { return f.uris })
+        .filter(function(uris) { return uris && uris.length })
+        .map(function(uris) {
+          var u = _.chain(uris)
+            .map(function(u) { return u.uri })
+            .uniq().value();
+          return u;
+        }).value();
+
+      if (uris.length > 0) {
+        console.log('adding uris:', uris);
+        scope.remove(d, function() {
+          rpc.once('addUri', uris, angular.noop, true);
+        }, true);
+      }
+    });
+  }
+
+
+
+  scope.canRestart = function(d) {
+    return (['active', 'paused'].indexOf(d.status) == -1
+      && !d.bittorrent);
+  }
+
   // remove the download,
   // put it in stopped list if active,
   // otherwise permanantly remove it
@@ -44,6 +76,7 @@ function(
     if (!noConfirm && !confirm("Remove %s and associated meta-data?".replace("%s", d.name))) {
       return;
     }
+
     var method = 'remove';
 
     if (scope.getType(d) == 'stopped')
@@ -56,7 +89,7 @@ function(
     rpc.once(method, [d.gid], cb);
   }
 
-  // start filling in the model of active,
+// start filling in the model of active,
   // waiting and stopped download
   rpc.subscribe('tellActive', [], function(data) {
     scope.$apply(function() {

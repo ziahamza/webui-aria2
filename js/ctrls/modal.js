@@ -74,7 +74,7 @@ angular
     },
     parse: function() {
       return _
-        .chain(this.uris.trim().split(/\n\r?/g))
+        .chain(this.uris.trim().split(/\r?\n/g))
         .map(function(d) { return d.trim().split(/\s+/g) })
         .filter(function(d) { return d.length })
         .value();
