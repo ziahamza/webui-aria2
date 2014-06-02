@@ -56,7 +56,7 @@ angular
         show: true,
         mode: "time",
         timeformat: xfmt,
-        minTickSize: [30, "second"] // 180 / 30 == 6
+        minTickSize: [+attrs.minTickSize || 30, "second"] // 180 / 30 == 6
       },
       yaxis: {
         position: "right",
