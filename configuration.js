@@ -1,7 +1,7 @@
 angular
 .module('webui.services.configuration',  [])
 .constant('$name', 'webui-aria2')  // name used accross the entire UI
-.constant('$globalTimeout', 1000)  // interval to update the individual downloads
+.constant('$pageSize', 11)         // number of downloads shown before pagination kicks in
 .constant('$authconf', {           // default authentication configuration, never fill it in case the webui is hosted in public IP as it can be compromised
   host: 'localhost',
   port: 6800,
@@ -32,6 +32,7 @@ angular
   // go to Global Settings dialog to see their description
   'dir', 'conf-path', 'auto-file-renaming', 'max-connection-per-server',
 ])
+.constant('$globalTimeout', 1000)  // interval to update the individual downloads
 ;
 
 

@@ -6,12 +6,13 @@ angular
 ])
 .controller('MainCtrl', [
   '$scope', '$name', '$enable', '$rpc', '$utils', '$alerts', '$modals',
-  '$fileSettings', '$activeInclude', '$waitingExclude',
+  '$fileSettings', '$activeInclude', '$waitingExclude', '$pageSize',
   // for document title
   '$window',
 function(
   scope, name, enable, rpc, utils, alerts, modals,
-  fsettings, activeInclude, waitingExclude, window
+  fsettings, activeInclude, waitingExclude, pageSize,
+  window
 ) {
 
   scope.name = name;   // default UI name
@@ -244,7 +245,7 @@ function(
 
 
   // max downloads shown in one page
-  scope.pageSize = 32;
+  scope.pageSize = pageSize;
 
   // current displayed page
   scope.currentPage = 1;
