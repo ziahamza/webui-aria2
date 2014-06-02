@@ -75,8 +75,6 @@
   <script src="js/ctrls/nav.js"></script>
   <script src="js/ctrls/alert.js"></script>
   <script src="js/ctrls/props.js"></script>
-
-
 </head>
 <!-- }}} -->
 
@@ -231,6 +229,8 @@
   <div class="span3">
     <!-- {{{ nav side bar -->
     <div class="well sidebar-nav">
+
+      <!-- {{{ download filters -->
       <ul id="filters" class="clearfix nav nav-list">
         <li class="nav-header">Download Filters</li>
         <li>
@@ -286,9 +286,12 @@
           </p>
         </li>
       </ul>
+      <!-- }}} -->
 
+      <br>
+
+      <!-- {{{ starred properties -->
       <ul class="clearfix nav nav-list" ng-controller="StarredPropsCtrl" ng-show="properties.length">
-
         <li class="nav-header">Quick Access Settings</li>
         <li ng-repeat="prop in properties">
           <label title="{{prop.desc}}">
@@ -303,6 +306,26 @@
           <button ng-disabled="!enabled()" ng-click="save()" class="btn btn-small">Save settings</button>
         </li>
       </ul>
+      <!-- }}} -->
+
+      <br>
+
+      <!-- {{{ global statistics -->
+      <ul class="nav nav-list">
+        <li class="nav-header">Global Statistics</li>
+        <li>
+          <div
+            dspeed="gstats.downloadSpeed"
+            uspeed="gstats.uploadSpeed"
+            dgraph ng-show="totalAria2Downloads()"
+            nolabel="true"
+            draw="true">
+          </div>
+        </li>
+      </ul>
+      <!-- }}} -->
+
+
     </div>
     <!-- }}} -->
   </div>
@@ -314,15 +337,6 @@
       Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
     </div>
 
-    <!-- {{{ global statistics -->
-    <div ng-class="{'large-graph': large_graph}" id="download-graph" class="download-graph"
-      dspeed="gstats.downloadSpeed"
-      uspeed="gstats.uploadSpeed"
-      dgraph ng-show="totalAria2Downloads()"
-      draw="true"
-      ng-click="large_graph = !large_graph">
-    </div>
-    <!-- }}} -->
 
     <!-- {{{ download template -->
 

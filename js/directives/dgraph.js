@@ -39,10 +39,9 @@ angular
 
     // hack for the null height for flot elem
     elem.height(elem.width() * ratio);
-
     var graph = $.plot(elem, [dconf, uconf], {
       legend: {
-        show: true,
+        show: (attrs.nolabel == undefined),
         backgroundOpacity: 0,
         margin: [10, 20],
         labelFormatter: function(label, series) {
