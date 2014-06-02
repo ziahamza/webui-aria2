@@ -1,7 +1,7 @@
 webui-aria2
 ===========
 
-![Main interface](/screenshot/overview.png?raw=true)
+![Main interface](/screenshots/overview.png?raw=true)
 
 The aim for this project is to create the worlds best and hottest interface to interact with aria2. aria2 is the worlds best file downloader, but sometimes the command line brings more power than necessary. The project was created as part of the GSOC scheme with tremendous support and feedback from the aria2 community.
 
