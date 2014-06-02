@@ -1,23 +1,28 @@
 angular
 .module('webui.services.rpc', [
-  'webui.services.rpc.syscall', 'webui.services.constants', 'webui.services.alerts',
+  'webui.services.rpc.syscall', 'webui.services.configuration', 'webui.services.alerts',
   'webui.services.utils'
 ])
 .factory('$rpc', [
   '$syscall', '$globalTimeout', '$alerts', '$utils',
-  '$rootScope', '$location',
-function(syscall, time, alerts, utils, rootScope, uri) {
+  '$rootScope', '$location', '$authconf',
+function(syscall, time, alerts, utils, rootScope, uri, authconf) {
 
   var subscriptions = []
-    , configurations = [{ host: 'localhost', port: 6800, encrypt: false }]
+    , configurations = [authconf]
     , currentConf = {}
     , currentToken
     , timeout = null
     , forceNextUpdate = false;
 
+  var cookieConf = utils.getCookie('aria2conf');
+
+  // try at the start, so that it is presistant even when default authconf works
+  if (cookieConf) configurations.push(cookieConf);
+
   if (['http', 'https'].indexOf(uri.protocol()) != -1 && uri.host() != 'localhost') {
     console.log(uri.host());
-    configurations.unshift({
+    configurations.push({
       host: uri.host(),
       port: 6800,
       encrypt: false
@@ -25,10 +30,6 @@ function(syscall, time, alerts, utils, rootScope, uri) {
     console.log(configurations);
   }
 
-  var cookieConf = utils.getCookie('aria2conf');
-
-  // try at the end, so that it is not overwridden in case it doesnt work
-  if (cookieConf) configurations.unshift(cookieConf);
 
   // update is implemented such that
   // only one syscall at max is ongoing

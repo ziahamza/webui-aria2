@@ -7,6 +7,7 @@ angular
   var ratio = 0.4;
   var xfmt = "%H:%M:%S";
   var yTicks = 7; // Number of y-axis ticks (sans 0)
+  var xticks = 10; // Number of x-axis ticks (sans 0)
   var yTickBase = 10240; // y-axis ticks must be a multiple of this (bytes).
   try {
     // Try to detect AM/PM locales.
@@ -56,21 +57,25 @@ angular
         show: true,
         mode: "time",
         timeformat: xfmt,
-        minTickSize: [+attrs.minTickSize || 30, "second"] // 180 / 30 == 6
+        ticks: +attrs.xticks || xticks,  // allow users of the directive to overwride xticks
+        minTickSize: [30, "second"] // 180 / 30 == 6
       },
       yaxis: {
         position: "right",
         ticks: function(axis) {
           var res = [0];
-          var round = Math.max(1, Math.ceil(axis.max / yTickBase));
-          var step = Math.max(1, Math.ceil(round / yTicks));
-          for (var s = 1; s <= yTicks; ++s) {
-            var c = yTickBase * step * s;
-            res.push(c);
-            if (c > axis.max) {
+          yt = +attrs.yticks || yticks; // allow users of directive to overwride yticks
+
+          var step = yTickBase * Math.max(1, Math.ceil(axis.max / (yt * yTickBase)))
+
+          for (var s = 0; s < yt; s++) {
+            var c = step * s;
+            if (c > axis.max)
               break;
-            }
+
+            res.push(step * s);
           }
+
           return res;
         },
         tickFormatter: function(val, axis) {

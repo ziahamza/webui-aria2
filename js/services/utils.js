@@ -1,4 +1,4 @@
-angular.module('webui.services.utils', ['webui.services.constants'])
+angular.module('webui.services.utils', ['webui.services.configuration'])
 .factory('$utils', ['$filter', "$name", function(filter, $name) {
   var rnd16 = (function() {
     "use strict";

@@ -2,19 +2,20 @@ angular
 .module('webui.ctrls.download', [
   "ui.bootstrap",
   'webui.services.utils', 'webui.services.rpc', 'webui.services.alerts',
-  'webui.services.settings', 'webui.services.modals'
+  'webui.services.settings', 'webui.services.modals', 'webui.services.configuration',
 ])
 .controller('MainCtrl', [
-  '$scope', '$name', '$rpc', '$utils', '$alerts', '$modals',
+  '$scope', '$name', '$enable', '$rpc', '$utils', '$alerts', '$modals',
   '$fileSettings', '$activeInclude', '$waitingExclude',
   // for document title
   '$window',
 function(
-  scope, name, rpc, utils, alerts, modals,
+  scope, name, enable, rpc, utils, alerts, modals,
   fsettings, activeInclude, waitingExclude, window
 ) {
 
-  scope.name = name;
+  scope.name = name;   // default UI name
+  scope.enable = enable; // UI enable options
 
   var re_slashes = /\\/g;
   var slash = "/";

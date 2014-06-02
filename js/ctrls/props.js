@@ -1,14 +1,15 @@
 angular.module('webui.ctrls.props', [
   'webui.services.utils', 'webui.services.settings', 'webui.services.deps',
-  'webui.services.rpc'
+  'webui.services.rpc', 'webui.services.configuration',
 ])
-.controller('StarredPropsCtrl', ['$scope', '$_', '$utils', '$rpc', '$globalSettings', '$fileSettings', function(scope, _, utils, rpc, gsettings, fsettings) {
+.controller('StarredPropsCtrl', ['$scope', '$_', '$utils', '$rpc', '$globalSettings', '$fileSettings', '$starredProps',
+  function(scope, _, utils, rpc, gsettings, fsettings, starredProps) {
   scope._props = [];
   scope.dirty = true;
   scope.properties = [];
   scope.getProps = function() {
     var props = utils.getCookie('aria2props');
-    if (!props || !props.indexOf) props = [];
+    if (!props || !props.indexOf) props = starredProps; // default properties starred in the global configuration file
 
     return props;
   };

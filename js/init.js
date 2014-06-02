@@ -1,6 +1,6 @@
 var webui = angular.module('webui', [
   'webui.services.utils', 'webui.services.deps', 'webui.services.base64',
-  'webui.services.constants', 'webui.services.rpc',
+  'webui.services.configuration', 'webui.services.rpc',
   'webui.services.modals', 'webui.services.alerts',
   'webui.services.settings', 'webui.services.settings.filters',
   'webui.filters.bytes',

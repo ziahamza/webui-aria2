@@ -45,6 +45,7 @@
 
   <!-- webui core -->
   <script src="js/init.js"></script>
+  <script src="configuration.js"></script>
 
   <script src="js/directives/chunkbar.js"></script>
   <script src="js/directives/dgraph.js"></script>
@@ -52,7 +53,6 @@
 
   <script src="js/filters/bytes.js"></script>
 
-  <script src="js/services/constants.js"></script>
   <script src="js/services/deps.js"></script>
   <script src="js/services/base64.js"></script>
   <script src="js/services/utils.js"></script>
@@ -112,12 +112,12 @@
               <i class="icon-download">&nbsp;</i> By URIs
             </a>
           </li>
-          <li ng-show="isFeatureEnabled('BitTorrent')">
+          <li ng-show="isFeatureEnabled('BitTorrent') && enable.torrent">
             <a href="#" ng-click="addTorrents()">
               <i class="icon-file">&nbsp;</i> By Torrents
             </a>
           </li>
-          <li ng-show="isFeatureEnabled('Metalink')">
+          <li ng-show="isFeatureEnabled('Metalink') && enable.metalink">
             <a href="#" ng-click="addMetalinks()">
               <i class="icon-file">&nbsp;</i> By Metalinks
             </a>
@@ -217,7 +217,7 @@
 <div role="main" class="container-fluid">
 
   <!-- {{{ alerts -->
-  <div ng-controller="AlertCtrl" class="row alerts">
+  <div ng-controller="AlertCtrl" class="row-fluid alerts">
     <div class="alert alert-{{alert.type}}" ng-repeat="alert in pendingAlerts">
       <span ng-bind-html="alert.msg"></span>
       <button type="button" class="close" ng-click="removeAlert($index)">x</button>
@@ -226,12 +226,12 @@
   <!-- }}} -->
 
 <div class="row-fluid">
-  <div class="span3">
+  <div ng-class="{'span3': enable.sidebar.show}" ng-if="enable.sidebar.show">
     <!-- {{{ nav side bar -->
     <div class="well sidebar-nav">
 
       <!-- {{{ download filters -->
-      <ul id="filters" class="clearfix nav nav-list">
+      <ul id="filters" class="clearfix nav nav-list" ng-if="enable.sidebar.filters">
         <li class="nav-header">Download Filters</li>
         <li>
           <label for="filter-speed">
@@ -291,7 +291,7 @@
       <br>
 
       <!-- {{{ starred properties -->
-      <ul class="clearfix nav nav-list" ng-controller="StarredPropsCtrl" ng-show="properties.length">
+      <ul class="clearfix nav nav-list" ng-controller="StarredPropsCtrl" ng-show="properties.length && enable.sidebar.starredProps">
         <li class="nav-header">Quick Access Settings</li>
         <li ng-repeat="prop in properties">
           <label title="{{prop.desc}}">
@@ -311,11 +311,12 @@
       <br>
 
       <!-- {{{ global statistics -->
-      <ul class="nav nav-list">
+      <ul class="nav nav-list" ng-if="enable.sidebar.stats">
         <li class="nav-header">Global Statistics</li>
         <li>
           <div
-            minTickSize="300"
+            yticks="3"
+            xticks="3"
             dspeed="gstats.downloadSpeed"
             uspeed="gstats.uploadSpeed"
             dgraph ng-show="totalAria2Downloads()"
@@ -331,7 +332,7 @@
     <!-- }}} -->
   </div>
 
-  <div class="span9">
+  <div ng-class="{'span9': enable.sidebar.show, 'span12': !enable.sidebar.show }">
     <!-- {{{ downloads -->
     <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
     <div ng-show="!totalAria2Downloads()" class="hero-unit">
@@ -343,7 +344,7 @@
 
     <table
       ng-repeat="download in getDownloads()"
-      class="row download" data-gid="{{download.gid}}">
+      class="row-fluid download" data-gid="{{download.gid}}">
       <tbody>
       <tr>
         <td class="download-name download-item" ng-click="download.collapsed = !download.collapsed">
@@ -582,7 +583,7 @@
               <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.fmtLength}})</li>
             </ul>
             <div ng-show="hasStatus(download, 'active')" class="download-item hidden-phone">
-              <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" dgraph draw="!download.collapsed"></div>
+              <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" xticks="7" yticks="7"  dgraph draw="!download.collapsed"></div>
             </div>
           </div>
         </td>

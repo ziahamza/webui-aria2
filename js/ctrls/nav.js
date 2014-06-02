@@ -1,6 +1,6 @@
 angular
 .module('webui.ctrls.nav', [
-  'webui.services.constants', 'webui.services.modals',
+  'webui.services.configuration', 'webui.services.modals',
   'webui.services.rpc', 'webui.services.rpc.helpers',
   'webui.services.settings', 'webui.services.utils'
 ])
@@ -104,12 +104,14 @@ angular
         var starred = [];
         for (var i in settings) {
           sets[i] = settings[i].val
+
           if (settings[i].starred) {
             starred.push(i);
           }
         };
 
         console.log('saving aria2 starred:', starred);
+
         rpc.once('changeGlobalOption', [sets]);
         utils.setCookie('aria2props', starred);
       });
