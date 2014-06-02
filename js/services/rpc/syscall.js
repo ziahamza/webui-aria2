@@ -18,13 +18,6 @@ function(log, jsonRPC, sockRPC, alerts) {
     //     pass (string): password for the http authentication if enabled
     //   }
     init: function(conf) {
-
-      conf = conf || {
-        host: 'localhost',
-        port: 6800
-      };
-      conf.encrypt = conf.encrypt || false;
-
       jsonRPC.init(conf);
       sockRPC.init(conf);
     },
