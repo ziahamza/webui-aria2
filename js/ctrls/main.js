@@ -1,16 +1,16 @@
 angular
 .module('webui.ctrls.download', [
   "ui.bootstrap",
-  'webui.services.utils', 'webui.services.rpc', 'webui.services.alerts',
+  'webui.services.utils', 'webui.services.rpc', 'webui.services.rpc.helpers', 'webui.services.alerts',
   'webui.services.settings', 'webui.services.modals', 'webui.services.configuration',
 ])
 .controller('MainCtrl', [
-  '$scope', '$name', '$enable', '$rpc', '$utils', '$alerts', '$modals',
+  '$scope', '$name', '$enable', '$rpc', '$rpchelpers', '$utils', '$alerts', '$modals',
   '$fileSettings', '$activeInclude', '$waitingExclude', '$pageSize',
   // for document title
   '$window',
 function(
-  scope, name, enable, rpc, utils, alerts, modals,
+  scope, name, enable, rpc, rhelpers, utils, alerts, modals,
   fsettings, activeInclude, waitingExclude, pageSize,
   window
 ) {
@@ -42,24 +42,27 @@ function(
     // assumes downloads which are started by URIs, not torrents.
     // the preferences are also not transferred, just simple restart
 
-    rpc.once('getFiles', [d.gid], function(data) {
-      var files = data[0];
-      var uris =
-        _.chain(files).map(function(f) { return f.uris })
-        .filter(function(uris) { return uris && uris.length })
-        .map(function(uris) {
-          var u = _.chain(uris)
-            .map(function(u) { return u.uri })
-            .uniq().value();
-          return u;
-        }).value();
+    rpc.once('getOption', [d.gid], function(data) {
+      var prefs = data[0];
+      rpc.once('getFiles', [d.gid], function(data) {
+        var files = data[0];
+        var uris =
+          _.chain(files).map(function(f) { return f.uris })
+          .filter(function(uris) { return uris && uris.length })
+          .map(function(uris) {
+            var u = _.chain(uris)
+              .map(function(u) { return u.uri })
+              .uniq().value();
+            return u;
+          }).value();
 
-      if (uris.length > 0) {
-        console.log('adding uris:', uris);
-        scope.remove(d, function() {
-          rpc.once('addUri', uris, angular.noop, true);
-        }, true);
-      }
+        if (uris.length > 0) {
+          console.log('adding uris:', uris, prefs);
+          scope.remove(d, function() {
+            rhelpers.addUris(uris, prefs);
+          }, true);
+        }
+      });
     });
   }
 
@@ -75,23 +78,27 @@ function(
   // otherwise permanantly remove it
   // d: the download ctx
   scope.remove = function(d, cb, noConfirm) {
-    if (!noConfirm && !confirm("Remove %s and associated meta-data?".replace("%s", d.name))) {
-      return;
-    }
+    // HACK to make sure an angular digest is not running, as only one can happen at a time, and confirm is a blocking
+    // call so an rpc response can also trigger a digest call
+    setTimeout(function() {
+      if (!noConfirm && !confirm("Remove %s and associated meta-data?".replace("%s", d.name))) {
+        return;
+      }
 
-    var method = 'remove';
+      var method = 'remove';
 
-    if (scope.getType(d) == 'stopped')
-      method = 'removeDownloadResult';
+      if (scope.getType(d) == 'stopped')
+        method = 'removeDownloadResult';
 
-    if (d.followedFrom) {
-      scope.remove(d.followedFrom, function() {}, true);
-      d.followedFrom = null;
-    }
-    rpc.once(method, [d.gid], cb);
+      if (d.followedFrom) {
+        scope.remove(d.followedFrom, function() {}, true);
+        d.followedFrom = null;
+      }
+      rpc.once(method, [d.gid], cb);
+    }, 0);
   }
 
-// start filling in the model of active,
+  // start filling in the model of active,
   // waiting and stopped download
   rpc.subscribe('tellActive', [], function(data) {
     scope.$apply(function() {
@@ -506,16 +513,17 @@ function(
     rpc.once('getOption', [d.gid], function(data) {
       var vals = data[0];
 
-      for (var i in fsettings) {
+      var sets = _.cloneDeep(fsettings);
+      for (var i in sets) {
         if (type == 'active' && activeInclude.indexOf(i) == -1) continue;
 
         if (type == 'waiting' && waitingExclude.indexOf(i) != -1) continue;
 
-        settings[i] = fsettings[i];
+        settings[i] = sets[i];
         settings[i].val = vals[i] || settings[i].val;
       }
 
-      modals.invoke('settings', settings, scope.name + ' settings', function(settings) {
+      modals.invoke('settings', settings, d.name + ' settings', 'Change', function(settings) {
         var sets = {};
         for (var i in settings) { sets[i] = settings[i].val };
 
