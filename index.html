@@ -347,7 +347,7 @@
       class="row-fluid download" data-gid="{{download.gid}}">
       <tbody>
       <tr>
-        <td class="download-name download-item" ng-click="download.collapsed = !download.collapsed">
+        <td class="download-name download-item" ng-click="toggleCollapsed(download)">
           <i class="icon-magnet" style="color: red;" ng-show="download.metadata"></i> {{download.name}}
         </td>
         <td class="download-controls download-item" rowspan="2">
@@ -404,7 +404,7 @@
               </li>
 
               <li>
-                <a ng-click="download.collapsed = !download.collapsed"
+                <a ng-click="toggleCollapsed(download)"
                    href="#"><i class="icon-info-sign">&nbsp;</i> More Info</a>
               </li>
 
@@ -418,7 +418,7 @@
         </td>
       </tr>
       <tr>
-        <td class="download-overview download-item" ng-click="download.collapsed = !download.collapsed" ng-switch="download.status">
+        <td class="download-overview download-item" ng-click="toggleCollapsed(download)" ng-switch="download.status">
           <!-- {{{ statistics -->
           <ul class="stats pull-left" ng-switch-when="active">
             <!-- {{{ active download statistics -->
@@ -551,15 +551,15 @@
         </td>
       </tr>
       <tr>
-        <td class="download-progress download-item" colspan="2" ng-click="download.collapsed = !download.collapsed">
+        <td class="download-progress download-item" colspan="2" ng-click="toggleCollapsed(download)">
           <div class="progress progress-striped" ng-class="getProgressClass(download)">
             <div class="bar" style="width: {{getProgress(download)}}%;"></div>
           </div>
         </td>
       </tr>
       <tr>
-        <td colspan="2" ng-click="download.collapsed = !download.collapsed" ng-switch="download.collapsed">
-          <div collapse="download.collapsed">
+        <td colspan="2" ng-click="toggleCollapsed(download)" ng-switch="download.collapsed">
+          <div ng-switch-when="false" collapse="download.animCollapsed">
             <div class="download-item" ng-show="download.numPieces > 1">
               <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
             </div>

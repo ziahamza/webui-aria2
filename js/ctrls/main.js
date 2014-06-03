@@ -243,6 +243,28 @@ function(
 
   scope.loadFilters();
 
+  scope.toggleCollapsed = function(download) {
+    if (!download.collapsed) {
+      download.animCollapsed = true;
+      // ng-unswitch after half a second.
+      // XXX hacky way, because I'm to lazy right now to wire up proper
+      // transitionend events.
+      setTimeout(function() {
+        scope.$apply(function() {
+          download.collapsed = true;
+        });
+      }, 500);
+      return;
+    }
+
+    download.collapsed = false;
+    setTimeout(function() {
+      scope.$apply(function() {
+        download.animCollapsed = false;
+      });
+    }, 0);
+  };
+
 
   // max downloads shown in one page
   scope.pageSize = pageSize;
@@ -338,7 +360,8 @@ function(
         uploadSpeed: d.uploadSpeed,
         fmtUploadSpeed: utils.fmtspeed(d.uploadSpeed),
         collapsed: true,
-        files: []
+        animCollapsed: true,
+        files: [],
       };
     }
     else {
