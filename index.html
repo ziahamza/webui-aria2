@@ -290,6 +290,25 @@
 
       <br>
 
+      <!-- {{{ global statistics -->
+      <ul class="nav nav-list" ng-if="enable.sidebar.stats">
+        <li class="nav-header">Global Statistics</li>
+        <li>
+          <div
+            yticks="3"
+            xticks="3"
+            dspeed="gstats.downloadSpeed"
+            uspeed="gstats.uploadSpeed"
+            dgraph ng-show="totalAria2Downloads()"
+            nolabel="true"
+            draw="true">
+          </div>
+        </li>
+      </ul>
+      <!-- }}} -->
+
+      <br>
+
       <!-- {{{ starred properties -->
       <ul class="clearfix nav nav-list" ng-controller="StarredPropsCtrl" ng-show="properties.length && enable.sidebar.starredProps">
         <li class="nav-header">Quick Access Settings</li>
@@ -304,25 +323,6 @@
         </li>
         <li>
           <button ng-disabled="!enabled()" ng-click="save()" class="btn btn-small">Save settings</button>
-        </li>
-      </ul>
-      <!-- }}} -->
-
-      <br>
-
-      <!-- {{{ global statistics -->
-      <ul class="nav nav-list" ng-if="enable.sidebar.stats">
-        <li class="nav-header">Global Statistics</li>
-        <li>
-          <div
-            yticks="3"
-            xticks="3"
-            dspeed="gstats.downloadSpeed"
-            uspeed="gstats.uploadSpeed"
-            dgraph ng-show="totalAria2Downloads()"
-            nolabel="true"
-            draw="true">
-          </div>
         </li>
       </ul>
       <!-- }}} -->
