@@ -226,12 +226,12 @@
   <!-- }}} -->
 
 <div class="row-fluid">
-  <div ng-class="{'span3': enable.sidebar.show}" ng-if="enable.sidebar.show">
+  <div ng-class="{'span3': enable.sidebar.show}" ng-show="enable.sidebar.show">
     <!-- {{{ nav side bar -->
     <div class="well sidebar-nav">
 
       <!-- {{{ download filters -->
-      <ul id="filters" class="clearfix nav nav-list" ng-if="enable.sidebar.filters">
+      <ul id="filters" class="clearfix nav nav-list" ng-show="enable.sidebar.filters">
         <li class="nav-header">Download Filters</li>
         <li>
           <label for="filter-speed">
