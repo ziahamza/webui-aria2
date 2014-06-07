@@ -32,6 +32,10 @@ angular
   // go to Global Settings dialog to see their description
   'dir', 'conf-path', 'auto-file-renaming', 'max-connection-per-server',
 ])
+.constant('$downloadProps', [ // Similar to starred Quick Access properties but for adding new downloads.
+  // go to Advance Download Options when adding a new download to view the list of possible options
+  'pause', 'dir', 'max-connection-per-server'
+])
 .constant('$globalTimeout', 1000)  // interval to update the individual downloads
 ;
 

@@ -651,6 +651,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
       </p>
       <textarea rows="6" style="width: 100%" ng-model="getUris.uris"></textarea>
 
+      <legend>Download Settings</legend>
       <div class="control-group">
         <div ng-repeat="(name, set) in getUris.settings">
           <label class="control-label">{{name}}</label>
@@ -660,13 +661,11 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
             </select>
             <input ng-show="!set.options.length" typ="text" class="input-xlarge" ng-model="set.val"/>
           </div>
-          <br><br>
+          <br>
         </div>
+        <button class="btn" ng-click="getUris.advance_opts()">Add More Download Specific Options</button>
       </div>
     </fieldset>
-
-    <button class="btn" ng-click="getUris.advance_opts()">Add Download Specific Options</button>
-
   </form>
   <div class="modal-footer">
     <button class="btn" ng-click="$dismiss()">Cancel</button>

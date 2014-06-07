@@ -26,18 +26,26 @@ var parseFiles = function(files, cb) {
 
 angular
 .module('webui.ctrls.modal', [
-  "ui.bootstrap", 'webui.services.deps', 'webui.services.modals', 'webui.services.rpc'
+  "ui.bootstrap", 'webui.services.deps', 'webui.services.modals', 'webui.services.rpc',
+  'webui.services.configuration'
 ])
 .controller('ModalCtrl', [
-  '$_', '$scope', '$modal', "$modals", '$rpc','$fileSettings',
-  function(_, scope, $modal, modals, rpc, fsettings) {
+  '$_', '$scope', '$modal', "$modals", '$rpc','$fileSettings', '$downloadProps',
+  function(_, scope, $modal, modals, rpc, fsettings, dprops) {
 
   scope.getUris = {
     open: function(cb) {
       var self = this;
       this.uris = "";
       this.settings = {};
+      this.fsettings = _.cloneDeep(fsettings);
       this.cb = cb;
+
+      // fill in default download properties
+      _.forEach(dprops, function(p) {
+        self.settings[p] = self.fsettings[p];
+      });
+
       this.inst = $modal.open({
         templateUrl: "getUris.html",
         scope: scope
@@ -61,7 +69,7 @@ angular
     advance_opts: function() {
       var self = this;
       modals.invoke(
-        'settings', _.cloneDeep(fsettings),
+        'settings', self.fsettings,
         'Advance Download Options', 'Add', function(settings) {
 
         for (var i in settings) {
