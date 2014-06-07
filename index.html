@@ -81,7 +81,7 @@
 <body ng-controller="MainCtrl">
 
 <!-- {{{ header -->
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
   <div class="navbar-inner">
   <div class="container">
     <!--  using a span for collapse rather than a to fix the angular majic on anchors -->
@@ -98,7 +98,7 @@
     <form class="navbar-form pull-right control-group">
       <input class="span3 input-large" type="text" placeholder="Search" ng-model="downloadFilter" autocomplete="off" ng-change="onDownloadFilter()"></input>
     </form>
-    <div class="nav-collapse" collapse="collapsed" ng-controller="NavCtrl">
+    <div class="nav-collapse" collapse="collapsed">
 
     <!-- {{{ Nav menu -->
     <ul class="nav">
