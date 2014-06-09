@@ -624,6 +624,7 @@
 
 <!--{{{ add uri modal -->
 <script type="text/ng-template" id="getUris.html">
+<div class="modal modal-adduris modal-large">
   <div class="modal-header">
     <button class="close" ng-click="$dismiss()">x</button>
     <h3>Add Downloads By URIs</h3>
@@ -651,28 +652,54 @@ http://ex1.com/f1.jpg http://ex2.com/f1.jpg
 http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 </pre>
       </p>
-      <textarea rows="6" style="width: 100%" ng-model="getUris.uris"></textarea>
+      <textarea rows="4" style="width: 100%" ng-model="getUris.uris"></textarea>
 
-      <legend>Download Settings</legend>
-      <div class="control-group">
-        <div ng-repeat="(name, set) in getUris.settings">
-          <label class="control-label">{{name}}</label>
-
-          <div class="controls">
-            <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
-            </select>
-            <input ng-show="!set.options.length" typ="text" class="input-xlarge" ng-model="set.val"/>
+        <div>
+          <div class="modal-advanced-title">
+            Download settings
           </div>
-          <br>
+          <div class="form-horizontal control-group modal-advanced-options">
+            <div ng-repeat="(name, set) in getUris.settings">
+              <label class="control-label">{{name}}</label>
+
+              <div class="controls">
+                <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+                </select>
+                <input ng-show="!set.options.length" type="text" class="input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              </div>
+              <br>
+            </div>
+          </div>
+
+          <br />
+          <div ng-click="getUris.collapsed = !getUris.collapsed" class="modal-advanced-title">
+            Advanced settings
+            <i ng-hide="!getUris.collapsed" class="fa fa-fw fa-caret-right"></i>
+            <i ng-hide="getUris.collapsed" class="fa fa-fw fa-caret-down"></i>
+          </div>
+          <div collapse="getUris.collapsed" class="form-horizontal control-group modal-advanced-options">
+            <div ng-repeat="(name, set) in getUris.fsettings">
+              <!-- Empty bloc for the real label to be aligned with control -->
+              <label class="control-label"></label>
+              <p class="help-block controls">{{set.desc}}</p>
+
+              <label class="control-label">{{name}}</label>
+              <div class="controls">
+                <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+                </select>
+                <input ng-show="!set.options.length" type="text" class="input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              </div>
+              <br />
+            </div>
+          </div>
         </div>
-        <button class="btn" ng-click="getUris.advance_opts()">Add More Download Specific Options</button>
-      </div>
     </fieldset>
   </form>
   <div class="modal-footer">
     <button class="btn" ng-click="$dismiss()">Cancel</button>
     <button class="btn btn-primary" ng-click="$close()">Start</button>
   </div>
+</div>
 </script>
 <!-- }}} -->
 
@@ -690,22 +717,54 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         - You can select multiple torrents to start multiple downloads <br>
         - To add a magnet torrent url, use the add url option and add it there.
       </p>
-      <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
-      <div class="control-group">
-        <div ng-repeat="(name, set) in getTorrents.settings">
-          <label class="control-label">{{name}}</label>
+      <div class="form-horizontal control-group">
+        <label class="control-label" style="text-align: left;"><b>Select a Torrent:</b></label>
+        <div class="controls">
+          <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
+        </div>
+      </div>
+      <br />
 
-          <div class="controls">
-            <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
-            </select>
-            <input ng-show="!set.options.length" typ="text" class="input-xlarge" ng-model="set.val"/>
+      <div>
+        <div class="modal-advanced-title">
+          Download settings
+        </div>
+        <div class="form-horizontal control-group modal-advanced-options">
+          <div ng-repeat="(name, set) in getTorrents.settings">
+            <label class="control-label">{{name}}</label>
+
+            <div class="controls">
+              <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+              </select>
+              <input ng-show="!set.options.length" type="text" class="input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+            </div>
+            <br>
           </div>
-          <br><br>
+        </div>
+
+        <br />
+        <div ng-click="getTorrents.collapsed = !getTorrents.collapsed" class="modal-advanced-title">
+          Advanced settings
+          <i ng-hide="!getTorrents.collapsed" class="fa fa-fw fa-caret-right"></i>
+          <i ng-hide="getTorrents.collapsed" class="fa fa-fw fa-caret-down"></i>
+        </div>
+        <div collapse="getTorrents.collapsed" class="form-horizontal control-group modal-advanced-options">
+          <div ng-repeat="(name, set) in getTorrents.fsettings">
+            <!-- Empty bloc for the real label to be aligned with control -->
+            <label class="control-label"></label>
+            <p class="help-block controls">{{set.desc}}</p>
+
+            <label class="control-label">{{name}}</label>
+            <div class="controls">
+              <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+              </select>
+              <input ng-show="!set.options.length" type="text" class="input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+            </div>
+            <br />
+          </div>
         </div>
       </div>
     </fieldset>
-
-    <button class="btn" ng-click="getTorrents.advance_opts()">Add Download Specific Options</button>
   </form>
   <div class="modal-footer">
     <button class="btn" ng-click="$dismiss()">Cancel</button>
@@ -727,22 +786,54 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
         - Select the metalink from the local filesystem to start the download. <br>
         - You can select multiple metalinks to start multiple downloads
       </p>
-      <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
-      <div class="control-group">
-        <div ng-repeat="(name, set) in getMetalinks.settings">
-          <label class="control-label">{{name}}</label>
+      <div class="form-horizontal control-group">
+        <label class="control-label" style="text-align: left;"><b>Select a Metalinks:</b></label>
+        <div class="controls">
+          <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
+        </div>
+      </div>
+      <br />
 
-          <div class="controls">
-            <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
-            </select>
-            <input ng-show="!set.options.length" typ="text" class="input-xlarge" ng-model="set.val"/>
+      <div>
+        <div class="modal-advanced-title">
+          Download settings
+        </div>
+        <div class="form-horizontal control-group modal-advanced-options">
+          <div ng-repeat="(name, set) in getMetalinks.settings">
+            <label class="control-label">{{name}}</label>
+
+            <div class="controls">
+              <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+              </select>
+              <input ng-show="!set.options.length" type="text" class="input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+            </div>
+            <br>
           </div>
-          <br><br>
+        </div>
+
+        <br />
+        <div ng-click="getMetalinks.collapsed = !getMetalinks.collapsed" class="modal-advanced-title">
+          Advanced settings
+          <i ng-hide="!getMetalinks.collapsed" class="fa fa-fw fa-caret-right"></i>
+          <i ng-hide="getMetalinks.collapsed" class="fa fa-fw fa-caret-down"></i>
+        </div>
+        <div collapse="getMetalinks.collapsed" class="form-horizontal control-group modal-advanced-options">
+          <div ng-repeat="(name, set) in getMetalinks.fsettings">
+            <!-- Empty bloc for the real label to be aligned with control -->
+            <label class="control-label"></label>
+            <p class="help-block controls">{{set.desc}}</p>
+
+            <label class="control-label">{{name}}</label>
+            <div class="controls">
+              <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+              </select>
+              <input ng-show="!set.options.length" type="text" class="input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+            </div>
+            <br />
+          </div>
         </div>
       </div>
     </fieldset>
-
-    <button class="btn" ng-click="getMetalinks.advance_opts()">Add Download Specific Options</button>
   </form>
   <div class="modal-footer">
     <button class="btn" ng-click="$dismiss()">Cancel</button>
@@ -767,7 +858,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
           <div class="controls">
             <select ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
             </select>
-            <input ng-show="!set.options.length" typ="text" class="input-xlarge" ng-model="set.val"/>
+            <input ng-show="!set.options.length" type="text" class="input-xlarge" ng-model="set.val"/>
             <label class="checkbox" ng-show="set.starred != undefined">
               <input type="checkbox" ng-model="set.starred"/> Quick Access (shown on the main page)
             </label>
@@ -812,7 +903,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
 
           <label class="control-label">Enter the port:</label>
           <div class="controls">
-            <input type="text" class="input-xlarge"
+            <input type="text" class="input-xlarge modal-form-input-number"
               ng-model="connection.conf.port"/>
             <p class="help-block">
               Enter the port of the server on which the rpc for

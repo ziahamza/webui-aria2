@@ -37,6 +37,7 @@ angular
     open: function(cb) {
       var self = this;
       this.uris = "";
+      this.collapsed = true;
       this.settings = {};
       this.fsettings = _.cloneDeep(fsettings);
       this.cb = cb;
@@ -44,11 +45,13 @@ angular
       // fill in default download properties
       _.forEach(dprops, function(p) {
         self.settings[p] = self.fsettings[p];
+        delete self.fsettings[p];
       });
 
       this.inst = $modal.open({
         templateUrl: "getUris.html",
-        scope: scope
+        scope: scope,
+        windowClass: "modal-large"
       });
       this.inst.result.then(function() {
         delete self.inst;
@@ -57,6 +60,9 @@ angular
           for (var i in self.settings) {
             settings[i] = self.settings[i].val;
           }
+          for (var i in self.fsettings) {
+            settings[i] = self.fsettings[i].val;
+          }
 
           console.log('sending settings:', settings);
           self.cb(self.parse(), settings);
@@ -64,20 +70,6 @@ angular
       },
       function() {
         delete self.inst;
-      });
-    },
-    advance_opts: function() {
-      var self = this;
-      modals.invoke(
-        'settings', self.fsettings,
-        'Advance Download Options', 'Add', function(settings) {
-
-        for (var i in settings) {
-          if (fsettings[i].val != settings[i].val)
-            self.settings[i] = settings[i]
-        };
-
-        console.log('got back new settings:', self.settings);
       });
     },
     parse: function() {
@@ -97,7 +89,8 @@ angular
       this.actionText = actionText;
       this.inst = $modal.open({
         templateUrl: "settings.html",
-        scope: scope
+        scope: scope,
+        windowClass: "modal-large"
       });
       this.inst.result.then(function() {
         delete self.inst;
@@ -119,7 +112,8 @@ angular
       this.conf = rpc.getConfiguration();
       this.inst = $modal.open({
         templateUrl: "connection.html",
-        scope: scope
+        scope: scope,
+        windowClass: "modal-large",
       });
       this.inst.result.then(function() {
         delete self.inst;
@@ -138,10 +132,20 @@ angular
       open: function(cb) {
         var self = this;
         this.files = [];
+        this.collapsed = true;
         this.settings = {};
+        this.fsettings = _.cloneDeep(fsettings);
+
+        // fill in default download properties
+        _.forEach(dprops, function(p) {
+          self.settings[p] = self.fsettings[p];
+          delete self.fsettings[p];
+        });
+
         this.inst = $modal.open({
           templateUrl: name + ".html",
-          scope: scope
+          scope: scope,
+          windowClass: "modal-large",
         });
         this.inst.result.then(function() {
           delete self.inst;
@@ -151,6 +155,9 @@ angular
               for (var i in self.settings) {
                 settings[i] = self.settings[i].val;
               }
+              for (var i in self.fsettings) {
+                settings[i] = self.fsettings[i].val;
+              }
 
               console.log('sending settings:', settings);
               cb(txts, settings);
@@ -159,20 +166,6 @@ angular
         },
         function() {
           delete self.inst;
-        });
-      },
-      advance_opts: function() {
-        var self = this;
-        modals.invoke(
-          'settings', _.cloneDeep(fsettings),
-          'Advance Download Options', 'Add', function(settings) {
-
-          for (var i in settings) {
-            if (fsettings[i].val != settings[i].val)
-              self.settings[i] = settings[i]
-          };
-
-          console.log('got back new settings:', self.settings);
         });
       }
     };
