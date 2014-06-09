@@ -23,10 +23,10 @@ angular.module('webui.ctrls.alert', [
         scope.pendingAlerts[ind].expired = true;
 
         // only remove if more notifications are pending in the pipeline
-        if (scope.pendingAlerts.length > 1)
+        if (scope.pendingAlerts.length > 0)
           scope.removeAlert(ind);
       }
-    }, type == "error" ? 10000 : 3000);
+    }, type == "error" ? 15000 : 5000);
 
     scope.$digest();
   });

@@ -219,8 +219,8 @@
   <!-- {{{ alerts -->
   <div ng-controller="AlertCtrl" class="row-fluid alerts">
     <div class="alert alert-{{alert.type}}" ng-repeat="alert in pendingAlerts">
-      <span ng-bind-html="alert.msg"></span>
       <button type="button" class="close" ng-click="removeAlert($index)">x</button>
+      <span ng-bind-html="alert.msg"></span>
     </div>
   </div>
   <!-- }}} -->
