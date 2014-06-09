@@ -13,7 +13,7 @@
 
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/bootstrap-responsive.css">
-  <link rel="stylesheet" href="css/font-awesome.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/download.css">
@@ -88,12 +88,12 @@
     <span class="btn btn-navbar"
       ng-click="collapsed = !collapsed">
 
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+      <span class="fa fa-fw fa-bar"></span>
+      <span class="fa fa-fw fa-bar"></span>
+      <span class="fa fa-fw fa-bar"></span>
     </span>
 
-    <a class="brand"><span class="icon-circle-arrow-down"></span> {{ name }}</a>
+    <a class="brand"><span class="fa fa-fw fa-arrow-circle-down"></span> {{ name }}</a>
 
     <form class="navbar-form pull-right control-group">
       <input class="span3 input-large" type="text" placeholder="Search" ng-model="downloadFilter" autocomplete="off" ng-change="onDownloadFilter()"></input>
@@ -109,17 +109,17 @@
         <ul class="dropdown-menu">
           <li>
             <a href="#" ng-click="addUris()">
-              <i class="icon-download">&nbsp;</i> By URIs
+              <i class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</i> By URIs
             </a>
           </li>
           <li ng-show="isFeatureEnabled('BitTorrent') && enable.torrent">
             <a href="#" ng-click="addTorrents()">
-              <i class="icon-file">&nbsp;</i> By Torrents
+              <i class="fa fa-fw fa-cloud-download">&nbsp;</i> By Torrents
             </a>
           </li>
           <li ng-show="isFeatureEnabled('Metalink') && enable.metalink">
             <a href="#" ng-click="addMetalinks()">
-              <i class="icon-file">&nbsp;</i> By Metalinks
+              <i class="fa fa-fw fa-file-text-o">&nbsp;</i> By Metalinks
             </a>
           </li>
         </ul>
@@ -131,24 +131,24 @@
         <li>
           <a
             href="#"
-            ng-click="forcePauseAll()"><i class="icon-pause">&nbsp;</i> Pause All</a>
+            ng-click="forcePauseAll()"><i class="fa fa-fw fa-pause">&nbsp;</i> Pause All</a>
         </li>
         <li>
           <a
             href="#"
-            ng-click="unpauseAll()"><i class="icon-play">&nbsp;</i> Resume Paused</a>
+            ng-click="unpauseAll()"><i class="fa fa-fw fa-play">&nbsp;</i> Resume Paused</a>
         </li>
         <li>
           <a
             href="#"
-            ng-click="purgeDownloadResult()"><i class="icon-remove">&nbsp;</i> Purge Completed</a>
+            ng-click="purgeDownloadResult()"><i class="fa fa-fw fa-times-circle">&nbsp;</i> Purge Completed</a>
         </li>
 
         <!-- not adding remove all as requires many rpc syscalls to finish
         <li>
           <a
             href="#"
-            ng-click="removeAll()"><i class="icon-fire">&nbsp;</i> Remove All</a>
+            ng-click="removeAll()"><i class="fa fa-fw fa-fire">&nbsp;</i> Remove All</a>
         </li>
         -->
       </ul>
@@ -166,25 +166,25 @@
           <li>
             <a
               ng-click="changeCSettings()"
-              href="#"><i class="icon-wrench">&nbsp;</i> Connection Settings</a>
+              href="#"><i class="fa fa-fw fa-wrench">&nbsp;</i> Connection Settings</a>
           </li>
 
           <li>
             <a
               ng-click="changeGSettings()"
-              href="#"><i class="icon-wrench">&nbsp;</i> Global Settings</a>
+              href="#"><i class="fa fa-fw fa-wrench">&nbsp;</i> Global Settings</a>
           </li>
 
           <li>
             <a
               ng-click="showServerInfo()"
-              href="#"><i class="icon-info-sign">&nbsp;</i> Server info</a>
+              href="#"><i class="fa fa-fw fa-info-circle">&nbsp;</i> Server info</a>
           </li>
 
           <li>
             <a
               ng-click="showAbout()"
-              href="#"><i class="icon-question-sign">&nbsp;</i> About and contribute</a>
+              href="#"><i class="fa fa-fw fa-question-circle">&nbsp;</i> About and contribute</a>
           </li>
         </ul>
       </li>
@@ -197,10 +197,10 @@
           href="#">Miscellaneous <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li>
-            <a href="#"><i class="icon-list-alt">&nbsp;</i> Global Statistics</a>
+            <a href="#"><i class="fa fa-fw fa-list-alt">&nbsp;</i> Global Statistics</a>
           </li>
           <li>
-            <a href="#"><i class="icon-info-sign">&nbsp;</i> About</a>
+            <a href="#"><i class="fa fa-fw fa-info-circle">&nbsp;</i> About</a>
           </li>
         </ul>
       </li>
@@ -348,7 +348,7 @@
       <tbody>
       <tr>
         <td class="download-name download-item" ng-click="toggleCollapsed(download)">
-          <i class="icon-magnet" style="color: red;" ng-show="download.metadata"></i> {{download.name}}
+          <i class="fa fa-fw fa-magnet" style="color: red;" ng-show="download.metadata"></i> {{download.name}}
         </td>
         <td class="download-controls download-item" rowspan="2">
           <!-- {{{ download control buttons -->
@@ -357,34 +357,34 @@
               ng-show="hasStatus(download, ['active', 'waiting'])"
               class="btn"
               ng-click="pause(download)">
-              <i class="icon-pause"></i>
+              <i class="fa fa-fw fa-pause"></i>
             </button>
 
             <button
               ng-show="hasStatus(download, 'paused')"
               class="btn"
               ng-click="resume(download)">
-              <i class="icon-play"></i>
+              <i class="fa fa-fw fa-play"></i>
             </button>
 
             <button
               ng-show="canRestart(download)"
               class="btn"
               ng-click="restart(download)">
-              <i class="icon-repeat"></i>
+              <i class="fa fa-fw fa-repeat"></i>
             </button>
 
             <button
               class="btn hidden-phone"
               ng-click="remove(download)">
-              <i class="icon-stop"></i>
+              <i class="fa fa-fw fa-stop"></i>
             </button>
 
             <button
               class="btn hidden-phone"
               ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
               ng-click="showSettings(download)">
-              <i class="icon-cog"></i>
+              <i class="fa fa-fw fa-cog"></i>
             </button>
 
             <button class="btn dropdown-toggle">
@@ -396,21 +396,21 @@
                 <a
                   ng-click="showSettings(download)"
                   ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-                  href="#"><i class="icon-cog">&nbsp;</i> Settings</a>
+                  href="#"><i class="fa fa-fw fa-cog">&nbsp;</i> Settings</a>
               </li>
 
               <li ng-show="download.bittorrent && false">
-                <a href="#"><i class="icon-list-alt">&nbsp;</i> Peers</a>
+                <a href="#"><i class="fa fa-fw fa-list-alt">&nbsp;</i> Peers</a>
               </li>
 
               <li>
                 <a ng-click="toggleCollapsed(download)"
-                   href="#"><i class="icon-info-sign">&nbsp;</i> More Info</a>
+                   href="#"><i class="fa fa-fw fa-info-circle">&nbsp;</i> More Info</a>
               </li>
 
               <li class="visible-phone">
                 <a ng-click="remove(download)"
-                   href="#"><i class="icon-remove">&nbsp;</i> Remove</a>
+                   href="#"><i class="fa fa-fw fa-times">&nbsp;</i> Remove</a>
               </li>
             </ul>
           </div>
@@ -423,31 +423,31 @@
           <ul class="stats pull-left" ng-switch-when="active">
             <!-- {{{ active download statistics -->
             <li class="label label-active hidden-phone hidden-tablet">
-              <span title="Download status"><i class="icon-play">&nbsp;</i> {{download.status}}</span>
+              <span title="Download status"><i class="fa fa-fw fa-play">&nbsp;</i> {{download.status}}</span>
             </li>
 
             <li class="label" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
-              <span title="Download Speed"><i class="icon-download">&nbsp;</i> {{download.downloadSpeed | bspeed}}</span>
+              <span title="Download Speed"><i class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</i> {{download.downloadSpeed | bspeed}}</span>
             </li>
 
             <li ng-show="download.bittorrent" class="label hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
-              <span title="Upload Speed"><i class="icon-upload">&nbsp;</i> {{download.uploadSpeed | bspeed}}</span>
+              <span title="Upload Speed"><i class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</i> {{download.uploadSpeed | bspeed}}</span>
             </li>
 
             <li class="label label-active">
-              <span title="Estimated time"><i class="icon-time">&nbsp;</i> {{getEta(download) | time}}</span>
+              <span title="Estimated time"><i class="fa fa-fw fa-clock-o">&nbsp;</i> {{getEta(download) | time}}</span>
             </li>
 
             <li class="label label-active hidden-phone">
-              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+              <span title="Download Size"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
             </li>
 
             <li class="label label-active hidden-phone">
-              <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
+              <span title="Downloaded"><i class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</i> {{download.fmtCompletedLength}}</span>
             </li>
 
             <li class="label label-active hidden-phone hidden-tablet">
-              <span title="Progress"><i class="icon-chevron-right">&nbsp;</i> {{getProgress(download)}}%</span>
+              <span title="Progress"><i class="fa fa-fw fa-chevron-right">&nbsp;</i> {{getProgress(download)}}%</span>
             </li>
 
             <!-- }}} -->
@@ -456,19 +456,19 @@
           <ul class="stats pull-left" ng-switch-when="paused">
             <!-- {{{ paused download statistics -->
             <li class="label label-info">
-              <span title="Download Status"><i class="icon-pause">&nbsp;</i> {{download.status}}</span>
+              <span title="Download Status"><i class="fa fa-fw fa-pause">&nbsp;</i> {{download.status}}</span>
             </li>
 
             <li class="label label-info">
-              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+              <span title="Download Size"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
             </li>
 
             <li class="label label-info hidden-phone">
-              <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
+              <span title="Downloaded"><i class="fa fa-fw fa-download">&nbsp;</i> {{download.fmtCompletedLength}}</span>
             </li>
 
             <li class="label label-info hidden-phone">
-              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+              <span title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> {{download.dir}}</span>
             </li>
 
             <!--  }}} -->
@@ -477,19 +477,19 @@
           <ul class="stats pull-left" ng-switch-when="waiting">
             <!-- {{{ paused download statistics -->
             <li class="label">
-              <span title="Download Status"><i class="icon-caret-right">&nbsp;</i> {{download.status}}</span>
+              <span title="Download Status"><i class="fa fa-fw fa-caret-right">&nbsp;</i> {{download.status}}</span>
             </li>
 
             <li class="label">
-              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+              <span title="Download Size"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
             </li>
 
             <li class="label hidden-phone">
-              <span title="Downloaded"><i class="icon-download-alt">&nbsp;</i> {{download.fmtCompletedLength}}</span>
+              <span title="Downloaded"><i class="fa fa-fw fa-download">&nbsp;</i> {{download.fmtCompletedLength}}</span>
             </li>
 
             <li class="label hidden-phone">
-              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+              <span title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> {{download.dir}}</span>
             </li>
 
             <!--  }}} -->
@@ -499,15 +499,15 @@
             <!-- {{{ complete download statistics -->
 
             <li class="label label-success">
-              <span title="Download Status"><i class="icon-check">&nbsp;</i> {{download.status}}</span>
+              <span title="Download Status"><i class="fa fa-fw fa-check-square-o">&nbsp;</i> {{download.status}}</span>
             </li>
 
             <li class="label label-success">
-              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+              <span title="Download Size"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
             </li>
 
             <li class="label label-success hidden-phone">
-              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+              <span title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> {{download.dir}}</span>
             </li>
 
             <!-- }}} -->
@@ -516,15 +516,15 @@
           <ul class="stats pull-left" ng-switch-when="removed">
             <!-- {{{ removed download statistics -->
             <li class="label label-warning">
-              <span title="Download Status"><i class="icon-remove">&nbsp;</i> {{download.status}}</span>
+              <span title="Download Status"><i class="fa fa-fw fa-times">&nbsp;</i> {{download.status}}</span>
             </li>
 
             <li class="label label-warning">
-              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+              <span title="Download Size"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
             </li>
 
             <li class="label label-warning hidden-phone">
-              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+              <span title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> {{download.dir}}</span>
             </li>
 
             <!-- }}} -->
@@ -533,15 +533,15 @@
           <ul class="stats pull-left" ng-switch-when="error">
             <!-- {{{ error download statistics -->
             <li class="label label-important">
-              <span title="Download Status"><i class="icon-remove-sign">&nbsp;</i> {{download.status}}</span>
+              <span title="Download Status"><i class="fa fa-fw fa-times-circle">&nbsp;</i> {{download.status}}</span>
             </li>
 
             <li class="label label-important">
-              <span title="Download Size"><i class="icon-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
+              <span title="Download Size"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> {{download.fmtTotalLength}}</span>
             </li>
 
             <li class="label label-important hidden-phone">
-              <span title="Download Path"><i class="icon-folder-open">&nbsp;</i> {{download.dir}}</span>
+              <span title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> {{download.dir}}</span>
             </li>
 
             <!-- }}} -->
@@ -564,20 +564,20 @@
               <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
             </div>
             <ul class="stats download-item">
-              <li class="label" title="Estimated Time"><i class="icon-time">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
-              <li class="label" title="Download Size"><i class="icon-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
-              <li class="label" title="Downloaded"><i class="icon-download-alt">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
-              <li class="label" title="Download Speed"><i class="icon-download">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
+              <li class="label" title="Estimated Time"><i class="fa fa-fw fa-clock-o">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
+              <li class="label" title="Download Size"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
+              <li class="label" title="Downloaded"><i class="fa fa-fw fa-download">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
+              <li class="label" title="Download Speed"><i class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
 
-              <li class="label" title="Upload Speed" ng-show="download.bittorrent"><i class="icon-upload">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
-              <li class="label" title="Uploaded" ng-show="download.bittorrent"><i class="icon-upload-alt">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
+              <li class="label" title="Upload Speed" ng-show="download.bittorrent"><i class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
+              <li class="label" title="Uploaded" ng-show="download.bittorrent"><i class="fa fa-fw fa-upload">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
 
-              <li class="label" title="Connections"><i class="icon-link">&nbsp;</i> <span class="download-connections">{{download.connections}}</span></li>
+              <li class="label" title="Connections"><i class="fa fa-fw fa-link">&nbsp;</i> <span class="download-connections">{{download.connections}}</span></li>
 
-              <li class="label" title="Download GID"><i class="icon-reorder">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
-              <li class="label" title="Number of Pieces"># of <i class="icon-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
-              <li class="label" title="Piece Length"><i class="icon-puzzle-piece"></i> Length&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
-              <li class="label" title="Download Path"><i class="icon-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
+              <li class="label" title="Download GID"><i class="fa fa-fw fa-bars">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
+              <li class="label" title="Number of Pieces"># of <i class="fa fa-fw fa-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
+              <li class="label" title="Piece Length"><i class="fa fa-fw fa-puzzle-piece"></i> Length&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
+              <li class="label" title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
             </ul>
             <ul class="download-files hidden-phone download-item">
               <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.fmtLength}})</li>
