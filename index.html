@@ -230,6 +230,26 @@
     <!-- {{{ nav side bar -->
     <div class="well sidebar-nav">
 
+      <!-- {{{ global statistics -->
+      <ul class="nav nav-list" ng-if="enable.sidebar.stats">
+        <li class="nav-header" ng-show="totalAria2Downloads()">Global Statistics</li>
+        <li>
+          <div
+            yticks="3"
+            xticks="3"
+            dspeed="gstats.downloadSpeed"
+            uspeed="gstats.uploadSpeed"
+            dgraph ng-show="totalAria2Downloads()"
+            nolabel="true"
+            draw="true">
+          </div>
+        </li>
+      </ul>
+      <!-- }}} -->
+
+      <br>
+
+      
       <!-- {{{ download filters -->
       <ul id="filters" class="clearfix nav nav-list" ng-show="enable.sidebar.filters">
         <li class="nav-header">Download Filters</li>
@@ -290,24 +310,6 @@
 
       <br>
 
-      <!-- {{{ global statistics -->
-      <ul class="nav nav-list" ng-if="enable.sidebar.stats">
-        <li class="nav-header" ng-show="totalAria2Downloads()">Global Statistics</li>
-        <li>
-          <div
-            yticks="3"
-            xticks="3"
-            dspeed="gstats.downloadSpeed"
-            uspeed="gstats.uploadSpeed"
-            dgraph ng-show="totalAria2Downloads()"
-            nolabel="true"
-            draw="true">
-          </div>
-        </li>
-      </ul>
-      <!-- }}} -->
-
-      <br>
 
       <!-- {{{ starred properties -->
       <ul class="clearfix nav nav-list" ng-controller="StarredPropsCtrl" ng-show="properties.length && enable.sidebar.starredProps">
