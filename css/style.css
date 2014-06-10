@@ -21,7 +21,6 @@ input[type=checkbox], input[type=radio] {
 
 .alerts {
   position: fixed;
-  _position: absolute;
   right: 6px;
   z-index: 900;
   width: 40%;
