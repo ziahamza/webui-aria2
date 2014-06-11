@@ -21,18 +21,16 @@ input[type=checkbox], input[type=radio] {
 
 .alerts {
   position: fixed;
-  left: 1em;
-  right: 1em;
-  bottom: 1em;
+  right: 6px;
   z-index: 900;
-  margin: 0;
-  padding: 0;
-  background: white;
-  background: rgba(255,255,255,0.7);
+  width: 40%;
 }
+
 .alert {
-  margin: 1em;
-  border-width: 0.5ex;
+  float: right;
+  clear: right;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 /* fix modal overflow on low resolutions */

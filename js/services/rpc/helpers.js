@@ -20,19 +20,19 @@ angular.module('webui.services.rpc.helpers', [
       // now dispatch all addUri syscalls
       rpc.forceUpdate();
     },
-    addTorrents: function(txts) {
+    addTorrents: function(txts, settings) {
       _.each(txts, function(txt) {
         // passing true to batch all the addUri calls
-        rpc.once('addTorrent', [txt], angular.noop, true);
+        rpc.once('addTorrent', [txt, [], settings], angular.noop, true);
       });
 
       // now dispatch all addUri syscalls
       rpc.forceUpdate();
     },
-    addMetalinks: function(txts) {
+    addMetalinks: function(txts, settings) {
       _.each(txts, function(txt) {
         // passing true to batch all the addUri calls
-        rpc.once('addMetalink', [txt], angular.noop, true);
+        rpc.once('addMetalink', [txt, settings], angular.noop, true);
       });
 
       // now dispatch all addUri syscalls

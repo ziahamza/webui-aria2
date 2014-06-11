@@ -4,7 +4,7 @@
 angular
 .module('webui.directives.dgraph', ['webui.filters.bytes', 'webui.services.deps'])
 .directive('dgraph', ['$', '$filter', '$parse', function($, filter, parse) {
-  var ratio = 0.4;
+  var ratio = 0.6;
   var xfmt = "%H:%M:%S";
   var yTicks = 7; // Number of y-axis ticks (sans 0)
   var xticks = 10; // Number of x-axis ticks (sans 0)
