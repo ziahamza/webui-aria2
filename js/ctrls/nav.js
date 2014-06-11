@@ -21,6 +21,12 @@ angular
   // initially collapsed in mobile resolution
   scope.collapsed = true;
 
+  scope.onDownloadFilter = function() {
+    // Forward to MainCtrl.
+    scope.$parent.downloadFilter = scope.downloadFilter;
+    scope.$parent.onDownloadFilter();
+  };
+
   // manage download functions
   scope.forcePauseAll = function() {
     rpc.once('forcePauseAll', []);
