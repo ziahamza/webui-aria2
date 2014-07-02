@@ -57,11 +57,14 @@ angular
         delete self.inst;
         if (self.cb) {
           var settings = {};
+          // no need to send in default values, just the changed ones
           for (var i in self.settings) {
-            settings[i] = self.settings[i].val;
+            if (fsettings[i].val != self.settings[i].val)
+                settings[i] = self.settings[i].val;
           }
           for (var i in self.fsettings) {
-            settings[i] = self.fsettings[i].val;
+            if (fsettings[i].val != self.fsettings[i].val)
+                settings[i] = self.fsettings[i].val;
           }
 
           console.log('sending settings:', settings);
@@ -152,11 +155,15 @@ angular
           if (cb) {
             parseFiles(self.files, function(txts) {
               var settings = {};
+
+              // no need to send in default values, just the changed ones
               for (var i in self.settings) {
-                settings[i] = self.settings[i].val;
+                if (fsettings[i].val != self.settings[i].val)
+                    settings[i] = self.settings[i].val;
               }
               for (var i in self.fsettings) {
-                settings[i] = self.fsettings[i].val;
+                if (fsettings[i].val != self.fsettings[i].val)
+                    settings[i] = self.fsettings[i].val;
               }
 
               console.log('sending settings:', settings);

@@ -103,19 +103,22 @@ angular
       }
 
       modals.invoke(
-        'settings', settings,
-        'Global Settings', 'Save', function(settings) {
+        'settings', _.cloneDeep(settings),
+        'Global Settings', 'Save', function(chsettings) {
 
         var sets = {};
         var starred = [];
-        for (var i in settings) {
-          sets[i] = settings[i].val
+        for (var i in chsettings) {
+          // no need to change default values
+          if (settings[i].val != chsettings[i].val)
+              sets[i] = chsettings[i].val
 
-          if (settings[i].starred) {
+          if (chsettings[i].starred) {
             starred.push(i);
           }
         };
 
+        console.log('saving aria2 settings:', sets);
         console.log('saving aria2 starred:', starred);
 
         rpc.once('changeGlobalOption', [sets]);
