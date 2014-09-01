@@ -107,6 +107,30 @@ angular
     }
   };
 
+  scope.selectFiles = {
+    open: function(files, cb) {
+      var self = this;
+
+	  this.files = _.cloneDeep(files);
+      this.inst = $modal.open({
+        templateUrl: "selectFiles.html",
+        scope: scope,
+        windowClass: "modal-large"
+      });
+
+      this.inst.result.then(function() {
+        delete self.inst;
+
+        if (cb) {
+          cb(self.files);
+        }
+      },
+      function() {
+        delete self.inst;
+      });
+    }
+  };
+
   scope.connection = {
     open: function(defaults, cb) {
       var self = this;
@@ -118,6 +142,7 @@ angular
         scope: scope,
         windowClass: "modal-large",
       });
+
       this.inst.result.then(function() {
         delete self.inst;
         if (cb) {
@@ -150,6 +175,7 @@ angular
           scope: scope,
           windowClass: "modal-large",
         });
+
         this.inst.result.then(function() {
           delete self.inst;
           if (cb) {
@@ -198,10 +224,10 @@ angular
 
   rpc.once('getVersion', [], function(data) {
       scope.miscellaneous = data[0];
-      });
+  });
 
   _.each([
-    'getUris', 'getTorrents', 'getMetalinks',
+    'getUris', 'getTorrents', 'getMetalinks', 'selectFiles',
     'settings', 'connection', 'server_info', 'about'
   ], function(name) {
     modals.register(name, function() {

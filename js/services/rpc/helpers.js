@@ -11,28 +11,28 @@ angular.module('webui.services.rpc.helpers', [
     getAria2Version: function() {
       return miscellaneous.version;
     },
-    addUris: function(uris, settings) {
+    addUris: function(uris, settings, cb) {
       _.each(uris, function(uri) {
         // passing true to batch all the addUri calls
-        rpc.once('addUri', [uri, settings], angular.noop, true);
+        rpc.once('addUri', [uri, settings], cb, true);
       });
 
       // now dispatch all addUri syscalls
       rpc.forceUpdate();
     },
-    addTorrents: function(txts, settings) {
+    addTorrents: function(txts, settings, cb) {
       _.each(txts, function(txt) {
         // passing true to batch all the addUri calls
-        rpc.once('addTorrent', [txt, [], settings], angular.noop, true);
+        rpc.once('addTorrent', [txt, [], settings], cb, true);
       });
 
       // now dispatch all addUri syscalls
       rpc.forceUpdate();
     },
-    addMetalinks: function(txts, settings) {
+    addMetalinks: function(txts, settings, cb) {
       _.each(txts, function(txt) {
         // passing true to batch all the addUri calls
-        rpc.once('addMetalink', [txt, settings], angular.noop, true);
+        rpc.once('addMetalink', [txt, settings], cb, true);
       });
 
       // now dispatch all addUri syscalls

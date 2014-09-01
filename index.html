@@ -383,6 +383,13 @@
             </button>
 
             <button
+              ng-show="hasStatus(download, 'paused')"
+              class="btn"
+              ng-click="selectFiles(download)">
+              <i class="fa fa-fw fa-list"></i>
+            </button>
+
+            <button
               class="btn hidden-phone"
               ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
               ng-click="showSettings(download)">
@@ -582,7 +589,7 @@
               <li class="label" title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
             </ul>
             <ul class="download-files hidden-phone download-item">
-              <li class="label" ng-repeat="file in download.files">{{file.relpath}} ({{file.fmtLength}})</li>
+              <li class="label" ng-repeat="file in download.files" ng-class="{'label-success': file.selected}">{{file.relpath}} ({{file.fmtLength}})</li>
             </ul>
             <div ng-show="hasStatus(download, 'active')" class="download-item hidden-phone">
               <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" xticks="7" yticks="7"  dgraph draw="!download.collapsed"></div>
@@ -838,6 +845,37 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
   <div class="modal-footer">
     <button class="btn" ng-click="$dismiss()">Cancel</button>
     <button class="btn btn-primary" ng-click="$close()">Start</button>
+  </div>
+</script>
+<!-- }}} -->
+
+<!-- {{{ select file modal -->
+<script type="text/ng-template" id="selectFiles.html">
+  <div class="modal-header">
+    <button class="close" ng-click="$dismiss()">x</button>
+    <h3>Choose files to start download for</h3>
+  </div>
+
+  <form class="form-horizontal modal-body">
+    <fieldset>
+      <div class="control-group">
+        <div ng-repeat="file in selectFiles.files">
+          <label class="control-label">Select to download </label>
+
+          <div class="controls">
+            <label class="checkbox">
+              <input type="checkbox" ng-model="file.selected"/>{{file.relpath}}
+            </label>
+          </div>
+          <br><br>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="modal-footer">
+    <button class="btn" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-primary" ng-click="$close()">Choose</button>
   </div>
 </script>
 <!-- }}} -->
