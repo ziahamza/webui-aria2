@@ -95,6 +95,17 @@ function(
 				d.followedFrom = null;
 			}
 			rpc.once(method, [d.gid], cb);
+
+			var lists = [scope.active, scope.waiting, scope.stopped], ind = -1, i;
+			for (var i = 0; i < lists.length; ++i) {
+				var list = lists[i];
+				var idx = list.indexOf(d);
+				if (idx < 0) {
+					continue;
+				}
+				list.splice(idx, 1);
+				return;
+			}
 		}, 0);
 	}
 
