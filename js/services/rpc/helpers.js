@@ -13,8 +13,21 @@ angular.module('webui.services.rpc.helpers', [
     },
     addUris: function(uris, settings, cb) {
       _.each(uris, function(uri) {
+        uri_parsed = [];
+        // parse options passed in the URIs. E.g. http://ex1.com/f1.jpg --out=image.jpg --check-integrity
+        _.each(uri, function(uri_element) {
+          if (uri_element.startsWith('--')) {
+            uri_options = uri_element.split(/--|=(.*)/);
+            if (uri_options.length > 2) {
+              settings[uri_options[2]] = uri_options[3] || 'true';
+            }
+          }
+          else {
+            uri_parsed.push(uri_element);
+          }
+        });
         // passing true to batch all the addUri calls
-        rpc.once('addUri', [uri, settings], cb, true);
+        rpc.once('addUri', [uri_parsed, settings], cb, true);
       });
 
       // now dispatch all addUri syscalls
