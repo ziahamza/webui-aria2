@@ -1,6 +1,8 @@
-.modal-large {
-    width: 80%; /* respsonsive width */
+@media (min-width: 768px) {
+  .modal-large {
+    width: 80%; /* responsive width */
     margin-left:-40%; /* width/2) */
+  }
 }
 
 .modal-header {
