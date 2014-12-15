@@ -646,7 +646,9 @@
         - You can also add multiple uris (mirrors) for the
         *same* file. To do this separate the uris
         by a space. <br>
-        - A URI can be HTTP(S)/FTP/BitTorrent Magnet URI.
+        - Additional options can be specified for individual
+        files, in "--option[=value]" format. <br>
+        - A URI can be HTTP(S)/FTP/BitTorrent Magnet URI. </br>
         - Aria2 will use multiple uris (or mirrors) to boost
         the download speed for that file (download). <br>
         E.g. To add 2 files (downloads) f1.jpg
@@ -656,7 +658,7 @@
         <!-- pre tags print tabs, so do not indent them! -->
 <pre>
 http://ex1.com/f1.jpg http://ex2.com/f1.jpg
-http://ex1.com/f2.mp4 http://ex2.com/f2.mp4
+http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
 </pre>
       </p>
       <textarea rows="4" style="width: 100%" ng-model="getUris.uris"></textarea>
