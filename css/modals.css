@@ -1,19 +1,5 @@
-@media (min-width: 768px) {
-  .modal-large {
-    width: 80%; /* responsive width */
-    margin-left:-40%; /* width/2) */
-  }
-}
-
-.modal-header {
-    /*padding-bottom: 0px;*/
-    margin-bottom: 0px;
-}
-
-.modal-body {
-    padding-top: 5px;
-    padding-bottom: 0px;
-    margin-bottom: 5px;
+.modal-backdrop {
+  bottom: 0; /* for some reason this is missing from bootstrap.css */
 }
 
 .modal-body textarea {
@@ -29,6 +15,7 @@
     border-radius: 4px 4px 0px 0px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
     cursor: pointer;
+    padding: 5px 15px;
 }
 
 .modal-advanced-options {

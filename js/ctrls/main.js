@@ -487,15 +487,15 @@ function(
 	scope.getProgressClass = function(d) {
 		switch (d.status) {
 			case "paused":
-				return "progress-info";
+				return "progress-bar-info";
 			case "error":
-				return "progress-danger";
+				return "progress-bar-danger";
 			case "removed":
-				return "progress-warning";
+				return "progress-bar-warning";
 			case "active":
-				return "progress-active";
+				return "active";
 			case "complete":
-				return "progress-success";
+				return "progress-bar-success";
 			default:
 				return "";
 		}

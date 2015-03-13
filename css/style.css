@@ -1,3 +1,5 @@
+
+
 input[type=checkbox], input[type=radio] {
   vertical-align: middle;
   position: relative;
@@ -66,4 +68,15 @@ input[type=checkbox], input[type=radio] {
 #filters label {
   display: inline-block;
   white-space: nowrap;
+}
+
+.nav-header {
+  display: block;
+  padding: 3px 0;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #999;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
 }
