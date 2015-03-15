@@ -8,8 +8,7 @@ var webui = angular.module('webui', [
   'webui.ctrls.download', 'webui.ctrls.nav', 'webui.ctrls.modal', 'webui.ctrls.alert',
   'webui.ctrls.props',
   // external deps
-  'ui.bootstrap.collapse', 'ui.bootstrap.dropdownToggle',
-  'ui.bootstrap.modal', 'ui.bootstrap.alert'
+  'ui.bootstrap'
 ]);
 
 $(function() {
