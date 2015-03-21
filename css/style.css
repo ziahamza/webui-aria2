@@ -39,11 +39,6 @@ input[type=checkbox], input[type=radio] {
 .modal {
   position: absolute;
 }
-@media (min-width: 980px) {
-  body {
-    padding-top: 60px;
-  }
-}
 
 .download-graph {
   font-size: x-small;
