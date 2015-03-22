@@ -73,7 +73,7 @@
 <body ng-controller="MainCtrl">
 
 <!-- {{{ header -->
-<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
+<div class="navbar navbar-inverse navbar-static-top" ng-controller="NavCtrl">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" ng-click="collapsed = !collapsed">
@@ -92,7 +92,7 @@
     </form>
 
     <!-- {{{ Nav menu -->
-    <div class="collapse navbar-collapse" ng-collapse="collapsed">
+    <div class="collapse navbar-collapse" collapse="collapsed">
       <ul class="nav navbar-nav">
         <li class="dropdown" dropdown>
           <a class="dropdown-toggle" href="#" dropdown-toggle>
@@ -332,7 +332,7 @@
   <div ng-class="{'col-md-9': enable.sidebar.show, 'col-md-12': !enable.sidebar.show }">
     <!-- {{{ downloads -->
     <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
-    <div ng-show="!totalAria2Downloads()" class="hero-unit">
+    <div ng-show="!totalAria2Downloads()" class="jumbotron">
       Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
     </div>
 
