@@ -8,11 +8,11 @@ angular
 	'$scope', '$name', '$enable', '$rpc', '$rpchelpers', '$utils', '$alerts', '$modals',
 	'$fileSettings', '$activeInclude', '$waitingExclude', '$pageSize',
 	// for document title
-	'$window',
+	'$rootScope',
 function(
 	scope, name, enable, rpc, rhelpers, utils, alerts, modals,
 	fsettings, activeInclude, waitingExclude, pageSize,
-	window
+	rootScope
 ) {
 
 	scope.name = name;	 // default UI name
@@ -152,10 +152,11 @@ function(
 		});
 	});
 
+    rootScope.pageTitle = utils.getTitle();
 	rpc.subscribe('getGlobalStat', [], function(data) {
 		scope.$apply(function() {
 			scope.gstats = data[0];
-			window.document.title = utils.getTitle(scope.gstats);
+            rootScope.pageTitle = utils.getTitle(scope.gstats);
 		});
 	});
 
