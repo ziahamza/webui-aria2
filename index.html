@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title ng-controller="NavCtrl">{{ name }}</title>
+  <title ng-bind="$root.pageTitle">Aria2 WebUI</title>
 
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -210,7 +210,7 @@
 
   <!-- {{{ alerts -->
   <div ng-controller="AlertCtrl" class="row-fluid alerts">
-    <div class="alert alert-{{alert.type}}" ng-repeat="alert in pendingAlerts">
+    <div class="alert alert-{{alert.type == 'error' ? 'danger' : alert.type}}" ng-repeat="alert in pendingAlerts">
       <button type="button" class="close" ng-click="removeAlert($index)">x</button>
       <span ng-bind-html="alert.msg"></span>
     </div>

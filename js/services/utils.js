@@ -1,5 +1,5 @@
 angular.module('webui.services.utils', ['webui.services.configuration'])
-.factory('$utils', ['$filter', "$name", function(filter, $name) {
+.factory('$utils', ['$filter', '$name', '$titlePattern', function(filter, $name, $titlePattern) {
   var rnd16 = (function() {
     "use strict";
     var rndBuffer = new Uint8Array(16);
@@ -118,14 +118,14 @@ angular.module('webui.services.utils', ['webui.services.configuration'])
     },
     // get info title from global statistics
     getTitle: function(stats) {
-      var title =
-        'active: ' +  stats.numActive
-        + ' - waiting: ' + stats.numWaiting
-        + ' - stopped: ' + stats.numStopped
-        + ' — '
-        + $name;
-
-      return title;
+        if(!stats) {
+            stats = {};
+        }
+        return $titlePattern
+            .replace('{active}', stats.numActive || '⌛')
+            .replace('{waiting}', stats.numWaiting || '⌛')
+            .replace('{stopped}', stats.numStopped || '⌛')
+            .replace('{name}', $name);
     },
 
     // get download chunks from aria2 bitfield
