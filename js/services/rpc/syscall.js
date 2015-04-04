@@ -34,6 +34,7 @@ function(log, jsonRPC, sockRPC, alerts) {
       opts.error = opts.error || angular.noop;
 
       if (sockRPC.initialized) {
+        console.log('calling sock rpc');
         return sockRPC.invoke(opts);
       }
       else {
