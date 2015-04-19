@@ -37,6 +37,7 @@ function(_, JSON, name, utils, alerts) {
 
     // when connection opens
     onopen: function() {
+      console.log('websocket initialized!!!');
       sockRPC.initialized = true;
     },
 
@@ -93,7 +94,16 @@ function(_, JSON, name, utils, alerts) {
       }
 
       try {
-        sockRPC.sock = new WebSocket(sockRPC.scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc');
+        var authUrl = sockRPC.scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc';
+        if (sockRPC.conf.auth && sockRPC.conf.auth.user && sockRPC.conf.auth.pass) {
+          authUrl = sockRPC.scheme + '://' +
+          sockRPC.conf.auth.user +  ":" +
+          sockRPC.conf.auth.pass + "@" +
+          sockRPC.conf.host + ':' +
+          sockRPC.conf.port + '/jsonrpc';
+        }
+
+        sockRPC.sock = new WebSocket(authUrl);
         sockRPC.sock.onopen = sockRPC.onopen;
         sockRPC.sock.onclose = sockRPC.onclose;
         sockRPC.sock.onerror = sockRPC.onerror;
