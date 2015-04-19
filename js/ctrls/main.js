@@ -3,15 +3,16 @@ angular
 	"ui.bootstrap",
 	'webui.services.utils', 'webui.services.rpc', 'webui.services.rpc.helpers', 'webui.services.alerts',
 	'webui.services.settings', 'webui.services.modals', 'webui.services.configuration',
+	'webui.services.errors',
 ])
 .controller('MainCtrl', [
 	'$scope', '$name', '$enable', '$rpc', '$rpchelpers', '$utils', '$alerts', '$modals',
-	'$fileSettings', '$activeInclude', '$waitingExclude', '$pageSize',
+	'$fileSettings', '$activeInclude', '$waitingExclude', '$pageSize', '$getErrorStatus',
 	// for document title
 	'$rootScope',
 function(
 	scope, name, enable, rpc, rhelpers, utils, alerts, modals,
-	fsettings, activeInclude, waitingExclude, pageSize,
+	fsettings, activeInclude, waitingExclude, pageSize, getErrorStatus,
 	rootScope
 ) {
 
@@ -298,6 +299,10 @@ function(
 			+ scope.stopped.length;
 	}
 
+	scope.getErrorStatus = function(errorCode) {
+		return getErrorStatus(+errorCode);
+	}
+
 	// actual downloads used by the view
 	scope.getDownloads = function() {
 		var downloads = [];
@@ -366,6 +371,7 @@ function(
 				numPieces: d.numPieces,
 				connections: d.connections,
 				bitfield: d.bitfield,
+				errorCode: d.errorCode,
 				totalLength: d.totalLength,
 				fmtTotalLength: utils.fmtsize(d.totalLength),
 				completedLength: d.completedLength,
@@ -386,6 +392,7 @@ function(
 		else {
 			ctx.dir = d.dir;
 			ctx.status = d.status;
+			ctx.errorCode = d.errorCode;
 			ctx.gid = d.gid;
 			ctx.followedBy = (d.followedBy && d.followedBy.length == 1
 				? d.followedBy[0] : null);

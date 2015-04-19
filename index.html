@@ -52,6 +52,8 @@
   <script src="js/services/modals.js"></script>
   <script src="js/services/alerts.js"></script>
 
+  <script src="js/services/errors.js"></script>
+
   <script src="js/services/settings/settings.js"></script>
   <script src="js/services/settings/filters.js"></script>
 
@@ -536,16 +538,17 @@
         </ul>
 
         <ul class="stats pull-left" ng-switch-when="error">
+
           <!-- {{{ error download statistics -->
-          <li class="label label-important">
-            <span title="Download Status"><span class="fa fa-fw fa-times-circle">&nbsp;</span> {{download.status}}</span>
+          <li class="label label-danger">
+            <span title="Error "><span class="fa fa-fw fa-times-circle">&nbsp;</span> {{getErrorStatus(download.errorCode)}}</span>
           </li>
 
-          <li class="label label-important">
+          <li class="label label-default">
             <span title="Download Size"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
           </li>
 
-          <li class="label label-important hidden-phone">
+          <li class="label label-default hidden-phone">
             <span title="Download Path"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
           </li>
 
