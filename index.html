@@ -44,6 +44,7 @@
   <script src="js/directives/fselect.js"></script>
 
   <script src="js/filters/bytes.js"></script>
+  <script src="js/filters/url.js"></script>
 
   <script src="js/services/deps.js"></script>
   <script src="js/services/base64.js"></script>
@@ -584,7 +585,10 @@
             <li class="label label-default" title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
           </ul>
           <ul class="download-files hidden-phone download-item">
-            <li class="label label-default" ng-repeat="file in download.files" ng-class="{'label-success': file.selected}">{{file.relpath}} ({{file.fmtLength}})</li>
+            <li class="label label-default" ng-repeat="file in download.files" ng-class="{'label-success': file.selected}">
+              <a ng-if="hasDirectURL()" ng-click="$event.stopPropagation()" ng-href="{{getDirectURL()}}{{file.relpath | encodeURI}}" target="download">{{file.relpath}} ({{file.fmtLength}})</a>
+              <span ng-if="!hasDirectURL()">{{file.relpath}} ({{file.fmtLength}})</span>
+            </li>
           </ul>
           <div ng-show="hasStatus(download, 'active')" class="download-item hidden-phone">
             <div class="download-graph" dspeed="download.downloadSpeed" uspeed="download.uploadSpeed" xticks="7" yticks="7"  dgraph draw="!download.collapsed"></div>
@@ -984,6 +988,21 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
             <p class="help-block">
               Enter the aria2 RPC password
               (empty if authentication not enabled)
+            </p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Direct Download</legend>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Enter base URL (optional):</label>
+          <div class="col-sm-9 controls">
+            <input type="text" class="form-control input-xlarge"
+              ng-model="connection.conf.directURL"/>
+            <p class="help-block">
+              If supplied, links will be created to enable direct download from the
+              aria2 server, requires appropriate webserver to be configured
             </p>
           </div>
         </div>

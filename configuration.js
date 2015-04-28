@@ -12,7 +12,8 @@ angular
   /*-----------------------------*/
   // user: '*YOUR_USERNAME*',
   // pass: '*YOUR_SECRET_PASS*'
-  }
+  },
+  directURL: ''                   // If supplied, links will be created to enable direct download from the aria2 server, requires appropriate webserver to be configured
 })
 .constant('$enable', {
 

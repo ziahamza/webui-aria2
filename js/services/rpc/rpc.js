@@ -171,6 +171,9 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
     // get current configuration being used
     getConfiguration: function() { return currentConf },
 
+    // get currently configured directURL
+    getDirectURL : function() { return currentConf.directURL },
+    
     // syscall is done only once, delay is optional
     // and pass true to only dispatch it in the global timeout
     // which can be used to batch up once calls

@@ -100,3 +100,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.download-files a {
+  color: #fff;
+}
