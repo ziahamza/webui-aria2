@@ -3,7 +3,7 @@ var webui = angular.module('webui', [
   'webui.services.configuration', 'webui.services.rpc',
   'webui.services.modals', 'webui.services.alerts',
   'webui.services.settings', 'webui.services.settings.filters',
-  'webui.filters.bytes',
+  'webui.filters.bytes','webui.filters.url',
   'webui.directives.chunkbar', 'webui.directives.dgraph', 'webui.directives.fselect',
   'webui.ctrls.download', 'webui.ctrls.nav', 'webui.ctrls.modal', 'webui.ctrls.alert',
   'webui.ctrls.props',

@@ -357,6 +357,14 @@ function(
 		return downloads;
 	}
 
+	scope.hasDirectURL = function() {
+		return rpc.getDirectURL() != '';
+	}
+
+	scope.getDirectURL = function() {
+		return rpc.getDirectURL();
+	}
+
 	// convert the donwload form aria2 to once used by the view,
 	// minor additions of some fields and checks
 	scope.getCtx = function(d, ctx) {
