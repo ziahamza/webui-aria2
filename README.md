@@ -27,6 +27,24 @@ Dependencies
 ============
 Well, you need aria2. And a web browser (if that even counts!)
 
+Docker support
+==============
+You can also try or use webui-aria2 in your LAN inside a Docker sandbox.
+
+Build the image
+
+````bash
+sudo docker build -t yourname/webui-aria2 .
+````
+
+..and run it! It will be available at: `http://localhost:9100`
+
+````bash
+sudo docker run -v /Downloads:/data -p 6800:6800 -p 9100:8080 --name="webui-aria2" yourname/webui-aria2
+````
+
+`/Downloads` is the directory in the host where you want to keep the downloaded files
+
 Support
 =======
 For any support, feature request and bug report add an issue in the github project. [link](https://github.com/ziahamza/webui-aria2/issues)
