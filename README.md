@@ -25,7 +25,7 @@ Read and edit [configuration.js](configuration.js).
 
 DirectURL
 ---------
-If you are familiar with how webservers work, setup a location that points at the configured download directory, check permissions. Specify a full url: ```http://server:port/```
+This feature allows users to download files that they download from aria2 directly from the webui dashboard. If you are familiar with how webservers work, setup a http server that points at the configured aria2 download directory, check permissions. Then Specify a full url: ```http://server:port/``` in the webui directURL configuration.
 
 If the above is not obvious, keep reading what this is about in [directurl.md](directurl.md)
 
