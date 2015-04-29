@@ -23,6 +23,12 @@ Configuration
 =============
 Read and edit [configuration.js](configuration.js).
 
+DirectURL
+---------
+If you are familiar with how webservers work, setup a location that points at the configured download directory, check permissions. Specify a full url: ```http://server:port/```
+
+If the above is not obvious, keep reading what this is about in [directurl.md](directurl.md)
+
 Dependencies
 ============
 Well, you need aria2. And a web browser (if that even counts!)
