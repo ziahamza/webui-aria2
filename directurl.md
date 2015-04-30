@@ -16,8 +16,8 @@ Steps
 3. open a shell session logged in as **aria2**
 4. run ```cd /home/aria2/downloads```
 5. run ```python -m SimpleHTTPServer 8080```
-6. webserver is now running on port 8080 and will serve files from the directory specified
-7. to test open up http://serverip:8080 - should get a response from the webserver, 2 lines of text, any browser errors and something hasn't been done properly, check IP/PORT etc
+6. webserver is now running on port 8080 and will serve files from the directory the command was run in
+7. to test open up http://serverip:8080 - should get a directory listing. any browser errors and something hasn't been done properly, check IP/PORT etc
 8. go back to webui-aria2
 9. go to ```Settings > Connection Settings```
 10. scroll down to Direct Download and put ```http://serverip:8080/``` in base URL field _(make sure have the / on the end)_
