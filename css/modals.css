@@ -1,7 +1,3 @@
-.modal-backdrop {
-  bottom: 0; /* for some reason this is missing from bootstrap.css */
-}
-
 .modal-body textarea {
   width: 100%;
 }

@@ -1,4 +1,6 @@
-
+body {
+  overflow-y: scroll;
+}
 
 input[type=checkbox], input[type=radio] {
   vertical-align: middle;
