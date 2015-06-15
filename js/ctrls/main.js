@@ -378,6 +378,8 @@ function(
 				followedFrom: null,
 				numPieces: d.numPieces,
 				connections: d.connections,
+				connectionsTitle: "Connections",
+				numSeeders: d.numSeeders,
 				bitfield: d.bitfield,
 				errorCode: d.errorCode,
 				totalLength: d.totalLength,
@@ -407,6 +409,13 @@ function(
 			ctx.followedFrom = null;
 			ctx.numPieces = d.numPieces;
 			ctx.connections = d.connections;
+			if ( typeof d.numSeeders === 'undefined' ) {
+				ctx.numSeeders = "";
+			}
+			else {
+				ctx.connectionsTitle = "Connections (Seeders)";
+				ctx.numSeeders = " (" + d.numSeeders + ")";
+			}
 			ctx.bitfield = d.bitfield;
 			if (ctx.totalLength !== d.totalLength) {
 				ctx.totalLength = d.totalLength;
