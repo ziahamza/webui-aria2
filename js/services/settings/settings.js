@@ -292,6 +292,11 @@ angular.module('webui.services.settings', [])
     options: ["true", "false"],
   },
 
+  "http-passwd": {
+    val: '',
+    desc: "Set HTTP password.",
+  },
+
   "http-proxy": {
     val: '',
     desc: 'Use this proxy server for HTTP. To erase previously defined proxy, use "". See also --all-proxy option. This affects all URIs. The format of PROXY is [http://][USER:PASSWORD@]HOST[:PORT].'
