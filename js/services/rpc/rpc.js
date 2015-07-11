@@ -173,7 +173,7 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
 
     // get currently configured directURL
     getDirectURL : function() { return currentConf.directURL },
-    
+
     // syscall is done only once, delay is optional
     // and pass true to only dispatch it in the global timeout
     // which can be used to batch up once calls
@@ -181,7 +181,7 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
       cb = cb || angular.noop;
       params = params || [];
 
-      subscriptions.unshift({
+      subscriptions.push({
         once: true,
         name: 'aria2.' + name,
         params: params,
