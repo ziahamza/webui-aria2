@@ -292,6 +292,11 @@ angular.module('webui.services.settings', [])
     options: ["true", "false"],
   },
 
+  "http-user": {
+    val: '',
+    desc: "Set HTTP username.",
+  },
+
   "http-passwd": {
     val: '',
     desc: "Set HTTP password.",
