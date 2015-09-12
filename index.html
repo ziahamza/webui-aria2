@@ -945,6 +945,20 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
         </div>
 
         <div class="form-group">
+          <label class="col-sm-3 control-label">Enter the rpc path:</label>
+          <div class="col-sm-9 controls">
+            <div class="input-group">
+			  <span class="input-group-addon">http(s)://{{connection.conf.host + ':' + connection.conf.port}}</span>
+              <input type="text" class="form-control input-xlarge"
+                ng-model="connection.conf.path"/>
+            </div>
+            <p class="help-block">
+              Enter path for the aria2 rpc endpoint (default = /jsonrpc)
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label class="col-sm-3 control-label">SSL/TLS encryption:</label>
           <div class="col-sm-9 controls">
             <div class="checkbox">

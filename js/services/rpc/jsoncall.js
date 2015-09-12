@@ -35,7 +35,7 @@ angular
       var rpc = this;
       var scheme = rpc.serverConf.encrypt ? 'https' : 'http';
       rpc.ariaRequest(
-        scheme + '://' + rpc.serverConf.host + ':' + rpc.serverConf.port + '/jsonrpc',
+        scheme + '://' + rpc.serverConf.host + ':' + rpc.serverConf.port + (rpc.serverConf.path || '/jsonrpc'),
         opts.name,
         opts.params,
         opts.success,
@@ -51,7 +51,7 @@ angular
             rpc.serverConf.auth.user +  ":" +
             rpc.serverConf.auth.pass + "@" +
             rpc.serverConf.host + ':' +
-            rpc.serverConf.port + '/jsonrpc';
+            rpc.serverConf.port + (rpc.serverConf.path || '/jsonrpc');
 
           // hack is to basically inject an image with same uri as the aria2 rpc url,
           // most browsers will then cache the authentication details and we dont have

@@ -94,13 +94,13 @@ function(_, JSON, name, utils, alerts) {
       }
 
       try {
-        var authUrl = sockRPC.scheme + '://' + conf.host + ':' + conf.port + '/jsonrpc';
+        var authUrl = sockRPC.scheme + '://' + conf.host + ':' + conf.port + (conf.path || '/jsonrpc');
         if (sockRPC.conf.auth && sockRPC.conf.auth.user && sockRPC.conf.auth.pass) {
           authUrl = sockRPC.scheme + '://' +
           sockRPC.conf.auth.user +  ":" +
           sockRPC.conf.auth.pass + "@" +
           sockRPC.conf.host + ':' +
-          sockRPC.conf.port + '/jsonrpc';
+          sockRPC.conf.port + (conf.path || '/jsonrpc');
         }
 
         sockRPC.sock = new WebSocket(authUrl);
