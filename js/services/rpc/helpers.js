@@ -13,7 +13,7 @@ angular.module('webui.services.rpc.helpers', [
     },
     addUris: function(uris, settings, cb) {
       _.each(uris, function(uri) {
-        uri_parsed = [];
+        var uri_parsed = [];
         // parse options passed in the URIs. E.g. http://ex1.com/f1.jpg --out=image.jpg --check-integrity
         var uriSettings = _.cloneDeep(settings);
         _.each(uri, function(uri_element) {

@@ -124,6 +124,8 @@ angular.module('webui.services.utils', ['webui.services.configuration'])
         return $titlePattern
             .replace('{active}', stats.numActive || '⌛')
             .replace('{waiting}', stats.numWaiting || '⌛')
+            .replace('{download_speed}', utils.fmtspeed(stats.downloadSpeed) || '⌛')
+            .replace('{upload_speed}', utils.fmtspeed(stats.uploadSpeed) || '⌛')
             .replace('{stopped}', stats.numStopped || '⌛')
             .replace('{name}', $name);
     },
