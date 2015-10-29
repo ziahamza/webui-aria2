@@ -74,6 +74,7 @@
 
   <!-- translate -->
   <script src="js/libs/angular-translate.js"></script>
+  <script src="js/translate/th_TH.js"></script>
   <script src="js/translate/zh_CN.js"></script>
 </head>
 <!-- }}} -->
@@ -197,7 +198,7 @@
             href="#">Miscellaneous <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li>
-              <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> Global Statistics</a>
+              <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Global Statistics' | translate }}</a>
             </li>
             <li>
               <a href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> About</a>
@@ -232,7 +233,7 @@
 
       <!-- {{{ global statistics -->
       <ul class="nav nav-list" ng-if="enable.sidebar.stats">
-        <li class="nav-header" ng-show="totalAria2Downloads()">Global Statistics</li>
+        <li class="nav-header" ng-show="totalAria2Downloads()">{{ 'Global Statistics' | translate }}</li>
         <li>
           <div
             yticks="3"
@@ -303,7 +304,7 @@
         </li>
         <li>
           <p>
-          Displaying <strong>{{totalDownloads}}</strong> of <em>{{totalAria2Downloads()}}</em> downloads
+          {{ 'Displaying' | translate }} <strong>{{totalDownloads}}</strong> {{ 'of' | translate }} <em>{{totalAria2Downloads()}}</em> {{ 'downloads' | translate }}
           </p>
           <p>
             <button ng-click="toggleStateFilters()" class="btn btn-default btn-xs">{{ 'Toggle' | translate }}</button>
