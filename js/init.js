@@ -17,8 +17,7 @@ webui.config(['$translateProvider', function ($translateProvider) {
   $translateProvider
       .translations('th_TH', translations.th_TH)
       .translations('zh_CN', translations.zh_CN)
-      .preferredLanguage('th_TH');
-//      .determinePreferredLanguage();
+      .determinePreferredLanguage();
 }]);
 
 $(function() {
