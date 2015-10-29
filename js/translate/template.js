@@ -32,6 +32,10 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'About and contribute': '',
 // body
 // nav side bar
+    'Global Statistics': '',
+    'Displaying': '',
+    'of': '',
+    'downloads': '',
 // download filters
     'Download Filters': '',
     'Running': '',
