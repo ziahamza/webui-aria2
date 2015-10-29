@@ -8,8 +8,16 @@ var webui = angular.module('webui', [
   'webui.ctrls.download', 'webui.ctrls.nav', 'webui.ctrls.modal', 'webui.ctrls.alert',
   'webui.ctrls.props',
   // external deps
-  'ui.bootstrap'
+  'ui.bootstrap',
+  // translate
+  'pascalprecht.translate'
 ]);
+
+webui.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider
+      .translations('zh_CN', translations.zh_CN)
+      .determinePreferredLanguage();
+}]);
 
 $(function() {
   if (!String.prototype.startsWith) {
