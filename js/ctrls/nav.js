@@ -8,12 +8,12 @@ angular
 	'$scope', '$modals',
 	'$rpc', '$rpchelpers', '$fileSettings',
 	'$globalSettings', '$globalExclude',
-	'$utils',
+	'$utils', '$translate',
 	function(
 		scope, modals,
 		rpc, rhelpers, fsettings,
 		gsettings, gexclude,
-		utils
+		utils, translate
 	) {
 
 	scope.isFeatureEnabled = function(f) { return rhelpers.isFeatureEnabled(f) };
@@ -131,6 +131,10 @@ angular
 		modals.invoke(
 			'about'
 		);
-	}
+	};
+
+	scope.changeLanguage = function (langkey) {
+		translate.use(langkey);
+	};
 
 }]);

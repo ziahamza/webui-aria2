@@ -16,6 +16,7 @@ var webui = angular.module('webui', [
 webui.config(['$translateProvider', function ($translateProvider) {
   $translateProvider
       .translations('nl_NL', translations.nl_NL)
+      .translations('en_US', translations.en_US)
       .translations('th_TH', translations.th_TH)
       .translations('zh_CN', translations.zh_CN)
       .determinePreferredLanguage();
