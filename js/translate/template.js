@@ -30,9 +30,12 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Global Settings': '',
     'Server info': '',
     'About and contribute': '',
+    'Toggle navigation': '',
 // body
 // nav side bar
+    'Miscellaneous': '',
     'Global Statistics': '',
+    'About': '',
     'Displaying': '',
     'of': '',
     'downloads': '',
@@ -51,44 +54,77 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
 // starred properties
     'Quick Access Settings': '',
     'Save settings': '',
+    'Currently no download in line to display, use the': '',
+    'download button to start downloading files!': '',
+    'Peers': '',
+    'More Info': '',
+    'Remove': '',
+    '# of': '',
+    'Length': '',
 // modals
     'Add Downloads By URIs': '',
+    '- You can add multiple downloads (files) at the same time by putting URIs for each file on a separate line.':
+        '',
+    '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
+        '',
+    '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '',
+    'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
+        '',
     'Download settings': '',
     'Advanced settings': '',
     'Cancel': '',
     'Start': '',
+    'Choose': '',
+    'Quick Access (shown on the main page)': '',
 // add torrent modal
     'Add Downloads By Torrents': '',
+    '- Select the torrent from the local filesystem to start the download.': '',
+    '- You can select multiple torrents to start multiple downloads.': '',
+    '- To add a BitTorrent-Magnet URL, use the Add By URI option and add it there.': '',
     'Select Torrents': '',
-    'Select a Torrent:': '',
-    //'Download settings': '',  // repeated
-    //'Advanced settings': '',
-    //'Cancel': '',
-    //'Start': '',
+    'Select a Torrent': '',
 // add metalink modal
     'Add Downloads By Metalinks': '',
     'Select Metalinks': '',
-    'Select a Metalinks:': '',
-    //'Download settings': '',
-    //'Advanced settings': '',
-    //'Cancel': '',
-    //'Start': '',
+    '- Select the Metalink from the local filesystem to start the download.': '',
+    '- You can select multiple Metalinks to start multiple downloads.': '',
+    'Select a Metalink': '',
 // select file modal
     'Choose files to start download for': '',
     'Select to download': '',
 // settings modal
-    //'Cancel': '',
-    //'Connection Settings': '',
     'Aria2 RPC host and port': '',
-    'Enter the host:': '',
-    'Enter the port:': '',
+    'Enter the host': '',
+    'Enter the IP or DNS name of the server on which the RPC for Aria2 is running (default: localhost)':
+        '',
+    'Enter the port': '',
+    'Enter the port of the server on which the RPC for Aria2 is running (default: 6800)':
+        '',
+    'Enter the RPC path': '',
+    'Enter the path for the Aria2 RPC endpoint (default: /jsonrpc)': '',
+    'SSL/TLS encryption': '',
+    'Enable SSL/TLS encryption': '',
+    'Enter the secret token (optional)': '',
+    'Enter the Aria2 RPC secret token (leave empty if authentication is not enabled)':
+        '',
+    'Enter the username (optional)': '',
+    'Enter the Aria2 RPC username (empty if authentication not enabled)':
+        '',
+    'Enter the password (optional)': '',
+    'Enter the Aria2 RPC password (empty if authentication not enabled)': '',
+    'Enter base URL (optional)': '',
     'Direct Download': '',
-    //'Cancel': '',
+    'If supplied, links will be created to enable direct download from the Aria2 server.':
+        '',
+    '(Requires appropriate webserver to be configured.)': '',
     'Save Connection configuration': '',
 // server info modal
     'Aria2 server info': '',
-    'Close': ''
+    'Aria2 Version': '',
+    'Features Enabled': '',
 // about modal
-    //'About and contribute': '',
-    //'Close': '',
+    'To download the latest version of the project, add issues or to contribute back, head on to':
+        '',
+    'Or you can open the latest version in the browser through': '',
+    'Close': ''
 };
