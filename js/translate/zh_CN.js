@@ -19,8 +19,11 @@ translations.zh_CN = {
     'Global Settings': '全局设置',
     'Server info': '服务器信息',
     'About and contribute': '关于和贡献',
+    'Language': '语言',
 // body
 // nav side bar
+// global statistics
+    'Global Statistics': '',
 // download filters
     'Download Filters': '下载过滤器',
     'Running': '下载中',
@@ -31,6 +34,9 @@ translations.zh_CN = {
     'Paused': '暂停',
     'Removed': '已删除',
     'Hide linked meta-data': '隐藏链接的元数据',
+    //'Displaying': '',  // TODO 3 lines
+    //'of': '',
+    //'downloads': '',
     'Toggle': '确定',
     'Reset filters': '重置过滤器',
 // starred properties
