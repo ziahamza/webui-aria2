@@ -74,6 +74,7 @@
 
   <!-- translate -->
   <script src="js/libs/angular-translate.js"></script>
+  <script src="js/translate/nl_NL.js"></script>
   <script src="js/translate/th_TH.js"></script>
   <script src="js/translate/zh_CN.js"></script>
 </head>
@@ -86,7 +87,7 @@
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" ng-click="collapsed = !collapsed">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only">{{ 'Toggle navigation' | translate }}</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -195,13 +196,13 @@
         <li class="dropdown" dropdown>
           <a
             class="dropdown-toggle" dropdown-toggle
-            href="#">Miscellaneous <span class="caret"></span></a>
+            href="#">{{ 'Miscellaneous' | translate }} <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li>
               <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Global Statistics' | translate }}</a>
             </li>
             <li>
-              <a href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> About</a>
+              <a href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'About' | translate }}</a>
             </li>
           </ul>
         </li>
@@ -248,7 +249,7 @@
       </ul>
       <!-- }}} -->
 
-      <br>
+      <br />
 
 
       <!-- {{{ download filters -->
@@ -314,7 +315,7 @@
       </ul>
       <!-- }}} -->
 
-      <br>
+      <br />
 
 
       <!-- {{{ starred properties -->
@@ -342,7 +343,7 @@
     <!-- {{{ downloads -->
     <!-- Bug?? <div ng-show="!totalAria2Downloads() && totalAria2Downloads() > getDownloads()" class="hero-unit">-->
     <div ng-show="!totalAria2Downloads()" class="jumbotron">
-      Currently no download in line to display, use the '<strong>Add</strong>' download button to start downloading files!
+      {{ 'Currently no download in line to display, use the' | translate }} <strong>{{ 'Add' | translate }}</strong> {{ 'download button to start downloading files!' | translate }}
     </div>
 
 
@@ -406,21 +407,21 @@
                 <a
                   ng-click="showSettings(download)"
                   ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-                  href="#"><span class="fa fa-fw fa-cog">&nbsp;</span> Settings</a>
+                  href="#"><span class="fa fa-fw fa-cog">&nbsp;</span> {{ 'Settings' | translate }}</a>
               </li>
 
               <li ng-show="download.bittorrent && false">
-                <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> Peers</a>
+                <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Peers' | translate }}</a>
               </li>
 
               <li>
                 <a ng-click="toggleCollapsed(download)"
-                   href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> More Info</a>
+                   href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'More Info' | translate }}</a>
               </li>
 
               <li class="visible-phone">
                 <a ng-click="remove(download)"
-                   href="#"><span class="fa fa-fw fa-times">&nbsp;</span> Remove</a>
+                   href="#"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Remove' | translate }}</a>
               </li>
             </ul>
           </div>
@@ -586,8 +587,8 @@
             <li class="label label-default" title={{download.connectionsTitle}}><i class="fa fa-fw fa-link">&nbsp;</i> <span class="download-connections">{{download.connections}}{{download.numSeeders}}</span></li>
 
             <li class="label label-default" title="Download GID"><i class="fa fa-fw fa-bars">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
-            <li class="label label-default" title="Number of Pieces"># of <i class="fa fa-fw fa-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
-            <li class="label label-default" title="Piece Length"><i class="fa fa-fw fa-puzzle-piece"></i> Length&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
+            <li class="label label-default" title="Number of Pieces">{{ '# of' | translate }} <i class="fa fa-fw fa-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
+            <li class="label label-default" title="Piece Length"><i class="fa fa-fw fa-puzzle-piece"></i> {{ 'Length' | translate }}&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
             <li class="label label-default" title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
           </ul>
           <ul class="download-files hidden-phone download-item">
@@ -643,17 +644,10 @@
   <form class="modal-body">
     <fieldset>
       <p class="help-block">
-        - You can add multiple downloads (files)
-        at the same time by putting uris for each
-        file on a separate line. <br>
-        - You can also add multiple uris (mirrors) for the
-        *same* file. To do this separate the uris
-        by a space. <br>
-        - A URI can be HTTP(S)/FTP/BitTorrent Magnet URI. </br>
-        E.g. To add 2 files (downloads) f1.jpg
-        and f2.mp4 with 2 uris (mirrors) each,
-        add uris as following:
-        <br>
+    {{ '- You can add multiple downloads (files) at the same time by putting URIs for each file on a separate line.' | translate }}<br />
+    {{ '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.' | translate }}<br />
+    {{ '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.' | translate }}</br>
+    {{ 'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows' | translate }}:<br />
         <!-- pre tags print tabs, so do not indent them! -->
 <pre>
 http://ex1.com/f1.jpg http://ex2.com/f1.jpg
@@ -677,7 +671,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
                 </select>
                 <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
               </div>
-              <br>
+              <br />
             </div>
           </div>
 
@@ -720,12 +714,12 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
     <fieldset>
       <legend>{{ 'Select Torrents' | translate }}</legend>
       <p class="help-block">
-        - Select the torrent from the local filesystem to start the download. <br>
-        - You can select multiple torrents to start multiple downloads <br>
-        - To add a magnet torrent url, use the add url option and add it there.
+    {{ '- Select the torrent from the local filesystem to start the download.' | translate }}<br />
+    {{ '- You can select multiple torrents to start multiple downloads.' | translate }}<br />
+    {{ '- To add a BitTorrent-Magnet URL, use the add URI option and add it there.' | translate }}
       </p>
       <div class="form-horizontal form-group">
-        <label class="control-label" style="text-align: left;"><b>{{ 'Select a Torrent:' | translate }}</b></label>
+        <label class="control-label" style="text-align: left;"><b>{{ 'Select a Torrent' | translate }}:</b></label>
         <div class="controls">
           <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
         </div>
@@ -745,7 +739,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
               </select>
               <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
             </div>
-            <br>
+            <br />
           </div>
         </div>
 
@@ -788,11 +782,11 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
     <fieldset>
       <legend>{{ 'Select Metalinks' | translate }}</legend>
       <p class="help-block">
-        - Select the metalink from the local filesystem to start the download. <br>
-        - You can select multiple metalinks to start multiple downloads
+    {{ '- Select the Metalink from the local filesystem to start the download.' | translate }}<br />
+    {{ '- You can select multiple Metalinks to start multiple downloads.' | translate }}
       </p>
       <div class="form-horizontal form-group">
-        <label class="control-label" style="text-align: left;"><b>{{ 'Select a Metalinks:' | translate }}</b></label>
+        <label class="control-label" style="text-align: left;"><b>{{ 'Select a Metalink' | translate }}:</b></label>
         <div class="controls">
           <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
         </div>
@@ -812,7 +806,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
               </select>
               <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
             </div>
-            <br>
+            <br />
           </div>
         </div>
 
@@ -863,15 +857,15 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
               <input type="checkbox" ng-model="file.selected"/>{{file.relpath}}
             </label>
           </div>
-          <br><br>
+          <br /><br />
         </div>
       </div>
     </fieldset>
   </form>
 
   <div class="modal-footer">
-    <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
-    <button class="btn btn-default btn-primary" ng-click="$close()">Choose</button>
+    <button class="btn btn-default" ng-click="$dismiss()">{{ 'Cancel' | translate }}</button>
+    <button class="btn btn-default btn-primary" ng-click="$close()">{{ 'Choose' | translate }}</button>
   </div>
 </script>
 <!-- }}} -->
@@ -896,7 +890,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
             <div class="checkbox" ng-show="set.starred != undefined">
               <label>
                 <input type="checkbox" ng-model="set.starred"/>
-                Quick Access (shown on the main page)
+                {{ 'Quick Access (shown on the main page)' | translate }}
               </label>
             </div>
             <p class="help-block">{{set.desc}}</p>
@@ -924,7 +918,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
       <fieldset>
         <legend>{{ 'Aria2 RPC host and port' | translate }}</legend>
         <div class="form-group">
-          <label class="col-sm-3 control-label">{{ 'Enter the host:' | translate }}</label>
+          <label class="col-sm-3 control-label">{{ 'Enter the host' | translate }}:</label>
           <div class="col-sm-9 controls">
             <div class="input-group">
               <span class="input-group-addon">http(s)://</span>
@@ -932,26 +926,24 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
                 ng-model="connection.conf.host"/>
             </div>
             <p class="help-block">
-              Enter the ip or dns name of the server on which the
-              rpc for aria2 is running (default = localhost)
+          {{ 'Enter the IP or DNS name of the server on which the RPC for Aria2 is running (default: localhost)' | translate }}
             </p>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">{{ 'Enter the port:' | translate }}</label>
+          <label class="col-sm-3 control-label">{{ 'Enter the port' | translate }}:</label>
           <div class="col-sm-9 controls">
             <input type="text" class="form-control input-xlarge modal-form-input-number"
               ng-model="connection.conf.port"/>
             <p class="help-block">
-              Enter the port of the server on which the rpc for
-              aria2 is running (default = 6800)
+          {{ 'Enter the port of the server on which the RPC for Aria2 is running (default: 6800)' | translate }}
             </p>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">Enter the rpc path:</label>
+          <label class="col-sm-3 control-label">{{ 'Enter the RPC path' | translate }}:</label>
           <div class="col-sm-9 controls">
             <div class="input-group">
 			  <span class="input-group-addon">http(s)://{{connection.conf.host + ':' + connection.conf.port}}</span>
@@ -959,55 +951,53 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
                 ng-model="connection.conf.path"/>
             </div>
             <p class="help-block">
-              Enter path for the aria2 rpc endpoint (default = /jsonrpc)
+          {{ 'Enter the path for the Aria2 RPC endpoint (default: /jsonrpc)' | translate }}
             </p>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">SSL/TLS encryption:</label>
+          <label class="col-sm-3 control-label">{{ 'SSL/TLS encryption' | translate }}:</label>
           <div class="col-sm-9 controls">
             <div class="checkbox">
               <label>
                 <input type="checkbox" ng-model="connection.conf.encrypt"/>
-                Enable SSL/TLS encryption.
+                {{ 'Enable SSL/TLS encryption' | translate }}
               </label>
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">Enter the secret token (optional):</label>
+          <label class="col-sm-3 control-label">{{ 'Enter the secret token (optional)' | translate }}:</label>
           <div class="col-sm-9 controls">
             <label>
               <input type="text" class="form-control input-xlarge" ng-model="connection.conf.auth.token"/>
               <p class="help-block">
-              Enter the aria2 RPC secret token (leave empty if authentication is not enabled)
+          {{ 'Enter the Aria2 RPC secret token (leave empty if authentication is not enabled)' | translate }}
               </p>
             </label>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">Enter the username (optional):</label>
+          <label class="col-sm-3 control-label">{{ 'Enter the username (optional)' | translate }}:</label>
           <div class="col-sm-9 controls">
             <input type="text" class="form-control input-xlarge"
               ng-model="connection.conf.auth.user"/>
             <p class="help-block">
-              Enter the aria2 RPC username
-              (empty if authentication not enabled)
+          {{ 'Enter the Aria2 RPC username (empty if authentication not enabled)' | translate }}
             </p>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">Enter the password (optional):</label>
+          <label class="col-sm-3 control-label">{{ 'Enter the password (optional)' | translate }}:</label>
           <div class="col-sm-9 controls">
             <input type="password" class="form-control input-xlarge"
               ng-model="connection.conf.auth.pass"/>
             <p class="help-block">
-              Enter the aria2 RPC password
-              (empty if authentication not enabled)
+          {{ 'Enter the Aria2 RPC password (empty if authentication not enabled)' | translate }}
             </p>
           </div>
         </div>
@@ -1016,13 +1006,13 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
       <fieldset>
         <legend>{{ 'Direct Download' | translate }}</legend>
         <div class="form-group">
-          <label class="col-sm-3 control-label">Enter base URL (optional):</label>
+          <label class="col-sm-3 control-label">{{ 'Enter base URL (optional)' | translate }}:</label>
           <div class="col-sm-9 controls">
             <input type="text" class="form-control input-xlarge"
               ng-model="connection.conf.directURL"/>
             <p class="help-block">
-              If supplied, links will be created to enable direct download from the
-              aria2 server, requires appropriate webserver to be configured
+              {{ 'If supplied, links will be created to enable direct download from the Aria2 server.' | translate }}<br />
+              (( '(Requires an appropriate webserver to be configured.)' | translate }}
             </p>
           </div>
         </div>
@@ -1046,9 +1036,9 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
     <h4>{{ 'Aria2 server info' | translate }}</h4>
   </div>
   <div class="modal-body">
-      <b>Aria2 Version {{miscellaneous.version}}</b>
-      <br><br>
-      <b>Features Enabled</b>
+      <b>{{ 'Aria2 Version' | translate }} {{miscellaneous.version}}</b>
+      <br /><br />
+      <b>{{ 'Features Enabled' | translate }}</b>
         <ul>
         <li
           ng-repeat="feature in miscellaneous.enabledFeatures">
@@ -1070,11 +1060,10 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
   </div>
   <div class="modal-body">
       <p>
-        To download the latest version of the project,<br />
-         add issues or to contribute back head on to:<br />
+        {{ 'To download the latest version of the project, add issues or to contribute back, head on to' | translate }}:<br />
         <a href="https://github.com/ziahamza/webui-aria2">http://github.com/ziahamza/webui-aria2</a>
         <br /><br />
-        Or you can open the latest version in browser through:<br />
+        {{ 'Or you can open the latest version in browser through' | translate }}:<br />
         <a href="http://ziahamza.github.io/webui-aria2">http://ziahamza.github.io/webui-aria2</a>
       </p>
   </div>
