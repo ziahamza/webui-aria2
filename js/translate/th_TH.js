@@ -20,6 +20,7 @@ translations.th_TH = {
     'Server info': 'ข้อมูลเซอร์เวอร์',
     'About and contribute': 'เกี่ยวกับและช่วย',
     'Toggle navigation': 'สลับนำทาง',
+    'Language': 'ภาษา',
 // body
 // nav side bar
     'Miscellaneous': 'เบ็ดเตล็ด',
