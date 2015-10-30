@@ -19,12 +19,11 @@ translations.th_TH = {
     'Global Settings': 'ตั้งค่าทั่วไป',
     'Server info': 'ข้อมูลเซอร์เวอร์',
     'About and contribute': 'เกี่ยวกับและช่วย',
+    //'Language': '',  // TODO
 // body
 // nav side bar
+// global statistics
     'Global Statistics': 'สถิติทั่วไป',
-    'Displaying': 'แแสดงดาวน์โหลด',
-    'of': 'อันใน',
-    'downloads': 'อันทั้งหมด',
 // download filters
     'Download Filters': 'กรองดาวน์โหลด',
     'Running': 'กำลังทำงาน',
@@ -35,6 +34,9 @@ translations.th_TH = {
     'Paused': 'หยุดอยู่',
     'Removed': 'ลบแล้ว',
     'Hide linked meta-data': 'ซ่อนข้อมูลเมตาที่เชื่อมโยง',
+    'Displaying': 'แแสดงดาวน์โหลด',
+    'of': 'อันใน',
+    'downloads': 'อันทั้งหมด',
     'Toggle': 'สลับ',
     'Reset filters': 'รีเซตตัวกรอง',
 // starred properties

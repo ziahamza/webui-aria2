@@ -6,7 +6,10 @@
 //    Add '.translations('ll_CC', translations.ll_CC)' before '.determinePreferredLanguage();'
 // 3. in index.html
 //    Add '<script src="js/translate/ll_CC.js"></script>' after '<script src="js/libs/angular-translate.js"></script>'
-// 4. Then Browser determining preferred language automatically.
+// 4. To add Language to changeLanguage button, see "{{ 'Language' | translate }}" in index.html.
+//    flag-icon usage:
+//    https://github.com/lipis/flag-icon-css
+// 5. Browser determining preferred language automatically.
 //    http://angular-translate.github.io/docs/en/#/guide/07_multi-language
 
 if(typeof translations == 'undefined'){
@@ -30,12 +33,11 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Global Settings': '',
     'Server info': '',
     'About and contribute': '',
+    'Language': '',
 // body
 // nav side bar
+// global statistics
     'Global Statistics': '',
-    'Displaying': '',
-    'of': '',
-    'downloads': '',
 // download filters
     'Download Filters': '',
     'Running': '',
@@ -46,6 +48,9 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Paused': '',
     'Removed': '',
     'Hide linked meta-data': '',
+    'Displaying': '',
+    'of': '',
+    'downloads': '',
     'Toggle': '',
     'Reset filters': '',
 // starred properties
