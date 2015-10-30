@@ -20,6 +20,7 @@ translations.nl_NL = {
     'Server info': 'Informatie over de server',
     'About and contribute': 'Over het project en bijdragen',
     'Toggle navigation': 'Navigatie omschakelen',
+    'Language': 'Taal',
 // body
 // nav side bar
     'Miscellaneous': 'Overig',
