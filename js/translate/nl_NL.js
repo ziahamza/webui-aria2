@@ -26,7 +26,7 @@ translations.nl_NL = {
     'Miscellaneous': 'Overig',
     'Global Statistics': 'Globale statistieken',
     'About': 'Over het project',
-    'Displaying': '', // empty because of grammar in the following 2 elements
+    'Displaying': ' ', // empty because of grammar in the following 2 elements
     'of': 'van',
     'downloads': 'downloads weergegeven',
 // download filters
