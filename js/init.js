@@ -13,12 +13,26 @@ var webui = angular.module('webui', [
   'pascalprecht.translate'
 ]);
 
+function mergeTranslation(translation, base) {
+	for (var i in base) {
+		if (!base.hasOwnProperty(i)) {
+			continue;
+		}
+
+		if (!translation[i] || !translation[i].length) {
+			translation[i] = base[i];
+		}
+	}
+
+	return translation;
+}
+
 webui.config(['$translateProvider', function ($translateProvider) {
   $translateProvider
-      .translations('nl_NL', translations.nl_NL)
       .translations('en_US', translations.en_US)
-      .translations('th_TH', translations.th_TH)
-      .translations('zh_CN', translations.zh_CN)
+      .translations('nl_NL', mergeTranslation(translations.nl_NL, translations.en_US))
+      .translations('th_TH', mergeTranslation(translations.th_TH, translations.en_US))
+      .translations('zh_CN', mergeTranslation(translations.zh_CN, translations.en_US))
       .determinePreferredLanguage();
 }]);
 
