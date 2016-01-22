@@ -98,7 +98,7 @@ angular
 
 			modals.invoke(
 				'settings', _.cloneDeep(settings),
-				'Global Settings', '{{ \'Save\' | translate }}', function(chsettings) {
+				'Global Settings', 'Save', function(chsettings) {
 
 				var sets = {};
 				var starred = [];
