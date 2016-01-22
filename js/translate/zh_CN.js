@@ -4,7 +4,7 @@ if (typeof translations == 'undefined') {
 
 translations.zh_CN = {
 // header
-    'Search': '查找',
+    'Search': '搜索',
     // Nav menu
     'Add': '添加',
     'By URIs': '使用链接',
@@ -30,16 +30,19 @@ translations.zh_CN = {
     'downloads': '下载',
     'Language': '语言',
 // download filters
-    'Download Filters': '下载过滤器',
+    'Download Filters': '过滤器',
     'Running': '下载中',
-    'Active': '激活',
-    'Waiting': '等待',
+    'Active': '活动的',
+    'Waiting': '等待中',
     'Complete': '已完成',
-    'Error': '错误',
-    'Paused': '暂停',
+    'Error': '出错的',
+    'Paused': '已暂停',
     'Removed': '已删除',
     'Hide linked meta-data': '隐藏链接的元数据',
-    'Toggle': '确定',
+    'Displaying': '当前显示了',
+    'of': '/',
+    'downloads': '下载',
+    'Toggle': '反向选择',
     'Reset filters': '重置过滤器',
 // starred properties
     'Quick Access Settings': '快速访问设置',
@@ -116,6 +119,19 @@ translations.zh_CN = {
     'To download the latest version of the project, add issues or to contribute back, head on to':
             '下载最新版本，反馈问题，请到',
     'Or you can open the latest version in browser through': '在线使用请开打',
-    'Close': '关闭'
+    'Close': '关闭',
+// lables
+    'Download status':'下载状态',
+    'Download Speed':'下载速度',
+    'Upload Speed':'上传速度',
+    'Estimated time':'剩余时间',
+    'Download Size':'下载总大小',
+    'Downloaded':'已下载',
+    'Progress':'进度',
+    'Download Path':'下载路径',
+    'Uploaded':'已上传',
+    'Download GID':'下载GID',
+    'Number of Pieces':'块数量',
+    'Piece Length':'每块大小'
 };
 

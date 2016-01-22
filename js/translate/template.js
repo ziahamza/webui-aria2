@@ -133,5 +133,18 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'To download the latest version of the project, add issues or to contribute back, head on to':
         '',
     'Or you can open the latest version in the browser through': '',
-    'Close': ''
+    'Close': '',
+// lables
+    'Download status':'',
+    'Download Speed':'',
+    'Upload Speed':'',
+    'Estimated time':'',
+    'Download Size':'',
+    'Downloaded':'',
+    'Progress':'',
+    'Download Path':'',
+    'Uploaded':'',
+    'Download GID':'',
+    'Number of Pieces':'',
+    'Piece Length':''
 };
