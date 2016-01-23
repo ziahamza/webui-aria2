@@ -119,5 +119,18 @@ translations.en_US = {
     'To download the latest version of the project, add issues or to contribute back, head on to':
         'To download the latest version of the project, add issues or to contribute back, head on to',
     'Or you can open the latest version in the browser through': 'Or you can open the latest version in the browser through',
-    'Close': 'Close'
+    'Close': 'Close',
+// lables
+    'Download status':'Download status',
+    'Download Speed':'Download Speed',
+    'Upload Speed':'Upload Speed',
+    'Estimated time':'Estimated time',
+    'Download Size':'Download Size',
+    'Downloaded':'Downloaded',
+    'Progress':'Progress',
+    'Download Path':'Download Path',
+    'Uploaded':'Uploaded',
+    'Download GID':'Download GID',
+    'Number of Pieces':'Number of Pieces',
+    'Piece Length':'Piece Length'
 };
