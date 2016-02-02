@@ -33,6 +33,7 @@ webui.config(['$translateProvider', function ($translateProvider) {
       .translations('nl_NL', mergeTranslation(translations.nl_NL, translations.en_US))
       .translations('th_TH', mergeTranslation(translations.th_TH, translations.en_US))
       .translations('zh_CN', mergeTranslation(translations.zh_CN, translations.en_US))
+      .translations('pl_PL', mergeTranslation(translations.pl_PL, translations.en_US))
       .determinePreferredLanguage();
 }]);
 
