@@ -33,6 +33,12 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
       port: uri.port(),
       path: '/jsonrpc',
       encrypt: ( uri.protocol() == 'https' )
+    },
+    {
+      host: uri.host(),
+      port: uri.port(),
+      path: authconf.path,
+      encrypt: ( uri.protocol() == 'https' )
     });
     console.log(configurations);
   }
