@@ -95,7 +95,7 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
       }
       else {
         alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings', 'error');
-        timeout = setTimeout(update, 10000);
+        timeout = setTimeout(update, $globalTimeout);
       }
     };
 
@@ -109,7 +109,7 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
 
         if (failed) {
           alerts.addAlert('<strong>Oh Snap!</strong> Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details  by going to Settings > Connection Settings', 'error');
-          timeout = setTimeout(update, 10000);
+          timeout = setTimeout(update, $globalTimeout);
           return;
         }
 
