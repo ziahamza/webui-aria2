@@ -9,16 +9,15 @@ angular
 function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
 
   var subscriptions = []
-    , configurations
+    , configurations = [authconf]
     , currentConf = {}
     , currentToken
     , timeout = null
     , forceNextUpdate = false;
 
   var cookieConf = utils.getCookie('aria2conf');
-
   // try at the start, so that it is presistant even when default authconf works
-  configurations = [cookieConf ? cookieConf : authconf];
+  if(cookieConf) configurations.unshift(cookieConf);
 
   if (['http', 'https'].indexOf(uri.protocol()) != -1 && uri.host() != 'localhost') {
     console.log(uri.host());
