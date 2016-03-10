@@ -6,7 +6,7 @@ angular
 .factory('$rpc', [
   '$syscall', '$globalTimeout', '$alerts', '$utils',
   '$rootScope', '$location', '$authconf',
-function(syscall, time, alerts, utils, rootScope, uri, authconf) {
+function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
 
   var subscriptions = []
     , configurations = [authconf]
@@ -16,9 +16,8 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
     , forceNextUpdate = false;
 
   var cookieConf = utils.getCookie('aria2conf');
-
   // try at the start, so that it is presistant even when default authconf works
-  if (cookieConf) configurations.push(cookieConf);
+  if(cookieConf) configurations.unshift(cookieConf);
 
   if (['http', 'https'].indexOf(uri.protocol()) != -1 && uri.host() != 'localhost') {
     console.log(uri.host());
@@ -95,7 +94,7 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
       }
       else {
         alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings', 'error');
-        timeout = setTimeout(update, $globalTimeout);
+        timeout = setTimeout(update, globalTimeout);
       }
     };
 
@@ -109,7 +108,7 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
 
         if (failed) {
           alerts.addAlert('<strong>Oh Snap!</strong> Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details  by going to Settings > Connection Settings', 'error');
-          timeout = setTimeout(update, $globalTimeout);
+          timeout = setTimeout(update, globalTimeout);
           return;
         }
 
@@ -153,7 +152,7 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
           timeout = setTimeout(update, 0);
         }
         else {
-          timeout = setTimeout(update, time);
+          timeout = setTimeout(update, globalTimeout);
         }
       },
       error: error
@@ -161,7 +160,7 @@ function(syscall, time, alerts, utils, rootScope, uri, authconf) {
   };
 
   // initiate the update loop
-  timeout = setTimeout(update, time);
+  timeout = setTimeout(update, globalTimeout);
 
   return {
     // conf can be configuration or array of configurations,
