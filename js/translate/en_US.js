@@ -132,5 +132,6 @@ translations.en_US = {
     'Uploaded':'Uploaded',
     'Download GID':'Download GID',
     'Number of Pieces':'Number of Pieces',
-    'Piece Length':'Piece Length'
+    'Piece Length': 'Piece Length',
+    'Shutdown Server': 'Shutdown Server'
 };
