@@ -93,20 +93,20 @@ translations.de_DE = {
     'Enter the port': 'Port',
     'Enter the port of the server on which the RPC for Aria2 is running (default: 6800)':
         'Gib den Port des Servers ein, auf dem der RPC-Dienst von Aria2 läuft (Standard: 6800)',
-    'Enter the RPC path': 'RPC path',
+    'Enter the RPC path': 'RPC Pfad',
     'Enter the path for the Aria2 RPC endpoint (default: /jsonrpc)': 'Gib den Pfad zum Aria2 RPC Endpunkt an (Standard: /jsonrpc)',
     'SSL/TLS encryption': 'SSL/TLS',
     'Enable SSL/TLS encryption': 'Aktiviere SSL/TLS Verschlüsselung',
-    'Enter the secret token (optional)': 'secret token (optional)',
+    'Enter the secret token (optional)': 'Secret Token (optional)',
     'Enter the Aria2 RPC secret token (leave empty if authentication is not enabled)':
         'Gib den Aria2 RPC secret Token ein (leer lassen falls keine Authentifizierung aktiv)',
     'Enter the username (optional)': 'Benutzername (optional)',
     'Enter the Aria2 RPC username (empty if authentication not enabled)':
         'Gib den Aria2 RPC Benutzernamen ein (leer lassen falls keine Authentifizierung aktiv)',
-    'Enter the password (optional)': 'Password (optional)',
+    'Enter the password (optional)': 'Passwort (optional)',
     'Enter the Aria2 RPC password (empty if authentication not enabled)': 'Gib das Aria2 RPC Passwort ein (leer lassen falls keine Authentifizierung aktiv)',
     'Enter base URL (optional)': 'Base URL (optional)',
-    'Direct Download': 'Directer Download',
+    'Direct Download': 'Direkter Download',
     'If supplied, links will be created to enable direct download from the Aria2 server.':
         'Falls angegeben, werden Links erstellt um einen direkten Download vom Aria2 Server zu ermöglichen',
     '(Requires appropriate webserver to be configured.)': '(Es wird ein entsprechend konfigurierter WebServer benötigt.)',
@@ -124,7 +124,7 @@ translations.de_DE = {
     'Download status':'Download Status',
     'Download Speed':'Download Geschwindigkeit',
     'Upload Speed':'Upload Geschwindigkeit',
-    'Estimated time':'Geschlätzte Zeit',
+    'Estimated time':'Geschätzte Zeit',
     'Download Size':'Download Größe',
     'Downloaded':'Heruntergeladen',
     'Progress':'Fortschritt',
