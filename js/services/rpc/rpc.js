@@ -43,6 +43,9 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
   }
 
 
+  // set if we got error on connection. This will cause another connection attempt.
+  var needNewConnection = true;
+
   // update is implemented such that
   // only one syscall at max is ongoing
   // (i.e. serially) so should be private
@@ -57,11 +60,18 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
     });
     var subs = subscriptions.slice();
     if (!subs.length) {
-      timeout = setTimeout(update, time);
+      timeout = setTimeout(update, globalTimeout);
       return;
     }
 
-    if (configurations.length) {
+    if (syscall.state == 'initializing') {
+      console.log("Syscall is initializing, waiting");
+      timeout = setTimeout(update, globalTimeout);
+      return;
+    }
+
+    if (needNewConnection && configurations.length) {
+      needNewConnection = false;
       currentConf = configurations[0];
       if (currentConf && currentConf.auth && currentConf.auth.token) {
         currentToken = currentConf.auth.token;
@@ -70,6 +80,8 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
         currentToken = null;
       }
       syscall.init(currentConf);
+      timeout = setTimeout(update, globalTimeout);
+      return;
     }
 
     var params = _.map(subs, function(s) {
@@ -84,6 +96,7 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
     });
 
     var error = function() {
+      needNewConnection = true;
       var ind = configurations.indexOf(currentConf);
       if (ind != -1) configurations.splice(ind, 1);
 

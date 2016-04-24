@@ -6,6 +6,7 @@ angular
 .factory('$syscall', ['$log', '$jsoncall', '$sockcall', '$alerts',
 function(log, jsonRPC, sockRPC, alerts) {
   return {
+    state: 'none',
     // called to initialize the rpc interface, call everytime configuration changes
     // conf has the following structure:
     // {
@@ -18,8 +19,14 @@ function(log, jsonRPC, sockRPC, alerts) {
     //     pass (string): password for the http authentication if enabled
     //   }
     init: function(conf) {
+      console.log("Syscall is initializing to", conf);
+      this.state = 'initializing';
       jsonRPC.init(conf);
-      sockRPC.init(conf);
+      var syscall = this;
+      sockRPC.init(conf, function() {
+        console.log("Syscall is ready");
+        syscall.state = 'ready';
+      });
     },
 
     // call this to start an rpc call, opts has the following structure:
