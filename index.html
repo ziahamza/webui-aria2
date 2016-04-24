@@ -1,4 +1,4 @@
-<!doctype>
+﻿<!doctype>
 <html>
 
 <!-- {{{ head -->
@@ -149,7 +149,11 @@
                 href="#"
                 ng-click="purgeDownloadResult()"><span class="fa fa-fw fa-times-circle">&nbsp;</span> {{ 'Purge Completed' | translate }}</a>
             </li>
-
+            <li>
+              <a
+                href="#"
+                ng-click="shutDownServer()"><span class="fa fa-fw fa-power-off">&nbsp;</span> {{ 'Shutdown Server' | translate }}</a>
+            </li>
             <!-- not adding remove all as requires many rpc syscalls to finish
             <li>
               <a
@@ -400,86 +404,97 @@
       ng-repeat="download in getDownloads()"
       class="row-fluid download well" data-gid="{{download.gid}}"
       ng-click="toggleCollapsed(download)">
-      <div class="download-name download-item download-controls">
+    <div class="download-name download-item download-controls">
         <!-- {{{ download control buttons -->
         <div class="btn-group" role="group" ng-click="$event.stopPropagation()">
-          <button
-            ng-if="hasStatus(download, ['active', 'waiting'])"
-            class="btn btn-default"
-            ng-click="pause(download)">
-            <span class="fa fa-fw fa-pause"></span>
-          </button>
-
-          <button
-            ng-if="hasStatus(download, 'paused')"
-            class="btn btn-default"
-            ng-click="resume(download)">
-            <span class="fa fa-fw fa-play"></span>
-          </button>
-
-          <button
-            ng-if="canRestart(download)"
-            class="btn btn-default"
-            ng-click="restart(download)">
-            <span class="fa fa-fw fa-repeat"></span>
-          </button>
-
-          <button
-            class="btn btn-default hidden-phone"
-            ng-click="remove(download)">
-            <span class="fa fa-fw fa-stop"></span>
-          </button>
-
-          <button
-            ng-if="hasStatus(download, 'paused')"
-            class="btn btn-default"
-            ng-click="selectFiles(download)">
-            <span class="fa fa-fw fa-list"></span>
-          </button>
-
-          <button
-            class="btn btn-default hidden-phone"
-            ng-if="['waiting', 'active'].indexOf( getType(download) )!= -1"
-            ng-click="showSettings(download)">
-            <span class="fa fa-fw fa-cog"></span>
-          </button>
-
-          <div class="btn-group" dropdown>
-            <button class="btn btn-default dropdown-toggle" dropdown-toggle>
-              <span class="caret"></span>
+            <button
+                ng-if="hasStatus(download, ['active', 'waiting'])"
+                class="btn btn-default"
+                ng-click="pause(download)">
+                <span class="fa fa-fw fa-pause"></span>
             </button>
-            <ul class="dropdown-menu pull-right">
 
-              <li class="visible-phone">
-                <a
-                  ng-click="showSettings(download)"
-                  ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-                  href="#"><span class="fa fa-fw fa-cog">&nbsp;</span> {{ 'Settings' | translate }}</a>
-              </li>
+            <button
+                ng-if="hasStatus(download, 'paused')"
+                class="btn btn-default"
+                ng-click="resume(download)">
+                <span class="fa fa-fw fa-play"></span>
+            </button>
 
-              <li ng-show="download.bittorrent && false">
-                <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Peers' | translate }}</a>
-              </li>
+            <button
+                ng-if="canRestart(download)"
+                class="btn btn-default"
+                ng-click="restart(download)">
+                <span class="fa fa-fw fa-repeat"></span>
+            </button>
 
-              <li>
-                <a ng-click="toggleCollapsed(download)"
-                   href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'More Info' | translate }}</a>
-              </li>
+            <button
+                class="btn btn-default hidden-phone"
+                ng-click="remove(download)">
+                <span class="fa fa-fw fa-stop"></span>
+            </button>
 
-              <li class="visible-phone">
-                <a ng-click="remove(download)"
-                   href="#"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Remove' | translate }}</a>
-              </li>
-            </ul>
-          </div>
+            <button
+                ng-if="hasStatus(download, 'paused')"
+                class="btn btn-default"
+                ng-click="selectFiles(download)">
+                <span class="fa fa-fw fa-list"></span>
+            </button>
+
+            <button
+                class="btn btn-default hidden-phone"
+                ng-if="['waiting', 'active'].indexOf( getType(download) )!= -1"
+                ng-click="showSettings(download)">
+                <span class="fa fa-fw fa-cog"></span>
+            </button>
+            <button
+                ng-if="hasStatus(download, 'waiting')"
+                class="btn btn-default hidden-phone"
+                ng-click="moveDown(download)">
+                <span class="fa fa-fw fa-arrow-circle-o-down"></span>
+            </button>
+            <button
+                ng-if="hasStatus(download, 'waiting')"
+                class="btn btn-default hidden-phone"
+                ng-click="moveUp(download)">
+                <span class="fa fa-fw fa-arrow-circle-o-up"></span>
+            </button>
+            <div class="btn-group" dropdown>
+                <button class="btn btn-default dropdown-toggle" dropdown-toggle>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right">
+
+                    <li class="visible-phone">
+                        <a
+                            ng-click="showSettings(download)"
+                            ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
+                            href="#"><span class="fa fa-fw fa-cog">&nbsp;</span> {{ 'Settings' | translate }}</a>
+                    </li>
+
+                    <li ng-show="download.bittorrent && false">
+                        <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Peers' | translate }}</a>
+                    </li>
+
+                    <li>
+                        <a ng-click="toggleCollapsed(download)"
+                           href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'More Info' | translate }}</a>
+                    </li>
+
+                    <li class="visible-phone">
+                        <a ng-click="remove(download)"
+                           href="#"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Remove' | translate }}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <!-- }}} -->
 
         <div class="title">
-          <span class="fa fa-fw fa-magnet" style="color: red;" ng-show="download.metadata"></span>
-          {{download.name}}
+            <span class="fa fa-fw fa-magnet" style="color: red;" ng-show="download.metadata"></span>
+            {{download.name}}
         </div>
-      </div>
+    </div>
       <div class="download-overview download-item" ng-switch="download.status">
         <!-- {{{ statistics -->
         <ul class="stats pull-left" ng-switch-when="active">
