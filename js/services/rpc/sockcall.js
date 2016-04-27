@@ -28,17 +28,29 @@ function(_, JSON, name, utils, alerts) {
       _.each(sockRPC.handles, function(h) { h.error() });
       sockRPC.handles = [];
       sockRPC.initialized = false;
+      if (sockRPC.onready) {
+        sockRPC.onready();
+        sockRPC.onready = null;
+      }
     },
     onclose: function(ev) {
       if (sockRPC.handles && sockRPC.handles.length)
         sockRPC.onerror('Connection reset while calling aria2');
       sockRPC.initialized = false;
+      if (sockRPC.onready) {
+        sockRPC.onready();
+        sockRPC.onready = null;
+      }
     },
 
     // when connection opens
     onopen: function() {
       console.log('websocket initialized!!!');
       sockRPC.initialized = true;
+      if (sockRPC.onready) {
+        sockRPC.onready();
+        sockRPC.onready = null;
+      }
     },
 
 
@@ -77,11 +89,18 @@ function(_, JSON, name, utils, alerts) {
     },
 
     // should be called initially to start using the sock rpc
-    init: function(conf) {
+    // onready is called when initial connection is resolved
+    init: function(conf, onready) {
       sockRPC.initialized = false;
+      if (sockRPC.onready) {
+        // make previous call is resolved
+        sockRPC.onready();
+        sockRPC.onready = null;
+      }
 
       if (typeof WebSocket == "undefined") {
         alerts.addAlert('Web sockets are not supported! Falling back to JSONP.', 'info');
+        onready();
         return;
       }
       sockRPC.conf = conf || sockRPC.conf;
@@ -108,11 +127,13 @@ function(_, JSON, name, utils, alerts) {
         sockRPC.sock.onclose = sockRPC.onclose;
         sockRPC.sock.onerror = sockRPC.onerror;
         sockRPC.sock.onmessage = sockRPC.onmessage;
+        sockRPC.onready = onready;
       }
       catch (ex) {
-        // ignoring IE securty exception on local ip addresses
+        // ignoring IE security exception on local ip addresses
         console.log('not using websocket for aria2 rpc due to: ', ex);
         alerts.addAlert('Web sockets not working due to ' + ex.message, 'info');
+        onready();
       }
     },
   };
