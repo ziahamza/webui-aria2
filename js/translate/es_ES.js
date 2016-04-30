@@ -71,12 +71,12 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
 // modals
     'Add Downloads By URIs': 'Añadir descargas por URIs',
     '- You can add multiple downloads (files) at the same time by putting URIs for each file on a separate line.':
-        'Puede añadir multiples descargas (archivos) al mismo tiempo colocando la URI de cada archivo en una línea separada',
+        'Añada varias descargas colocando la URI de cada descarga en una línea separada',
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
-        'Tambien puede añadir varias URL mirror para *el mismo* archivo. Para hacer esto, separe cada URI con un espacio.',
+        'Puede añadir URIs de espejo para *el mismo* archivo. Separe cada URI con un espacio.',
     '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': 'Una URI puede ser HTTP(S)/FTP/BitTorrent-Magnet.',
     'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
-        'P. ej. para añadir dos archivos (descargas) f1.jpg y f2.mp4 con dos URIs (mirrors) cada uno, añada las URIs así',
+        'P. ej. para añadir dos descargas f1.jpg y f2.mp4 con dos URIs de espejo cada una, añada las URIs así',
     'Download settings': 'Ajustes de Descargas',
     'Advanced settings': 'Ajustes Avanzados',
     'Cancel': 'Cancelar',
