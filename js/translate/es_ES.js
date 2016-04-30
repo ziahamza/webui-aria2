@@ -16,7 +16,7 @@ if(typeof translations == 'undefined'){
     translations = {};
 }
 
-translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
+translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
 // header
     'Search': 'Buscar',
     // Nav menu
