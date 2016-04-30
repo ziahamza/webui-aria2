@@ -93,7 +93,7 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
 // add metalink modal
     'Add Downloads By Metalinks': 'Añadir descargas Metalink',
     'Select Metalinks': 'Seleccione el Metalink',
-    '- Select the Metalink from the local filesystem to start the download.': 'Escoja el archivo Metalink de su computador para iniciar la descarga',
+    '- Select the Metalink from the local filesystem to start the download.': 'Escoja el archivo Metalink de su equipo para iniciar la descarga',
     '- You can select multiple Metalinks to start multiple downloads.': 'Puede escoger varios archivos Metalink',
     'Select a Metalink': 'Escoja el archivo Metalink',
 // select file modal
