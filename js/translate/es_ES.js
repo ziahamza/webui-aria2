@@ -127,7 +127,7 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Save Connection configuration': 'Guardar Configuración',
 // server info modal
     'Aria2 server info': 'Información de servidor Aria2',
-    'Aria2 Version': 'Versión de Aria2',
+    'Aria2 Version': 'Aria2 versión',
     'Features Enabled': 'Funcionalidad disponible',
 // about modal
     'To download the latest version of the project, add issues or to contribute back, head on to':
