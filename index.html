@@ -545,7 +545,7 @@
         <ul class="stats pull-left" ng-switch-when="paused">
           <!-- {{{ paused download statistics -->
           <li class="label label-info">
-            <span title="{{ 'Download Status' | translate }}"><span class="fa fa-fw fa-pause">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-pause">&nbsp;</span> {{download.status}}</span>
           </li>
 
           <li class="label label-info">
@@ -588,7 +588,7 @@
           <!-- {{{ complete download statistics -->
 
           <li class="label label-success">
-            <span title="{{ 'Download Status' | translate }}"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{download.status}}</span>
           </li>
 
           <li class="label label-success">
@@ -605,7 +605,7 @@
         <ul class="stats pull-left" ng-switch-when="removed">
           <!-- {{{ removed download statistics -->
           <li class="label label-warning">
-            <span title="{{ 'Download Status' | translate }}"><span class="fa fa-fw fa-times">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-times">&nbsp;</span> {{download.status}}</span>
           </li>
 
           <li class="label label-warning">
@@ -650,7 +650,7 @@
             <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
           </div>
           <ul class="stats download-item">
-            <li class="label label-default" title="{{ 'Estimated Time' | translate }}"><i class="fa fa-fw fa-clock-o">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
+            <li class="label label-default" title="{{ 'Estimated time' | translate }}"><i class="fa fa-fw fa-clock-o">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
             <li class="label label-default" title="{{ 'Download Size' | translate }}"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
             <li class="label label-default" title="{{ 'Downloaded' | translate }}"><i class="fa fa-fw fa-download">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
             <li class="label label-default" title="{{ 'Download Speed' | translate }}"><i class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
@@ -1137,7 +1137,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
         {{ 'To download the latest version of the project, add issues or to contribute back, head on to' | translate }}:<br />
         <a href="https://github.com/ziahamza/webui-aria2">http://github.com/ziahamza/webui-aria2</a>
         <br /><br />
-        {{ 'Or you can open the latest version in browser through' | translate }}:<br />
+        {{ 'Or you can open the latest version in the browser through' | translate }}:<br />
         <a href="http://ziahamza.github.io/webui-aria2">http://ziahamza.github.io/webui-aria2</a>
       </p>
   </div>
