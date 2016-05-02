@@ -118,7 +118,7 @@ translations.zh_CN = {
 // about modal
     'To download the latest version of the project, add issues or to contribute back, head on to':
             '下载最新版本，反馈问题，请到',
-    'Or you can open the latest version in browser through': '在线使用请开打',
+    'Or you can open the latest version in the browser through': '在线使用请开打',
     'Close': '关闭',
 // lables
     'Download status':'下载状态',
@@ -134,4 +134,3 @@ translations.zh_CN = {
     'Number of Pieces':'块数量',
     'Piece Length':'每块大小'
 };
-

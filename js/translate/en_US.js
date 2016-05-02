@@ -133,5 +133,12 @@ translations.en_US = {
     'Download GID':'Download GID',
     'Number of Pieces':'Number of Pieces',
     'Piece Length': 'Piece Length',
-    'Shutdown Server': 'Shutdown Server'
+    'Shutdown Server': 'Shutdown Server',
+
+    'The last connection attempt was unsuccessful. Trying another configuration': 'The last connection attempt was unsuccessful. Trying another configuration',
+    'Oh Snap!': 'Oh Snap!',
+    'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings': 'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings',
+    'Successfully connected to Aria2 through its remote RPC …': 'Successfully connected to Aria2 through its remote RPC …',
+    'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)': 'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)',
+    'Trying to connect to aria2 using the new connection configuration': 'Trying to connect to aria2 using the new connection configuration',
 };
