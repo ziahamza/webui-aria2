@@ -160,5 +160,5 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)':
         '',
     'Trying to connect to aria2 using the new connection configuration':
-        '',
+        ''
 };
