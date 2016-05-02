@@ -28,6 +28,7 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Pause All': '',
     'Resume Paused': '',
     'Purge Completed': '',
+    'Shutdown Server': '',
     'Settings': '',
     'Connection Settings': '',
     'Global Settings': '',

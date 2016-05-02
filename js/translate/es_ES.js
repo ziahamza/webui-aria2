@@ -28,6 +28,7 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Pause All': 'Pausar Todos',
     'Resume Paused': 'Reanudar Pausados',
     'Purge Completed': 'Purgar Completados',
+    'Shutdown Server': 'Desactivar servidor',
     'Settings': 'Ajustes',
     'Connection Settings': 'Ajustes de Conexión',
     'Global Settings': 'Ajustes Globales',
@@ -45,7 +46,7 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Language': 'Idioma',
 // download filters
     'Download Filters': 'Filtros de Descargas',
-    'Running': '',
+    'Running': 'Procesando',
     'Active': 'Activo',
     'Waiting': 'Esperando',
     'Complete': 'Completo',
