@@ -147,7 +147,7 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Uploaded':'Subido',
     'Download GID':'GID de Descarga',
     'Number of Pieces':'N° de Piezas',
-    'Piece Length':'Tamaño de pieza'
+    'Piece Length':'Tamaño de pieza',
 //alerts
     'The last connection attempt was unsuccessful. Trying another configuration': 
         'El último intento de conexión falló. Probando otra configuración',
@@ -159,5 +159,5 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)':
         'Conexión exitosa con el servidor Aria2 mediante la interfaz RPC, sin embargo la conexión no es segura. Para mejorar la seguridad, añada un token de autorización al iniciar Aria2 (con la opción --rpc-secret)',
     'Trying to connect to aria2 using the new connection configuration':
-        'Intentando conectar con el servidor Aria2 usando los nuevos Ajustes de Conexión',
+        'Intentando conectar con el servidor Aria2 usando los nuevos Ajustes de Conexión'
 };
