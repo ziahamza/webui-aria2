@@ -152,7 +152,7 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
 //alerts
     'The last connection attempt was unsuccessful. Trying another configuration': 
         '',
-    'Oh Snap!': 'Oh Snap!',
+    'Oh Snap!': '',
     'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings':
         '',
     'Successfully connected to Aria2 through its remote RPC …':
