@@ -5,8 +5,8 @@ angular
 ])
 .factory('$rpc', [
   '$syscall', '$globalTimeout', '$alerts', '$utils',
-  '$rootScope', '$location', '$authconf',
-function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
+  '$rootScope', '$location', '$authconf', '$filter',
+function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter) {
 
   var subscriptions = []
     , configurations = [authconf]
@@ -102,11 +102,13 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
 
       // If some proposed configurations are still in the pipeline then retry
       if (configurations.length) {
-        alerts.log("The last connection attempt was unsuccessful. Trying another configuration");
+        alerts.log(filter('translate')("The last connection attempt was unsuccessful. Trying another configuration"));
         timeout = setTimeout(update, 0);
       }
       else {
-        alerts.addAlert('<strong>Oh Snap!</strong> Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings', 'error');
+        alerts.addAlert('<strong>' + filter('translate')('Oh Snap!') + '</strong> ' +
+          filter('translate')('Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings')
+        , 'error')
         timeout = setTimeout(update, globalTimeout);
       }
     };
@@ -129,9 +131,9 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
           // configuration worked, save it in cookie for next time and
           // delete the pipelined configurations!!
           if (currentToken)
-            alerts.addAlert('Successfully connected to Aria2 through its remote RPC …', 'success');
+            alerts.addAlert(filter('translate')('Successfully connected to Aria2 through its remote RPC …'), 'success');
           else
-            alerts.addAlert('Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)');
+            alerts.addAlert(filter('translate')('Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)'));
           configurations = [];
         }
 
@@ -180,7 +182,7 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf) {
     // each one will be tried one after the other till success,
     // for all options for one conf read rpc/syscall.js
     configure: function(conf) {
-      alerts.addAlert('Trying to connect to aria2 using the new connection configuration', 'info');
+      alerts.addAlert(filter('translate')('Trying to connect to aria2 using the new connection configuration'), 'info');
 
       if (conf instanceof Array)
         configurations = conf;
