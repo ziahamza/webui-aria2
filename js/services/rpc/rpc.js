@@ -122,6 +122,7 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
         });
 
         if (failed) {
+          needNewConnection = true;
           alerts.addAlert('<strong>Oh Snap!</strong> Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details  by going to Settings > Connection Settings', 'error');
           timeout = setTimeout(update, globalTimeout);
           return;
