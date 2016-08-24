@@ -53,7 +53,7 @@ translations.ru_RU = {
     'More Info': 'Информация',
     'Remove': 'Удалить',
     '# of': '# из',
-    'Length': 'Длина',
+    'Length': 'Размер',
 // modals
     'Add Downloads By URIs': 'Добавить загрузки из URL-адресов',
     '- You can add multiple downloads (files) at the same time by putting URIs for each file on a separate line.':
