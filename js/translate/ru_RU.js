@@ -35,7 +35,7 @@ translations.ru_RU = {
     'Active': 'Активные',
     'Waiting': 'Ожидающие',
     'Complete': 'Завершенные',
-    'Error': 'Ошибка',
+    'Error': 'С ошибками',
     'Paused': 'Приостановленные',
     'Removed': 'Удаленные',
     'Hide linked meta-data': 'Скрыть связанные метаданные',
