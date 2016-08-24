@@ -108,7 +108,7 @@ translations.ru_RU = {
     'Enter base URL (optional)': 'Укажите базовый URL-адрес (необязательно)',
     'Direct Download': 'Прямая Загрузка',
     'If supplied, links will be created to enable direct download from the Aria2 server.':
-        'При поставке, ссылки будут созданы для того, чтобы разрешить прямые загрузки с сервера Aria2.',
+        'При наличии, ссылки будут созданы для загрузки непосредственно с сервера Aria2.',
     '(Requires appropriate webserver to be configured.)': '(Требуется соответствующий веб-сервер для настройки.)',
     'Save Connection configuration': 'Сохранить Настройки Соединения',
 // server info modal
