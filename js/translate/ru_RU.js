@@ -87,25 +87,25 @@ translations.ru_RU = {
     'Select to download': 'Выберите для загрузки',
 // settings modal
     'Aria2 RPC host and port': 'Aria2 RPC хост и порт',
-    'Enter the host': 'Введите хост',
+    'Enter the host': 'Укажите хост',
     'Enter the IP or DNS name of the server on which the RPC for Aria2 is running (default: localhost)':
-        'Введите IP или DNS-имя сервера, на котором запущена Aria2 со включенным RPC (по умолчанию: localhost)',
-    'Enter the port': 'Введите порт',
+        'Укажите IP или DNS-имя сервера, на котором запущена Aria2 со включенным RPC (по умолчанию: localhost)',
+    'Enter the port': 'Укажите порт',
     'Enter the port of the server on which the RPC for Aria2 is running (default: 6800)':
-        'Введите порт сервера, на котором запущена Aria2 со включенным RPC (по умолчанию: 6800)',
-    'Enter the RPC path': 'Enter the RPC path',
-    'Enter the path for the Aria2 RPC endpoint (default: /jsonrpc)': 'Введите конечный путь, для Aria2 RPC (по умолчанию: /jsonrpc)',
+        'Укажите порт сервера, на котором запущена Aria2 со включенным RPC (по умолчанию: 6800)',
+    'Enter the RPC path': 'Укажите путь RPC',
+    'Enter the path for the Aria2 RPC endpoint (default: /jsonrpc)': 'Укажите конечный путь, для Aria2 RPC (по умолчанию: /jsonrpc)',
     'SSL/TLS encryption': 'SSL/TLS шифрование',
     'Enable SSL/TLS encryption': 'Разрешить SSL/TLS шифрование',
-    'Enter the secret token (optional)': 'Введите секретный токен (необязательно)',
+    'Enter the secret token (optional)': 'Укажите секретный токен (необязательно)',
     'Enter the Aria2 RPC secret token (leave empty if authentication is not enabled)':
-        'Введите Aria2 RPC секретный токен (оставьте пустым, если авторизация не включена)',
-    'Enter the username (optional)': 'Введите имя пользователя (необязательно)',
+        'Укажите Aria2 RPC секретный токен (оставьте пустым, если авторизация не включена)',
+    'Enter the username (optional)': 'Укажите имя пользователя (необязательно)',
     'Enter the Aria2 RPC username (empty if authentication not enabled)':
-        'Введите имя пользователя Aria2 RPC (оставьте пустым, если авторизация не включена)',
-    'Enter the password (optional)': 'Введите пароль (необязательно)',
-    'Enter the Aria2 RPC password (empty if authentication not enabled)': 'Введите пароль для Aria2 RPC (оставьте пустым, если авторизация не включена)',
-    'Enter base URL (optional)': 'Введите базовый URL-адрес (необязательно)',
+        'Укажите имя пользователя Aria2 RPC (оставьте пустым, если авторизация не включена)',
+    'Enter the password (optional)': 'Укажите пароль (необязательно)',
+    'Enter the Aria2 RPC password (empty if authentication not enabled)': 'Укажите пароль для Aria2 RPC (оставьте пустым, если авторизация не включена)',
+    'Enter base URL (optional)': 'Укажите базовый URL-адрес (необязательно)',
     'Direct Download': 'Прямая Загрузка',
     'If supplied, links will be created to enable direct download from the Aria2 server.':
         'При поставке, ссылки будут созданы для того, чтобы разрешить прямые загрузки с сервера Aria2.',
@@ -137,7 +137,7 @@ translations.ru_RU = {
 
     'The last connection attempt was unsuccessful. Trying another configuration': 'Последняя попытка подключения была неудачной. Попробуйте другую конфигурацию',
     'Oh Snap!': 'Опаньки!',
-    'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings': 'Не удалось подключиться к серверу aria2 RPC. Попытка будет повторена в течение 10 секунд. Вы можете проверить параметры подключения, перейдя в меню Настройки> Настройки соединения',
+    'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings': 'Не удалось подключиться к серверу aria2 RPC. Попытка будет повторена в течение 10 секунд. Вы можете проверить параметры подключения, перейдя в меню Настройки> Настройки Соединения',
     'Successfully connected to Aria2 through its remote RPC …': 'Успешное подключение к Aria2 через удаленный RPC …',
     'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)': 'Успешное подключение к Aria2 через удаленный RPC, однако соединение все еще небезопасно. Для обеспечения лучшей безопасности добавьте секретный токен авторизации при запуске aria2 (через флаг --rpc-secret)',
     'Trying to connect to aria2 using the new connection configuration': 'Попытка подключиться к aria2 с использованием новой конфигурации',
