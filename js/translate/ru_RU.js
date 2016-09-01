@@ -114,7 +114,7 @@ translations.ru_RU = {
 // server info modal
     'Aria2 server info': 'Информация о сервере Aria2',
     'Aria2 Version': 'Версия Aria2',
-    'Features Enabled': 'Добавть Функции',
+    'Features Enabled': 'Активированный Функционал',
 // about modal
     'To download the latest version of the project, add issues or to contribute back, head on to':
         'Чтобы загрузить последнюю версию проекта, добавить вопросы или внести свой вклад, передите на',
