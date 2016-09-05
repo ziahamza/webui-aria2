@@ -137,4 +137,7 @@ angular
 		translate.use(langkey);
 	};
 
+	scope.shutDownServer = function () {
+	    rpc.once('shutdown', []);
+	};
 }]);

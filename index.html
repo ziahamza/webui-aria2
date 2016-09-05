@@ -1,4 +1,4 @@
-<!doctype>
+<!doctype html>
 <html>
 
 <!-- {{{ head -->
@@ -79,6 +79,11 @@
   <script src="js/translate/en_US.js"></script>
   <script src="js/translate/th_TH.js"></script>
   <script src="js/translate/zh_CN.js"></script>
+  <script src="js/translate/pl_PL.js"></script>
+  <script src="js/translate/fr_FR.js"></script>
+  <script src="js/translate/de_DE.js"></script>
+  <script src="js/translate/es_ES.js"></script>
+  <script src="js/translate/ru_RU.js"></script>
 </head>
 <!-- }}} -->
 
@@ -147,7 +152,11 @@
                 href="#"
                 ng-click="purgeDownloadResult()"><span class="fa fa-fw fa-times-circle">&nbsp;</span> {{ 'Purge Completed' | translate }}</a>
             </li>
-
+            <li>
+              <a
+                href="#"
+                ng-click="shutDownServer()"><span class="fa fa-fw fa-power-off">&nbsp;</span> {{ 'Shutdown Server' | translate }}</a>
+            </li>
             <!-- not adding remove all as requires many rpc syscalls to finish
             <li>
               <a
@@ -238,6 +247,31 @@
                       ng-click="changeLanguage('zh_CN')"
                       href="#"><span class="fa fa-fw flag-icon flag-icon-cn">&nbsp;</span> 简体中文</a>
             </li>
+            <li>
+              <a
+                      ng-click="changeLanguage('pl_PL')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-pl">&nbsp;</span> Polish</a>
+            </li>
+            <li>
+              <a
+                      ng-click="changeLanguage('fr_FR')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-fr">&nbsp;</span> Français</a>
+            </li>
+            <li>
+              <a
+                      ng-click="changeLanguage('de_DE')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-de">&nbsp;</span> Deutsch</a>
+            </li>
+            <li>
+              <a
+                      ng-click="changeLanguage('es_ES')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-es">&nbsp;</span> Español</a>
+            </li>
+            <li>
+            <a
+                      ng-click="changeLanguage('ru_RU')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-ru">&nbsp;</span> Русский</a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -282,6 +316,8 @@
           </div>
         </li>
       </ul>
+      <span title="Upload Speed"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span>{{gstats.uploadSpeed | bspeed}}</span><br />
+      <span title="Download Speed"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span>{{gstats.downloadSpeed | bspeed}}</span>
       <!-- }}} -->
 
       <br />
@@ -388,116 +424,127 @@
       ng-repeat="download in getDownloads()"
       class="row-fluid download well" data-gid="{{download.gid}}"
       ng-click="toggleCollapsed(download)">
-      <div class="download-name download-item download-controls">
+    <div class="download-name download-item download-controls">
         <!-- {{{ download control buttons -->
         <div class="btn-group" role="group" ng-click="$event.stopPropagation()">
-          <button
-            ng-if="hasStatus(download, ['active', 'waiting'])"
-            class="btn btn-default"
-            ng-click="pause(download)">
-            <span class="fa fa-fw fa-pause"></span>
-          </button>
-
-          <button
-            ng-if="hasStatus(download, 'paused')"
-            class="btn btn-default"
-            ng-click="resume(download)">
-            <span class="fa fa-fw fa-play"></span>
-          </button>
-
-          <button
-            ng-if="canRestart(download)"
-            class="btn btn-default"
-            ng-click="restart(download)">
-            <span class="fa fa-fw fa-repeat"></span>
-          </button>
-
-          <button
-            class="btn btn-default hidden-phone"
-            ng-click="remove(download)">
-            <span class="fa fa-fw fa-stop"></span>
-          </button>
-
-          <button
-            ng-if="hasStatus(download, 'paused')"
-            class="btn btn-default"
-            ng-click="selectFiles(download)">
-            <span class="fa fa-fw fa-list"></span>
-          </button>
-
-          <button
-            class="btn btn-default hidden-phone"
-            ng-if="['waiting', 'active'].indexOf( getType(download) )!= -1"
-            ng-click="showSettings(download)">
-            <span class="fa fa-fw fa-cog"></span>
-          </button>
-
-          <div class="btn-group" dropdown>
-            <button class="btn btn-default dropdown-toggle" dropdown-toggle>
-              <span class="caret"></span>
+            <button
+                ng-if="hasStatus(download, ['active', 'waiting'])"
+                class="btn btn-default"
+                ng-click="pause(download)">
+                <span class="fa fa-fw fa-pause"></span>
             </button>
-            <ul class="dropdown-menu pull-right">
 
-              <li class="visible-phone">
-                <a
-                  ng-click="showSettings(download)"
-                  ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-                  href="#"><span class="fa fa-fw fa-cog">&nbsp;</span> {{ 'Settings' | translate }}</a>
-              </li>
+            <button
+                ng-if="hasStatus(download, 'paused')"
+                class="btn btn-default"
+                ng-click="resume(download)">
+                <span class="fa fa-fw fa-play"></span>
+            </button>
 
-              <li ng-show="download.bittorrent && false">
-                <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Peers' | translate }}</a>
-              </li>
+            <button
+                ng-if="canRestart(download)"
+                class="btn btn-default"
+                ng-click="restart(download)">
+                <span class="fa fa-fw fa-repeat"></span>
+            </button>
 
-              <li>
-                <a ng-click="toggleCollapsed(download)"
-                   href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'More Info' | translate }}</a>
-              </li>
+            <button
+                class="btn btn-default hidden-phone"
+                ng-click="remove(download)">
+                <span class="fa fa-fw fa-stop"></span>
+            </button>
 
-              <li class="visible-phone">
-                <a ng-click="remove(download)"
-                   href="#"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Remove' | translate }}</a>
-              </li>
-            </ul>
-          </div>
+            <button
+                ng-if="hasStatus(download, 'paused')"
+                class="btn btn-default"
+                ng-click="selectFiles(download)">
+                <span class="fa fa-fw fa-list"></span>
+            </button>
+
+            <button
+                class="btn btn-default hidden-phone"
+                ng-if="['waiting', 'active'].indexOf( getType(download) )!= -1"
+                ng-click="showSettings(download)">
+                <span class="fa fa-fw fa-cog"></span>
+            </button>
+            <button
+                ng-if="hasStatus(download, 'waiting')"
+                class="btn btn-default hidden-phone"
+                ng-click="moveDown(download)">
+                <span class="fa fa-fw fa-arrow-circle-o-down"></span>
+            </button>
+            <button
+                ng-if="hasStatus(download, 'waiting')"
+                class="btn btn-default hidden-phone"
+                ng-click="moveUp(download)">
+                <span class="fa fa-fw fa-arrow-circle-o-up"></span>
+            </button>
+            <div class="btn-group" dropdown>
+                <button class="btn btn-default dropdown-toggle" dropdown-toggle>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right">
+
+                    <li class="visible-phone">
+                        <a
+                            ng-click="showSettings(download)"
+                            ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
+                            href="#"><span class="fa fa-fw fa-cog">&nbsp;</span> {{ 'Settings' | translate }}</a>
+                    </li>
+
+                    <li ng-show="download.bittorrent && false">
+                        <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Peers' | translate }}</a>
+                    </li>
+
+                    <li>
+                        <a ng-click="toggleCollapsed(download)"
+                           href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'More Info' | translate }}</a>
+                    </li>
+
+                    <li class="visible-phone">
+                        <a ng-click="remove(download)"
+                           href="#"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Remove' | translate }}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <!-- }}} -->
 
         <div class="title">
-          <span class="fa fa-fw fa-magnet" style="color: red;" ng-show="download.metadata"></span>
-          {{download.name}}
+            <span class="fa fa-fw fa-magnet" style="color: red;" ng-show="download.metadata"></span>
+            {{download.name}}
         </div>
-      </div>
+    </div>
       <div class="download-overview download-item" ng-switch="download.status">
         <!-- {{{ statistics -->
         <ul class="stats pull-left" ng-switch-when="active">
           <!-- {{{ active download statistics -->
           <li class="label label-active hidden-phone hidden-tablet">
-            <span title="Download status"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
-            <span title="Download Speed"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.downloadSpeed | bspeed}}</span>
+            <span title="{{ 'Download Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.downloadSpeed | bspeed}}</span>
           </li>
 
           <li ng-show="download.bittorrent" class="label label-default hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
-            <span title="Upload Speed"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span> {{download.uploadSpeed | bspeed}}</span>
+            <span title="{{ 'Upload Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span> {{download.uploadSpeed | bspeed}}</span>
           </li>
 
           <li class="label label-active">
-            <span title="Estimated time"><span class="fa fa-fw fa-clock-o">&nbsp;</span> {{getEta(download) | time}}</span>
+            <span title="{{ 'Estimated time' | translate }}"><span class="fa fa-fw fa-clock-o">&nbsp;</span> {{getEta(download) | time}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="Download Size"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="Downloaded"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.fmtCompletedLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone hidden-tablet">
-            <span title="Progress"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
+            <span title="{{ 'Progress' | translate }}"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
           </li>
 
           <!-- }}} -->
@@ -506,19 +553,19 @@
         <ul class="stats pull-left" ng-switch-when="paused">
           <!-- {{{ paused download statistics -->
           <li class="label label-info">
-            <span title="Download Status"><span class="fa fa-fw fa-pause">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-pause">&nbsp;</span> {{download.status}}</span>
           </li>
 
           <li class="label label-info">
-            <span title="Download Size"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-info hidden-phone">
-            <span title="Downloaded"><span class="fa fa-fw fa-download">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-download">&nbsp;</span> {{download.fmtCompletedLength}}</span>
           </li>
 
           <li class="label label-info hidden-phone">
-            <span title="Download Path"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
           </li>
 
           <!--  }}} -->
@@ -527,19 +574,19 @@
         <ul class="stats pull-left" ng-switch-when="waiting">
           <!-- {{{ paused download statistics -->
           <li class="label label-default">
-            <span title="Download Status"><span class="fa fa-fw fa-caret-right">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-caret-right">&nbsp;</span> {{download.status}}</span>
           </li>
 
           <li class="label label-default">
-            <span title="Download Size"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-default hidden-phone">
-            <span title="Downloaded"><span class="fa fa-fw fa-download">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-download">&nbsp;</span> {{download.fmtCompletedLength}}</span>
           </li>
 
           <li class="label label-default hidden-phone">
-            <span title="Download Path"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
           </li>
 
           <!--  }}} -->
@@ -549,15 +596,15 @@
           <!-- {{{ complete download statistics -->
 
           <li class="label label-success">
-            <span title="Download Status"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{download.status}}</span>
           </li>
 
           <li class="label label-success">
-            <span title="Download Size"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-success hidden-phone">
-            <span title="Download Path"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
           </li>
 
           <!-- }}} -->
@@ -566,15 +613,15 @@
         <ul class="stats pull-left" ng-switch-when="removed">
           <!-- {{{ removed download statistics -->
           <li class="label label-warning">
-            <span title="Download Status"><span class="fa fa-fw fa-times">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-times">&nbsp;</span> {{download.status}}</span>
           </li>
 
           <li class="label label-warning">
-            <span title="Download Size"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-warning hidden-phone">
-            <span title="Download Path"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
           </li>
 
           <!-- }}} -->
@@ -584,15 +631,15 @@
 
           <!-- {{{ error download statistics -->
           <li class="label label-danger">
-            <span title="Error "><span class="fa fa-fw fa-times-circle">&nbsp;</span> {{getErrorStatus(download.errorCode)}}</span>
+            <span title="{{ 'Error ' | translate }}"><span class="fa fa-fw fa-times-circle">&nbsp;</span> {{getErrorStatus(download.errorCode)}}</span>
           </li>
 
           <li class="label label-default">
-            <span title="Download Size"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-default hidden-phone">
-            <span title="Download Path"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
           </li>
 
           <!-- }}} -->
@@ -611,20 +658,20 @@
             <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
           </div>
           <ul class="stats download-item">
-            <li class="label label-default" title="Estimated Time"><i class="fa fa-fw fa-clock-o">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
-            <li class="label label-default" title="Download Size"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
-            <li class="label label-default" title="Downloaded"><i class="fa fa-fw fa-download">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
-            <li class="label label-default" title="Download Speed"><i class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
+            <li class="label label-default" title="{{ 'Estimated time' | translate }}"><i class="fa fa-fw fa-clock-o">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
+            <li class="label label-default" title="{{ 'Download Size' | translate }}"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
+            <li class="label label-default" title="{{ 'Downloaded' | translate }}"><i class="fa fa-fw fa-download">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
+            <li class="label label-default" title="{{ 'Download Speed' | translate }}"><i class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
 
-            <li class="label label-default" title="Upload Speed" ng-show="download.bittorrent"><i class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
-            <li class="label label-default" title="Uploaded" ng-show="download.bittorrent"><i class="fa fa-fw fa-upload">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
+            <li class="label label-default" title="{{ 'Upload Speed' | translate }}" ng-show="download.bittorrent"><i class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
+            <li class="label label-default" title="{{ 'Uploaded' | translate }}" ng-show="download.bittorrent"><i class="fa fa-fw fa-upload">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
 
             <li class="label label-default" title={{download.connectionsTitle}}><i class="fa fa-fw fa-link">&nbsp;</i> <span class="download-connections">{{download.connections}}{{download.numSeeders}}</span></li>
 
-            <li class="label label-default" title="Download GID"><i class="fa fa-fw fa-bars">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
-            <li class="label label-default" title="Number of Pieces">{{ '# of' | translate }} <i class="fa fa-fw fa-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
-            <li class="label label-default" title="Piece Length"><i class="fa fa-fw fa-puzzle-piece"></i> {{ 'Length' | translate }}&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
-            <li class="label label-default" title="Download Path"><i class="fa fa-fw fa-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
+            <li class="label label-default" title="{{ 'Download GID' | translate }}"><i class="fa fa-fw fa-bars">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
+            <li class="label label-default" title="{{ 'Number of Pieces' | translate }}">{{ '# of' | translate }} <i class="fa fa-fw fa-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
+            <li class="label label-default" title="{{ 'Piece Length' | translate }}"><i class="fa fa-fw fa-puzzle-piece"></i> {{ 'Length' | translate }}&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
+            <li class="label label-default" title="{{ 'Download Path' | translate }}"><i class="fa fa-fw fa-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
           </ul>
           <ul class="download-files hidden-phone download-item">
             <li class="label label-default" ng-repeat="file in download.files" ng-class="{'label-success': file.selected}">
@@ -689,7 +736,7 @@ http://ex1.com/f1.jpg http://ex2.com/f1.jpg
 http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
 </pre>
       </p>
-      <textarea rows="4" style="width: 100%" ng-model="getUris.uris"></textarea>
+      <textarea rows="4" style="width: 100%" ng-model="getUris.uris" autofocus></textarea>
 
       <br /><br />
 
@@ -751,7 +798,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
       <p class="help-block">
     {{ '- Select the torrent from the local filesystem to start the download.' | translate }}<br />
     {{ '- You can select multiple torrents to start multiple downloads.' | translate }}<br />
-    {{ '- To add a BitTorrent-Magnet URL, use the add URI option and add it there.' | translate }}
+    {{ '- To add a BitTorrent-Magnet URL, use the Add By URI option and add it there.' | translate }}
       </p>
       <div class="form-horizontal form-group">
         <label class="control-label" style="text-align: left;"><b>{{ 'Select a Torrent' | translate }}:</b></label>
@@ -1047,7 +1094,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
               ng-model="connection.conf.directURL"/>
             <p class="help-block">
               {{ 'If supplied, links will be created to enable direct download from the Aria2 server.' | translate }}<br />
-              (( '(Requires an appropriate webserver to be configured.)' | translate }}
+              {{ '(Requires appropriate webserver to be configured.)' | translate }}
             </p>
           </div>
         </div>
@@ -1098,7 +1145,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
         {{ 'To download the latest version of the project, add issues or to contribute back, head on to' | translate }}:<br />
         <a href="https://github.com/ziahamza/webui-aria2">http://github.com/ziahamza/webui-aria2</a>
         <br /><br />
-        {{ 'Or you can open the latest version in browser through' | translate }}:<br />
+        {{ 'Or you can open the latest version in the browser through' | translate }}:<br />
         <a href="http://ziahamza.github.io/webui-aria2">http://ziahamza.github.io/webui-aria2</a>
       </p>
   </div>

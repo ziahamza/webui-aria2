@@ -2041,6 +2041,9 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
         if (!key) {
           return $uses;
         }
+        
+        // Safari is "zh_cn"
+        if (key == "zh_cn") {key = "zh_CN"}
 
         var deferred = $q.defer();
 

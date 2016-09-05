@@ -492,7 +492,7 @@ angular.module('webui.services.settings', [])
 
   "pause": {
     desc: "Pause download after added. This option is effective only when --enable-rpc=true is given. Default: false",
-    val: false,
+    val: "false",
     options: ["true", "false"],
   },
 

@@ -11,7 +11,7 @@ aria2c --enable-rpc --rpc-listen-all
 ````
 
 
-If aria2 is not installed in your local machine then head on to http://aria2.sourceforge.net/ and follow the instructions there.
+If aria2 is not installed in your local machine then head on to https://aria2.github.io/ and follow the instructions there.
 
 Then download the webui, you can either do that by downloading this repository and running index.html in the browser. Or you could just head on to http://ziahamza.github.io/webui-aria2/ and just start downloading files! After that you can also save it for offline use by saving from the browser save page as option.
 

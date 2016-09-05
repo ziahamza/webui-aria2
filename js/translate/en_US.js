@@ -119,5 +119,26 @@ translations.en_US = {
     'To download the latest version of the project, add issues or to contribute back, head on to':
         'To download the latest version of the project, add issues or to contribute back, head on to',
     'Or you can open the latest version in the browser through': 'Or you can open the latest version in the browser through',
-    'Close': 'Close'
+    'Close': 'Close',
+// lables
+    'Download status':'Download status',
+    'Download Speed':'Download Speed',
+    'Upload Speed':'Upload Speed',
+    'Estimated time':'Estimated time',
+    'Download Size':'Download Size',
+    'Downloaded':'Downloaded',
+    'Progress':'Progress',
+    'Download Path':'Download Path',
+    'Uploaded':'Uploaded',
+    'Download GID':'Download GID',
+    'Number of Pieces':'Number of Pieces',
+    'Piece Length': 'Piece Length',
+    'Shutdown Server': 'Shutdown Server',
+
+    'The last connection attempt was unsuccessful. Trying another configuration': 'The last connection attempt was unsuccessful. Trying another configuration',
+    'Oh Snap!': 'Oh Snap!',
+    'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings': 'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings',
+    'Successfully connected to Aria2 through its remote RPC …': 'Successfully connected to Aria2 through its remote RPC …',
+    'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)': 'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)',
+    'Trying to connect to aria2 using the new connection configuration': 'Trying to connect to aria2 using the new connection configuration',
 };
