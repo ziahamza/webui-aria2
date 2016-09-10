@@ -137,7 +137,7 @@ translations.en_US = {
 
     'The last connection attempt was unsuccessful. Trying another configuration': 'L\'ultimo tentativo di connessione non è riuscito. Provo un\'altra connessione',
     'Oh Snap!': 'Mannaggia!',
-    'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings': 'Non riesco a connettermi al server RPC di Aria2c. Riprovo tra 10 secondi. Forse vuoi controllare le impostazioni di connessione in Impostazioni > Impostazioni di connessione',
+    'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings': 'Non riesco a connettermi al server RPC di Aria2. Riprovo tra 10 secondi. Forse vuoi controllare le impostazioni di connessione in Impostazioni > Impostazioni di connessione',
     'Successfully connected to Aria2 through its remote RPC …': 'Connesso con successo a Aria2 mediante RPC remoto …',
     'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)': 'Correttamente connesso al server Aria2 mediante RPC, ma in modo non sicuro. Per una completa sicurezza prova ad aggiungere un token di autorizzazione segreto all\'avvio di Aria2 (mediante il flag --rpc-secret)',
     'Trying to connect to aria2 using the new connection configuration': 'Provo a connettermi a Aria2 attraverso le nuove impostazioni',
