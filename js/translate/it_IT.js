@@ -2,7 +2,7 @@ if(typeof translations == 'undefined'){
     translations = {};
 }
 
-translations.en_US = {
+translations.it_IT = {
 // header
     'Search': 'Cerca',
     // Nav menu
