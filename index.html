@@ -83,6 +83,8 @@
   <script src="js/translate/fr_FR.js"></script>
   <script src="js/translate/de_DE.js"></script>
   <script src="js/translate/es_ES.js"></script>
+  <script src="js/translate/ru_RU.js"></script>
+  <script src="js/translate/it_IT.js"></script>
 </head>
 <!-- }}} -->
 
@@ -266,6 +268,16 @@
                       ng-click="changeLanguage('es_ES')"
                       href="#"><span class="fa fa-fw flag-icon flag-icon-es">&nbsp;</span> Español</a>
             </li>
+            <li>
+            <a
+                      ng-click="changeLanguage('ru_RU')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-ru">&nbsp;</span> Русский</a>
+            </li>
+            <li>
+            <a
+                      ng-click="changeLanguage('it_IT')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-it">&nbsp;</span> Italiano</a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -310,6 +322,8 @@
           </div>
         </li>
       </ul>
+      <span title="Upload Speed"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span>{{gstats.uploadSpeed | bspeed}}</span><br />
+      <span title="Download Speed"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span>{{gstats.downloadSpeed | bspeed}}</span>
       <!-- }}} -->
 
       <br />
@@ -728,7 +742,7 @@ http://ex1.com/f1.jpg http://ex2.com/f1.jpg
 http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
 </pre>
       </p>
-      <textarea rows="4" style="width: 100%" ng-model="getUris.uris"></textarea>
+      <textarea rows="4" style="width: 100%" ng-model="getUris.uris" autofocus></textarea>
 
       <br /><br />
 

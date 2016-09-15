@@ -1,0 +1,14 @@
+aria2:
+    image: ndthuan/aria2-alpine
+    volumes:
+        - $HOME/Downloads:/downloads
+    ports:
+        - "6800:6800"
+
+httpd:
+    image: busybox
+    volumes:
+        - ./:/usr/html
+    ports:
+        - "80:80"
+    command: /bin/busybox httpd -f -p 80 -h /usr/html
