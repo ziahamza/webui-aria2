@@ -555,6 +555,72 @@
 
           <!-- }}} -->
         </ul>
+        
+        <ul class="stats pull-left" ng-switch-when="verifing">
+          <!-- {{{ active download statistics -->
+          <li class="label label-warning hidden-phone hidden-tablet">
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+          </li>
+
+          <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
+            <span title="{{ 'Download Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.downloadSpeed | bspeed}}</span>
+          </li>
+
+          <li ng-show="download.bittorrent" class="label label-default hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
+            <span title="{{ 'Upload Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span> {{download.uploadSpeed | bspeed}}</span>
+          </li>
+
+          <li class="label label-active">
+            <span title="{{ 'Estimated time' | translate }}"><span class="fa fa-fw fa-clock-o">&nbsp;</span> {{getEta(download) | time}}</span>
+          </li>
+
+          <li class="label label-active hidden-phone">
+            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+          </li>
+
+          <li class="label label-active hidden-phone">
+            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+          </li>
+
+          <li class="label label-active hidden-phone hidden-tablet">
+            <span title="{{ 'Progress' | translate }}"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
+          </li>
+
+          <!-- }}} -->
+        </ul>
+
+        <ul class="stats pull-left" ng-switch-when="verifyPending">
+          <!-- {{{ active download statistics -->
+          <li class="label label-warning hidden-phone hidden-tablet">
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+          </li>
+
+          <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
+            <span title="{{ 'Download Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.downloadSpeed | bspeed}}</span>
+          </li>
+
+          <li ng-show="download.bittorrent" class="label label-default hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
+            <span title="{{ 'Upload Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span> {{download.uploadSpeed | bspeed}}</span>
+          </li>
+
+          <li class="label label-active">
+            <span title="{{ 'Estimated time' | translate }}"><span class="fa fa-fw fa-clock-o">&nbsp;</span> {{getEta(download) | time}}</span>
+          </li>
+
+          <li class="label label-active hidden-phone">
+            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+          </li>
+
+          <li class="label label-active hidden-phone">
+            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+          </li>
+
+          <li class="label label-active hidden-phone hidden-tablet">
+            <span title="{{ 'Progress' | translate }}"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
+          </li>
+
+          <!-- }}} -->
+        </ul>
 
         <ul class="stats pull-left" ng-switch-when="paused">
           <!-- {{{ paused download statistics -->

@@ -398,16 +398,24 @@ function(
 				animCollapsed: true,
 				files: [],
 			};
-			if (d.verifiedLength)
+			if (d.verifiedLength) {
 				ctx.verifiedLength = d.verifiedLength;
-			if (d.verifyIntegrityPending)
+				ctx.status = "verifing";
+			}
+			if (d.verifyIntegrityPending) {
 				ctx.verifyIntegrityPending = d.verifyIntegrityPending;
+				ctx.status = "verifyPending";
+			}
 		}
 		else {
 		    if (ctx.gid !== d.gid)
 		        ctx.files = [];
 			ctx.dir = d.dir;
 			ctx.status = d.status;
+			if(d.verifiedLength)
+				ctx.status = "verifing";
+			if(d.verifyIntegrityPending)
+				ctx.status = "verifyPending"
 			ctx.errorCode = d.errorCode;
 			ctx.gid = d.gid;
 			ctx.followedBy = (d.followedBy && d.followedBy.length == 1
@@ -534,10 +542,9 @@ function(
 			case "removed":
 				return "progress-bar-warning";
 			case "active":
-				if (d.verifyIntegrityPending || d.verifiedLength)
-					return "progress-bar-warning"
-				else
-					return "active";
+				return "active";
+			case "verifing":
+				return "progress-bar-warning";
 			case "complete":
 				return "progress-bar-success";
 			default:
