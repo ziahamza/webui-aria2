@@ -318,7 +318,7 @@ function(
 		}
 		else if (scope.filterSpeed) {
 			downloads = _.filter(scope.active, function (e) {
-				return +e.uploadSpeed || +e.downloadSpeed;
+				return +e.uploadSpeed || +e.downloadSpeed;
 			});
 		}
 		if (scope.filterWaiting) {
@@ -398,12 +398,24 @@ function(
 				animCollapsed: true,
 				files: [],
 			};
+			if (d.verifiedLength) {
+				ctx.verifiedLength = d.verifiedLength;
+				ctx.status = "verifing";
+			}
+			if (d.verifyIntegrityPending) {
+				ctx.verifyIntegrityPending = d.verifyIntegrityPending;
+				ctx.status = "verifyPending";
+			}
 		}
 		else {
 		    if (ctx.gid !== d.gid)
 		        ctx.files = [];
 			ctx.dir = d.dir;
 			ctx.status = d.status;
+			if(d.verifiedLength)
+				ctx.status = "verifing";
+			if(d.verifyIntegrityPending)
+				ctx.status = "verifyPending"
 			ctx.errorCode = d.errorCode;
 			ctx.gid = d.gid;
 			ctx.followedBy = (d.followedBy && d.followedBy.length == 1
@@ -426,6 +438,16 @@ function(
 			if (ctx.completedLength !== d.completedLength) {
 				ctx.completedLength = d.completedLength;
 				ctx.fmtCompletedLength = utils.fmtsize(d.completedLength);
+			}
+			if (!d.verifiedLength) {
+				delete ctx.verifiedLength
+			} else if (ctx.verifiedLength !== d.verifiedLength) {
+				ctx.verifiedLength = d.verifiedLength;
+			}
+			if (!d.verifyIntegrityPending) {
+				delete ctx.verifyIntegrityPending
+			} else if (ctx.verifyIntegrityPending !== d.verifyIntegrityPending) {
+				ctx.verifyIntegrityPending = d.verifyIntegrityPending;
 			}
 			if (ctx.uploadLength !== d.uploadength) {
 				ctx.uploadLength = d.uploadlength;
@@ -521,6 +543,8 @@ function(
 				return "progress-bar-warning";
 			case "active":
 				return "active";
+			case "verifing":
+				return "progress-bar-warning";
 			case "complete":
 				return "progress-bar-success";
 			default:
@@ -530,7 +554,11 @@ function(
 
 	// gets the progress in percentages
 	scope.getProgress = function(d) {
-		var percentage = (d.completedLength / d.totalLength)*100 || 0;
+		var percentage = 0
+		if (d.verifiedLength)
+			percentage = (d.verifiedLength / d.totalLength) * 100 || 0;
+		else
+			percentage = (d.completedLength / d.totalLength) * 100 || 0;
 		percentage = percentage.toFixed(2);
 		if(!percentage) percentage = 0;
 
