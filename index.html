@@ -88,10 +88,10 @@
 </head>
 <!-- }}} -->
 
-<body ng-controller="MainCtrl">
+<body ng-controller="MainCtrl" ng-cloak>
 
 <!-- {{{ header -->
-<div class="navbar navbar-inverse navbar-static-top" ng-controller="NavCtrl">
+<div class="navbar main-navbar navbar-static-top" ng-controller="NavCtrl">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" ng-click="collapsed = !collapsed">
@@ -305,7 +305,7 @@
 <div class="row-fluid">
   <div ng-class="{'col-md-3': enable.sidebar.show}" ng-show="enable.sidebar.show">
     <!-- {{{ nav side bar -->
-    <div class="well sidebar-nav">
+    <div class="sidebar-nav">
 
       <!-- {{{ global statistics -->
       <ul class="nav nav-list" ng-if="enable.sidebar.stats">
@@ -428,7 +428,7 @@
 
     <div
       ng-repeat="download in getDownloads()"
-      class="row-fluid download well" data-gid="{{download.gid}}"
+      class="row-fluid download" data-gid="{{download.gid}}"
       ng-click="toggleCollapsed(download)">
     <div class="download-name download-item download-controls">
         <!-- {{{ download control buttons -->
@@ -521,7 +521,7 @@
             {{download.name}}
         </div>
     </div>
-      <div class="download-overview download-item" ng-switch="download.status">
+      <div class="download-overview download-item clearfix" ng-switch="download.status">
         <!-- {{{ statistics -->
         <ul class="stats pull-left" ng-switch-when="active">
           <!-- {{{ active download statistics -->
@@ -1230,9 +1230,6 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
 
 </div>
 <!-- }}} -->
-
-<!-- Bottom Padding -->
-<br /><br /><br /><br /><br />
 
 </body>
 </html>
