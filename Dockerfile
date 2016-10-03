@@ -23,7 +23,7 @@ RUN GITHUB_REPO="https://github.com/mattn/goreman" \
   && tar -xvzf goreman.tar.gz && mv /goreman_linux_amd64/goreman /usr/local/bin/goreman && rm -R goreman*
 
 # goreman setup
-RUN echo -e "web: gosu dummy /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu dummy /usr/bin/aria2c --enable-rpc --rpc-listen-all --dir=/data" > Procfile
+RUN echo "web: gosu dummy /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu dummy /usr/bin/aria2c --enable-rpc --rpc-listen-all --dir=/data" > Procfile
 
 EXPOSE 8080 6800
 CMD ["goreman", "start"]
