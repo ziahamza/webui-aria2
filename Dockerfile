@@ -25,5 +25,14 @@ RUN GITHUB_REPO="https://github.com/mattn/goreman" \
 # goreman setup
 RUN echo "web: gosu dummy /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu dummy /usr/bin/aria2c --enable-rpc --rpc-listen-all --dir=/data" > Procfile
 
-EXPOSE 8080 6800
-CMD ["goreman", "start"]
+# aria2 downloads directory
+VOLUME /data
+
+# aria2 RPC port, map as-is or reconfigure webui
+EXPOSE 6800/tcp
+
+# webui static content web server, map wherever is convenient
+EXPOSE 8080/tcp
+
+CMD ["start"]
+ENTRYPOINT ["/usr/local/bin/goreman"]
