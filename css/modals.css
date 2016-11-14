@@ -33,3 +33,12 @@
 .modal-form-input-number {
     width: 80px;
 }
+.selectFiles > div >  .control-label
+{
+  font-weight: normal;
+  margin-left:30px;
+}
+.selectFiles > div > .controls
+{
+  margin-left:30px;
+}
