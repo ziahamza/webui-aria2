@@ -58,7 +58,7 @@ translations.zh_CN = {
         '- 你可以同时添加多个文件下载任务，每行下载一个文件；',
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
         '- 你也可以给同一个下载任务添加多个镜像链接，写在一行并用空格分隔每条链接；',
-    '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '- 链接可以是 HTTP(S)、FTP 和 BitTorrent-Magnet。',
+    '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '- 链接可以是 HTTP(S)、FTP 和磁力链接。',
     'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
         '例如：添加 2 个下载任务 f1.jpg 和 f2.mp4（它们都有2个镜像链接），添加方式如下',
     'Download settings': '下载设置',
