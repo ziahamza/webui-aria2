@@ -117,7 +117,7 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
       name: 'system.multicall',
       params: [params],
       success: function(data) {
-        var failed = _.any(data.result, function(d) {
+        var failed = _.some(data.result, function(d) {
           return d.code && d.message === "Unauthorized";
         });
 
