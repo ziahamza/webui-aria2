@@ -21,7 +21,7 @@ RUN curl -L "https://storage.googleapis.com/golang/go1.6.1.linux-armv6l.tar.gz" 
   && tar -xzf go.tar.gz -C /usr/local \
   && export GOROOT="/usr/local/go" && export GOPATH=`pwd` \
   && $GOROOT/bin/go get github.com/mattn/goreman && $GOROOT/bin/go build -o /usr/local/bin/goreman github.com/mattn/goreman \
-  && apt-get remove purge --auto-remove git \
+  && apt-get remove --purge --auto-remove git \
   && rm go.tar.gz && rm -rf $GOROOT && rm -rf $GOPATH/src && rm -rf $GOPATH/pkg \
   && unset GOROOT && unset GOPATH
 
