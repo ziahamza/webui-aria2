@@ -320,6 +320,7 @@
         <li class="nav-header" ng-show="totalAria2Downloads()">{{ 'Global Statistics' | translate }}</li>
         <li>
           <div
+            id="global-graph"
             yticks="3"
             xticks="1"
             dspeed="gstats.downloadSpeed"
@@ -329,13 +330,14 @@
             draw="true">
           </div>
         </li>
+        <li>
+          <span title="Upload Speed"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span>{{gstats.uploadSpeed | bspeed}}</span><br />
+          <span title="Download Speed"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span>{{gstats.downloadSpeed | bspeed}}</span>
+        </li>
       </ul>
-      <span title="Upload Speed"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span>{{gstats.uploadSpeed | bspeed}}</span><br />
-      <span title="Download Speed"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span>{{gstats.downloadSpeed | bspeed}}</span>
       <!-- }}} -->
 
       <br />
-
 
       <!-- {{{ download filters -->
       <ul id="filters" class="clearfix nav nav-list" ng-show="enable.sidebar.filters">
@@ -438,7 +440,7 @@
       ng-repeat="download in getDownloads()"
       class="row-fluid download" data-gid="{{download.gid}}"
       ng-click="toggleCollapsed(download)">
-    <div class="download-name download-item download-controls">
+    <div class="download-name download-item download-controls clearfix">
         <!-- {{{ download control buttons -->
         <div class="btn-group" role="group" ng-click="$event.stopPropagation()">
             <button
