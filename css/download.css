@@ -5,6 +5,7 @@
 }
 
 .download .title {
+  font-size: 1.2em;
   padding: 5px 0;
 }
 
@@ -25,38 +26,54 @@
   font-size: small;
   word-wrap: break-word;
 }
+
 .active-download, .waiting-download, .stopped-download, .download {
   cursor: pointer;
   width: 100%;
   padding: 4px 5px;
   background-color: #fff;
   margin-bottom: 20px;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2),0 1px 1px 0 rgba(0,0,0,0.14),0 2px 1px -1px rgba(0,0,0,0.12);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 /* fix table  layout to break words */
 @media (max-width: 767px) {
-.active-download, .waiting-download, .stopped-download, .download {
-  table-layout: fixed;
-}
+  .active-download, .waiting-download, .stopped-download, .download {
+    table-layout: fixed;
+  }
 }
 
 .download-graph {
-  width: 40%;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-right: 30px;
+  margin: .5em 30px .5em 0;
 }
+
+@media (min-width: 1200px) {
+  .download-graph {
+    width: 50%;
+  }
+}
+
+@media (min-width: 767px) and (max-width: 1200px) {
+  .download-graph {
+    width: 60%;
+  }
+}
+
+@media (max-width: 767px) {
+  .download-graph {
+    width: 100%;
+  }
+}
+
 .large-graph {
   width: 66%;
 }
+
 .stats {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   padding: 0;
 }
+
 .stats li {
   display: inline-block;
   margin-bottom: 2px;
@@ -67,22 +84,21 @@
 
 .download-item {
   margin: 0;
-  padding-left: 6px;
-  padding-right: 6px;
-  padding-top: 0.3ex;
-  padding-bottom: 0.5ex;
+  padding: 0.5ex 6px 0.5ex;
 }
 
 .download-controls .btn-group {
   float: right;
 }
+
 .download-controls > .btn-group {
-  margin-right: 5px;
-  margin-top: 5px;
+  margin: 5px 5px 5px 0;
 }
+
 .download-controls .btn-group .btn {
   height: 100%;
 }
+
 .download-controls .btn-group .btn span {
   font-size: 14px;
   color: gray;
@@ -91,9 +107,11 @@
 .download-detail h4 {
   margin-left: 10px;
 }
+
 .download-files {
   margin: 0;
 }
+
 .download-files li {
   display: inline-block;
   padding: 0.8ex;
@@ -102,6 +120,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .download-files a {
   color: #fff;
 }
