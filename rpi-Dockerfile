@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian
+FROM resin/rpi-raspbian:wheezy
 
 # less priviledge user, the id should map the user the downloaded files belongs to
 RUN groupadd -r aria && useradd -r -g aria aria -u 1000
