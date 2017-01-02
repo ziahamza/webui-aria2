@@ -60,7 +60,7 @@ sudo docker run -v /Downloads:/data -p 6800:6800 -p 9100:8080 --name="webui-aria
 
 This image contains both aria2 and webui-aria2.
 
-Build it
+Build it (may take several hours due to the aria2 compilation process. Don't panic and grap a coffee)
 ```
 docker build -f rpi-Dockerfile -t yourname/webui-aria2 .
 ```
@@ -75,7 +75,7 @@ This image required few file to be mounted in the container's `/data` folder.
 
 Run it
 ```
-docker run -d -v /home/<USER>/data/aria2:/data -p 6800:6800 -p 9100:8080 --name="webui-aria2" yourname/webui-aria2
+docker run --restart=always -d -v /home/<USER>/data/aria2:/data -p 6800:6800 -p 9100:8080 --name="webui-aria2" yourname/webui-aria2
 ```
 
 Support
