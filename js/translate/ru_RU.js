@@ -27,7 +27,7 @@ translations.ru_RU = {
     'About': 'Об',
     'Displaying': 'Показано',
     'of': 'из',
-    'downloads': 'загрузки',
+    'downloads': 'загрузок',
     'Language': 'Язык',
 // download filters
     'Download Filters': 'Фильтр Загрузок',
@@ -39,9 +39,6 @@ translations.ru_RU = {
     'Paused': 'Приостановленные',
     'Removed': 'Удаленные',
     'Hide linked meta-data': 'Скрыть связанные метаданные',
-    'Displaying': 'Показано',
-    'of': 'из',
-    'downloads': 'загрузок',
     'Toggle': 'Переключить',
     'Reset filters': 'Сбросить фильтры',
 // starred properties

@@ -39,9 +39,6 @@ translations.fr_FR = {
     'Paused': 'En Pause',
     'Removed': 'Supprimés',
     'Hide linked meta-data': 'Cacher les méta-données liées',
-    'Displaying': 'Affichage de',
-    'of': 'parmi',
-    'downloads': 'téléchargements',
     'Toggle': 'Basculer',
     'Reset filters': 'Réinitialiser les filtres',
 // starred properties

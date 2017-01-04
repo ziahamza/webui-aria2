@@ -12,7 +12,7 @@ ADD . /webui-aria2
 
 # gosu install latest
 RUN GITHUB_REPO="https://github.com/tianon/gosu" \
-  && LATEST=`curl -s  $GITHUB_REPO"/releases/latest" | grep -Eo "[0-9].[0-9]"` \
+  && LATEST=`curl -s  $GITHUB_REPO"/releases/latest" | grep -Eo "[0-9].[0-9]*"` \
   && curl -L $GITHUB_REPO"/releases/download/"$LATEST"/gosu-amd64" > /usr/local/bin/gosu \
   && chmod +x /usr/local/bin/gosu
 
@@ -23,7 +23,16 @@ RUN GITHUB_REPO="https://github.com/mattn/goreman" \
   && tar -xvzf goreman.tar.gz && mv /goreman_linux_amd64/goreman /usr/local/bin/goreman && rm -R goreman*
 
 # goreman setup
-RUN echo -e "web: gosu dummy /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu dummy /usr/bin/aria2c --enable-rpc --rpc-listen-all --dir=/data" > Procfile
+RUN echo "web: gosu dummy /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu dummy /usr/bin/aria2c --enable-rpc --rpc-listen-all --dir=/data" > Procfile
 
-EXPOSE 8080 6800
-CMD ["goreman", "start"]
+# aria2 downloads directory
+VOLUME /data
+
+# aria2 RPC port, map as-is or reconfigure webui
+EXPOSE 6800/tcp
+
+# webui static content web server, map wherever is convenient
+EXPOSE 8080/tcp
+
+CMD ["start"]
+ENTRYPOINT ["/usr/local/bin/goreman"]

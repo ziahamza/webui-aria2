@@ -9,11 +9,11 @@ angular
 	'$scope', '$name', '$enable', '$rpc', '$rpchelpers', '$utils', '$alerts', '$modals',
 	'$fileSettings', '$activeInclude', '$waitingExclude', '$pageSize', '$getErrorStatus',
 	// for document title
-	'$rootScope',
+	'$rootScope', '$filter',
 function(
 	scope, name, enable, rpc, rhelpers, utils, alerts, modals,
 	fsettings, activeInclude, waitingExclude, pageSize, getErrorStatus,
-	rootScope
+	rootScope, filter
 ) {
 
 	scope.name = name;	 // default UI name
@@ -82,7 +82,9 @@ function(
 		// HACK to make sure an angular digest is not running, as only one can happen at a time, and confirm is a blocking
 		// call so an rpc response can also trigger a digest call
 		setTimeout(function() {
-			if (!noConfirm && !confirm("Remove %s and associated meta-data?".replace("%s", d.name))) {
+			if (!noConfirm && !confirm(
+				filter('translate')('Remove {{name}} and associated meta-data?',
+					{ name: d.name }))) {
 				return;
 			}
 

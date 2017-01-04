@@ -24,6 +24,7 @@ input[type=checkbox], input[type=radio] {
 .label-active, .badge-active, .progress-active .bar {
   background-color: #62C462;
 }
+
 .progress-success .bar {
   background-color: #468847 !important;
 }
@@ -47,18 +48,13 @@ input[type=checkbox], input[type=radio] {
   position: absolute;
 }
 
-.download-graph {
-  font-size: x-small;
-  font-family: sans-serif;
+#global-graph {
+  width: 100%;
 }
 
-#download-graph {
-  float: right;
-}
-@media (max-width: 767px) {
-  #download-graph {
-    float: none;
-    width: 100%;
+@media (min-width: 767px) and (max-width: 992px) {
+  #global-graph {
+    width: 80%;
   }
 }
 
@@ -84,10 +80,11 @@ input[type=checkbox], input[type=radio] {
 }
 
 .main-navbar {
-  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
   background-color: #00897B;
   border-color: #00897B;
 }
+
 .main-navbar .navbar-brand {
   color: #fff;
 }
@@ -106,12 +103,12 @@ input[type=checkbox], input[type=radio] {
 .main-navbar.nav .open > a:focus,
 .main-navbar .nav > li > a:focus,
 .main-navbar .nav > li > a:hover {
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-nav {
   margin-bottom: 30px;
   background-color: #fff;
   padding: 10px 20px 20px;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2),0 1px 1px 0 rgba(0,0,0,0.14),0 2px 1px -1px rgba(0,0,0,0.12);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
