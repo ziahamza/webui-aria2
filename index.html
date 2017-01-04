@@ -1136,7 +1136,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
           <label class="col-sm-3 control-label">{{ 'Enter the secret token (optional)' | translate }}:</label>
           <div class="col-sm-9 controls">
             <label>
-              <input type="text" class="form-control input-xlarge" ng-model="connection.conf.auth.token"/>
+              <input type="password" class="form-control input-xlarge" ng-model="connection.conf.auth.token"/>
               <p class="help-block">
           {{ 'Enter the Aria2 RPC secret token (leave empty if authentication is not enabled)' | translate }}
               </p>
