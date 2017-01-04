@@ -20,7 +20,6 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
   if(cookieConf) configurations.unshift(cookieConf);
 
   if (['http', 'https'].indexOf(uri.protocol()) != -1 && uri.host() != 'localhost') {
-    console.log(uri.host());
     configurations.push({
       host: uri.host(),
       path: '/jsonrpc',
@@ -39,7 +38,6 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
       path: authconf.path,
       encrypt: ( uri.protocol() == 'https' )
     });
-    console.log(configurations);
   }
 
 
