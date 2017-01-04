@@ -54,9 +54,6 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Paused': 'En Pausa',
     'Removed': 'Eliminado',
     'Hide linked meta-data': 'Ocultar metadatos adjuntos',
-    'Displaying': 'Mostrando',
-    'of': 'de',
-    'downloads': 'descargas',
     'Toggle': 'Conmutar',
     'Reset filters': 'Restablecer Filtros',
 // starred properties

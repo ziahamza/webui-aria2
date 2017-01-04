@@ -39,9 +39,6 @@ translations.tr_TR = {
     'Paused': 'Duraklatıldı',
     'Removed': 'Silindi',
     'Hide linked meta-data': 'Bağlı meta verileri gizle',
-    'Displaying': 'Gösteriliyor',
-    'of': ' / ',
-    'downloads': 'Indirme',
     'Toggle': 'aç/kapat',
     'Reset filters': 'Filtreleri sıfırla',
 // starred properties

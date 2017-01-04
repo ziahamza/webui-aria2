@@ -39,9 +39,6 @@ translations.pl_PL = {
     'Paused': 'Zatrzymane',
     'Removed': 'Usunięte',
     'Hide linked meta-data': 'Ukryj zalinkowane meta-dane',
-    'Displaying': 'Wyświetlanie',
-    'of': 'z',
-    'downloads': 'pobranych plików',
     'Toggle': 'Przełącz',
     'Reset filters': 'Reset filtrów',
 // starred properties

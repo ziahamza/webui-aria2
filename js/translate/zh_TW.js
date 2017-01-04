@@ -32,7 +32,7 @@ translations.zh_TW = {
     'Language': '語言',
 // download filters
     'Download Filters': '下載過濾器',
-    'Running': '下載中',
+    'Running': '執行中',
     'Active': '活動的',
     'Waiting': '等待中',
     'Complete': '已完成',
@@ -42,8 +42,12 @@ translations.zh_TW = {
     'Hide linked meta-data': '隱藏連線的元資料',
     'Toggle': '反向選擇',
     'Reset filters': '重置過濾器',
+// download status
+    'Verifing': '正在驗證',
+    'Verify Pending': '等待驗證',
 // starred properties
     'Quick Access Settings': '快速訪問設定',
+    'Save': '儲存',
     'Save settings': '儲存設定',
     'Currently no download in line to display, use the': '當前沒有可顯示的下載項，使用',
     'download button to start downloading files!': '按鈕來開始下載！',
@@ -138,10 +142,14 @@ translations.zh_TW = {
     'Oh Snap!': '糟糕！',
     'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings':
         '無法連線到 Aria2 RPC 伺服器，將在10秒後重試。您可能需要檢查連線設定，請前往 設定 > 連線設定',
+    'Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details by going to Settings > Connection Settings':
+        '連線到 Aria2 RPC 伺服器時認證失敗，將在10秒後重試。您可能需要確認您的身份驗證資訊，請前往 設定 > 連線設定',
     'Successfully connected to Aria2 through its remote RPC …':
         '通過 RPC 連線到 Aria2 成功！',
     'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)':
         '通過 RPC 連線到 Aria2 成功，但是連線並不安全。要想使用安全連線，嘗試在啟動 Aria2 時新增一個授權密碼令牌（通過 --rpc-secret 引數）',
     'Trying to connect to aria2 using the new connection configuration':
-        '正在嘗試使用新的連線配置來連線到 Aria2 ……'
+        '正在嘗試使用新的連線配置來連線到 Aria2 ……',
+    'Remove {{name}} and associated meta-data?':
+        '是否刪除 {{name}} 和關聯的元資料？'
 };
