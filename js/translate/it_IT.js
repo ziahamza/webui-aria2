@@ -39,9 +39,6 @@ translations.it_IT = {
     'Paused': 'In pausa',
     'Removed': 'Rimossi',
     'Hide linked meta-data': 'Nascondi i meta-data collegati',
-    'Displaying': 'Mostra',
-    'of': 'di',
-    'downloads': 'downloads',
     'Toggle': 'Cambia',
     'Reset filters': 'Reimposta filtri',
 // starred properties

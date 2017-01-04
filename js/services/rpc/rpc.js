@@ -108,7 +108,7 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
       else {
         alerts.addAlert('<strong>' + filter('translate')('Oh Snap!') + '</strong> ' +
           filter('translate')('Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings')
-        , 'error')
+        , 'error');
         timeout = setTimeout(update, globalTimeout);
       }
     };
@@ -123,7 +123,8 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
 
         if (failed) {
           needNewConnection = true;
-          alerts.addAlert('<strong>Oh Snap!</strong> Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details  by going to Settings > Connection Settings', 'error');
+          alerts.addAlert('<strong>' + filter('translate')('Oh Snap!') + '</strong> ' +
+            filter('translate')('Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details by going to Settings > Connection Settings', 'error'));
           timeout = setTimeout(update, globalTimeout);
           return;
         }

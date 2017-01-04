@@ -536,7 +536,7 @@
         <ul class="stats pull-left" ng-switch-when="active">
           <!-- {{{ active download statistics -->
           <li class="label label-active hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Active' | translate }}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
@@ -569,7 +569,7 @@
         <ul class="stats pull-left" ng-switch-when="verifing">
           <!-- {{{ active download statistics -->
           <li class="label label-warning hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Verifing' | translate }}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
@@ -602,7 +602,7 @@
         <ul class="stats pull-left" ng-switch-when="verifyPending">
           <!-- {{{ active download statistics -->
           <li class="label label-warning hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Verify Pending' | translate}}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
@@ -635,7 +635,7 @@
         <ul class="stats pull-left" ng-switch-when="paused">
           <!-- {{{ paused download statistics -->
           <li class="label label-info">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-pause">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-pause">&nbsp;</span> {{ 'Paused' | translate }}</span>
           </li>
 
           <li class="label label-info">
@@ -656,7 +656,7 @@
         <ul class="stats pull-left" ng-switch-when="waiting">
           <!-- {{{ paused download statistics -->
           <li class="label label-default">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-caret-right">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-caret-right">&nbsp;</span> {{ 'Waiting' | translate }}</span>
           </li>
 
           <li class="label label-default">
@@ -678,7 +678,7 @@
           <!-- {{{ complete download statistics -->
 
           <li class="label label-success">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{ 'Complete' | translate }}</span>
           </li>
 
           <li class="label label-success">
@@ -695,7 +695,7 @@
         <ul class="stats pull-left" ng-switch-when="removed">
           <!-- {{{ removed download statistics -->
           <li class="label label-warning">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-times">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Removed' | translate }}</span>
           </li>
 
           <li class="label label-warning">

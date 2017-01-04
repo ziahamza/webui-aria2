@@ -39,9 +39,6 @@ translations.de_DE = {
     'Paused': 'Angehaltene',
     'Removed': 'Gelöschte',
     'Hide linked meta-data': 'Blende verlinkte Meta-Daten aus',
-    'Displaying': 'Anzeige',
-    'of': 'von',
-    'downloads': 'Downloads',
     'Toggle': 'Umschalten',
     'Reset filters': 'Filter zurücksetzen',
 // starred properties

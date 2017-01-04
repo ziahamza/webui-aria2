@@ -39,9 +39,6 @@ translations.th_TH = {
     'Paused': 'หยุดอยู่',
     'Removed': 'ลบแล้ว',
     'Hide linked meta-data': 'ซ่อนข้อมูลเมตาที่เชื่อมโยง',
-    'Displaying': 'แแสดงดาวน์โหลด',
-    'of': 'อันใน',
-    'downloads': 'อันทั้งหมด',
     'Toggle': 'สลับ',
     'Reset filters': 'รีเซตตัวกรอง',
 // starred properties

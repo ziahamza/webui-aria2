@@ -39,13 +39,14 @@ translations.en_US = {
     'Paused': 'Paused',
     'Removed': 'Removed',
     'Hide linked meta-data': 'Hide linked meta-data',
-    'Displaying': 'Displaying',
-    'of': 'of',
-    'downloads': 'downloads',
     'Toggle': 'Toggle',
     'Reset filters': 'Reset filters',
+// download status
+    'Verifing': 'Verifing',
+    'Verify Pending': 'Verify Pending',
 // starred properties
     'Quick Access Settings': 'Quick Access Settings',
+    'Save': 'Save',
     'Save settings': 'Save settings',
     'Currently no download in line to display, use the': 'Currently no download in line to display, use the',
     'download button to start downloading files!': 'download button to start downloading files!',
@@ -138,7 +139,9 @@ translations.en_US = {
     'The last connection attempt was unsuccessful. Trying another configuration': 'The last connection attempt was unsuccessful. Trying another configuration',
     'Oh Snap!': 'Oh Snap!',
     'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings': 'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings',
+    'Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details by going to Settings > Connection Settings': 'Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details by going to Settings > Connection Settings',
     'Successfully connected to Aria2 through its remote RPC …': 'Successfully connected to Aria2 through its remote RPC …',
     'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)': 'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)',
     'Trying to connect to aria2 using the new connection configuration': 'Trying to connect to aria2 using the new connection configuration',
+    'Remove {{name}} and associated meta-data?': 'Remove {{name}} and associated meta-data?'
 };
