@@ -63,8 +63,6 @@ translations.zh_TW = {
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
         '- 你也可以給同一個下載任務新增多個映象連結，寫在一行並用空格分隔每條連結；',
     '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '- 連結可以是 HTTP(S)、FTP 和磁力連結。',
-    'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
-        '例如：新增 2 個下載任務 f1.jpg 和 f2.mp4（它們都有2個映象連結），新增方式如下',
     'Download settings': '下載設定',
     'Advanced settings': '高階設定',
     'Cancel': '取消',

@@ -58,8 +58,6 @@ translations.de_DE = {
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
         '- Es können auch mehrere URIs (Spiegelserver) für *dieselbe* Datei durch Leerzeichen getrennt angegeben werden.',
     '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '- Eine URI kann folgende Protokolle besitzen: HTTP(S)/FTP/BitTorrent-Magnet.',
-    'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
-        'Um z.B. 2 Dateien (Downloads) f1.jpg und f2.mp4 mit jeweis einem zweiten Spiegelserver herunterzuladen, kann folgendes angegeben werden',
     'Download settings': 'Download Einstellungen',
     'Advanced settings': 'Erweiterte Einstellungen',
     'Cancel': 'Abbrechen',

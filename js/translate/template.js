@@ -77,8 +77,6 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
         '',
     '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '',
-    'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
-        '',
     'Download settings': '',
     'Advanced settings': '',
     'Cancel': '',

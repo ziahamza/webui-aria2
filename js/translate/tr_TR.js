@@ -58,8 +58,6 @@ translations.tr_TR = {
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
         '- Aynı dosyalar için birden fazla URI (ayna) da ekleyebilirsiniz. Bunu yapmak için URIları bir boşlukla ayırın.',
     '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '- Bir URI, HTTP(S)/FTP/BitTorrent-Magnet olabilir.',
-    'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
-        'Örneğin. 2 dosya (indir) f1.jpg ve f2.mp4ü 2 URIla (aynalar) ekleyin, URIları aşağıdaki gibi ekleyin',
     'Download settings': 'İndirme ayarları',
     'Advanced settings': 'Gelişmiş Ayarlar',
     'Cancel': 'İptal et',
