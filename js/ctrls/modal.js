@@ -37,7 +37,8 @@ angular
     open: function(cb) {
       var self = this;
       this.uris = "";
-      this.collapsed = true;
+      this.downloadSettingsCollapsed = true;
+      this.advancedSettingsCollapsed = true;
       this.settings = {};
       this.fsettings = _.cloneDeep(fsettings);
       this.cb = cb;
