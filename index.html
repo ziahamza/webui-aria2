@@ -41,6 +41,7 @@
   <script src="js/directives/chunkbar.js"></script>
   <script src="js/directives/dgraph.js"></script>
   <script src="js/directives/fselect.js"></script>
+  <script src="js/directives/textarea.js"></script>
 
   <script src="js/filters/bytes.js"></script>
   <script src="js/filters/url.js"></script>
@@ -811,22 +812,17 @@
     {{ '- You can add multiple downloads (files) at the same time by putting URIs for each file on a separate line.' | translate }}<br />
     {{ '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.' | translate }}<br />
     {{ '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.' | translate }}</br>
-    {{ 'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows' | translate }}:<br />
-        <!-- pre tags print tabs, so do not indent them! -->
-<pre>
-http://ex1.com/f1.jpg http://ex2.com/f1.jpg
-http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
-</pre>
       </p>
-      <textarea rows="4" style="width: 100%" ng-model="getUris.uris" autofocus></textarea>
-
+      <textarea rows="4" style="width: 100%" ng-model="getUris.uris" autofocus placeholder="http://mirror1.com/f1.jpg http://mirror2.com/f1.jpg\nhttp://mirror1.com/f2.mp4 http://mirror2.com/f2.mp4 --out=file2.mp4"></textarea>
       <br /><br />
 
         <div>
-          <div class="modal-advanced-title">
+          <div ng-click="getUris.downloadSettingsCollapsed = !getUris.downloadSettingsCollapsed" class="modal-advanced-title">
             {{ 'Download settings' | translate }}
+            <i ng-hide="!getUris.downloadSettingsCollapsed" class="fa fa-fw fa-caret-right"></i>
+            <i ng-hide="getUris.downloadSettingsCollapsed" class="fa fa-fw fa-caret-down"></i>
           </div>
-          <div class="form-horizontal modal-advanced-options">
+          <div collapse="getUris.downloadSettingsCollapsed" class="form-horizontal modal-advanced-options">
             <div class="form-group" ng-repeat="(name, set) in getUris.settings">
               <label class="col-sm-3 control-label">{{name}}</label>
 
@@ -840,12 +836,12 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
           </div>
 
           <br />
-          <div ng-click="getUris.collapsed = !getUris.collapsed" class="modal-advanced-title">
+          <div ng-click="getUris.advancedSettingsCollapsed = !getUris.advancedSettingsCollapsed" class="modal-advanced-title">
             {{ 'Advanced settings' | translate }}
-            <i ng-hide="!getUris.collapsed" class="fa fa-fw fa-caret-right"></i>
-            <i ng-hide="getUris.collapsed" class="fa fa-fw fa-caret-down"></i>
+            <i ng-hide="!getUris.advancedSettingsCollapsed" class="fa fa-fw fa-caret-right"></i>
+            <i ng-hide="getUris.advancedSettingsCollapsed" class="fa fa-fw fa-caret-down"></i>
           </div>
-          <div collapse="getUris.collapsed" class="form-horizontal modal-advanced-options">
+          <div collapse="getUris.advancedSettingsCollapsed" class="form-horizontal modal-advanced-options">
             <div class="form-group" ng-repeat="(name, set) in getUris.fsettings">
               <p class="col-sm-offset-3 col-sm-9 help-block controls">{{set.desc}}</p>
 
@@ -860,11 +856,11 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
           </div>
         </div>
     </fieldset>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()">{{ 'Cancel' | translate }}</button>
+      <button class="btn btn-default btn-primary" ng-click="$close()">{{ 'Start' | translate }}</button>
+    </div>
   </form>
-  <div class="modal-footer">
-    <button class="btn btn-default" ng-click="$dismiss()">{{ 'Cancel' | translate }}</button>
-    <button class="btn btn-default btn-primary" ng-click="$close()">{{ 'Start' | translate }}</button>
-  </div>
 </script>
 <!-- }}} -->
 
