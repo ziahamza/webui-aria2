@@ -27,7 +27,7 @@ translations.ru_RU = {
     'About': 'Об',
     'Displaying': 'Показано',
     'of': 'из',
-    'downloads': 'загрузки',
+    'downloads': 'загрузок',
     'Language': 'Язык',
 // download filters
     'Download Filters': 'Фильтр Загрузок',
@@ -39,9 +39,6 @@ translations.ru_RU = {
     'Paused': 'Приостановленные',
     'Removed': 'Удаленные',
     'Hide linked meta-data': 'Скрыть связанные метаданные',
-    'Displaying': 'Показано',
-    'of': 'из',
-    'downloads': 'загрузок',
     'Toggle': 'Переключить',
     'Reset filters': 'Сбросить фильтры',
 // starred properties
@@ -61,8 +58,6 @@ translations.ru_RU = {
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
         '- Можно также добавить несколько URL-адресов (зеркал) для *одного* файла. Для этого отделите URL-адреса пробелом.',
     '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '- URL-адрес может быть HTTP(S)/FTP/BitTorrent-Magnet.',
-    'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
-        'Например для добавления 2 файлов (загрузок) f1.jpg и f2.mp4 с 2 URL-адресов (зеркал), добавьте URL-адреса следующим образом',
     'Download settings': 'Настройки загрузки',
     'Advanced settings': 'Расширенные настройки',
     'Cancel': 'Отмена',

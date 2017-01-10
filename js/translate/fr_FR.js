@@ -39,9 +39,6 @@ translations.fr_FR = {
     'Paused': 'En Pause',
     'Removed': 'Supprimés',
     'Hide linked meta-data': 'Cacher les méta-données liées',
-    'Displaying': 'Affichage de',
-    'of': 'parmi',
-    'downloads': 'téléchargements',
     'Toggle': 'Basculer',
     'Reset filters': 'Réinitialiser les filtres',
 // starred properties
@@ -61,8 +58,6 @@ translations.fr_FR = {
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
         'Vous pouvez aussi ajouter plusieurs URIs (mirroirs) pour le *même* fichier. Pour ce faire, séparez les URIs par un espace.',
     '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': 'Une URI peut être HTTP(S)/FTP/BitTorrent-Magnet.',
-    'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
-        'E.g. pour ajouter 2 fichiers (téléchargements) f1.jpg et f2.mp4 avec 2 URIs (mirroirs) chacuns, ajoutez les URIs ainsi',
     'Download settings': 'Paramètres de téléchargement',
     'Advanced settings': 'Paramètres avancés',
     'Cancel': 'Annuler',

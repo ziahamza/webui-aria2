@@ -35,6 +35,11 @@ Well, you need aria2. And a web browser (if that even counts!)
 
 Docker support
 ==============
+There is two Dockerfile in this project, one is a common Dockerfile, which can be use for **testing purpose**.<br>
+The second is a **production ready** Dockerfile for raspberry and other ARM plateforms.
+
+### For testing purpose
+
 You can also try or use webui-aria2 in your LAN inside a Docker sandbox.
 
 Build the image
@@ -50,6 +55,28 @@ sudo docker run -v /Downloads:/data -p 6800:6800 -p 9100:8080 --name="webui-aria
 ````
 
 `/Downloads` is the directory in the host where you want to keep the downloaded files
+
+### Production ready (ARM platform)
+
+This image contains both aria2 and webui-aria2.
+
+Build it (may take several hours due to the aria2 compilation process. Don't panic and grap a coffee)
+```
+docker build -f rpi-Dockerfile -t yourname/webui-aria2 .
+```
+Prepare the host volume:
+This image required few file to be mounted in the container's `/data` folder.
+```
+.aria2/session.txt  (empty file)
+.aria2/aria2.log    (empty file)
+.aria2/aria2.conf   (aria2 configuration file, not webui-aria2 conf)
+./downloads/        (where the downloaded files goes)
+```
+
+Run it
+```
+docker run --restart=always -d -v /home/<USER>/data/aria2:/data -p 6800:6800 -p 9100:8080 --name="webui-aria2" yourname/webui-aria2
+```
 
 Support
 =======

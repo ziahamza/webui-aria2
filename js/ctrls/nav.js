@@ -8,12 +8,12 @@ angular
 	'$scope', '$modals',
 	'$rpc', '$rpchelpers', '$fileSettings',
 	'$globalSettings', '$globalExclude',
-	'$utils', '$translate',
+	'$utils', '$translate', '$filter',
 	function(
 		scope, modals,
 		rpc, rhelpers, fsettings,
 		gsettings, gexclude,
-		utils, translate
+		utils, translate, filter
 	) {
 
 	scope.isFeatureEnabled = function(f) { return rhelpers.isFeatureEnabled(f) };
@@ -98,26 +98,28 @@ angular
 
 			modals.invoke(
 				'settings', _.cloneDeep(settings),
-				'Global Settings', 'Save', function(chsettings) {
+				filter('translate')('Global Settings'),
+				filter('translate')('Save'),
+				function(chsettings) {
 
-				var sets = {};
-				var starred = [];
-				for (var i in chsettings) {
-					// no need to change default values
-					if (settings[i].val != chsettings[i].val)
-						sets[i] = chsettings[i].val
+					var sets = {};
+					var starred = [];
+					for (var i in chsettings) {
+						// no need to change default values
+						if (settings[i].val != chsettings[i].val)
+							sets[i] = chsettings[i].val
 
-					if (chsettings[i].starred) {
-						starred.push(i);
-					}
-				};
+						if (chsettings[i].starred) {
+							starred.push(i);
+						}
+					};
 
-				console.log('saving aria2 settings:', sets);
-				console.log('saving aria2 starred:', starred);
+					console.log('saving aria2 settings:', sets);
+					console.log('saving aria2 starred:', starred);
 
-				rpc.once('changeGlobalOption', [sets]);
-				utils.setCookie('aria2props', starred);
-			});
+					rpc.once('changeGlobalOption', [sets]);
+					utils.setCookie('aria2props', starred);
+				});
 		});
 	};
 

@@ -39,9 +39,6 @@ translations.th_TH = {
     'Paused': 'หยุดอยู่',
     'Removed': 'ลบแล้ว',
     'Hide linked meta-data': 'ซ่อนข้อมูลเมตาที่เชื่อมโยง',
-    'Displaying': 'แแสดงดาวน์โหลด',
-    'of': 'อันใน',
-    'downloads': 'อันทั้งหมด',
     'Toggle': 'สลับ',
     'Reset filters': 'รีเซตตัวกรอง',
 // starred properties
@@ -61,8 +58,6 @@ translations.th_TH = {
     '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.':
         '',
     '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.': '',
-    'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows':
-        '',
     'Download settings': 'ตั้งค่าการดาวน์โหลด',
     'Advanced settings': 'ตั้งค่าขั้นสูง',
     'Cancel': 'ยกเลิก',

@@ -11,7 +11,7 @@
 
   <title ng-bind="$root.pageTitle">Aria2 WebUI</title>
 
-  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/flag-icon.min.css">
 
@@ -19,18 +19,16 @@
   <link rel="stylesheet" href="css/download.css">
   <link rel="stylesheet" href="css/modals.css">
 
-
   <!-- external javascript dependencies -->
-  <script src="js/libs/jquery-2.1.3.js"></script>
-  <script src="js/libs/lodash.js"></script>
+  <script src="js/libs/jquery-2.2.4.min.js"></script>
+  <script src="js/libs/lodash-4.17.3.min.js"></script>
 
-  <script src="js/libs/angular.js"></script>
+  <script src="js/libs/angular.min.js"></script>
 
-  <script src="js/libs/angularui-bootstrap.js"></script>
+  <script src="js/libs/angularui-bootstrap-tpls.min.js"></script>
 
-
-  <script src="js/libs/jquery.flot.js"></script>
-  <script src="js/libs/jquery.flot.time.js"></script>
+  <script src="js/libs/jquery.flot.min.js"></script>
+  <script src="js/libs/jquery.flot.time.min.js"></script>
 
   <!-- We do manual resize currently
   <script src="js/libs/jquery.flot.resize.js"></script>
@@ -43,6 +41,7 @@
   <script src="js/directives/chunkbar.js"></script>
   <script src="js/directives/dgraph.js"></script>
   <script src="js/directives/fselect.js"></script>
+  <script src="js/directives/textarea.js"></script>
 
   <script src="js/filters/bytes.js"></script>
   <script src="js/filters/url.js"></script>
@@ -65,26 +64,26 @@
   <script src="js/services/rpc/rpc.js"></script>
   <script src="js/services/rpc/helpers.js"></script>
 
-
   <script src="js/ctrls/main.js"></script>
   <script src="js/ctrls/modal.js"></script>
   <script src="js/ctrls/nav.js"></script>
   <script src="js/ctrls/alert.js"></script>
   <script src="js/ctrls/props.js"></script>
 
-
   <!-- translate -->
-  <script src="js/libs/angular-translate.js"></script>
+  <script src="js/libs/angular-translate.min.js"></script>
   <script src="js/translate/nl_NL.js"></script>
   <script src="js/translate/en_US.js"></script>
   <script src="js/translate/th_TH.js"></script>
   <script src="js/translate/zh_CN.js"></script>
+  <script src="js/translate/zh_TW.js"></script>
   <script src="js/translate/pl_PL.js"></script>
   <script src="js/translate/fr_FR.js"></script>
   <script src="js/translate/de_DE.js"></script>
   <script src="js/translate/es_ES.js"></script>
   <script src="js/translate/ru_RU.js"></script>
   <script src="js/translate/it_IT.js"></script>
+  <script src="js/translate/tr_TR.js"></script>
 </head>
 <!-- }}} -->
 
@@ -250,6 +249,11 @@
             </li>
             <li>
               <a
+                      ng-click="changeLanguage('zh_TW')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-tw">&nbsp;</span> 繁體中文</a>
+            </li>
+            <li>
+              <a
                       ng-click="changeLanguage('pl_PL')"
                       href="#"><span class="fa fa-fw flag-icon flag-icon-pl">&nbsp;</span> Polish</a>
             </li>
@@ -277,6 +281,11 @@
             <a
                       ng-click="changeLanguage('it_IT')"
                       href="#"><span class="fa fa-fw flag-icon flag-icon-it">&nbsp;</span> Italiano</a>
+            </li>
+            <li>
+            <a
+                      ng-click="changeLanguage('tr_TR')"
+                      href="#"><span class="fa fa-fw flag-icon flag-icon-tr">&nbsp;</span> Turkish</a>
             </li>
           </ul>
         </li>
@@ -312,6 +321,7 @@
         <li class="nav-header" ng-show="totalAria2Downloads()">{{ 'Global Statistics' | translate }}</li>
         <li>
           <div
+            id="global-graph"
             yticks="3"
             xticks="1"
             dspeed="gstats.downloadSpeed"
@@ -321,13 +331,14 @@
             draw="true">
           </div>
         </li>
+        <li>
+          <span title="Upload Speed"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span>{{gstats.uploadSpeed | bspeed}}</span><br />
+          <span title="Download Speed"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span>{{gstats.downloadSpeed | bspeed}}</span>
+        </li>
       </ul>
-      <span title="Upload Speed"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span>{{gstats.uploadSpeed | bspeed}}</span><br />
-      <span title="Download Speed"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span>{{gstats.downloadSpeed | bspeed}}</span>
       <!-- }}} -->
 
       <br />
-
 
       <!-- {{{ download filters -->
       <ul id="filters" class="clearfix nav nav-list" ng-show="enable.sidebar.filters">
@@ -430,7 +441,7 @@
       ng-repeat="download in getDownloads()"
       class="row-fluid download" data-gid="{{download.gid}}"
       ng-click="toggleCollapsed(download)">
-    <div class="download-name download-item download-controls">
+    <div class="download-name download-item download-controls clearfix">
         <!-- {{{ download control buttons -->
         <div class="btn-group" role="group" ng-click="$event.stopPropagation()">
             <button
@@ -526,7 +537,7 @@
         <ul class="stats pull-left" ng-switch-when="active">
           <!-- {{{ active download statistics -->
           <li class="label label-active hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Active' | translate }}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
@@ -559,7 +570,7 @@
         <ul class="stats pull-left" ng-switch-when="verifing">
           <!-- {{{ active download statistics -->
           <li class="label label-warning hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Verifing' | translate }}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
@@ -592,7 +603,7 @@
         <ul class="stats pull-left" ng-switch-when="verifyPending">
           <!-- {{{ active download statistics -->
           <li class="label label-warning hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Verify Pending' | translate}}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
@@ -625,7 +636,7 @@
         <ul class="stats pull-left" ng-switch-when="paused">
           <!-- {{{ paused download statistics -->
           <li class="label label-info">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-pause">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-pause">&nbsp;</span> {{ 'Paused' | translate }}</span>
           </li>
 
           <li class="label label-info">
@@ -646,7 +657,7 @@
         <ul class="stats pull-left" ng-switch-when="waiting">
           <!-- {{{ paused download statistics -->
           <li class="label label-default">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-caret-right">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-caret-right">&nbsp;</span> {{ 'Waiting' | translate }}</span>
           </li>
 
           <li class="label label-default">
@@ -668,7 +679,7 @@
           <!-- {{{ complete download statistics -->
 
           <li class="label label-success">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{ 'Complete' | translate }}</span>
           </li>
 
           <li class="label label-success">
@@ -685,7 +696,7 @@
         <ul class="stats pull-left" ng-switch-when="removed">
           <!-- {{{ removed download statistics -->
           <li class="label label-warning">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-times">&nbsp;</span> {{download.status}}</span>
+            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Removed' | translate }}</span>
           </li>
 
           <li class="label label-warning">
@@ -801,22 +812,17 @@
     {{ '- You can add multiple downloads (files) at the same time by putting URIs for each file on a separate line.' | translate }}<br />
     {{ '- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.' | translate }}<br />
     {{ '- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.' | translate }}</br>
-    {{ 'E.g. to add 2 files (downloads) f1.jpg and f2.mp4 with 2 URIs (mirrors) each, add URIs as follows' | translate }}:<br />
-        <!-- pre tags print tabs, so do not indent them! -->
-<pre>
-http://ex1.com/f1.jpg http://ex2.com/f1.jpg
-http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
-</pre>
       </p>
-      <textarea rows="4" style="width: 100%" ng-model="getUris.uris" autofocus></textarea>
-
+      <textarea rows="4" style="width: 100%" ng-model="getUris.uris" autofocus placeholder="http://mirror1.com/f1.jpg http://mirror2.com/f1.jpg\nhttp://mirror1.com/f2.mp4 http://mirror2.com/f2.mp4 --out=file2.mp4"></textarea>
       <br /><br />
 
         <div>
-          <div class="modal-advanced-title">
+          <div ng-click="getUris.downloadSettingsCollapsed = !getUris.downloadSettingsCollapsed" class="modal-advanced-title">
             {{ 'Download settings' | translate }}
+            <i ng-hide="!getUris.downloadSettingsCollapsed" class="fa fa-fw fa-caret-right"></i>
+            <i ng-hide="getUris.downloadSettingsCollapsed" class="fa fa-fw fa-caret-down"></i>
           </div>
-          <div class="form-horizontal modal-advanced-options">
+          <div collapse="getUris.downloadSettingsCollapsed" class="form-horizontal modal-advanced-options">
             <div class="form-group" ng-repeat="(name, set) in getUris.settings">
               <label class="col-sm-3 control-label">{{name}}</label>
 
@@ -830,12 +836,12 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
           </div>
 
           <br />
-          <div ng-click="getUris.collapsed = !getUris.collapsed" class="modal-advanced-title">
+          <div ng-click="getUris.advancedSettingsCollapsed = !getUris.advancedSettingsCollapsed" class="modal-advanced-title">
             {{ 'Advanced settings' | translate }}
-            <i ng-hide="!getUris.collapsed" class="fa fa-fw fa-caret-right"></i>
-            <i ng-hide="getUris.collapsed" class="fa fa-fw fa-caret-down"></i>
+            <i ng-hide="!getUris.advancedSettingsCollapsed" class="fa fa-fw fa-caret-right"></i>
+            <i ng-hide="getUris.advancedSettingsCollapsed" class="fa fa-fw fa-caret-down"></i>
           </div>
-          <div collapse="getUris.collapsed" class="form-horizontal modal-advanced-options">
+          <div collapse="getUris.advancedSettingsCollapsed" class="form-horizontal modal-advanced-options">
             <div class="form-group" ng-repeat="(name, set) in getUris.fsettings">
               <p class="col-sm-offset-3 col-sm-9 help-block controls">{{set.desc}}</p>
 
@@ -850,11 +856,11 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
           </div>
         </div>
     </fieldset>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()">{{ 'Cancel' | translate }}</button>
+      <button class="btn btn-default btn-primary" ng-click="$close()">{{ 'Start' | translate }}</button>
+    </div>
   </form>
-  <div class="modal-footer">
-    <button class="btn btn-default" ng-click="$dismiss()">{{ 'Cancel' | translate }}</button>
-    <button class="btn btn-default btn-primary" ng-click="$close()">{{ 'Start' | translate }}</button>
-  </div>
 </script>
 <!-- }}} -->
 
@@ -1126,7 +1132,7 @@ http://ex1.com/f2.mp4 http://ex2.com/f2.mp4 --out=file2.mp4
           <label class="col-sm-3 control-label">{{ 'Enter the secret token (optional)' | translate }}:</label>
           <div class="col-sm-9 controls">
             <label>
-              <input type="text" class="form-control input-xlarge" ng-model="connection.conf.auth.token"/>
+              <input type="password" class="form-control input-xlarge" ng-model="connection.conf.auth.token"/>
               <p class="help-block">
           {{ 'Enter the Aria2 RPC secret token (leave empty if authentication is not enabled)' | translate }}
               </p>

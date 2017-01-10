@@ -20,7 +20,6 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
   if(cookieConf) configurations.unshift(cookieConf);
 
   if (['http', 'https'].indexOf(uri.protocol()) != -1 && uri.host() != 'localhost') {
-    console.log(uri.host());
     configurations.push({
       host: uri.host(),
       path: '/jsonrpc',
@@ -39,7 +38,6 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
       path: authconf.path,
       encrypt: ( uri.protocol() == 'https' )
     });
-    console.log(configurations);
   }
 
 
@@ -108,7 +106,7 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
       else {
         alerts.addAlert('<strong>' + filter('translate')('Oh Snap!') + '</strong> ' +
           filter('translate')('Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings')
-        , 'error')
+        , 'error');
         timeout = setTimeout(update, globalTimeout);
       }
     };
@@ -117,13 +115,14 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
       name: 'system.multicall',
       params: [params],
       success: function(data) {
-        var failed = _.any(data.result, function(d) {
+        var failed = _.some(data.result, function(d) {
           return d.code && d.message === "Unauthorized";
         });
 
         if (failed) {
           needNewConnection = true;
-          alerts.addAlert('<strong>Oh Snap!</strong> Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details  by going to Settings > Connection Settings', 'error');
+          alerts.addAlert('<strong>' + filter('translate')('Oh Snap!') + '</strong> ' +
+            filter('translate')('Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details by going to Settings > Connection Settings', 'error'));
           timeout = setTimeout(update, globalTimeout);
           return;
         }
