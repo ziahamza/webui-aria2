@@ -47,8 +47,8 @@ translations.it_IT = {
 // starred properties
     'Quick Access Settings': 'Accesso rapido',
     'Save settings': 'Salva impostazioni',
-    'Currently no download in line to display, use the': 'Attualmente non c\'è nessun download da mostrare, usa il',
-    'download button to start downloading files!': 'pulsante Aggiungi per cominciare a scaricare!',
+    'Currently no download in line to display, use the': 'Attualmente non c\'è nessun download da mostrare, usa il pulsante ',
+    'download button to start downloading files!': 'dowload per cominciare a scaricare!',
     'Peers': 'Peers',
     'More Info': 'Altre informazioni',
     'Remove': 'Rimuovi',
