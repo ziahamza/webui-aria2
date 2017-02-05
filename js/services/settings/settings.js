@@ -271,7 +271,8 @@ angular.module('webui.services.settings', [])
 
   "header": {
     val: '',
-    desc: "Append HEADER to HTTP request header."
+    desc: "Append HEADER to HTTP request header.",
+    multiline: true,
   },
 
   "http-accept-gzip": {

@@ -38,7 +38,7 @@ angular
 ])
 .constant('$downloadProps', [ // Similar to starred Quick Access properties but for adding new downloads.
   // go to Advance Download Options when adding a new download to view the list of possible options
-  'http-user', 'http-passwd', 'pause', 'dir', 'max-connection-per-server'
+  'header', 'http-user', 'http-passwd', 'pause', 'dir', 'max-connection-per-server'
 ])
 .constant('$globalTimeout', 1000)  // interval to update the individual downloads
 ;
