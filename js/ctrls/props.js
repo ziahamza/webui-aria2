@@ -70,6 +70,7 @@ angular.module('webui.ctrls.props', [
       nprop = nprop || {};
       nprop.name = prop.name;
       nprop.options = prop.options;
+      nprop.multiline = prop.multiline;
       if (nprop._val == nprop.val || nprop.val == prop.val) {
         nprop._val = prop.val;
         nprop.val = prop.val;
