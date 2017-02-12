@@ -412,8 +412,9 @@
         <li ng-repeat="prop in properties" class="form-group">
           <label title="{{prop.desc}}" style="width: 100%;">{{prop.name}}</label>
           <div class="form-group">
-            <select style="width: 100%;" ng-show="prop.options.length" class="form-control" ng-options="opt for opt in prop.options" ng-model="prop.val"></select>
-            <input style="width: 100%;" ng-show="!prop.options.length" type="text" class="form-control input-large" ng-model="prop.val"/>
+            <select style="width: 100%;" ng-show="prop.options.length && !prop.multiline" class="form-control" ng-options="opt for opt in prop.options" ng-model="prop.val"></select>
+            <input style="width: 100%;" ng-show="!prop.options.length && !prop.multiline" type="text" class="form-control input-large" ng-model="prop.val"/>
+            <textarea style="width: 100%;" ng-show="prop.multiline" ng-model="prop.val"></textarea>
           </div>
         </li>
         <li>
@@ -827,9 +828,10 @@
               <label class="col-sm-3 control-label">{{name}}</label>
 
               <div class="col-sm-9 controls">
-                <select class="form-control" ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+                <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
                 </select>
-                <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+                <input ng-show="!set.options.length && !set.multiline" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+                <textarea ng-show="set.multiline" ng-model="set.val"></textarea>
               </div>
               <br />
             </div>
@@ -847,9 +849,10 @@
 
               <label class="col-sm-3 control-label">{{name}}</label>
               <div class="col-sm-9 controls">
-                <select class="form-control" ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+                <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
                 </select>
-                <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+                <input ng-show="!set.options.length && !set.multiline" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+                <textarea ng-show="set.multiline" ng-model="set.val"></textarea>
               </div>
               <br />
             </div>
@@ -895,9 +898,10 @@
             <label class="col-sm-3 control-label">{{name}}</label>
 
             <div class="col-sm-9 controls">
-              <select class="form-control" ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+              <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
               </select>
-              <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              <input ng-show="!set.options.length && !set.multiline" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              <textarea ng-show="set.multiline" ng-model="set.val"></textarea>
             </div>
             <br />
           </div>
@@ -915,9 +919,10 @@
 
             <label class="col-sm-3 control-label">{{name}}</label>
             <div class="col-sm-9 controls">
-              <select class="form-control" ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+              <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
               </select>
-              <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              <input ng-show="!set.options.length && !set.multiline" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              <textarea ng-show="set.multiline" ng-model="set.val"></textarea>
             </div>
             <br />
           </div>
@@ -962,9 +967,10 @@
             <label class="col-sm-3 control-label">{{name}}</label>
 
             <div class="col-sm-9 controls">
-              <select class="form-control" ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+              <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
               </select>
-              <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              <input ng-show="!set.options.length && !set.multiline" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              <textarea ng-show="set.multiline" ng-model="set.val"></textarea>
             </div>
             <br />
           </div>
@@ -982,9 +988,10 @@
 
             <label class="col-sm-3 control-label">{{name}}</label>
             <div class="col-sm-9 controls">
-              <select class="form-control" ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+              <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
               </select>
-              <input ng-show="!set.options.length" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              <input ng-show="!set.options.length && !set.multiline" type="text" class="form-control input-xxlarge modal-form-input-verylarge" ng-model="set.val"/>
+              <textarea ng-show="set.multiline" ng-model="set.val"></textarea>
             </div>
             <br />
           </div>
@@ -1044,9 +1051,10 @@
           <label class="col-sm-3 control-label">{{name}}</label>
 
           <div class="col-sm-9 controls">
-            <select class="form-control" ng-show="set.options.length" ng-options="opt for opt in set.options" ng-model="set.val">
+            <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
             </select>
-            <input ng-show="!set.options.length" type="text" class="form-control input-xlarge" ng-model="set.val"/>
+            <input ng-show="!set.options.length && !set.multiline" type="text" class="form-control input-xlarge" ng-model="set.val"/>
+            <textarea ng-show="set.multiline" ng-model="set.val"></textarea>
             <div class="checkbox" ng-show="set.starred != undefined">
               <label>
                 <input type="checkbox" ng-model="set.starred"/>
