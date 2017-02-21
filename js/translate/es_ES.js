@@ -56,10 +56,14 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Hide linked meta-data': 'Ocultar metadatos adjuntos',
     'Toggle': 'Conmutar',
     'Reset filters': 'Restablecer Filtros',
+// download status
+    'Verifing': 'Verificando',
+    'Verify Pending': 'Pendiente de verificación',
 // starred properties
     'Quick Access Settings': 'Ajustes Rápidos',
-    'Save settings': 'Salvar Ajustes',
-    'Currently no download in line to display, use the': 'En el momento no hay descargas para mostrar. ¡Use la opción',
+    'Save': 'Guardar',
+    'Save settings': 'Guardar Ajustes',
+    'Currently no download in line to display, use the': 'En este momento no hay descargas para mostrar. ¡Use la opción',
     'download button to start downloading files!': 'para empezar a descargar sus archivos!',
     'Peers': 'Pares',
     'More Info': 'Mas Info',
@@ -107,7 +111,7 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Enter the path for the Aria2 RPC endpoint (default: /jsonrpc)': 'Escriba la ruta de acceso RPC de Aria2 (por defecto: /jsonrpc)',
     'SSL/TLS encryption': 'Cifrado SSL/TLS',
     'Enable SSL/TLS encryption': 'Habilitar Cifrado SSL/TLS',
-    'Enter the secret token (optional)': 'Escriba la frase Token',
+    'Enter the secret token (optional)': 'Escriba la frase Token (opcional)',
     'Enter the Aria2 RPC secret token (leave empty if authentication is not enabled)':
         'Escriba la frase Token secreta (vacío si la autenticación está deshabilitada)',
     'Enter the username (optional)': 'Usuario (opcional)',
@@ -149,6 +153,8 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Oh Snap!': 'Rayos…',
     'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings':
         'No se pudo establecer una conexión al servidor Aria2. Reintentando en 10 segundos. Pruebe revisando la configuración en Ajustes > Ajustes de Conexión',
+    'Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details by going to Settings > Connection Settings':
+        'Autenticación fallida con el servior Aria2 RPC. Reintentando en 10 segundos. Puede que sea necesario revisar su info de autenticación en Ajustes > Ajustes de Conexión',
     'Successfully connected to Aria2 through its remote RPC …':
         'Conexión exitosa con el servidor Aria2 mediante la interfaz RPC',
     'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)':
