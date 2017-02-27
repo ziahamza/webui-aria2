@@ -1,0 +1,30 @@
+{
+  "name": "webui-aria2",
+  "homepage": "https://github.com/ziahamza/webui-aria2",
+  "authors": [
+    "Hamza Zia <ziahamza2007@gmail.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "keywords": [
+    "webui",
+    "aria2"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.2",
+    "lodash": "^4.17.4",
+    "angular-translate": "^2.14.0",
+    "angular-bootstrap": "~0.13.4",
+    "jquery": "^3.1.1",
+    "jquery.flot": "https://raw.githubusercontent.com/flot/flot/master/jquery.flot.js",
+    "jquery.flot.time": "https://raw.githubusercontent.com/flot/flot/master/jquery.flot.time.js"
+  }
+}

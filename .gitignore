@@ -2,3 +2,5 @@
 .idea
 .git
 debug.log
+
+bower_components/
