@@ -451,8 +451,8 @@ function(
 			} else if (ctx.verifyIntegrityPending !== d.verifyIntegrityPending) {
 				ctx.verifyIntegrityPending = d.verifyIntegrityPending;
 			}
-			if (ctx.uploadLength !== d.uploadength) {
-				ctx.uploadLength = d.uploadlength;
+			if (ctx.uploadLength !== d.uploadLength) {
+				ctx.uploadLength = d.uploadLength;
 				ctx.fmtUploadLength = utils.fmtsize(d.uploadLength);
 			}
 			if (ctx.pieceLength !== d.pieceLength) {
