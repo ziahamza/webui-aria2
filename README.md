@@ -62,7 +62,7 @@ This image contains both aria2 and webui-aria2.
 
 Build it (may take several hours due to the aria2 compilation process. Don't panic and grap a coffee)
 ```
-docker build -f rpi-Dockerfile -t yourname/webui-aria2 .
+docker build -f Dockerfile.arm -t yourname/webui-aria2 .
 ```
 Prepare the host volume:
 This image required few file to be mounted in the container's `/data` folder.
