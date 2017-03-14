@@ -30,7 +30,7 @@ RUN GITHUB_REPO="https://github.com/tianon/gosu" \
   && chmod +x /usr/local/bin/gosu
 
 # goland install (compile source code for ARM since no version are currently available)
-RUN curl -L "https://storage.googleapis.com/golang/go1.6.1.linux-armv6l.tar.gz" > go.tar.gz \
+RUN curl -L "https://storage.googleapis.com/golang/go1.8.linux-armv6l.tar.gz" > go.tar.gz \
   && tar -xzf go.tar.gz -C /usr/local \
   && export GOROOT="/usr/local/go" && export GOPATH=`pwd` \
   && $GOROOT/bin/go get github.com/mattn/goreman && $GOROOT/bin/go build -o /usr/local/bin/goreman github.com/mattn/goreman \
