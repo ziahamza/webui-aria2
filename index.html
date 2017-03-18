@@ -561,6 +561,10 @@
             <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.fmtCompletedLength}}</span>
           </li>
 
+          <li class="label label-active hidden-phone">
+            <span title="{{ 'Uploaded' | translate }}"><span class="fa fa-fw fa-upload">&nbsp;</span> {{download.fmtUploadLength}}</span>
+          </li>
+
           <li class="label label-active hidden-phone hidden-tablet">
             <span title="{{ 'Progress' | translate }}"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
           </li>
@@ -685,6 +689,10 @@
 
           <li class="label label-success">
             <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+          </li>
+
+          <li class="label label-active hidden-phone">
+            <span title="{{ 'Uploaded' | translate }}"><span class="fa fa-fw fa-upload">&nbsp;</span> {{download.fmtUploadLength}}</span>
           </li>
 
           <li class="label label-success hidden-phone">
