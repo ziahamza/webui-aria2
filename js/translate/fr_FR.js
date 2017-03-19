@@ -112,7 +112,7 @@ translations.fr_FR = {
     'Features Enabled': 'Fonctionnalités activées',
 // about modal
     'To download the latest version of the project, add issues or to contribute back, head on to':
-        'Pour télécharger la dernière version du projet, signaler des problèmes ou pour contribuer, aller à l'adresse',
+        'Pour télécharger la dernière version du projet, signaler des problèmes ou pour contribuer, aller à l\'adresse',
     'Or you can open the latest version in the browser through': 'Ou vous pouvez ouvrir la dernière version dans le navigateur depuis',
     'Close': 'Fermer',
 // lables
