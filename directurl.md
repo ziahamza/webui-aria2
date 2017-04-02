@@ -7,10 +7,23 @@ Consider the following scenarios:
 
 HTTP to the rescue, already in the browser right?
 
-Simplest way is to use python to setup a http server.
+Simplest way is to link your download folder or use python to setup an extra http server.
 
-Steps
------
+Steps using linked download folder
+----------------------------------
+1. as part of configuring aria2 to make life easier you will have set the global **dir** option to something like **/home/aria2/downloads**
+2. clearly this folder is owned by the user **aria2**
+3. open a shell session logged in as **aria2**
+4. run ```ln -s /home/aria2/downloads /var/www/aria2/downloads```
+5. go to webui-aria2 in your browser (http://serverip:81 - assuming webui-aria2 is running on port 81)
+6. go to ```Settings > Connection Settings```
+7. scroll down to Direct Download and put ```http://serverip:81/downloads/``` in base URL field _(make sure have the / on the end)_
+8. now that URL has been specified all the files will be converted into clickable links
+9. checkout the ```more info``` on a download and see for yourself
+10. if you click on files that aren't finished downloading **you're going to have a bad day**
+
+Steps using extra http server
+-----------------------------
 1. as part of configuring aria2 to make life easier you will have set the global **dir** option to something like **/home/aria2/downloads**
 2. clearly this folder is owned by the user **aria2**
 3. open a shell session logged in as **aria2**
@@ -23,4 +36,4 @@ Steps
 10. scroll down to Direct Download and put ```http://serverip:8080/``` in base URL field _(make sure have the / on the end)_
 11. now that URL has been specified all the files will be converted into clickable links
 13. checkout the ```more info``` on a download and see for yourself
-14. if you click on files that aren't finished downloading ```you're going to have a bad day``
+14. if you click on files that aren't finished downloading **you're going to have a bad day**
