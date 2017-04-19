@@ -114,7 +114,7 @@ translations.cs_CZ = {
 // server info modal
     'Aria2 server info': 'Informace o Aria2 serveru',
     'Aria2 Version': 'Verze Aria2',
-    'Features Enabled': 'Zapnuté fičurky',
+    'Features Enabled': 'Zapnuté funkce',
 // about modal
     'To download the latest version of the project, add issues or to contribute back, head on to':
         'Ke stažení aktuální verze, nahlášení problému či přispění, zamiřte na',
