@@ -567,6 +567,16 @@ function(
 		return percentage;
 	};
 
+	// gets the upload ratio
+	scope.getRatio = function(d) {
+		var ratio = 0
+		ratio = (d.uploadLength / d.completedLength) || 0;
+		ratio = ratio.toFixed(2);
+		if(!ratio) ratio = 0;
+
+		return ratio;
+	};
+
 	// gets the type for the download as classified by the aria2 rpc calls
 	scope.getType = function(d) {
 		var type = d.status;
