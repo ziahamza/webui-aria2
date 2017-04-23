@@ -571,6 +571,10 @@
             <span title="{{ 'Uploaded' | translate }}"><span class="fa fa-fw fa-upload">&nbsp;</span> {{download.fmtUploadLength}}</span>
           </li>
 
+          <li class="label label-active hidden-phone">
+            <span title="{{ 'Ratio' | translate }}">{{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span>
+          </li>
+
           <li class="label label-active hidden-phone hidden-tablet">
             <span title="{{ 'Progress' | translate }}"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
           </li>
@@ -701,6 +705,10 @@
             <span title="{{ 'Uploaded' | translate }}"><span class="fa fa-fw fa-upload">&nbsp;</span> {{download.fmtUploadLength}}</span>
           </li>
 
+          <li class="label label-active hidden-phone">
+            <span title="{{ 'Ratio' | translate }}">{{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span>
+          </li>
+
           <li class="label label-success hidden-phone">
             <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
           </li>
@@ -763,6 +771,7 @@
 
             <li class="label label-default" title="{{ 'Upload Speed' | translate }}" ng-show="download.bittorrent"><i class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
             <li class="label label-default" title="{{ 'Uploaded' | translate }}" ng-show="download.bittorrent"><i class="fa fa-fw fa-upload">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
+            <li class="label label-default" title="{{ 'Ratio' | translate }}" ng-show="download.bittorrent"><span title="{{ 'Ratio' | translate }}">{{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span></li>
 
             <li class="label label-default" title={{download.connectionsTitle}}><i class="fa fa-fw fa-link">&nbsp;</i> <span class="download-connections">{{download.connections}}{{download.numSeeders}}</span></li>
 
