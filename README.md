@@ -13,11 +13,11 @@ aria2c --enable-rpc --rpc-listen-all
 
 If aria2 is not installed in your local machine then head on to https://aria2.github.io/ and follow the instructions there.
 
-Then download the webui, you can either do that by downloading this repository and running index.html in the browser. Or you could just head on to http://ziahamza.github.io/webui-aria2/ and just start downloading files! After that you can also save it for offline use by saving from the browser save page as option.
+Then download the webui, you can either do that by downloading this repository and running index.html in the browser. Or you could just head on to https://ziahamza.github.io/webui-aria2/ and just start downloading files! After that you can also save it for offline use by saving from the browser save page as option.
 
 Tips
 ====
-1. You can always select which files to download in case of torrents or metalinks. Just pause a download and a list icon should appear next to the settings button. To select which files to download before starting the download, give the flag --pause-metadata to aria2. See [link](http://aria2.sourceforge.net/manual/en/html/aria2c.html#cmdoption--pause-metadata)
+1. You can always select which files to download in case of torrents or metalinks. Just pause a download and a list icon should appear next to the settings button. To select which files to download before starting the download, give the flag --pause-metadata to aria2. See [link](https://aria2.github.io/manual/en/html/aria2c.html#cmdoption--pause-metadata)
 
 Configuration
 =============
