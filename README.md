@@ -69,7 +69,7 @@ This image required few file to be mounted in the container's `/data` folder.
 ```
 .aria2/session.txt  (empty file)
 .aria2/aria2.log    (empty file)
-.aria2/aria2.conf   (aria2 configuration file, not webui-aria2 conf)
+.aria2/aria2.conf   (aria2 configuration file, not webui-aria2 conf) must contains at least `enable-rpc=true` and `rpc-listen-all=true`
 ./downloads/        (where the downloaded files goes)
 ```
 
