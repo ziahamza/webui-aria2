@@ -26,6 +26,7 @@
   <script src="js/libs/angular.min.js"></script>
 
   <script src="js/libs/angularui-bootstrap-tpls.min.js"></script>
+  <script src="js/libs/bootstrap-filestyle.js"></script>
 
   <script src="js/libs/jquery.flot.min.js"></script>
   <script src="js/libs/jquery.flot.time.min.js"></script>
@@ -907,7 +908,7 @@
       <div class="form-horizontal form-group">
         <label class="control-label" style="text-align: left;"><b>{{ 'Select a Torrent' | translate }}:</b></label>
         <div class="controls">
-          <input type="file" class="input-xlarge" fselect="getTorrents.files" multiple/>
+          <input type="file" fselect="getTorrents.files" multiple />
         </div>
       </div>
       <br />
@@ -976,7 +977,7 @@
       <div class="form-horizontal form-group">
         <label class="control-label" style="text-align: left;"><b>{{ 'Select a Metalink' | translate }}:</b></label>
         <div class="controls">
-          <input type="file" class="input-xlarge" fselect="getMetalinks.files" multiple/>
+          <input type="file" fselect="getMetalinks.files" multiple />
         </div>
       </div>
       <br />

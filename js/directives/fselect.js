@@ -7,6 +7,9 @@ angular
     var setfiles = parse(attrs.fselect || attrs.files).assign;
     elem.bind('change', function() {
       setfiles(scope, elem[0].files);
+    }).filestyle({
+        placeholder : 'No file selected',
+        iconName : 'fa fa-folder-open',
     });
   };
 }]);
