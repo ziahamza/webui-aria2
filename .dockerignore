@@ -1,0 +1,8 @@
+.git
+screenshots/**/*
+screenshots
+directurl.md
+docker-compose.yml
+LICENCE
+README.md
+webui-aria2.spec
