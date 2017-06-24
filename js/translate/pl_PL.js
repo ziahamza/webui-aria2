@@ -99,6 +99,7 @@ translations.pl_PL = {
     'If supplied, links will be created to enable direct download from the Aria2 server.': 'Jeżeli zaznaczone, linki mogą być utworzone do włączenia bezpośredniego pobierania z serwera Aria2',
     '(Requires appropriate webserver to be configured.)': '(Wymaga właściwej konfiguracji serwera WWW)',
     'Save Connection configuration': 'Zapisz konfigurację połączenia',
+    'Filter': 'Filtr',
 // server info modal
     'Aria2 server info': 'Info o serwerze Aria2',
     'Aria2 Version': 'Wersja Aria2',

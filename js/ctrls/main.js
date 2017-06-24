@@ -26,6 +26,7 @@ function(
 	scope.active = [], scope.waiting = [], scope.stopped = [];
 	scope.gstats = {};
 	scope.hideLinkedMetadata = true;
+	scope.propFilter = "";
 
 	// pause the download
 	// d: the download ctx
@@ -636,5 +637,18 @@ function(
 	scope.moveUp = function (d) {
 	    rpc.once('changePosition', [d.gid, -1, 'POS_CUR']);
 	};
+}])
+.filter('objFilter', function(){
+	return function(input, filter) {
+		input = input || {};
+		var out = {};
 
-}]);
+		for(key in input) {
+			if (key.startsWith(filter)){
+				out[key] = input[key];
+			}
+		}
+
+		return out;
+	};
+});
