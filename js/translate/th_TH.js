@@ -106,6 +106,7 @@ translations.th_TH = {
         '',
     '(Requires appropriate webserver to be configured.)': '',
     'Save Connection configuration': 'บันทึกการตั้งค่าการเชื่อมต่อ',
+    'Filter': 'กรอง',
 // server info modal
     'Aria2 server info': 'ข้อมูลเซอร์เวอร์ Aria2',
     'Aria2 Version': 'รุ่น Aria2',

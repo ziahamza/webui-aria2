@@ -111,6 +111,7 @@ translations.zh_TW = {
         '如果指定該選項，將會建立可以直接從 Aria2 伺服器上下載檔案的連結。',
     '(Requires appropriate webserver to be configured.)': '（需要 WEB 伺服器配置正確）',
     'Save Connection configuration': '儲存連線配置',
+    'Filter':'過濾',
 // server info modal
     'Aria2 server info': 'Aria2 伺服器資訊',
     'Aria2 Version': 'Aria2 版本',

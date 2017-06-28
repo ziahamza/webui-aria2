@@ -106,6 +106,7 @@ translations.it_IT = {
         'Se inserito, verrano creati dei link per scaricare direttamente i file dal server Aria2.',
     '(Requires appropriate webserver to be configured.)': '(Richiede un webserver correttamente configurato)',
     'Save Connection configuration': 'Salva la configurazione di connessione',
+    'Filter': 'Filtro',
 // server info modal
     'Aria2 server info': 'Informazioni sul server Aria2',
     'Aria2 Version': 'Versione di Aria2',

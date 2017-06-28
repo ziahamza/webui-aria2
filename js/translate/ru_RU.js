@@ -106,6 +106,7 @@ translations.ru_RU = {
         'Ссылки (при наличии) будут созданы для загрузки непосредственно с сервера Aria2.',
     '(Requires appropriate webserver to be configured.)': '(Требуется соответствующий веб-сервер для настройки.)',
     'Save Connection configuration': 'Сохранить настройки соединения',
+    'Filter': 'Фильтр',
 // server info modal
     'Aria2 server info': 'Информация о сервере Aria2',
     'Aria2 Version': 'Версия Aria2',
