@@ -110,6 +110,7 @@ translations.en_US = {
         'If supplied, links will be created to enable direct download from the Aria2 server.',
     '(Requires appropriate webserver to be configured.)': '(Requires appropriate webserver to be configured.)',
     'Save Connection configuration': 'Save Connection configuration',
+    'Filter': 'Filter',
 // server info modal
     'Aria2 server info': 'Aria2 server info',
     'Aria2 Version': 'Aria2 Version',

@@ -125,6 +125,7 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
         '',
     '(Requires appropriate webserver to be configured.)': '',
     'Save Connection configuration': '',
+    'Filter': '',
 // server info modal
     'Aria2 server info': '',
     'Aria2 Version': '',

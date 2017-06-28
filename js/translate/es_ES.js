@@ -125,6 +125,7 @@ translations.es_ES = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
         'Esto permite crear enlaces de descarga de los archivos desde el servidor Aria2',
     '(Requires appropriate webserver to be configured.)': '(Requiere configuración apropiada del servidor web)',
     'Save Connection configuration': 'Guardar Configuración',
+    'Filter': 'Filrar',
 // server info modal
     'Aria2 server info': 'Información de servidor Aria2',
     'Aria2 Version': 'Aria2 versión',

@@ -1069,9 +1069,15 @@
   </div>
 
   <div class="modal-body">
-    <form class="form-horizontal">
+    <div class="row">
+      <div class="col-md-12 form-group filter-input-group">
+        <input type="text" class="form-control input-xlarge" ng-model="propFilter" placeholder="{{ 'Filter' | translate }}"/>
+        <span class="clear-button" ng-show="propFilter" ng-click="propFilter = ''">X</span>
+      </div>
+    </div>
+    <form class="form-horizontal">                  
       <fieldset>
-        <div class="form-group" ng-repeat="(name, set) in settings.settings">
+        <div class="form-group" ng-repeat="(name, set) in settings.settings | objFilter:propFilter">
           <label class="col-sm-3 control-label">{{name}}</label>
 
           <div class="col-sm-9 controls">

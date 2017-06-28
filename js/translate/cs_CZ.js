@@ -111,6 +111,7 @@ translations.cs_CZ = {
         'Jestliže je nastaveno, je možné stáhnout soubor přímo z Aria2 serveru.',
     '(Requires appropriate webserver to be configured.)': '(Je třeba udělat patřičnou konfiguraci webserveru)',
     'Save Connection configuration': 'Uložit nastavení',
+    'Filter': 'Filtr',
 // server info modal
     'Aria2 server info': 'Informace o Aria2 serveru',
     'Aria2 Version': 'Verze Aria2',

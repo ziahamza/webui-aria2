@@ -106,6 +106,7 @@ translations.tr_TR = {
         'Verilen, bağlantıları aria2 sunucudan doğrudan indirmeyi etkinleştirmek için oluşturulur.',
     '(Requires appropriate webserver to be configured.)': '(Uygun web sunucusunun yapılandırılmasını gerektirir.)',
     'Save Connection configuration': 'Bağlantı yapılandırmasını kaydedin',
+    'Filter':'Filtre',
 // server info modal
     'Aria2 server info': 'Aria2 sunucu bilgisi',
     'Aria2 Version': 'Aria2 Sürümü',

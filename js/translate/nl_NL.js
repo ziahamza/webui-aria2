@@ -106,6 +106,7 @@ translations.nl_NL = {
         'Als ingevoerd dan worden links aangemaakt die het direct downloaden van de Aria2 server toestaan.',
     '(Requires appropriate webserver to be configurured.)': 'Hiervoor moet een geschikte webserver worden ingericht.)',
     'Save Connection configuration': 'Verbindingsconfiguratie opslaan',
+    'Filter': 'Filter',
 // server info modal
     'Aria2 server info': 'Aria2 server informatie',
     'Aria2 Version': 'Aria2 versie',
