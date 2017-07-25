@@ -1030,6 +1030,36 @@
 </script>
 <!-- }}} -->
 
+  <!-- {{{ select files checkbox modal -->
+<script type="text/ng-template" id="selectFilesCheckBox.html">
+  <div ng-repeat="(folder,file) in files">
+    <!--is's a folder-->
+    <div ng-if="!file.index || file.index.toString().indexOf('object') >= 0">
+      <div class="controls">
+        <label class="checkbox">
+          <input type="checkbox"/>{{folder}}
+        </label>
+        <div class="form-group selectFiles" ng-include="'selectFilesCheckBox.html'" ng-init="files=file">
+        </div>
+      </div>
+    </div>
+
+    <!--is's a file-->
+    <div ng-if="file.index && file.index.toString().indexOf('object') < 0">
+      <label class="control-label">{{ 'Select to download' | translate }}</label>
+
+      <div class="controls">
+        <label class="checkbox">
+          <input type="checkbox" ng-model="file.selected"/>{{file.relpath}}
+        </label>
+      </div>
+      <br/>
+      <br/>
+    </div>
+  </div>
+</script>
+<!-- }}} -->
+
 <!-- {{{ select file modal -->
 <script type="text/ng-template" id="selectFiles.html">
   <div class="modal-header">
@@ -1039,17 +1069,7 @@
 
   <form class="form-horizontal modal-body">
     <fieldset>
-      <div class="form-group selectFiles">
-        <div ng-repeat="file in selectFiles.files">
-          <label class="control-label">{{ 'Select to download' | translate }}</label>
-
-          <div class="controls">
-            <label class="checkbox">
-              <input type="checkbox" ng-model="file.selected"/>{{file.relpath}}
-            </label>
-          </div>
-          <br /><br />
-        </div>
+      <div class="form-group selectFiles" ng-include="'selectFilesCheckBox.html'" ng-init="files=selectFiles.groupedFiles">
       </div>
     </fieldset>
   </form>

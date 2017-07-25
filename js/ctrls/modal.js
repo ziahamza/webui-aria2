@@ -123,6 +123,23 @@ angular
       var self = this;
 
 	  this.files = _.cloneDeep(files);
+      var groupFile = function (files) {
+          var i, j, str, arr, folder = {}, tmp = folder;
+          for (i = 0; i < files.length; i++) {
+              str = files[i].relpath;
+              arr = str.split("/");
+              for (j = 0; j < arr.length - 1; j++) {
+                  if (!tmp[arr[j]]) {
+                      tmp[arr[j]] = {};
+                  }
+                  tmp = tmp[arr[j]];
+              }
+              tmp[arr[arr.length - 1]] = files[i];
+              tmp = folder;
+          }
+          return folder;
+      };
+      this.groupedFiles = groupFile(this.files);
       this.inst = $modal.open({
         templateUrl: "selectFiles.html",
         scope: scope,
