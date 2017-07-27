@@ -124,56 +124,65 @@ angular
 
 	  this.files = _.cloneDeep(files);
       var groupFiles = function (files) {
-          var createSubFolder = function () {
-              var folder = {
-                  dirs      : {},
-                  files     : {},
-                  show      : false,
-                  _selected : false,
-                  change    : function () {
-                      for (var file in this.files) {
-                          if (this.files.hasOwnProperty(file)) {
-                              this.files[file].selected = this.selected;
-                          }
-                      }
-                      for (var folder in this.dirs) {
-                          if (this.dirs.hasOwnProperty(folder)) {
-                              this.dirs[folder].selected = this.selected;
-                          }
-                      }
-                      console.log(this);
+          function OrganizedFolder () {
+              this.dirs = {};
+              this.files = [];
+              this.show = false;
+              this._selected = false;
+          }
+          OrganizedFolder.prototype.change = function () {
+              for (var i = 0; i < this.files.length; i++) {
+                  this.files[i].selected = this.selected;
+              }
+              for (var folder in this.dirs) {
+                  if (this.dirs.hasOwnProperty(folder)) {
+                      this.dirs[folder].selected = this.selected;
                   }
-              };
-              Object.defineProperty(folder, "selected", {
-                  get : function () {
-                      return this._selected;
-                  },
-                  set : function (newValue) {
-                      this._selected = newValue;
-                      this.change();
-                  }
-              });
-              Object.defineProperty(folder, "indeterminate", {
-                  get : function () {
-                      return this._selected;
-                  }
-              });
-              return folder;
+              }
           };
-          var folder = createSubFolder(),
-              tmp;
+          Object.defineProperty(OrganizedFolder.prototype, "selected", {
+              get : function () {
+                  return this._selected;
+              },
+              set : function (newValue) {
+                  this._selected = newValue;
+                  this.change();
+              }
+          });
+          Object.defineProperty(OrganizedFolder.prototype, "indeterminate", {
+              get : function () {
+                  var allSeleted = true;
+                  var allNotSelected = true;
+                  for (var p in this.dirs) {
+                      if (this.dirs.hasOwnProperty(p)) {
+                          if (this.dirs[p].indeterminate) {
+                              return true;
+                          }
+                          allSeleted &= this.dirs[p].selected;
+                          allNotSelected &= !this.dirs[p].selected;
+                      }
+                  }
+                  for (var i = 0; i < this.files.length; i++) {
+                      allSeleted &= this.files[i].selected;
+                      allNotSelected &= !this.files[i].selected;
+                  }
+                  return !allSeleted && !allNotSelected;// is not determinate when either all selected either all not selected;
+              }
+          });
+          var folder = new OrganizedFolder(), tmp;
           for (var i = 0; i < files.length; i++) {
               tmp = folder;
               var str = files[i].relpath;
               var arr = str.split("/");
               for (var j = 0; j < arr.length - 1; j++) {
                   if (!tmp.dirs[arr[j]]) {
-                      tmp.dirs[arr[j]] = createSubFolder();
+                      tmp.dirs[arr[j]] = new OrganizedFolder();
                   }
                   tmp = tmp.dirs[arr[j]];
               }
-              tmp.files[arr[arr.length - 1]] = files[i];
+              tmp.files.push(files[i]);
           }
+          folder.change();
           return folder;
       };
       this.groupedFiles = groupFiles(this.files);
