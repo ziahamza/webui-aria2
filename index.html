@@ -23,7 +23,7 @@
   <script src="js/libs/jquery-2.2.4.min.js"></script>
   <script src="js/libs/lodash-4.17.3.min.js"></script>
 
-  <script src="js/libs/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.js"></script>
 
   <script src="js/libs/angularui-bootstrap-tpls.min.js"></script>
   <script src="js/libs/bootstrap-filestyle.js"></script>
@@ -41,6 +41,7 @@
 
   <script src="js/directives/chunkbar.js"></script>
   <script src="js/directives/dgraph.js"></script>
+  <script src="js/directives/fileselect.js"></script>
   <script src="js/directives/fselect.js"></script>
   <script src="js/directives/textarea.js"></script>
 
@@ -1032,30 +1033,33 @@
 
   <!-- {{{ select files checkbox modal -->
 <script type="text/ng-template" id="selectFilesCheckBox.html">
-  <div ng-repeat="(folder,file) in files">
-    <!--is's a folder-->
-    <div ng-if="!file.index || file.index.toString().indexOf('object') >= 0">
-      <div class="controls">
-        <label class="checkbox">
-          <input type="checkbox"/>{{folder}}
-        </label>
-        <div class="form-group selectFiles" ng-include="'selectFilesCheckBox.html'" ng-init="files=file">
-        </div>
+  <div ng-repeat="(folderName,folder) in files.dirs">
+    <!--recursive folder-->
+
+    <div class="controls">
+      <!--click to toggle show the subfolders and files-->
+      <div class="checkbox" data-ng-click="folder.show=!folder.show">
+        <!-- The value of indeterminate="" can be bound to any angular expression -->
+        <input type="checkbox" ng-model="folder.selected" data-ng-click="$event.stopPropagation()" indeterminate="true"/>{{folderName}}
+        <span ng-show="!folder.show" class="control-label">{{ 'click the text to expand the folder' | translate }}</span>
+        <span ng-show="folder.show" class="control-label">{{ 'click the text to collapse the folder' | translate }}</span>
+      </div>
+      <div ng-show="folder.show" class="form-group selectFiles" ng-include="'selectFilesCheckBox.html'" ng-init="files=folder">
       </div>
     </div>
+  </div>
 
-    <!--is's a file-->
-    <div ng-if="file.index && file.index.toString().indexOf('object') < 0">
-      <label class="control-label">{{ 'Select to download' | translate }}</label>
+  <div ng-repeat="file in files.files">
+    <!--files-->
+    <label class="control-label">{{ 'Select to download' | translate }}</label>
 
-      <div class="controls">
-        <label class="checkbox">
-          <input type="checkbox" ng-model="file.selected"/>{{file.relpath}}
-        </label>
-      </div>
-      <br/>
-      <br/>
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" ng-model="file.selected"/>{{file.relpath}}
+      </label>
     </div>
+    <br/>
+    <br/>
   </div>
 </script>
 <!-- }}} -->

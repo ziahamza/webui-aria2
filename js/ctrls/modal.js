@@ -123,23 +123,60 @@ angular
       var self = this;
 
 	  this.files = _.cloneDeep(files);
-      var groupFile = function (files) {
-          var i, j, str, arr, folder = {}, tmp = folder;
-          for (i = 0; i < files.length; i++) {
-              str = files[i].relpath;
-              arr = str.split("/");
-              for (j = 0; j < arr.length - 1; j++) {
-                  if (!tmp[arr[j]]) {
-                      tmp[arr[j]] = {};
+      var groupFiles = function (files) {
+          var createSubFolder = function () {
+              var folder = {
+                  dirs      : {},
+                  files     : {},
+                  show      : false,
+                  _selected : false,
+                  change    : function () {
+                      for (var file in this.files) {
+                          if (this.files.hasOwnProperty(file)) {
+                              this.files[file].selected = this.selected;
+                          }
+                      }
+                      for (var folder in this.dirs) {
+                          if (this.dirs.hasOwnProperty(folder)) {
+                              this.dirs[folder].selected = this.selected;
+                          }
+                      }
+                      console.log(this);
                   }
-                  tmp = tmp[arr[j]];
-              }
-              tmp[arr[arr.length - 1]] = files[i];
+              };
+              Object.defineProperty(folder, "selected", {
+                  get : function () {
+                      return this._selected;
+                  },
+                  set : function (newValue) {
+                      this._selected = newValue;
+                      this.change();
+                  }
+              });
+              Object.defineProperty(folder, "indeterminate", {
+                  get : function () {
+                      return this._selected;
+                  }
+              });
+              return folder;
+          };
+          var folder = createSubFolder(),
+              tmp;
+          for (var i = 0; i < files.length; i++) {
               tmp = folder;
+              var str = files[i].relpath;
+              var arr = str.split("/");
+              for (var j = 0; j < arr.length - 1; j++) {
+                  if (!tmp.dirs[arr[j]]) {
+                      tmp.dirs[arr[j]] = createSubFolder();
+                  }
+                  tmp = tmp.dirs[arr[j]];
+              }
+              tmp.files[arr[arr.length - 1]] = files[i];
           }
           return folder;
       };
-      this.groupedFiles = groupFile(this.files);
+      this.groupedFiles = groupFiles(this.files);
       this.inst = $modal.open({
         templateUrl: "selectFiles.html",
         scope: scope,
