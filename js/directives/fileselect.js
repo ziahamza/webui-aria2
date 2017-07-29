@@ -21,31 +21,25 @@ app.directive("indeterminate", [
                 var setIndeterminateState = function (newValue) {
                     elem.prop("indeterminate", newValue);
                 };
-                var setModelValueWithoutSideEffect = function (newVal) {
-                    setter(scope, newVal);
-                    ngModelCtrl.$modelValue = newVal;
-                    ngModelCtrl.$viewValue = newVal;
-                    ngModelCtrl.$render();
-                };
                 var setWithSideEffect = function (newVal) {
                     ngModelCtrl.$setViewValue(newVal);
                     ngModelCtrl.$render();
                 };
-                var passIfLeafChild = function (callback) {
+                var passIfLeafChild = function (callback) { // ensure to execute callback when this input have one or more subinputs
                     return function () {
                         if (children.length > 0) {
                             callback.apply(this, arguments);
                         }
                     };
                 };
-                var passIfNotIsLeafChild = function (callback) {
+                var passIfNotIsLeafChild = function (callback) { // ensure to execute callback when this input havent subinput
                     return function () {
                         if (children.length === 0) {
                             callback.apply(this, arguments);
                         }
                     };
                 };
-                var passThroughThisScope = function (callback) {
+                var passThroughThisScope = function (callback) { // pass through the event from the scope where they sent
                     return function (event) {
                         if (event.targetScope !== event.currentScope) {
                             return callback.apply(this, arguments);
@@ -60,14 +54,14 @@ app.directive("indeterminate", [
                     }));
                     scope.$on("ParentSelectedChange", passThroughThisScope(
                         function (event, newVal) {
-                            setWithSideEffect(newVal);
+                            setWithSideEffect(newVal); // set value to parent's value; this will cause listener to emit childChange event; this won't be a infinite loop
                         }));
-                    scope.$emit("i'm child input", get);
-                    setWithSideEffect(get());
-                    scope.$emit("childSelectedChange");
-                } else {
                     // init first time and only once
+                    scope.$emit("i'm child input", get);
+                    scope.$emit("childSelectedChange"); // force emitted, and force the parent change their state base on children at first time
+                } else {
                     // establish parent-child's relation
+                    // listen for the child emitted token
                     scope.$on("i'm child input", passThroughThisScope(
                         function (event, child) {
                             children.push(child);
@@ -80,12 +74,13 @@ app.directive("indeterminate", [
                         var anySeleted = children.some(function (child) {
                             return child();
                         });
-                        setIndeterminateState(allSelected !== anySeleted);
+                        setIndeterminateState(allSelected !== anySeleted); // if at least one is selected, but not all then set input property indeterminate to true
                         setWithSideEffect(allSelected);
                     };
                     // is not leaf input, Only receive child change and parent change event
                     ngModelCtrl.$viewChangeListeners.push(passIfLeafChild(function () {
-                        if (!elem.prop("indeterminate")) { // emit when prop indeterminate is set to false
+                        // emit when property indeterminate is set to false, prevent recursively emitting event from parent to children, children to parent
+                        if (!elem.prop("indeterminate")) {
                             scope.$broadcast("ParentSelectedChange", get());
                         }
                     }));
