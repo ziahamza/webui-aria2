@@ -48,6 +48,13 @@ app.directive("indeterminate", [
                         }
                     };
                 };
+                var passIfIsIndeterminate = function (callback) { // pass through the event from the scope where they sent
+                    return function () {
+                        if (!elem.prop("indeterminate")) {
+                            return callback.apply(this, arguments);
+                        }
+                    };
+                };
                 var catchEventOnlyOnce = function (callback) { // only fire once, and stop event's propagation
                     return function (event) {
                         callback.apply(this, arguments);
@@ -102,15 +109,13 @@ app.directive("indeterminate", [
                         var allSelected = (cacheNoSelectedSubInputNumber === 0);
                         var anySeleted = (cacheSelectedSubInputNumber > 0);
                         setIndeterminateState(allSelected !== anySeleted); // if at least one is selected, but not all then set input property indeterminate to true
-                        setModelValueWithSideEffect(allSelected);
+                        setModelValueWithSideEffect(allSelected); // change binding model value and trigger onchange event
                     };
                     // is not leaf input, Only receive child change and parent change event
-                    ngModelCtrl.$viewChangeListeners.push(passIfIsLeafChild(function () {
-                        // emit when property indeterminate is set to false, prevent recursively emitting event from parent to children, children to parent
-                        if (!elem.prop("indeterminate")) {
-                            scope.$broadcast("ParentSelectedChange", get());
-                        }
-                    }));
+                    ngModelCtrl.$viewChangeListeners.push(passIfIsLeafChild(passIfIsIndeterminate(function () {
+                        // emit when input property indeterminate is false, prevent recursively emitting event from parent to children, children to parent
+                        scope.$broadcast("ParentSelectedChange", get());
+                    })));
                     // reset input state base on children inputs
                     scope.$on("childSelectedChange", passThroughThisScope(passIfIsLeafChild(updateBaseOnChildrenState)));
                 }

@@ -42,3 +42,7 @@
 .selectFiles div .controls {
   margin-left: 30px;
 }
+
+.selectFiles div.recursivedir {
+  width: 100%;
+}

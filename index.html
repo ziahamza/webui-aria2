@@ -23,7 +23,7 @@
   <script src="js/libs/jquery-2.2.4.min.js"></script>
   <script src="js/libs/lodash-4.17.3.min.js"></script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.js"></script>
+  <script src="js/libs/angular.min.js"></script>
 
   <script src="js/libs/angularui-bootstrap-tpls.min.js"></script>
   <script src="js/libs/bootstrap-filestyle.js"></script>
@@ -1044,7 +1044,7 @@
         <span ng-show="!folder.show" class="control-label">{{ 'click the text to expand the folder' | translate }}</span>
         <span ng-show="folder.show" class="control-label">{{ 'click the text to collapse the folder' | translate }}</span>
       </div>
-      <div ng-show="folder.show" class="form-group selectFiles" ng-include="'selectFilesCheckBox.html'" ng-init="files=folder">
+      <div ng-show="folder.show" class="form-group selectFiles recursivedir" ng-include="'selectFilesCheckBox.html'" ng-init="files=folder">
       </div>
     </div>
   </div>
