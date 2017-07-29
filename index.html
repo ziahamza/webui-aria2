@@ -1040,7 +1040,7 @@
       <!--click to toggle show the subfolders and files-->
       <div class="checkbox" data-ng-click="folder.show=!folder.show">
         <!-- The value of indeterminate="" can be bound to any angular expression -->
-        <input type="checkbox" ng-model="folder.selected" data-ng-click="$event.stopPropagation()" indeterminate="folder.indeterminate" monitor/>{{folderName}}
+        <input type="checkbox" data-ng-model="folder.selected" data-ng-click="$event.stopPropagation()" indeterminate/>{{folderName}}
         <span ng-show="!folder.show" class="control-label">{{ 'click the text to expand the folder' | translate }}</span>
         <span ng-show="folder.show" class="control-label">{{ 'click the text to collapse the folder' | translate }}</span>
       </div>
@@ -1055,7 +1055,7 @@
 
     <div class="controls">
       <label class="checkbox">
-        <input type="checkbox" ng-model="file.selected" monitor/>{{file.relpath}}
+        <input type="checkbox" data-ng-model="file.selected" indeterminate="false"/>{{file.relpath}}
       </label>
     </div>
     <br/>

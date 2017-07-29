@@ -128,47 +128,8 @@ angular
               this.dirs = {};
               this.files = [];
               this.show = false;
-              this._selected = false;
+              this.selected = true;
           }
-          OrganizedFolder.prototype.change = function () {
-              for (var i = 0; i < this.files.length; i++) {
-                  this.files[i].selected = this.selected;
-              }
-              for (var folder in this.dirs) {
-                  if (this.dirs.hasOwnProperty(folder)) {
-                      this.dirs[folder].selected = this.selected;
-                  }
-              }
-          };
-          Object.defineProperty(OrganizedFolder.prototype, "selected", {
-              get : function () {
-                  return this._selected;
-              },
-              set : function (newValue) {
-                  this._selected = newValue;
-                  this.change();
-              }
-          });
-          Object.defineProperty(OrganizedFolder.prototype, "indeterminate", {
-              get : function () {
-                  var allSeleted = true;
-                  var allNotSelected = true;
-                  for (var p in this.dirs) {
-                      if (this.dirs.hasOwnProperty(p)) {
-                          if (this.dirs[p].indeterminate) {
-                              return true;
-                          }
-                          allSeleted &= this.dirs[p].selected;
-                          allNotSelected &= !this.dirs[p].selected;
-                      }
-                  }
-                  for (var i = 0; i < this.files.length; i++) {
-                      allSeleted &= this.files[i].selected;
-                      allNotSelected &= !this.files[i].selected;
-                  }
-                  return !allSeleted && !allNotSelected;// is not determinate when either all selected either all not selected;
-              }
-          });
           var folder = new OrganizedFolder(), tmp;
           for (var i = 0; i < files.length; i++) {
               tmp = folder;
@@ -182,7 +143,6 @@ angular
               }
               tmp.files.push(files[i]);
           }
-          folder.change();
           return folder;
       };
       this.groupedFiles = groupFiles(this.files);
