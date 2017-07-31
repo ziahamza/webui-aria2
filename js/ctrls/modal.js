@@ -124,6 +124,14 @@ angular
 
 	  this.files = _.cloneDeep(files);
       var groupFiles = function (files) {
+          // sort files alphabetically
+          files.sort(function (a, b) {
+              if (a.relpath < b.relpath) {
+                  return -1;
+              } else {
+                  return 1;
+              }
+          });
           function OrganizedFolder () {
               this.dirs = {};
               this.files = [];
