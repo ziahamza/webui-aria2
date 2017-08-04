@@ -7,28 +7,24 @@ angular
       this.avgTimeout = 2000;
       this.serverConf = conf;
     },
-    encode: function(obj) {
-      return base64.btoa( JSON.stringify(obj) );
-    },
     ariaRequest: function(url, funcName, params, success, error) {
       var startTime = new Date();
       var conn = this;
-      $.ajax({
+      $.post({
         url: url,
         timeout: this.avgTimeout,
-        data: {
+        contentType: 'application/json',
+        data: JSON.stringify({
           jsonrpc: 2.0,
           id: 'webui',
           method: funcName,
-          params: params && params.length ? this.encode(params) : undefined
-        },
+          params: params
+        }),
         success: function(data) {
           conn.avgTimeout =  2000 + 3 * (new Date() - startTime);
           return success(data);
         },
-        error: error,
-        dataType: 'jsonp',
-        jsonp: 'jsoncallback'
+        error: error
       });
     },
     invoke: function(opts) {
