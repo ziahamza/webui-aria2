@@ -41,6 +41,7 @@
 
   <script src="js/directives/chunkbar.js"></script>
   <script src="js/directives/dgraph.js"></script>
+  <script src="js/directives/fileselect.js"></script>
   <script src="js/directives/fselect.js"></script>
   <script src="js/directives/textarea.js"></script>
 
@@ -1030,6 +1031,39 @@
 </script>
 <!-- }}} -->
 
+<!-- {{{ select files checkbox modal -->
+<script type="text/ng-template" id="selectFilesCheckBox.html">
+  <div ng-repeat="(folderName,folder) in files.dirs">
+    <!--recursive folder-->
+
+    <div class="controls">
+      <!--click to toggle show the subfolders and files-->
+      <div class="checkbox" data-ng-click="folder.show=!folder.show">
+        <!-- The value of indeterminate="" can be bound to any angular expression -->
+        <input type="checkbox" data-ng-model="folder.selected" data-ng-click="$event.stopPropagation()" indeterminate/>{{folderName}}
+        <span ng-show="!folder.show" class="control-label">{{ 'click the text to expand the folder' | translate }}</span>
+        <span ng-show="folder.show" class="control-label">{{ 'click the text to collapse the folder' | translate }}</span>
+      </div>
+      <div ng-show="folder.show" class="form-group selectFiles recursivedir" ng-include="'selectFilesCheckBox.html'" ng-init="files=folder">
+      </div>
+    </div>
+  </div>
+
+  <div ng-repeat="file in files.files">
+    <!--files-->
+    <label class="control-label">{{ 'Select to download' | translate }}</label>
+
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" data-ng-model="file.selected" indeterminate="false"/>{{file.relpath}}
+      </label>
+    </div>
+    <br/>
+    <br/>
+  </div>
+</script>
+<!-- }}} -->
+
 <!-- {{{ select file modal -->
 <script type="text/ng-template" id="selectFiles.html">
   <div class="modal-header">
@@ -1039,17 +1073,7 @@
 
   <form class="form-horizontal modal-body">
     <fieldset>
-      <div class="form-group selectFiles">
-        <div ng-repeat="file in selectFiles.files">
-          <label class="control-label">{{ 'Select to download' | translate }}</label>
-
-          <div class="controls">
-            <label class="checkbox">
-              <input type="checkbox" ng-model="file.selected"/>{{file.relpath}}
-            </label>
-          </div>
-          <br /><br />
-        </div>
+      <div class="form-group selectFiles" ng-include="'selectFilesCheckBox.html'" ng-init="files=selectFiles.groupedFiles">
       </div>
     </fieldset>
   </form>
