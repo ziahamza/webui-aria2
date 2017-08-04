@@ -123,6 +123,37 @@ angular
       var self = this;
 
 	  this.files = _.cloneDeep(files);
+      var groupFiles = function (files) {
+          // sort files alphabetically
+          files.sort(function (a, b) {
+              if (a.relpath < b.relpath) {
+                  return -1;
+              } else {
+                  return 1;
+              }
+          });
+          function OrganizedFolder () {
+              this.dirs = {};
+              this.files = [];
+              this.show = false;
+              this.selected = true;
+          }
+          var folder = new OrganizedFolder(), tmp;
+          for (var i = 0; i < files.length; i++) {
+              tmp = folder;
+              var str = files[i].relpath;
+              var arr = str.split("/");
+              for (var j = 0; j < arr.length - 1; j++) {
+                  if (!tmp.dirs[arr[j]]) {
+                      tmp.dirs[arr[j]] = new OrganizedFolder();
+                  }
+                  tmp = tmp.dirs[arr[j]];
+              }
+              tmp.files.push(files[i]);
+          }
+          return folder;
+      };
+      this.groupedFiles = groupFiles(this.files);
       this.inst = $modal.open({
         templateUrl: "selectFiles.html",
         scope: scope,
