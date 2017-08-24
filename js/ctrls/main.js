@@ -308,47 +308,62 @@ function(
 
 	// actual downloads used by the view
 	scope.getDownloads = function() {
-		var downloads = [];
+		var categories = [];
+
 		if (scope.filterActive) {
 			if (!scope.filterSpeed) {
-				downloads = _.filter(scope.active, function (e) {
+				categories.push(_.filter(scope.active, function (e) {
 					return !+e.uploadSpeed && !+e.downloadSpeed;
-				});
+				}));
 			}
 			else {
-				downloads = scope.active;
+				categories.push(scope.active);
 			}
 		}
 		else if (scope.filterSpeed) {
-			downloads = _.filter(scope.active, function (e) {
+			categories.push(_.filter(scope.active, function (e) {
 				return +e.uploadSpeed || +e.downloadSpeed;
-			});
+			}));
 		}
+
 		if (scope.filterWaiting) {
-			downloads = downloads.concat(_.filter(scope.waiting, function (e) {
+			categories.push(_.filter(scope.waiting, function (e) {
 				return e.status == "waiting";
 			}));
 		}
+
 		if (scope.filterPaused) {
-			downloads = downloads.concat(_.filter(scope.waiting, function (e) {
+			categories.push(_.filter(scope.waiting, function (e) {
 				return e.status == "paused";
 			}));
 		}
+
 		if (scope.filterError) {
-			downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+			categories.push(_.filter(scope.stopped, function (e) {
 				return e.status == "error";
 			}));
 		}
+
 		if (scope.filterComplete) {
-			downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+			categories.push(_.filter(scope.stopped, function (e) {
 				return e.status == "complete";
 			}));
 		}
+
 		if (scope.filterRemoved) {
-			downloads = downloads.concat(_.filter(scope.stopped, function (e) {
+			categories.push(_.filter(scope.stopped, function (e) {
 				return e.status == "removed";
 			}));
 		}
+
+		var downloads = categories.map(function (category) {
+			// sort downloads within category by completness, most completed first
+			return _.sortBy(category, function (e) {
+				return -(e.completedLength / e.totalLength);
+			});
+		}).reduce(function (downloads, category) {
+			return downloads.concat(category);
+		}, []);
 
 		downloads = scope.filterDownloads(downloads);
 
