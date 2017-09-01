@@ -63,7 +63,7 @@ sudo docker run -v /Downloads:/data -p 6800:6800 -p 9100:8080 --name="webui-aria
 
 This image contains both aria2 and webui-aria2.
 
-Build it (may take several hours due to the aria2 compilation process. Don't panic and grap a coffee)
+Build it (may take several hours due to the aria2 compilation process. Don't panic and grab a coffee)
 ```
 docker build -f Dockerfile.arm -t yourname/webui-aria2 .
 ```
