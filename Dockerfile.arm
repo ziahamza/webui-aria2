@@ -39,7 +39,7 @@ RUN curl -L "https://storage.googleapis.com/golang/go1.8.linux-armv6l.tar.gz" > 
   && unset GOROOT && unset GOPATH
 
 # goreman setup
-RUN echo "web: gosu aria /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu aria /usr/bin/aria2c --conf-path=/data/.aria2/aria2.conf" > Procfile
+RUN echo "web: gosu aria /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu aria /usr/bin/aria2c --conf-path=/data/.aria2/aria2.conf" /data/downloads/*.torrent > Procfile
 
 # aria2 downloads directory
 VOLUME /data
