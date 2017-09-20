@@ -81,7 +81,7 @@ angular
         .chain(this.uris.trim().split(/\r?\n/g))
         .map(function(d) {
           return _(d)
-            .replace(/["'][^"]*['"]/g, function(c) {
+            .replace(/["'][^"']*["']/g, function(c) {
               return c.replace(/%/g,'%25').replace(/ /g,'%20');
             })
             .trim()
