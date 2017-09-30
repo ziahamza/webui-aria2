@@ -107,7 +107,7 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
         alerts.addAlert('<strong>' + filter('translate')('Oh Snap!') + '</strong> ' +
           filter('translate')('Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings')
         , 'error');
-        timeout = setTimeout(update, globalTimeout);
+//        timeout = setTimeout(update, globalTimeout);
       }
     };
 
@@ -189,10 +189,9 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
       else
         configurations = [conf];
 
-      if (timeout) {
+      if (timeout)
         clearTimeout(timeout);
-        timeout = setTimeout(update, 0);
-      }
+      timeout = setTimeout(update, 0);
     },
 
     // get current configuration being used
