@@ -63,22 +63,27 @@ sudo docker run -v /Downloads:/data -p 6800:6800 -p 9100:8080 --name="webui-aria
 
 This image contains both aria2 and webui-aria2.
 
-Build it (may take several hours due to the aria2 compilation process. Don't panic and grap a coffee)
+Build it (may take several hours due to the aria2 compilation process. Don't panic and grab a coffee)
 ```
 docker build -f Dockerfile.arm -t yourname/webui-aria2 .
 ```
 Prepare the host volume:
-This image required few file to be mounted in the container's `/data` folder.
+This image required few file to be mounted in the container.
 ```
-.aria2/session.txt  (empty file)
-.aria2/aria2.log    (empty file)
-.aria2/aria2.conf   (aria2 configuration file, not webui-aria2 conf) must contains at least `enable-rpc=true` and `rpc-listen-all=true`
-./downloads/        (where the downloaded files goes)
+/home/aria/aria2/session.txt  (empty file)
+/home/aria/aria2/aria2.log    (empty file)
+/home/aria/aria2/aria2.conf   (aria2 configuration file, not webui-aria2 conf) must contains at least `enable-rpc=true` and `rpc-listen-all=true`
+/data/downloads/        (where the downloaded files goes)
 ```
 
 Run it
 ```
-docker run --restart=always -d -v /home/<USER>/data/aria2:/data -p 6800:6800 -p 9100:8080 --name="webui-aria2" yourname/webui-aria2
+docker run --restart=always \
+        -v /home/<USER>/data/aria2/downloads:/data/downloads \
+        -v /home/<USER>/data/aria2/.aria2:/home/aria/.aria2 \
+        -p 6800:6800 -p 9100:8080 \
+        --name="webui-aria2" \
+        -d yourname/webui-aria2
 ```
 
 Support

@@ -79,15 +79,15 @@ angular
     parse: function() {
       return _
         .chain(this.uris.trim().split(/\r?\n/g))
-        .map(function(d) { 
+        .map(function(d) {
           return _(d)
-            .replace(/("[^"]*")/g, function(c) {
-              return c.replace('%','%25').replace(' ','%20');
+            .replace(/["'][^"']*["']/g, function(c) {
+              return c.replace(/%/g,'%25').replace(/ /g,'%20');
             })
             .trim()
             .split(/\s+/g)
             .map(function(c) {
-              return c.replace('%20',' ').replace('%25','%').replace(/"/g,'');
+              return c.replace(/%20/g,' ').replace(/%25/g,'%').replace(/["']/g,'');
             });
         })
         .filter(function(d) { return d.length })
