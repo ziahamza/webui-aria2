@@ -46,6 +46,18 @@ angular.module('webui.services.settings', [])
     desc: "Rename file name if the same file already exists. This option works only in HTTP(S)/FTP download. The new file name has a dot and a number(1..9999) appended. Default: true"
   },
 
+  "bt-detach-seed-only": {
+    desc: "Exclude seed only downloads when counting concurrent active downloads (See -j option). This means that if -j3 is given and this option is turned on and 3 downloads are active and one of those enters seed mode, then it is excluded from active download count (thus it becomes 2), and the next download waiting in queue gets started. But be aware that seeding item is still recognized as active download in RPC method. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
+
+  "bt-enable-hook-after-hash-check": {
+    desc: "Allow hook command invocation after hash check (see -V option) in BitTorrent download. By default, when hash check succeeds, the command given by --on-bt-download-complete is executed. To disable this action, give false to this option. Default: true",
+    val: true,
+    options: ["true", "false"],
+  },
+
   "bt-enable-lpd": {
     desc: "Enable Local Peer Discovery. If a private flag is set in a torrent, aria2 doesn't use this feature for that download even if true is given. Default: false",
     val: false,
@@ -61,6 +73,12 @@ angular.module('webui.services.settings', [])
     val: '',
     desc: "Specify the external IP address to report to a BitTorrent tracker. Although this function is named external, it can accept any kind of IP addresses. IPADDRESS must be a numeric IP address."
 
+  },
+  
+  "bt-force-encryption": {
+    desc: "Requires BitTorrent message payload encryption with arc4. This is a shorthand of --bt-require-crypto --bt-min-crypto-level=arc4. This option does not change the option value of those options. If true is given, deny legacy BitTorrent handshake and only use Obfuscation handshake and always encrypt message payload. Default: false",
+    val: false,
+    options: ["true", "false"],
   },
 
   "bt-hash-check-seed": {
@@ -149,6 +167,12 @@ angular.module('webui.services.settings', [])
     val: false,
     options: ["true", "false"],
   },
+  
+  "check-certificate": {
+    desc: "Verify the peer using certificates specified in --ca-certificate option. Default: true",
+    val: true,
+    options: ["true", "false"],
+  },
 
   "check-integrity": {
     desc: "Check file integrity by validating piece hashes or a hash of entire file. This option has effect only in BitTorrent, Metalink downloads with checksums or HTTP(S)/FTP downloads with --checksum option. If piece hashes are provided, this option can detect damaged portions of a file and re-download them. If a hash of entire file is provided, hash check is only done when file has been already download. This is determined by file length. If hash check fails, file is re-downloaded from scratch. If both piece hashes and a hash of entire file are provided, only piece hashes are used. Default: false",
@@ -172,10 +196,28 @@ angular.module('webui.services.settings', [])
     val: true,
     options: ["true", "false"],
   },
+  
+  "daemon": {
+    desc: "Run as daemon. The current working directory will be changed to / and standard input, standard output and standard error will be redirected to /dev/null. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
+
+  "deferred-input": {
+    desc: "If true is given, aria2 does not read all URIs and options from file specified by --input-file option at startup, but it reads one by one when it needs later. This may reduce memory usage if input file contains a lot of URIs to download. If false is given, aria2 reads all URIs and options at startup. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
 
   "dir": {
     val: '',
     desc: "The directory to store the downloaded file."
+  },
+
+  "disable-ipv6": {
+    desc: "Disable IPv6. This is useful if you have to use broken DNS and want to avoid terribly slow AAAA record lookup. Default: false",
+    val: false,
+    options: ["true", "false"],
   },
 
   "dry-run": {
@@ -186,6 +228,24 @@ angular.module('webui.services.settings', [])
 
   "enable-async-dns6": {
     desc: "Enable IPv6 name resolution in asynchronous DNS resolver. This option will be ignored when --async-dns=false. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
+
+  "enable-color": {
+    desc: "Enable color output for a terminal. Default: true",
+    val: true,
+    options: ["true", "false"],
+  },
+
+  "enable-dht": {
+    desc: "Enable IPv4 DHT functionality. It also enables UDP tracker support. If a private flag is set in a torrent, aria2 doesn’t use DHT for that download even if true is given. Default: true",
+    val: true,
+    options: ["true", "false"],
+  },
+
+  "enable-dht6": {
+    desc: "Enable IPv6 DHT functionality. If a private flag is set in a torrent, aria2 doesn’t use DHT for that download even if true is given. Use --dht-listen-port option to specify port number to listen on. See also --dht-listen-addr6 option.",
     val: false,
     options: ["true", "false"],
   },
@@ -208,6 +268,18 @@ angular.module('webui.services.settings', [])
     options: ["true", "false"],
   },
 
+  "enable-mmap": {
+    desc: "Map files into memory. This option may not work if the file space is not pre-allocated. See --file-allocation. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
+
+  "enable-rpc": {
+    desc: "Enable JSON-RPC/XML-RPC server. It is strongly recommended to set secret authorization token using --rpc-secret option. See also --rpc-listen-port option. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
+
   "file-allocation": {
     desc: "Specify file allocation method. none doesn't pre-allocate file space. prealloc pre-allocates file space before download begins. This may take some time depending on the size of the file. If you are using newer file systems such as ext4 (with extents support), btrfs, xfs or NTFS(MinGW build only), falloc is your best choice. It allocates large(few GiB) files almost instantly. Don't use falloc with legacy file systems such as ext3 and FAT32 because it takes almost same time as prealloc and it blocks aria2 entirely until allocation finishes. falloc may not be available if your system doesn't have posix_fallocate(3) function. Possible Values: none, prealloc, falloc Default: prealloc",
     val: undefined,
@@ -223,6 +295,12 @@ angular.module('webui.services.settings', [])
   "follow-torrent": {
     desc: "If true or mem is specified, when a file whose suffix is .torrent or content type is application/x-bittorrent is downloaded, aria2 parses it as a torrent file and downloads files mentioned in it. If mem is specified, a torrent file is not written to the disk, but is just kept in memory. If false is specified, the action mentioned above is not taken. Default: true",
     val: true,
+    options: ["true", "false"],
+  },
+
+  "force-save": {
+    desc: "Save download with --save-session option even if the download is completed or removed. This option also saves control file in that situations. This may be useful to save BitTorrent seeding which is recognized as completed state. Default: false",
+    val: false,
     options: ["true", "false"],
   },
 
@@ -318,6 +396,12 @@ angular.module('webui.services.settings', [])
     desc: "Set user for --http-proxy option."
   },
 
+  "human-readable": {
+    desc: "Print sizes and speed in human readable format (e.g., 1.2Ki, 3.4Mi) in the console readout. Default: true",
+    val: true,
+    options: ["true", "false"],
+  },
+
   "index-out": {
     val: undefined,
     desc: "Set file path for file with index=INDEX. You can find the file index using the --show-files option. PATH is a relative path to the path specified in --dir option. You can use this option multiple times. Using this option, you can specify the output filenames of BitTorrent downloads."
@@ -389,6 +473,12 @@ angular.module('webui.services.settings', [])
     desc: "aria2 does not split less than 2*SIZE byte range. For example, let's consider downloading 20MiB file. If SIZE is 10M, aria2 can split file into 2 range [0-10MiB) and [10MiB-20MiB) and download it using 2 sources(if --split >= 2, of course). If SIZE is 15M, since 2*15M > 20MiB, aria2 does not split file and download it using 1 source. You can append K or M (1K = 1024, 1M = 1024K). Possible Values: 1M -1024M Default: 20M"
   },
 
+  "no-conf": {
+    desc: "Disable loading aria2.conf file.",
+    val: false,
+    options: ["true", "false"],
+  },
+
   "no-file-allocation-limit": {
     val: '5M',
     desc: "No file allocation is made for files whose size is smaller than SIZE. You can append K or M (1K = 1024, 1M = 1024K). Default: 5M"
@@ -416,10 +506,22 @@ angular.module('webui.services.settings', [])
     options: ["true", "false"],
   },
 
+  "pause-metadata": {
+    desc: "Pause downloads created as a result of metadata download. There are 3 types of metadata downloads in aria2: (1) downloading .torrent file. (2) downloading torrent metadata using magnet link. (3) downloading metalink file. These metadata downloads will generate downloads using their metadata. This option pauses these subsequent downloads. This option is effective only when --enable-rpc=true is given. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
+
   "proxy-method": {
     desc: "Set the method to use in proxy request. METHOD is either get or tunnel. HTTPS downloads always use tunnel regardless of this option. Default: get",
     val: 'get',
     options: ["get", "tunnel"]
+  },
+
+  "quiet": {
+    desc: "Make aria2 quiet (no console output). Default: false",
+    val: false,
+    options: ["true", "false"],
   },
 
   "realtime-chunk-checksum": {
@@ -442,6 +544,12 @@ angular.module('webui.services.settings', [])
   "remove-control-file": {
     desc: "Remove control file before download. Using with --allow-overwrite=true, download always starts from scratch. This will be useful for users behind proxy server which disables resume.",
     val: false,
+    options: ["true", "false"],
+  },
+
+  "reuse-uri": {
+    desc: "Reuse already used URIs if no unused URIs are left. Default: true",
+    val: true,
     options: ["true", "false"],
   },
 
@@ -497,10 +605,46 @@ angular.module('webui.services.settings', [])
     options: ["true", "false"],
   },
 
+  "rpc-allow-origin-all": {
+    desc: "Add Access-Control-Allow-Origin header field with value * to the RPC response. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
+
+  "rpc-listen-all": {
+    desc: "Listen incoming JSON-RPC/XML-RPC requests on all network interfaces. If false is given, listen only on local loopback interface. Default: false",
+    val: false,
+    options: ["true", "false"],
+  },
+
+  "rpc-secure": {
+    desc: "RPC transport will be encrypted by SSL/TLS. The RPC clients must use https scheme to access the server. For WebSocket client, use wss scheme. Use --rpc-certificate and --rpc-private-key options to specify the server certificate and private key.",
+    val: false,
+    options: ["true", "false"],
+  },
+
   "stream-piece-selector": {
     desc: "Specify piece selection algorithm used in HTTP/FTP download. Piece means fixed length segment which is downloaded in parallel in segmented download. If default is given, aria2 selects piece so that it reduces the number of establishing connection. This is reasonable default behaviour because establishing connection is an expensive operation. If inorder is given, aria2 selects piece which has minimum index. Index=0 means first of the file. This will be useful to view movie while downloading it. --enable-http-pipelining option may be useful to reduce reconnection overhead. Please note that aria2 honors --min-split-size option, so it will be necessary to specify a reasonable value to --min-split-size option. If geom is given, at the beginning aria2 selects piece which has minimum index like inorder, but it exponentially increasingly keeps space from previously selected piece. This will reduce the number of establishing connection and at the same time it will download the beginning part of the file first. This will be useful to view movie while downloading it. Default: default",
     val: 'default',
     options: ["default", "inorder", "geom"]
+  },
+
+  "show-console-readout": {
+    desc: "Show console readout. Default: true",
+    val: true,
+    options: ["true", "false"],
+  },
+
+  "show-files": {
+    desc: "Print file listing of “.torrent”, “.meta4” and “.metalink” file and exit. In case of “.torrent” file, additional information (infohash, piece length, etc) is also printed.",
+    val: false,
+    options: ["true", "false"],
+  },
+
+  "truncate-console-readout": {
+    desc: "Truncate console readout to fit in a single line. Default: true",
+    val: true,
+    options: ["true", "false"],
   },
 
   "hash-check-only": {
