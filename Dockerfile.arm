@@ -28,7 +28,7 @@ RUN GITHUB_REPO="https://github.com/tianon/gosu" \
   && curl -L $GITHUB_REPO"/releases/download/"$LATEST"/gosu-armhf" > /usr/local/bin/gosu \
   && chmod +x /usr/local/bin/gosu
 
-# goland install (compile source code for ARM since no version are currently available)
+# goreman install
 RUN curl -L "https://storage.googleapis.com/golang/go1.9.1.linux-armv6l.tar.gz" > go.tar.gz \
   && tar -xzf go.tar.gz -C /usr/local \
   && export GOROOT="/usr/local/go" && export GOPATH=`pwd` \
@@ -38,7 +38,7 @@ RUN curl -L "https://storage.googleapis.com/golang/go1.9.1.linux-armv6l.tar.gz" 
   && unset GOROOT && unset GOPATH
 
 # goreman setup
-RUN echo "web: gosu aria /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu aria /usr/bin/aria2c --conf-path=/home/aria/.aria2/aria2.conf /data/downloads/*.torrent" > Procfile
+RUN echo "web: gosu aria /bin/busybox httpd -f -p 8080 -h /webui-aria2\nbackend: gosu aria bash -c 'shopt -s dotglob nullglob && /usr/bin/aria2c --dir=/data/downloads/ --conf-path=/home/aria/.aria2/aria2.conf /data/downloads/*.torrent'" > Procfile
 
 # aria2 downloads directory
 VOLUME /data/downloads
