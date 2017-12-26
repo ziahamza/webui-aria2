@@ -45,6 +45,12 @@ angular
 			'getUris', _.bind(rhelpers.addUris, rhelpers)
 		);
 	};
+	
+	scope.fileManager = function() {
+		modals.invoke(
+			'getUris', _.bind(rhelpers.addUris, rhelpers)
+		);
+	};
 
 	scope.addMetalinks = function() {
 		modals.invoke(
@@ -126,6 +132,12 @@ angular
 	scope.showServerInfo = function() {
 		modals.invoke(
 			'server_info'
+		);
+	};
+	
+	scope.showFileManager = function() {
+		modals.invoke(
+			'fm'
 		);
 	};
 

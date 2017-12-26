@@ -302,8 +302,7 @@
 <ul class="nav navbar-nav">
         <li>
           <a
-                  href="./file-manager"
-                  class="dropdown-toggle" dropdown-toggle>{{ 'File Manager' | translate }} <span class="caret"></span></a>
+                  href="./file-manager" ng-click="showFileManager()">{{ 'File Manager' | translate }}</a>
 	</li>
 </ul>
     </div>
@@ -1302,6 +1301,20 @@
 </script>
 <!-- }}} -->
 
+<!-- {{{ FM modal -->
+<script type="text/ng-template" id="fm.html">
+  <div class="modal-header">
+    <button class="close" ng-click="$dismiss()">x</button>
+    <h4>{{ 'File Manager' | translate }}</h4>
+  </div>
+  <div class="modal-body">
+      <iframe src="./file-manager/index.php"></iframe> 
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" ng-click="$dismiss()">{{ 'Close' | translate }}</button>
+  </div>
+</script>
+<!-- }}} -->
 
 </div>
 <!-- }}} -->
