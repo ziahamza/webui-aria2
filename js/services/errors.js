@@ -5,7 +5,7 @@ angular
     errorCode = errorCode - 1;
     switch(errorCode) {
       case 0:
-        return "download was successful";
+        return "download was unsuccessful";
       case 1:
         return "unknown error occurred";
       case 2:
