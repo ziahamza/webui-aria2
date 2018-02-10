@@ -42,6 +42,7 @@ webui.config(['$translateProvider', function ($translateProvider) {
       .translations('it_IT', mergeTranslation(translations.it_IT, translations.en_US))
       .translations('tr_TR', mergeTranslation(translations.tr_TR, translations.en_US))
       .translations('cs_CZ', mergeTranslation(translations.cs_CZ, translations.en_US))
+      .translations('fa_IR', mergeTranslation(translations.fa_IR, translations.en_US))
       .useSanitizeValueStrategy('escapeParameters')
       .determinePreferredLanguage();
 }]);
