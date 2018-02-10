@@ -19,6 +19,15 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
   // try at the start, so that it is presistant even when default authconf works
   if(cookieConf) configurations.unshift(cookieConf);
 
+  if (uri.search().host) {
+    configurations.unshift(uri.search());
+    configurations[0].auth = {
+      token: configurations[0].token,
+      user: configurations[0].username,
+      pass: configurations[0].password
+    };
+  }
+
   if (['http', 'https'].indexOf(uri.protocol()) != -1 && uri.host() != 'localhost') {
     configurations.push({
       host: uri.host(),

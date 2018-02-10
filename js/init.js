@@ -27,7 +27,7 @@ function mergeTranslation(translation, base) {
 	return translation;
 }
 
-webui.config(['$translateProvider', function ($translateProvider) {
+webui.config(function ($translateProvider, $locationProvider) {
   $translateProvider
       .translations('en_US', translations.en_US)
       .translations('nl_NL', mergeTranslation(translations.nl_NL, translations.en_US))
@@ -45,7 +45,12 @@ webui.config(['$translateProvider', function ($translateProvider) {
       .translations('fa_IR', mergeTranslation(translations.fa_IR, translations.en_US))
       .useSanitizeValueStrategy('escapeParameters')
       .determinePreferredLanguage();
-}]);
+
+      $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+      });
+});
 
 $(function() {
   if (!String.prototype.startsWith) {
