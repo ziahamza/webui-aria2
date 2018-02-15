@@ -24,7 +24,11 @@ function(syscall, globalTimeout, alerts, utils, rootScope, uri, authconf, filter
     configurations[0].auth = {
       token: configurations[0].token,
       user: configurations[0].username,
-      pass: configurations[0].password
+      pass: configurations[0].password,
+      host: configurations[0].host,
+      path: configurations[0].path,
+      port: configurations[0].port,
+      encrypt: configurations[0].port !== 0
     };
   }
 
