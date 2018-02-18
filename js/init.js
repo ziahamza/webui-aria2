@@ -43,6 +43,7 @@ webui.config(function ($translateProvider, $locationProvider) {
       .translations('tr_TR', mergeTranslation(translations.tr_TR, translations.en_US))
       .translations('cs_CZ', mergeTranslation(translations.cs_CZ, translations.en_US))
       .translations('fa_IR', mergeTranslation(translations.fa_IR, translations.en_US))
+      .translations('id_ID', mergeTranslation(translations.id_ID, translations.en_US))
       .useSanitizeValueStrategy('escapeParameters')
       .determinePreferredLanguage();
 
