@@ -2,7 +2,7 @@ if(typeof translations == 'undefined'){
     translations = {};
 }
 
-translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
+translations.id_ID = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
 // header
     'Search': 'Telusuri',
     // Nav menu
@@ -11,8 +11,8 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'By Torrents': 'Dari Torrent',
     'By Metalinks': 'Dari Metalink',
     'Manage': 'Kelola',
-    'Pause All': 'Tunda Semua',
-    'Resume Paused': 'Lanjut yang Ditunda',
+    'Pause All': 'Jeda Semua',
+    'Resume Paused': 'Lanjut yang Dijeda',
     'Purge Completed': 'Hapus yang Terunduh',
     'Shutdown Server': 'Matikan Peladen',
     'Settings': 'Pengaturan',
@@ -37,7 +37,7 @@ translations.en_US = {  // replace en_US to ll_CC, examples: zh_CN, de_AT.
     'Waiting': 'Menunggu',
     'Complete': 'Selesai',
     'Error': 'Galat',
-    'Paused': 'Ditunda',
+    'Paused': 'Dijeda',
     'Removed': 'Dihapus',
     'Hide linked meta-data': 'Sembunyikan tautan meta-data',
     'Toggle': 'Tombol alihan',
