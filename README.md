@@ -86,6 +86,10 @@ docker run --restart=always \
         -d yourname/webui-aria2
 ```
 
+Deploy to Heroku
+==============
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 Support
 =======
 For any support, feature request and bug report add an issue in the github project. [link](https://github.com/ziahamza/webui-aria2/issues)
