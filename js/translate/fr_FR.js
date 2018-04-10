@@ -41,11 +41,15 @@ translations.fr_FR = {
     'Hide linked meta-data': 'Cacher les métadonnées liées',
     'Toggle': 'Basculer',
     'Reset filters': 'Réinitialiser les filtres',
+// download status
+    'Verifing': 'Vérification',
+    'Verify Pending': 'Vérification en attente',
 // starred properties
     'Quick Access Settings': 'Paramètres d\'accès rapide',
+    'Save': 'Sauvegarder',
     'Save settings': 'Sauvegarder les paramètres',
     'Currently no download in line to display, use the': 'Aucun téléchargement dans la file d\'attente, utilisez le bouton de téléchargement',
-    'download button to start downloading files!': 'pour commencer à télécharger des fichiers!',
+    'download button to start downloading files!': 'pour commencer à télécharger des fichiers !',
     'Peers': 'Pairs',
     'More Info': 'Plus d\'infos',
     'Remove': 'Supprimer',
@@ -97,7 +101,7 @@ translations.fr_FR = {
         'Entrer le token secret pour le RPC Aria2 (laisser vide si l\'authentification n\'est pas activée)',
     'Enter the username (optional)': 'Entrer le nom d\'utilisateur (optionnel)',
     'Enter the Aria2 RPC username (empty if authentication not enabled)':
-        'Entrer le nom d\'utilisateur RPC Aria2 (laisser vide si l\authentification n\'est pas activée)',
+        'Entrer le nom d\'utilisateur RPC Aria2 (laisser vide si l\'authentification n\'est pas activée)',
     'Enter the password (optional)': 'Entrer le mot de passe (optionnel)',
     'Enter the Aria2 RPC password (empty if authentication not enabled)': 'Entrer le mot de passe RPC Aria2 (laisser vide si l\'authentification n\'est pas activée)',
     'Enter base URL (optional)': 'Entrez l\'URL de base',
@@ -128,5 +132,15 @@ translations.fr_FR = {
     'Uploaded':'Envoyé',
     'Download GID':'GID du téléchargement',
     'Number of Pieces':'Nombre de pièces',
-    'Piece Length':'Taille de la pièce'
+    'Piece Length':'Taille de la pièce',
+    'Shutdown Server': 'Arrêter le serveur',
+
+    'The last connection attempt was unsuccessful. Trying another configuration': 'La dernière tentative de connexion a échoué. Essai d\'une autre configuration',
+    'Oh Snap!': 'Oh non !',
+    'Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings': 'Impossible de se connecter au serveur RPC d\'aria2. Nouvel essai dans 10 secondes. Vous voudrez peut-être vérifier les paramètres de connexion en allant dans Paramètres > Paramètres de connexion',
+    'Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details by going to Settings > Connection Settings': 'Erreur d\'authentification lors de la connexion au serveur RPC d\'aria2. Nouvel essai dans 10 secondes. Vous voudrez peut-être confirmer les renseignements d\'authentification en allant dans Paramètres > Paramètres de connexion',
+    'Successfully connected to Aria2 through its remote RPC …': 'Connexion réussie à aria2 via son interface RPC …',
+    'Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)': 'Connexion réussie à aria2 via l\'interface RPC, cependant la connexion n\'est toujours pas sécurisée. Pour une sécurité complète, essayez d\'ajouter un token secret d\'autorisation en lançant aria2 (à l\'aide de l\'option --rpc-secret)',
+    'Trying to connect to aria2 using the new connection configuration': 'Tentative de connexion à aria2 avec la nouvelle configuration',
+    'Remove {{name}} and associated meta-data?': 'Supprimer {{name}} et les métadonnées associées'
 };
