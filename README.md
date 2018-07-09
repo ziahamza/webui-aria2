@@ -39,7 +39,7 @@ Well, you need aria2. And a web browser (if that even counts!)
 Docker support
 ==============
 There is two Dockerfile in this project, one is a common Dockerfile, which can be use for **testing purpose**.<br>
-The second is a **production ready** Dockerfile for raspberry and other ARM plateforms.
+The second is a **production ready** Dockerfile for arm32v7 plateforms (which includes raspberry).
 
 ### For testing purpose
 
@@ -63,10 +63,17 @@ sudo docker run -v /Downloads:/data -p 6800:6800 -p 9100:8080 --name="webui-aria
 
 This image contains both aria2 and webui-aria2.
 
-Build it (may take several hours due to the aria2 compilation process. Don't panic and grab a coffee)
+Build it (may take several hours due to the aria2 compilation process. Don't panic and grab a coffee).
 ```
-docker build -f Dockerfile.arm -t yourname/webui-aria2 .
+docker build -f Dockerfile.arm32v7 -t yourname/webui-aria2 .
 ```
+
+This command will ends up building three images:
+- The first one is just about compiling aria2 and goreman binaries. It MUST be deleted each time the `ARIA2_VERSION` is changed in the Dockerfile, otherwise you won't benefit from the update.
+- The second is about building and downloading some go dependencies (goreman and gosu).
+- The second one is the acutal aria2 container, the one you must use.
+
+<br />
 Prepare the host volume:
 This image required few file to be mounted in the container.
 ```
