@@ -246,7 +246,7 @@ angular
     };
   });
 
-  _.each(["about", "server_info"], function(name) {
+  _.each(["about", "server_info", "fm"], function(name) {
     scope[name] = {
       open: function() {
         var self = this;
@@ -270,7 +270,7 @@ angular
 
   _.each([
     'getUris', 'getTorrents', 'getMetalinks', 'selectFiles',
-    'settings', 'connection', 'server_info', 'about'
+    'settings', 'connection', 'server_info', 'about', 'fm'
   ], function(name) {
     modals.register(name, function() {
       if (scope[name].inst) {

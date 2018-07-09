@@ -22,6 +22,10 @@ Tips
 ====
 1. You can always select which files to download in case of torrents or metalinks. Just pause a download and a list icon should appear next to the settings button. To select which files to download before starting the download, give the flag --pause-metadata to aria2. See [link](https://aria2.github.io/manual/en/html/aria2c.html#cmdoption--pause-metadata)
 
+File Manager
+=============
+To use this option, you need to create symbolinc links into the file-manager folder in order to acces them.
+
 Configuration
 =============
 Read and edit [configuration.js](configuration.js).
