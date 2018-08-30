@@ -1,0 +1,21 @@
+{
+  "name": "webui-aria2",
+  "version": "1.0.0",
+  "description": "The aim for this project is to create the worlds best and hottest interface to interact with aria2.",
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "^1.14.2"
+  },
+  "scripts": {
+    "format": "prettier -l --config .prettierrc --write  \"**/*{js,css}\" \"!**/*.min.{js,css}\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ziahamza/webui-aria2.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ziahamza/webui-aria2/issues"
+  },
+  "homepage": "https://github.com/ziahamza/webui-aria2#readme"
+}

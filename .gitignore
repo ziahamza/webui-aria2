@@ -2,3 +2,4 @@
 .idea
 .git
 debug.log
+node_modules
