@@ -1,13 +1,14 @@
-@import 'https://fonts.googleapis.com/css?family=Lato:400,700';
+@import "https://fonts.googleapis.com/css?family=Lato:400,700";
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   overflow-y: scroll;
   background-color: #f5f5f5;
   padding-bottom: 5em;
 }
 
-input[type=checkbox], input[type=radio] {
+input[type="checkbox"],
+input[type="radio"] {
   vertical-align: middle;
   position: relative;
 }
@@ -21,8 +22,10 @@ input[type=checkbox], input[type=radio] {
   background-color: #428bca;
 }
 
-.label-active, .badge-active, .progress-active .bar {
-  background-color: #62C462;
+.label-active,
+.badge-active,
+.progress-active .bar {
+  background-color: #62c462;
 }
 
 .progress-success .bar {
@@ -81,8 +84,8 @@ input[type=checkbox], input[type=radio] {
 
 .main-navbar {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
-  background-color: #00897B;
-  border-color: #00897B;
+  background-color: #00897b;
+  border-color: #00897b;
 }
 
 .main-navbar .navbar-brand {
@@ -110,7 +113,8 @@ input[type=checkbox], input[type=radio] {
   margin-bottom: 30px;
   background-color: #fff;
   padding: 10px 20px 20px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 .filter-input-group {
@@ -121,6 +125,6 @@ input[type=checkbox], input[type=radio] {
 .filter-input-group > .clear-button {
   position: absolute;
   right: 25px;
-  top: 6px;  
+  top: 6px;
   cursor: pointer;
 }

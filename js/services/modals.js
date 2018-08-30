@@ -1,5 +1,4 @@
-angular.module('webui.services.modals', [])
-.factory('$modals', function() {
+angular.module("webui.services.modals", []).factory("$modals", function() {
   var modals = {};
   return {
     // register a new modal, cb is the function which
