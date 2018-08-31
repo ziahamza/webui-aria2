@@ -19,6 +19,121 @@
 
 <body ng-controller="MainCtrl" ng-cloak>
 
+<!-- {{{ Icons -->
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <symbol id="icon-times" viewBox="0 0 22 28">
+      <title>times</title>
+      <path d="M20.281 20.656c0 0.391-0.156 0.781-0.438 1.062l-2.125 2.125c-0.281 0.281-0.672 0.438-1.062 0.438s-0.781-0.156-1.062-0.438l-4.594-4.594-4.594 4.594c-0.281 0.281-0.672 0.438-1.062 0.438s-0.781-0.156-1.062-0.438l-2.125-2.125c-0.281-0.281-0.438-0.672-0.438-1.062s0.156-0.781 0.438-1.062l4.594-4.594-4.594-4.594c-0.281-0.281-0.438-0.672-0.438-1.062s0.156-0.781 0.438-1.062l2.125-2.125c0.281-0.281 0.672-0.438 1.062-0.438s0.781 0.156 1.062 0.438l4.594 4.594 4.594-4.594c0.281-0.281 0.672-0.438 1.062-0.438s0.781 0.156 1.062 0.438l2.125 2.125c0.281 0.281 0.438 0.672 0.438 1.062s-0.156 0.781-0.438 1.062l-4.594 4.594 4.594 4.594c0.281 0.281 0.438 0.672 0.438 1.062z"></path>
+    </symbol>
+    <symbol id="icon-power-off" viewBox="0 0 24 28">
+      <title>power-off</title>
+      <path d="M24 14c0 6.609-5.391 12-12 12s-12-5.391-12-12c0-3.797 1.75-7.297 4.797-9.578 0.891-0.672 2.141-0.5 2.797 0.391 0.672 0.875 0.484 2.141-0.391 2.797-2.031 1.531-3.203 3.859-3.203 6.391 0 4.406 3.594 8 8 8s8-3.594 8-8c0-2.531-1.172-4.859-3.203-6.391-0.875-0.656-1.062-1.922-0.391-2.797 0.656-0.891 1.922-1.062 2.797-0.391 3.047 2.281 4.797 5.781 4.797 9.578zM14 2v10c0 1.094-0.906 2-2 2s-2-0.906-2-2v-10c0-1.094 0.906-2 2-2s2 0.906 2 2z"></path>
+    </symbol>
+    <symbol id="icon-cog" viewBox="0 0 24 28">
+      <title>cog</title>
+      <path d="M16 14c0-2.203-1.797-4-4-4s-4 1.797-4 4 1.797 4 4 4 4-1.797 4-4zM24 12.297v3.469c0 0.234-0.187 0.516-0.438 0.562l-2.891 0.438c-0.172 0.5-0.359 0.969-0.609 1.422 0.531 0.766 1.094 1.453 1.672 2.156 0.094 0.109 0.156 0.25 0.156 0.391s-0.047 0.25-0.141 0.359c-0.375 0.5-2.484 2.797-3.016 2.797-0.141 0-0.281-0.063-0.406-0.141l-2.156-1.687c-0.453 0.234-0.938 0.438-1.422 0.594-0.109 0.953-0.203 1.969-0.453 2.906-0.063 0.25-0.281 0.438-0.562 0.438h-3.469c-0.281 0-0.531-0.203-0.562-0.469l-0.438-2.875c-0.484-0.156-0.953-0.344-1.406-0.578l-2.203 1.672c-0.109 0.094-0.25 0.141-0.391 0.141s-0.281-0.063-0.391-0.172c-0.828-0.75-1.922-1.719-2.578-2.625-0.078-0.109-0.109-0.234-0.109-0.359 0-0.141 0.047-0.25 0.125-0.359 0.531-0.719 1.109-1.406 1.641-2.141-0.266-0.5-0.484-1.016-0.641-1.547l-2.859-0.422c-0.266-0.047-0.453-0.297-0.453-0.562v-3.469c0-0.234 0.187-0.516 0.422-0.562l2.906-0.438c0.156-0.5 0.359-0.969 0.609-1.437-0.531-0.75-1.094-1.453-1.672-2.156-0.094-0.109-0.156-0.234-0.156-0.375s0.063-0.25 0.141-0.359c0.375-0.516 2.484-2.797 3.016-2.797 0.141 0 0.281 0.063 0.406 0.156l2.156 1.672c0.453-0.234 0.938-0.438 1.422-0.594 0.109-0.953 0.203-1.969 0.453-2.906 0.063-0.25 0.281-0.438 0.562-0.438h3.469c0.281 0 0.531 0.203 0.562 0.469l0.438 2.875c0.484 0.156 0.953 0.344 1.406 0.578l2.219-1.672c0.094-0.094 0.234-0.141 0.375-0.141s0.281 0.063 0.391 0.156c0.828 0.766 1.922 1.734 2.578 2.656 0.078 0.094 0.109 0.219 0.109 0.344 0 0.141-0.047 0.25-0.125 0.359-0.531 0.719-1.109 1.406-1.641 2.141 0.266 0.5 0.484 1.016 0.641 1.531l2.859 0.438c0.266 0.047 0.453 0.297 0.453 0.562z"></path>
+    </symbol>
+    <symbol id="icon-clock-o" viewBox="0 0 24 28">
+      <title>clock-o</title>
+      <path d="M14 8.5v7c0 0.281-0.219 0.5-0.5 0.5h-5c-0.281 0-0.5-0.219-0.5-0.5v-1c0-0.281 0.219-0.5 0.5-0.5h3.5v-5.5c0-0.281 0.219-0.5 0.5-0.5h1c0.281 0 0.5 0.219 0.5 0.5zM20.5 14c0-4.688-3.813-8.5-8.5-8.5s-8.5 3.813-8.5 8.5 3.813 8.5 8.5 8.5 8.5-3.813 8.5-8.5zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12 12 5.375 12 12z"></path>
+    </symbol>
+    <symbol id="icon-download" viewBox="0 0 26 28">
+      <title>download</title>
+      <path d="M20 21c0-0.547-0.453-1-1-1s-1 0.453-1 1 0.453 1 1 1 1-0.453 1-1zM24 21c0-0.547-0.453-1-1-1s-1 0.453-1 1 0.453 1 1 1 1-0.453 1-1zM26 17.5v5c0 0.828-0.672 1.5-1.5 1.5h-23c-0.828 0-1.5-0.672-1.5-1.5v-5c0-0.828 0.672-1.5 1.5-1.5h7.266l2.109 2.125c0.578 0.562 1.328 0.875 2.125 0.875s1.547-0.313 2.125-0.875l2.125-2.125h7.25c0.828 0 1.5 0.672 1.5 1.5zM20.922 8.609c0.156 0.375 0.078 0.812-0.219 1.094l-7 7c-0.187 0.203-0.453 0.297-0.703 0.297s-0.516-0.094-0.703-0.297l-7-7c-0.297-0.281-0.375-0.719-0.219-1.094 0.156-0.359 0.516-0.609 0.922-0.609h4v-7c0-0.547 0.453-1 1-1h4c0.547 0 1 0.453 1 1v7h4c0.406 0 0.766 0.25 0.922 0.609z"></path>
+    </symbol>
+    <symbol id="icon-arrow-circle-o-down" viewBox="0 0 24 28">
+      <title>arrow-circle-o-down</title>
+      <path d="M17.5 14.5c0 0.141-0.063 0.266-0.156 0.375l-4.984 4.984c-0.109 0.094-0.234 0.141-0.359 0.141s-0.25-0.047-0.359-0.141l-5-5c-0.141-0.156-0.187-0.359-0.109-0.547s0.266-0.313 0.469-0.313h3v-5.5c0-0.281 0.219-0.5 0.5-0.5h3c0.281 0 0.5 0.219 0.5 0.5v5.5h3c0.281 0 0.5 0.219 0.5 0.5zM12 5.5c-4.688 0-8.5 3.813-8.5 8.5s3.813 8.5 8.5 8.5 8.5-3.813 8.5-8.5-3.813-8.5-8.5-8.5zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12v0c6.625 0 12 5.375 12 12z"></path>
+    </symbol>
+    <symbol id="icon-arrow-circle-o-up" viewBox="0 0 24 28">
+      <title>arrow-circle-o-up</title>
+      <path d="M17.469 13.687c-0.078 0.187-0.266 0.313-0.469 0.313h-3v5.5c0 0.281-0.219 0.5-0.5 0.5h-3c-0.281 0-0.5-0.219-0.5-0.5v-5.5h-3c-0.281 0-0.5-0.219-0.5-0.5 0-0.141 0.063-0.266 0.156-0.375l4.984-4.984c0.109-0.094 0.234-0.141 0.359-0.141s0.25 0.047 0.359 0.141l5 5c0.141 0.156 0.187 0.359 0.109 0.547zM12 5.5c-4.688 0-8.5 3.813-8.5 8.5s3.813 8.5 8.5 8.5 8.5-3.813 8.5-8.5-3.813-8.5-8.5-8.5zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12v0c6.625 0 12 5.375 12 12z"></path>
+    </symbol>
+    <symbol id="icon-repeat" viewBox="0 0 24 28">
+      <title>repeat</title>
+      <path d="M24 4v7c0 0.547-0.453 1-1 1h-7c-0.406 0-0.766-0.25-0.922-0.625-0.156-0.359-0.078-0.797 0.219-1.078l2.156-2.156c-1.469-1.359-3.406-2.141-5.453-2.141-4.406 0-8 3.594-8 8s3.594 8 8 8c2.484 0 4.781-1.125 6.312-3.109 0.078-0.109 0.219-0.172 0.359-0.187 0.141 0 0.281 0.047 0.391 0.141l2.141 2.156c0.187 0.172 0.187 0.469 0.031 0.672-2.281 2.75-5.656 4.328-9.234 4.328-6.609 0-12-5.391-12-12s5.391-12 12-12c3.078 0 6.062 1.234 8.266 3.313l2.031-2.016c0.281-0.297 0.719-0.375 1.094-0.219 0.359 0.156 0.609 0.516 0.609 0.922z"></path>
+    </symbol>
+    <symbol id="icon-list" viewBox="0 0 28 28">
+      <title>list</title>
+      <path d="M4 20.5v3c0 0.266-0.234 0.5-0.5 0.5h-3c-0.266 0-0.5-0.234-0.5-0.5v-3c0-0.266 0.234-0.5 0.5-0.5h3c0.266 0 0.5 0.234 0.5 0.5zM4 14.5v3c0 0.266-0.234 0.5-0.5 0.5h-3c-0.266 0-0.5-0.234-0.5-0.5v-3c0-0.266 0.234-0.5 0.5-0.5h3c0.266 0 0.5 0.234 0.5 0.5zM4 8.5v3c0 0.266-0.234 0.5-0.5 0.5h-3c-0.266 0-0.5-0.234-0.5-0.5v-3c0-0.266 0.234-0.5 0.5-0.5h3c0.266 0 0.5 0.234 0.5 0.5zM28 20.5v3c0 0.266-0.234 0.5-0.5 0.5h-21c-0.266 0-0.5-0.234-0.5-0.5v-3c0-0.266 0.234-0.5 0.5-0.5h21c0.266 0 0.5 0.234 0.5 0.5zM4 2.5v3c0 0.266-0.234 0.5-0.5 0.5h-3c-0.266 0-0.5-0.234-0.5-0.5v-3c0-0.266 0.234-0.5 0.5-0.5h3c0.266 0 0.5 0.234 0.5 0.5zM28 14.5v3c0 0.266-0.234 0.5-0.5 0.5h-21c-0.266 0-0.5-0.234-0.5-0.5v-3c0-0.266 0.234-0.5 0.5-0.5h21c0.266 0 0.5 0.234 0.5 0.5zM28 8.5v3c0 0.266-0.234 0.5-0.5 0.5h-21c-0.266 0-0.5-0.234-0.5-0.5v-3c0-0.266 0.234-0.5 0.5-0.5h21c0.266 0 0.5 0.234 0.5 0.5zM28 2.5v3c0 0.266-0.234 0.5-0.5 0.5h-21c-0.266 0-0.5-0.234-0.5-0.5v-3c0-0.266 0.234-0.5 0.5-0.5h21c0.266 0 0.5 0.234 0.5 0.5z"></path>
+    </symbol>
+    <symbol id="icon-check-square-o" viewBox="0 0 26 28">
+      <title>check-square-o</title>
+      <path d="M22 14.531v4.969c0 2.484-2.016 4.5-4.5 4.5h-13c-2.484 0-4.5-2.016-4.5-4.5v-13c0-2.484 2.016-4.5 4.5-4.5h13c0.625 0 1.25 0.125 1.828 0.391 0.141 0.063 0.25 0.203 0.281 0.359 0.031 0.172-0.016 0.328-0.141 0.453l-0.766 0.766c-0.094 0.094-0.234 0.156-0.359 0.156-0.047 0-0.094-0.016-0.141-0.031-0.234-0.063-0.469-0.094-0.703-0.094h-13c-1.375 0-2.5 1.125-2.5 2.5v13c0 1.375 1.125 2.5 2.5 2.5h13c1.375 0 2.5-1.125 2.5-2.5v-3.969c0-0.125 0.047-0.25 0.141-0.344l1-1c0.109-0.109 0.234-0.156 0.359-0.156 0.063 0 0.125 0.016 0.187 0.047 0.187 0.078 0.313 0.25 0.313 0.453zM25.609 6.891l-12.719 12.719c-0.5 0.5-1.281 0.5-1.781 0l-6.719-6.719c-0.5-0.5-0.5-1.281 0-1.781l1.719-1.719c0.5-0.5 1.281-0.5 1.781 0l4.109 4.109 10.109-10.109c0.5-0.5 1.281-0.5 1.781 0l1.719 1.719c0.5 0.5 0.5 1.281 0 1.781z"></path>
+    </symbol>
+    <symbol id="icon-play" viewBox="0 0 22 28">
+      <title>play</title>
+      <path d="M21.625 14.484l-20.75 11.531c-0.484 0.266-0.875 0.031-0.875-0.516v-23c0-0.547 0.391-0.781 0.875-0.516l20.75 11.531c0.484 0.266 0.484 0.703 0 0.969z"></path>
+    </symbol>
+    <symbol id="icon-pause" viewBox="0 0 24 28">
+      <title>pause</title>
+      <path d="M24 3v22c0 0.547-0.453 1-1 1h-8c-0.547 0-1-0.453-1-1v-22c0-0.547 0.453-1 1-1h8c0.547 0 1 0.453 1 1zM10 3v22c0 0.547-0.453 1-1 1h-8c-0.547 0-1-0.453-1-1v-22c0-0.547 0.453-1 1-1h8c0.547 0 1 0.453 1 1z"></path>
+    </symbol>
+    <symbol id="icon-stop" viewBox="0 0 24 28">
+      <title>stop</title>
+      <path d="M24 3v22c0 0.547-0.453 1-1 1h-22c-0.547 0-1-0.453-1-1v-22c0-0.547 0.453-1 1-1h22c0.547 0 1 0.453 1 1z"></path>
+    </symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 19 28">
+      <title>chevron-right</title>
+      <path d="M17.297 13.703l-11.594 11.594c-0.391 0.391-1.016 0.391-1.406 0l-2.594-2.594c-0.391-0.391-0.391-1.016 0-1.406l8.297-8.297-8.297-8.297c-0.391-0.391-0.391-1.016 0-1.406l2.594-2.594c0.391-0.391 1.016-0.391 1.406 0l11.594 11.594c0.391 0.391 0.391 1.016 0 1.406z"></path>
+    </symbol>
+    <symbol id="icon-close-circle" viewBox="0 0 24 28">
+      <title>close-circle</title>
+      <path d="M17.953 17.531c0-0.266-0.109-0.516-0.297-0.703l-2.828-2.828 2.828-2.828c0.187-0.187 0.297-0.438 0.297-0.703s-0.109-0.531-0.297-0.719l-1.406-1.406c-0.187-0.187-0.453-0.297-0.719-0.297s-0.516 0.109-0.703 0.297l-2.828 2.828-2.828-2.828c-0.187-0.187-0.438-0.297-0.703-0.297s-0.531 0.109-0.719 0.297l-1.406 1.406c-0.187 0.187-0.297 0.453-0.297 0.719s0.109 0.516 0.297 0.703l2.828 2.828-2.828 2.828c-0.187 0.187-0.297 0.438-0.297 0.703s0.109 0.531 0.297 0.719l1.406 1.406c0.187 0.187 0.453 0.297 0.719 0.297s0.516-0.109 0.703-0.297l2.828-2.828 2.828 2.828c0.187 0.187 0.438 0.297 0.703 0.297s0.531-0.109 0.719-0.297l1.406-1.406c0.187-0.187 0.297-0.453 0.297-0.719zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12 12 5.375 12 12z"></path>
+    </symbol>
+    <symbol id="icon-question-circle" viewBox="0 0 24 28">
+      <title>question-circle</title>
+      <path d="M14 21.5v-3c0-0.281-0.219-0.5-0.5-0.5h-3c-0.281 0-0.5 0.219-0.5 0.5v3c0 0.281 0.219 0.5 0.5 0.5h3c0.281 0 0.5-0.219 0.5-0.5zM18 11c0-2.859-3-5-5.688-5-2.547 0-4.453 1.094-5.797 3.328-0.141 0.219-0.078 0.5 0.125 0.656l2.063 1.563c0.078 0.063 0.187 0.094 0.297 0.094 0.141 0 0.297-0.063 0.391-0.187 0.734-0.938 1.047-1.219 1.344-1.437 0.266-0.187 0.781-0.375 1.344-0.375 1 0 1.922 0.641 1.922 1.328 0 0.812-0.422 1.219-1.375 1.656-1.109 0.5-2.625 1.797-2.625 3.313v0.562c0 0.281 0.219 0.5 0.5 0.5h3c0.281 0 0.5-0.219 0.5-0.5v0c0-0.359 0.453-1.125 1.188-1.547 1.188-0.672 2.812-1.578 2.812-3.953zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12 12 5.375 12 12z"></path>
+    </symbol>
+    <symbol id="icon-info-circle" viewBox="0 0 24 28">
+      <title>info-circle</title>
+      <path d="M16 21.5v-2.5c0-0.281-0.219-0.5-0.5-0.5h-1.5v-8c0-0.281-0.219-0.5-0.5-0.5h-5c-0.281 0-0.5 0.219-0.5 0.5v2.5c0 0.281 0.219 0.5 0.5 0.5h1.5v5h-1.5c-0.281 0-0.5 0.219-0.5 0.5v2.5c0 0.281 0.219 0.5 0.5 0.5h7c0.281 0 0.5-0.219 0.5-0.5zM14 7.5v-2.5c0-0.281-0.219-0.5-0.5-0.5h-3c-0.281 0-0.5 0.219-0.5 0.5v2.5c0 0.281 0.219 0.5 0.5 0.5h3c0.281 0 0.5-0.219 0.5-0.5zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12 12 5.375 12 12z"></path>
+    </symbol>
+    <symbol id="icon-magnet" viewBox="0 0 24 28">
+      <title>magnet</title>
+      <path d="M24 13v2c0 6.375-5.047 11-12 11s-12-4.625-12-11v-2c0-0.547 0.453-1 1-1h6c0.547 0 1 0.453 1 1v2c0 2.859 3.328 3 4 3s4-0.141 4-3v-2c0-0.547 0.453-1 1-1h6c0.547 0 1 0.453 1 1zM8 3v6c0 0.547-0.453 1-1 1h-6c-0.547 0-1-0.453-1-1v-6c0-0.547 0.453-1 1-1h6c0.547 0 1 0.453 1 1zM24 3v6c0 0.547-0.453 1-1 1h-6c-0.547 0-1-0.453-1-1v-6c0-0.547 0.453-1 1-1h6c0.547 0 1 0.453 1 1z"></path>
+    </symbol>
+    <symbol id="icon-folder-open" viewBox="0 0 29 28">
+      <title>folder-open</title>
+      <path d="M29.359 14.875c0 0.375-0.234 0.75-0.484 1.031l-5.25 6.188c-0.906 1.062-2.75 1.906-4.125 1.906h-17c-0.562 0-1.359-0.172-1.359-0.875 0-0.375 0.234-0.75 0.484-1.031l5.25-6.188c0.906-1.062 2.75-1.906 4.125-1.906h17c0.562 0 1.359 0.172 1.359 0.875zM24 9.5v2.5h-13c-1.953 0-4.375 1.109-5.641 2.609l-5.344 6.281c0-0.125-0.016-0.266-0.016-0.391v-15c0-1.922 1.578-3.5 3.5-3.5h5c1.922 0 3.5 1.578 3.5 3.5v0.5h8.5c1.922 0 3.5 1.578 3.5 3.5z"></path>
+    </symbol>
+    <symbol id="icon-cogs" viewBox="0 0 30 28">
+      <title>cogs</title>
+      <path d="M14 14c0-2.203-1.797-4-4-4s-4 1.797-4 4 1.797 4 4 4 4-1.797 4-4zM26 22c0-1.094-0.906-2-2-2s-2 0.906-2 2c0 1.109 0.906 2 2 2 1.109 0 2-0.906 2-2zM26 6c0-1.094-0.906-2-2-2s-2 0.906-2 2c0 1.109 0.906 2 2 2 1.109 0 2-0.906 2-2zM20 12.578v2.891c0 0.203-0.156 0.438-0.359 0.469l-2.422 0.375c-0.125 0.406-0.297 0.797-0.5 1.188 0.438 0.625 0.906 1.203 1.406 1.797 0.063 0.094 0.109 0.187 0.109 0.313 0 0.109-0.031 0.219-0.109 0.297-0.313 0.422-2.063 2.328-2.516 2.328-0.125 0-0.234-0.047-0.328-0.109l-1.797-1.406c-0.391 0.203-0.781 0.359-1.203 0.484-0.078 0.797-0.156 1.656-0.359 2.422-0.063 0.219-0.25 0.375-0.469 0.375h-2.906c-0.219 0-0.438-0.172-0.469-0.391l-0.359-2.391c-0.406-0.125-0.797-0.297-1.172-0.484l-1.844 1.391c-0.078 0.078-0.203 0.109-0.313 0.109-0.125 0-0.234-0.047-0.328-0.125-0.406-0.375-2.25-2.047-2.25-2.5 0-0.109 0.047-0.203 0.109-0.297 0.453-0.594 0.922-1.172 1.375-1.781-0.219-0.422-0.406-0.844-0.547-1.281l-2.375-0.375c-0.219-0.031-0.375-0.234-0.375-0.453v-2.891c0-0.203 0.156-0.438 0.359-0.469l2.422-0.375c0.125-0.406 0.297-0.797 0.5-1.188-0.438-0.625-0.906-1.203-1.406-1.797-0.063-0.094-0.109-0.203-0.109-0.313s0.031-0.219 0.109-0.313c0.313-0.422 2.063-2.312 2.516-2.312 0.125 0 0.234 0.047 0.328 0.109l1.797 1.406c0.391-0.203 0.781-0.359 1.203-0.5 0.078-0.781 0.156-1.641 0.359-2.406 0.063-0.219 0.25-0.375 0.469-0.375h2.906c0.219 0 0.438 0.172 0.469 0.391l0.359 2.391c0.406 0.125 0.797 0.297 1.172 0.484l1.844-1.391c0.094-0.078 0.203-0.109 0.313-0.109 0.125 0 0.234 0.047 0.328 0.125 0.406 0.375 2.25 2.063 2.25 2.5 0 0.109-0.047 0.203-0.109 0.297-0.453 0.609-0.922 1.172-1.359 1.781 0.203 0.422 0.391 0.844 0.531 1.281l2.375 0.359c0.219 0.047 0.375 0.25 0.375 0.469zM30 20.906v2.188c0 0.234-2.016 0.453-2.328 0.484-0.125 0.297-0.281 0.562-0.469 0.812 0.141 0.313 0.797 1.875 0.797 2.156 0 0.047-0.016 0.078-0.063 0.109-0.187 0.109-1.859 1.109-1.937 1.109-0.203 0-1.375-1.563-1.531-1.797-0.156 0.016-0.313 0.031-0.469 0.031s-0.313-0.016-0.469-0.031c-0.156 0.234-1.328 1.797-1.531 1.797-0.078 0-1.75-1-1.937-1.109-0.047-0.031-0.063-0.078-0.063-0.109 0-0.266 0.656-1.844 0.797-2.156-0.187-0.25-0.344-0.516-0.469-0.812-0.313-0.031-2.328-0.25-2.328-0.484v-2.188c0-0.234 2.016-0.453 2.328-0.484 0.125-0.281 0.281-0.562 0.469-0.812-0.141-0.313-0.797-1.891-0.797-2.156 0-0.031 0.016-0.078 0.063-0.109 0.187-0.094 1.859-1.094 1.937-1.094 0.203 0 1.375 1.547 1.531 1.781 0.156-0.016 0.313-0.031 0.469-0.031s0.313 0.016 0.469 0.031c0.438-0.609 0.906-1.219 1.437-1.75l0.094-0.031c0.078 0 1.75 0.984 1.937 1.094 0.047 0.031 0.063 0.078 0.063 0.109 0 0.281-0.656 1.844-0.797 2.156 0.187 0.25 0.344 0.531 0.469 0.812 0.313 0.031 2.328 0.25 2.328 0.484zM30 4.906v2.187c0 0.234-2.016 0.453-2.328 0.484-0.125 0.297-0.281 0.562-0.469 0.812 0.141 0.313 0.797 1.875 0.797 2.156 0 0.047-0.016 0.078-0.063 0.109-0.187 0.109-1.859 1.109-1.937 1.109-0.203 0-1.375-1.563-1.531-1.797-0.156 0.016-0.313 0.031-0.469 0.031s-0.313-0.016-0.469-0.031c-0.156 0.234-1.328 1.797-1.531 1.797-0.078 0-1.75-1-1.937-1.109-0.047-0.031-0.063-0.078-0.063-0.109 0-0.266 0.656-1.844 0.797-2.156-0.187-0.25-0.344-0.516-0.469-0.812-0.313-0.031-2.328-0.25-2.328-0.484v-2.188c0-0.234 2.016-0.453 2.328-0.484 0.125-0.281 0.281-0.562 0.469-0.812-0.141-0.313-0.797-1.891-0.797-2.156 0-0.031 0.016-0.078 0.063-0.109 0.187-0.094 1.859-1.094 1.937-1.094 0.203 0 1.375 1.547 1.531 1.781 0.156-0.016 0.313-0.031 0.469-0.031s0.313 0.016 0.469 0.031c0.438-0.609 0.906-1.219 1.437-1.75l0.094-0.031c0.078 0 1.75 0.984 1.937 1.094 0.047 0.031 0.063 0.078 0.063 0.109 0 0.281-0.656 1.844-0.797 2.156 0.187 0.25 0.344 0.531 0.469 0.812 0.313 0.031 2.328 0.25 2.328 0.484z"></path>
+    </symbol>
+    <symbol id="icon-upload" viewBox="0 0 26 28">
+      <title>upload</title>
+      <path d="M20 23c0-0.547-0.453-1-1-1s-1 0.453-1 1 0.453 1 1 1 1-0.453 1-1zM24 23c0-0.547-0.453-1-1-1s-1 0.453-1 1 0.453 1 1 1 1-0.453 1-1zM26 19.5v5c0 0.828-0.672 1.5-1.5 1.5h-23c-0.828 0-1.5-0.672-1.5-1.5v-5c0-0.828 0.672-1.5 1.5-1.5h6.672c0.422 1.156 1.531 2 2.828 2h4c1.297 0 2.406-0.844 2.828-2h6.672c0.828 0 1.5 0.672 1.5 1.5zM20.922 9.375c-0.156 0.375-0.516 0.625-0.922 0.625h-4v7c0 0.547-0.453 1-1 1h-4c-0.547 0-1-0.453-1-1v-7h-4c-0.406 0-0.766-0.25-0.922-0.625-0.156-0.359-0.078-0.797 0.219-1.078l7-7c0.187-0.203 0.453-0.297 0.703-0.297s0.516 0.094 0.703 0.297l7 7c0.297 0.281 0.375 0.719 0.219 1.078z"></path>
+    </symbol>
+    <symbol id="icon-arrow-circle-down" viewBox="0 0 24 28">
+      <title>arrow-circle-down</title>
+      <path d="M20.062 14.016c0-0.266-0.094-0.516-0.281-0.703l-1.422-1.422c-0.187-0.187-0.438-0.281-0.703-0.281s-0.516 0.094-0.703 0.281l-2.953 2.953v-7.844c0-0.547-0.453-1-1-1h-2c-0.547 0-1 0.453-1 1v7.844l-2.953-2.953c-0.187-0.187-0.438-0.297-0.703-0.297s-0.516 0.109-0.703 0.297l-1.422 1.422c-0.187 0.187-0.281 0.438-0.281 0.703s0.094 0.516 0.281 0.703l7.078 7.078c0.187 0.187 0.438 0.281 0.703 0.281s0.516-0.094 0.703-0.281l7.078-7.078c0.187-0.187 0.281-0.438 0.281-0.703zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12 12 5.375 12 12z"></path>
+    </symbol>
+    <symbol id="icon-link" viewBox="0 0 26 28">
+      <title>link</title>
+      <path d="M22.75 19c0-0.406-0.156-0.781-0.438-1.062l-3.25-3.25c-0.281-0.281-0.672-0.438-1.062-0.438-0.453 0-0.812 0.172-1.125 0.5 0.516 0.516 1.125 0.953 1.125 1.75 0 0.828-0.672 1.5-1.5 1.5-0.797 0-1.234-0.609-1.75-1.125-0.328 0.313-0.516 0.672-0.516 1.141 0 0.391 0.156 0.781 0.438 1.062l3.219 3.234c0.281 0.281 0.672 0.422 1.062 0.422s0.781-0.141 1.062-0.406l2.297-2.281c0.281-0.281 0.438-0.656 0.438-1.047zM11.766 7.984c0-0.391-0.156-0.781-0.438-1.062l-3.219-3.234c-0.281-0.281-0.672-0.438-1.062-0.438s-0.781 0.156-1.062 0.422l-2.297 2.281c-0.281 0.281-0.438 0.656-0.438 1.047 0 0.406 0.156 0.781 0.438 1.062l3.25 3.25c0.281 0.281 0.672 0.422 1.062 0.422 0.453 0 0.812-0.156 1.125-0.484-0.516-0.516-1.125-0.953-1.125-1.75 0-0.828 0.672-1.5 1.5-1.5 0.797 0 1.234 0.609 1.75 1.125 0.328-0.313 0.516-0.672 0.516-1.141zM25.75 19c0 1.188-0.484 2.344-1.328 3.172l-2.297 2.281c-0.844 0.844-1.984 1.297-3.172 1.297-1.203 0-2.344-0.469-3.187-1.328l-3.219-3.234c-0.844-0.844-1.297-1.984-1.297-3.172 0-1.234 0.5-2.406 1.375-3.266l-1.375-1.375c-0.859 0.875-2.016 1.375-3.25 1.375-1.188 0-2.344-0.469-3.187-1.313l-3.25-3.25c-0.859-0.859-1.313-1.984-1.313-3.187 0-1.188 0.484-2.344 1.328-3.172l2.297-2.281c0.844-0.844 1.984-1.297 3.172-1.297 1.203 0 2.344 0.469 3.187 1.328l3.219 3.234c0.844 0.844 1.297 1.984 1.297 3.172 0 1.234-0.5 2.406-1.375 3.266l1.375 1.375c0.859-0.875 2.016-1.375 3.25-1.375 1.188 0 2.344 0.469 3.187 1.313l3.25 3.25c0.859 0.859 1.313 1.984 1.313 3.187z"></path>
+    </symbol>
+    <symbol id="icon-bars" viewBox="0 0 24 28">
+      <title>bars</title>
+      <path d="M24 21v2c0 0.547-0.453 1-1 1h-22c-0.547 0-1-0.453-1-1v-2c0-0.547 0.453-1 1-1h22c0.547 0 1 0.453 1 1zM24 13v2c0 0.547-0.453 1-1 1h-22c-0.547 0-1-0.453-1-1v-2c0-0.547 0.453-1 1-1h22c0.547 0 1 0.453 1 1zM24 5v2c0 0.547-0.453 1-1 1h-22c-0.547 0-1-0.453-1-1v-2c0-0.547 0.453-1 1-1h22c0.547 0 1 0.453 1 1z"></path>
+    </symbol>
+    <symbol id="icon-cloud-download" viewBox="0 0 30 28">
+      <title>cloud-download</title>
+      <path d="M20 14.5c0-0.281-0.219-0.5-0.5-0.5h-3.5v-5.5c0-0.266-0.234-0.5-0.5-0.5h-3c-0.266 0-0.5 0.234-0.5 0.5v5.5h-3.5c-0.281 0-0.5 0.234-0.5 0.5 0 0.125 0.047 0.266 0.141 0.359l5.5 5.5c0.094 0.094 0.219 0.141 0.359 0.141 0.125 0 0.266-0.047 0.359-0.141l5.484-5.484c0.094-0.109 0.156-0.234 0.156-0.375zM30 18c0 3.313-2.688 6-6 6h-17c-3.859 0-7-3.141-7-7 0-2.719 1.578-5.187 4.031-6.328-0.016-0.234-0.031-0.453-0.031-0.672 0-4.422 3.578-8 8-8 3.25 0 6.172 1.969 7.406 4.969 0.719-0.625 1.641-0.969 2.594-0.969 2.203 0 4 1.797 4 4 0 0.766-0.219 1.516-0.641 2.156 2.719 0.641 4.641 3.063 4.641 5.844z"></path>
+    </symbol>
+    <symbol id="icon-file-text-o" viewBox="0 0 24 28">
+      <title>file-text-o</title>
+      <path d="M22.937 5.938c0.578 0.578 1.062 1.734 1.062 2.562v18c0 0.828-0.672 1.5-1.5 1.5h-21c-0.828 0-1.5-0.672-1.5-1.5v-25c0-0.828 0.672-1.5 1.5-1.5h14c0.828 0 1.984 0.484 2.562 1.062zM16 2.125v5.875h5.875c-0.094-0.266-0.234-0.531-0.344-0.641l-4.891-4.891c-0.109-0.109-0.375-0.25-0.641-0.344zM22 26v-16h-6.5c-0.828 0-1.5-0.672-1.5-1.5v-6.5h-12v24h20zM6 12.5c0-0.281 0.219-0.5 0.5-0.5h11c0.281 0 0.5 0.219 0.5 0.5v1c0 0.281-0.219 0.5-0.5 0.5h-11c-0.281 0-0.5-0.219-0.5-0.5v-1zM17.5 16c0.281 0 0.5 0.219 0.5 0.5v1c0 0.281-0.219 0.5-0.5 0.5h-11c-0.281 0-0.5-0.219-0.5-0.5v-1c0-0.281 0.219-0.5 0.5-0.5h11zM17.5 20c0.281 0 0.5 0.219 0.5 0.5v1c0 0.281-0.219 0.5-0.5 0.5h-11c-0.281 0-0.5-0.219-0.5-0.5v-1c0-0.281 0.219-0.5 0.5-0.5h11z"></path>
+    </symbol>
+    <symbol id="icon-puzzle-piece" viewBox="0 0 26 28">
+      <title>puzzle-piece</title>
+      <path d="M26 17.156c0 1.609-0.922 2.953-2.625 2.953-1.906 0-2.406-1.734-4.125-1.734-1.25 0-1.719 0.781-1.719 1.937 0 1.219 0.5 2.391 0.484 3.594v0.078c-0.172 0-0.344 0-0.516 0.016-1.609 0.156-3.234 0.469-4.859 0.469-1.109 0-2.266-0.438-2.266-1.719 0-1.719 1.734-2.219 1.734-4.125 0-1.703-1.344-2.625-2.953-2.625-1.641 0-3.156 0.906-3.156 2.703 0 1.984 1.516 2.844 1.516 3.922 0 0.547-0.344 1.031-0.719 1.391-0.484 0.453-1.172 0.547-1.828 0.547-1.281 0-2.562-0.172-3.828-0.375-0.281-0.047-0.578-0.078-0.859-0.125l-0.203-0.031c-0.031-0.016-0.078-0.016-0.078-0.031v-16c0.063 0.047 0.984 0.156 1.141 0.187 1.266 0.203 2.547 0.375 3.828 0.375 0.656 0 1.344-0.094 1.828-0.547 0.375-0.359 0.719-0.844 0.719-1.391 0-1.078-1.516-1.937-1.516-3.922 0-1.797 1.516-2.703 3.172-2.703 1.594 0 2.938 0.922 2.938 2.625 0 1.906-1.734 2.406-1.734 4.125 0 1.281 1.156 1.719 2.266 1.719 1.797 0 3.578-0.406 5.359-0.5v0.031c-0.047 0.063-0.156 0.984-0.187 1.141-0.203 1.266-0.375 2.547-0.375 3.828 0 0.656 0.094 1.344 0.547 1.828 0.359 0.375 0.844 0.719 1.391 0.719 1.078 0 1.937-1.516 3.922-1.516 1.797 0 2.703 1.516 2.703 3.156z"></path>
+    </symbol>
+  </defs>
+</svg>
+<!-- }}} -->
+
 <!-- {{{ header -->
 <div class="navbar main-navbar navbar-static-top" ng-controller="NavCtrl">
   <div class="container">
@@ -29,7 +144,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand"><span class="fa fa-fw fa-arrow-circle-down"></span> {{ name }}</a>
+      <a class="navbar-brand"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-down"></use></svg> {{ name }}</a>
     </div>
 
     <form class="navbar-form navbar-right" role="search">
@@ -48,17 +163,17 @@
           <ul class="dropdown-menu">
             <li>
               <a href="#" ng-click="addUris()">
-                <span class="fa fa-fw fa-link">&nbsp;</span> {{ 'By URIs' | translate }}
+                <svg class="icon icon-fw"><use xlink:href="#icon-link"></use></svg> {{ 'By URIs' | translate }}
               </a>
             </li>
             <li ng-show="isFeatureEnabled('BitTorrent') && enable.torrent">
               <a href="#" ng-click="addTorrents()">
-                <span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{ 'By Torrents' | translate }}
+                <svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{ 'By Torrents' | translate }}
               </a>
             </li>
             <li ng-show="isFeatureEnabled('Metalink') && enable.metalink">
               <a href="#" ng-click="addMetalinks()">
-                <span class="fa fa-fw fa-file-text-o">&nbsp;</span> {{ 'By Metalinks' | translate }}
+                <svg class="icon icon-fw"><use xlink:href="#icon-file-text-o"></use></svg> {{ 'By Metalinks' | translate }}
               </a>
             </li>
           </ul>
@@ -70,22 +185,22 @@
             <li>
               <a
                 href="#"
-                ng-click="forcePauseAll()"><span class="fa fa-fw fa-pause">&nbsp;</span> {{ 'Pause All' | translate }}</a>
+                ng-click="forcePauseAll()"><svg class="icon icon-fw"><use xlink:href="#icon-pause"></use></svg> {{ 'Pause All' | translate }}</a>
             </li>
             <li>
               <a
                 href="#"
-                ng-click="unpauseAll()"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Resume Paused' | translate }}</a>
+                ng-click="unpauseAll()"><svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg> {{ 'Resume Paused' | translate }}</a>
             </li>
             <li>
               <a
                 href="#"
-                ng-click="purgeDownloadResult()"><span class="fa fa-fw fa-times-circle">&nbsp;</span> {{ 'Purge Completed' | translate }}</a>
+                ng-click="purgeDownloadResult()"><svg class="icon icon-fw"><use xlink:href="#icon-close-circle"></use></svg> {{ 'Purge Completed' | translate }}</a>
             </li>
             <li>
               <a
                 href="#"
-                ng-click="shutDownServer()"><span class="fa fa-fw fa-power-off">&nbsp;</span> {{ 'Shutdown Server' | translate }}</a>
+                ng-click="shutDownServer()"><svg class="icon icon-fw"><use xlink:href="#icon-power-off"></use></svg> {{ 'Shutdown Server' | translate }}</a>
             </li>
             <!-- not adding remove all as requires many rpc syscalls to finish
             <li>
@@ -109,25 +224,25 @@
             <li>
               <a
                 ng-click="changeCSettings()"
-                href="#"><span class="fa fa-fw fa-cog">&nbsp;</span> {{ 'Connection Settings' | translate }}</a>
+                href="#"><svg class="icon icon-fw"><use xlink:href="#icon-cog"></use></svg> {{ 'Connection Settings' | translate }}</a>
             </li>
 
             <li>
               <a
                 ng-click="changeGSettings()"
-                href="#"><span class="fa fa-fw fa-cogs">&nbsp;</span> {{ 'Global Settings' | translate }}</a>
+                href="#"><svg class="icon icon-fw"><use xlink:href="#icon-cogs"></use></svg> {{ 'Global Settings' | translate }}</a>
             </li>
 
             <li>
               <a
                 ng-click="showServerInfo()"
-                href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'Server info' | translate }}</a>
+                href="#"><svg class="icon icon-fw"><use xlink:href="#icon-info-circle"></use></svg> {{ 'Server info' | translate }}</a>
             </li>
 
             <li>
               <a
                 ng-click="showAbout()"
-                href="#"><span class="fa fa-fw fa-question-circle">&nbsp;</span> {{ 'About and contribute' | translate }}</a>
+                href="#"><svg class="icon icon-fw"><use xlink:href="#icon-question-circle"></use></svg> {{ 'About and contribute' | translate }}</a>
             </li>
           </ul>
         </li>
@@ -140,10 +255,10 @@
             href="#">{{ 'Miscellaneous' | translate }} <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li>
-              <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Global Statistics' | translate }}</a>
+              <a href="#"><svg class="icon icon-fw"><use xlink:href="#icon-list-alt"></use></svg> {{ 'Global Statistics' | translate }}</a>
             </li>
             <li>
-              <a href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'About' | translate }}</a>
+              <a href="#"><svg class="icon icon-fw"><use xlink:href="#icon-info-circle"></use></svg> {{ 'About' | translate }}</a>
             </li>
           </ul>
         </li>
@@ -282,8 +397,8 @@
           </div>
         </li>
         <li>
-          <span title="Upload Speed"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span>{{gstats.uploadSpeed | bspeed}}</span><br />
-          <span title="Download Speed"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span>{{gstats.downloadSpeed | bspeed}}</span>
+          <span title="Upload Speed"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-up"></use></svg>{{gstats.uploadSpeed | bspeed}}</span><br />
+          <span title="Download Speed"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg>{{gstats.downloadSpeed | bspeed}}</span>
         </li>
       </ul>
       <!-- }}} -->
@@ -399,53 +514,53 @@
                 ng-if="hasStatus(download, ['active', 'waiting'])"
                 class="btn btn-default"
                 ng-click="pause(download)">
-                <span class="fa fa-fw fa-pause"></span>
+                <svg class="icon icon-fw"><use xlink:href="#icon-pause"></use></svg>
             </button>
 
             <button
                 ng-if="hasStatus(download, 'paused')"
                 class="btn btn-default"
                 ng-click="resume(download)">
-                <span class="fa fa-fw fa-play"></span>
+                <svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg>
             </button>
 
             <button
                 ng-if="canRestart(download)"
                 class="btn btn-default"
                 ng-click="restart(download)">
-                <span class="fa fa-fw fa-repeat"></span>
+                <svg class="icon icon-fw"><use xlink:href="#icon-repeat"></use></svg>
             </button>
 
             <button
                 class="btn btn-default hidden-phone"
                 ng-click="remove(download)">
-                <span class="fa fa-fw fa-stop"></span>
+                <svg class="icon icon-fw"><use xlink:href="#icon-stop"></use></svg>
             </button>
 
             <button
                 ng-if="hasStatus(download, 'paused')"
                 class="btn btn-default"
                 ng-click="selectFiles(download)">
-                <span class="fa fa-fw fa-list"></span>
+                <svg class="icon icon-fw"><use xlink:href="#icon-list"></use></svg>
             </button>
 
             <button
                 class="btn btn-default hidden-phone"
                 ng-if="['waiting', 'active'].indexOf( getType(download) )!= -1"
                 ng-click="showSettings(download)">
-                <span class="fa fa-fw fa-cog"></span>
+                <svg class="icon icon-fw"><use xlink:href="#icon-cog"></use></svg>
             </button>
             <button
                 ng-if="hasStatus(download, 'waiting')"
                 class="btn btn-default hidden-phone"
                 ng-click="moveDown(download)">
-                <span class="fa fa-fw fa-arrow-circle-o-down"></span>
+                <svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg>
             </button>
             <button
                 ng-if="hasStatus(download, 'waiting')"
                 class="btn btn-default hidden-phone"
                 ng-click="moveUp(download)">
-                <span class="fa fa-fw fa-arrow-circle-o-up"></span>
+                <svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-up"></use></svg>
             </button>
             <div class="btn-group" dropdown>
                 <button class="btn btn-default dropdown-toggle" dropdown-toggle>
@@ -457,21 +572,21 @@
                         <a
                             ng-click="showSettings(download)"
                             ng-show="['waiting', 'active'].indexOf( getType(download) )!= -1"
-                            href="#"><span class="fa fa-fw fa-cog">&nbsp;</span> {{ 'Settings' | translate }}</a>
+                            href="#"><svg class="icon icon-fw"><use xlink:href="#icon-cog"></use></svg> {{ 'Settings' | translate }}</a>
                     </li>
 
                     <li ng-show="download.bittorrent && false">
-                        <a href="#"><span class="fa fa-fw fa-list-alt">&nbsp;</span> {{ 'Peers' | translate }}</a>
+                        <a href="#"><svg class="icon icon-fw"><use xlink:href="#icon-list-alt"></use></svg> {{ 'Peers' | translate }}</a>
                     </li>
 
                     <li>
                         <a ng-click="toggleCollapsed(download)"
-                           href="#"><span class="fa fa-fw fa-info-circle">&nbsp;</span> {{ 'More Info' | translate }}</a>
+                           href="#"><svg class="icon icon-fw"><use xlink:href="#icon-info-circle"></use></svg> {{ 'More Info' | translate }}</a>
                     </li>
 
                     <li class="visible-phone">
                         <a ng-click="remove(download)"
-                           href="#"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Remove' | translate }}</a>
+                           href="#"><svg class="icon icon-fw"><use xlink:href="#icon-times"></use></svg> {{ 'Remove' | translate }}</a>
                     </li>
                 </ul>
             </div>
@@ -479,7 +594,7 @@
         <!-- }}} -->
 
         <div class="title">
-            <span class="fa fa-fw fa-magnet" style="color: red;" ng-show="download.metadata"></span>
+            <svg ng-show="download.metadata" class="icon icon-fw" style="fill: red"><use xlink:href="#icon-magnet"></use></svg>
             {{download.name}}
         </div>
     </div>
@@ -488,31 +603,31 @@
         <ul class="stats pull-left" ng-switch-when="active">
           <!-- {{{ active download statistics -->
           <li class="label label-active hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Active' | translate }}</span>
+            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg> {{ 'Active' | translate }}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
-            <span title="{{ 'Download Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.downloadSpeed | bspeed}}</span>
+            <span title="{{ 'Download Speed' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg> {{download.downloadSpeed | bspeed}}</span>
           </li>
 
           <li ng-show="download.bittorrent" class="label label-default hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
-            <span title="{{ 'Upload Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span> {{download.uploadSpeed | bspeed}}</span>
+            <span title="{{ 'Upload Speed' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-up"></use></svg> {{download.uploadSpeed | bspeed}}</span>
           </li>
 
           <li class="label label-active">
-            <span title="{{ 'Estimated time' | translate }}"><span class="fa fa-fw fa-clock-o">&nbsp;</span> {{getEta(download) | time}}</span>
+            <span title="{{ 'Estimated time' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-clock-o"></use></svg> {{getEta(download) | time}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+            <span title="{{ 'Downloaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg> {{download.fmtCompletedLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Uploaded' | translate }}"><span class="fa fa-fw fa-upload">&nbsp;</span> {{download.fmtUploadLength}}</span>
+            <span title="{{ 'Uploaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-upload"></use></svg> {{download.fmtUploadLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
@@ -520,7 +635,7 @@
           </li>
 
           <li class="label label-active hidden-phone hidden-tablet">
-            <span title="{{ 'Progress' | translate }}"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
+            <span title="{{ 'Progress' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-chevron-right"></use></svg> {{getProgress(download)}}%</span>
           </li>
 
           <!-- }}} -->
@@ -529,31 +644,31 @@
         <ul class="stats pull-left" ng-switch-when="verifing">
           <!-- {{{ active download statistics -->
           <li class="label label-warning hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Verifing' | translate }}</span>
+            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg> {{ 'Verifing' | translate }}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
-            <span title="{{ 'Download Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.downloadSpeed | bspeed}}</span>
+            <span title="{{ 'Download Speed' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg> {{download.downloadSpeed | bspeed}}</span>
           </li>
 
           <li ng-show="download.bittorrent" class="label label-default hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
-            <span title="{{ 'Upload Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span> {{download.uploadSpeed | bspeed}}</span>
+            <span title="{{ 'Upload Speed' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-up"></use></svg> {{download.uploadSpeed | bspeed}}</span>
           </li>
 
           <li class="label label-active">
-            <span title="{{ 'Estimated time' | translate }}"><span class="fa fa-fw fa-clock-o">&nbsp;</span> {{getEta(download) | time}}</span>
+            <span title="{{ 'Estimated time' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-clock-o"></use></svg> {{getEta(download) | time}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+            <span title="{{ 'Downloaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg> {{download.fmtCompletedLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone hidden-tablet">
-            <span title="{{ 'Progress' | translate }}"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
+            <span title="{{ 'Progress' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-chevron-right"></use></svg> {{getProgress(download)}}%</span>
           </li>
 
           <!-- }}} -->
@@ -562,31 +677,31 @@
         <ul class="stats pull-left" ng-switch-when="verifyPending">
           <!-- {{{ active download statistics -->
           <li class="label label-warning hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-play">&nbsp;</span> {{ 'Verify Pending' | translate}}</span>
+            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg> {{ 'Verify Pending' | translate}}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">
-            <span title="{{ 'Download Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.downloadSpeed | bspeed}}</span>
+            <span title="{{ 'Download Speed' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg> {{download.downloadSpeed | bspeed}}</span>
           </li>
 
           <li ng-show="download.bittorrent" class="label label-default hidden-phone" ng-class="{'label-info': download.uploadSpeed > 2048}">
-            <span title="{{ 'Upload Speed' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</span> {{download.uploadSpeed | bspeed}}</span>
+            <span title="{{ 'Upload Speed' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-up"></use></svg> {{download.uploadSpeed | bspeed}}</span>
           </li>
 
           <li class="label label-active">
-            <span title="{{ 'Estimated time' | translate }}"><span class="fa fa-fw fa-clock-o">&nbsp;</span> {{getEta(download) | time}}</span>
+            <span title="{{ 'Estimated time' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-clock-o"></use></svg> {{getEta(download) | time}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+            <span title="{{ 'Downloaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg> {{download.fmtCompletedLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone hidden-tablet">
-            <span title="{{ 'Progress' | translate }}"><span class="fa fa-fw fa-chevron-right">&nbsp;</span> {{getProgress(download)}}%</span>
+            <span title="{{ 'Progress' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-chevron-right"></use></svg> {{getProgress(download)}}%</span>
           </li>
 
           <!-- }}} -->
@@ -595,19 +710,19 @@
         <ul class="stats pull-left" ng-switch-when="paused">
           <!-- {{{ paused download statistics -->
           <li class="label label-info">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-pause">&nbsp;</span> {{ 'Paused' | translate }}</span>
+            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-pause"></use></svg> {{ 'Paused' | translate }}</span>
           </li>
 
           <li class="label label-info">
-            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-info hidden-phone">
-            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-download">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+            <span title="{{ 'Downloaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-download"></use></svg> {{download.fmtCompletedLength}}</span>
           </li>
 
           <li class="label label-info hidden-phone">
-            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-folder-open"></use></svg> {{download.dir}}</span>
           </li>
 
           <!--  }}} -->
@@ -620,15 +735,15 @@
           </li>
 
           <li class="label label-default">
-            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-default hidden-phone">
-            <span title="{{ 'Downloaded' | translate }}"><span class="fa fa-fw fa-download">&nbsp;</span> {{download.fmtCompletedLength}}</span>
+            <span title="{{ 'Downloaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-download"></use></svg> {{download.fmtCompletedLength}}</span>
           </li>
 
           <li class="label label-default hidden-phone">
-            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-folder-open"></use></svg> {{download.dir}}</span>
           </li>
 
           <!--  }}} -->
@@ -638,15 +753,15 @@
           <!-- {{{ complete download statistics -->
 
           <li class="label label-success">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-check-square-o">&nbsp;</span> {{ 'Complete' | translate }}</span>
+            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-check-square-o"></use></svg> {{ 'Complete' | translate }}</span>
           </li>
 
           <li class="label label-success">
-            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Uploaded' | translate }}"><span class="fa fa-fw fa-upload">&nbsp;</span> {{download.fmtUploadLength}}</span>
+            <span title="{{ 'Uploaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-upload"></use> {{download.fmtUploadLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
@@ -654,7 +769,7 @@
           </li>
 
           <li class="label label-success hidden-phone">
-            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-folder-open"></use></svg> {{download.dir}}</span>
           </li>
 
           <!-- }}} -->
@@ -663,15 +778,15 @@
         <ul class="stats pull-left" ng-switch-when="removed">
           <!-- {{{ removed download statistics -->
           <li class="label label-warning">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-times">&nbsp;</span> {{ 'Removed' | translate }}</span>
+            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-times"></use> {{ 'Removed' | translate }}</span>
           </li>
 
           <li class="label label-warning">
-            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-warning hidden-phone">
-            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-folder-open"></use></svg> {{download.dir}}</span>
           </li>
 
           <!-- }}} -->
@@ -681,15 +796,15 @@
 
           <!-- {{{ error download statistics -->
           <li class="label label-danger">
-            <span title="{{ 'Error ' | translate }}"><span class="fa fa-fw fa-times-circle">&nbsp;</span> {{getErrorStatus(download.errorCode)}}</span>
+            <span title="{{ 'Error ' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-close-circle"></use> {{getErrorStatus(download.errorCode)}}</span>
           </li>
 
           <li class="label label-default">
-            <span title="{{ 'Download Size' | translate }}"><span class="fa fa-fw fa-cloud-download">&nbsp;</span> {{download.fmtTotalLength}}</span>
+            <span title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{download.fmtTotalLength}}</span>
           </li>
 
           <li class="label label-default hidden-phone">
-            <span title="{{ 'Download Path' | translate }}"><span class="fa fa-fw fa-folder-open">&nbsp;</span> {{download.dir}}</span>
+            <span title="{{ 'Download Path' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-folder-open"></use></svg> {{download.dir}}</span>
           </li>
 
           <!-- }}} -->
@@ -708,21 +823,21 @@
             <canvas bitfield="download.bitfield" draw="!download.collapsed" pieces="download.numPieces" class="progress chunk-canvas" width="1400" chunkbar></canvas>
           </div>
           <ul class="stats download-item">
-            <li class="label label-default" title="{{ 'Estimated time' | translate }}"><i class="fa fa-fw fa-clock-o">&nbsp;</i> <span class="download-eta">{{getEta(download) | time}}</span></li>
-            <li class="label label-default" title="{{ 'Download Size' | translate }}"><i class="fa fa-fw fa-cloud-download">&nbsp;</i> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
-            <li class="label label-default" title="{{ 'Downloaded' | translate }}"><i class="fa fa-fw fa-download">&nbsp;</i> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
-            <li class="label label-default" title="{{ 'Download Speed' | translate }}"><i class="fa fa-fw fa-arrow-circle-o-down">&nbsp;</i> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
+            <li class="label label-default" title="{{ 'Estimated time' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-clock-o"></use></svg> <span class="download-eta">{{getEta(download) | time}}</span></li>
+            <li class="label label-default" title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
+            <li class="label label-default" title="{{ 'Downloaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-download"></use></svg> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
+            <li class="label label-default" title="{{ 'Download Speed' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
 
-            <li class="label label-default" title="{{ 'Upload Speed' | translate }}" ng-show="download.bittorrent"><i class="fa fa-fw fa-arrow-circle-o-up">&nbsp;</i> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
-            <li class="label label-default" title="{{ 'Uploaded' | translate }}" ng-show="download.bittorrent"><i class="fa fa-fw fa-upload">&nbsp;</i> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
+            <li class="label label-default" title="{{ 'Upload Speed' | translate }}" ng-show="download.bittorrent"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-up"></use></svg> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
+            <li class="label label-default" title="{{ 'Uploaded' | translate }}" ng-show="download.bittorrent"><svg class="icon icon-fw"><use xlink:href="#icon-upload"></use></svg> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
             <li class="label label-default" title="{{ 'Ratio' | translate }}" ng-show="download.bittorrent"><span title="{{ 'Ratio' | translate }}">{{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span></li>
 
-            <li class="label label-default" title={{download.connectionsTitle}}><i class="fa fa-fw fa-link">&nbsp;</i> <span class="download-connections">{{download.connections}}{{download.numSeeders}}</span></li>
+            <li class="label label-default" title={{download.connectionsTitle}}><svg class="icon icon-fw"><use xlink:href="#icon-link"></use></svg> <span class="download-connections">{{download.connections}}{{download.numSeeders}}</span></li>
 
-            <li class="label label-default" title="{{ 'Download GID' | translate }}"><i class="fa fa-fw fa-bars">&nbsp;</i> <span class="download-gid">{{download.gid}}</span></li>
-            <li class="label label-default" title="{{ 'Number of Pieces' | translate }}">{{ '# of' | translate }} <i class="fa fa-fw fa-puzzle-piece">&nbsp;</i> <span class="download-numPieces">{{download.numPieces}}</span></li>
-            <li class="label label-default" title="{{ 'Piece Length' | translate }}"><i class="fa fa-fw fa-puzzle-piece"></i> {{ 'Length' | translate }}&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
-            <li class="label label-default" title="{{ 'Download Path' | translate }}"><i class="fa fa-fw fa-folder-open">&nbsp;</i> <span class="download-dir">{{download.dir}}</span></li>
+            <li class="label label-default" title="{{ 'Download GID' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-bars"></use></svg> <span class="download-gid">{{download.gid}}</span></li>
+            <li class="label label-default" title="{{ 'Number of Pieces' | translate }}">{{ '# of' | translate }} <svg class="icon icon-fw"><use xlink:href="#icon-puzzle-piece"></use></svg> <span class="download-numPieces">{{download.numPieces}}</span></li>
+            <li class="label label-default" title="{{ 'Piece Length' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-puzzle-piece"></use></svg> {{ 'Length' | translate }}&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
+            <li class="label label-default" title="{{ 'Download Path' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-folder-open"></use></svg> <span class="download-dir">{{download.dir}}</span></li>
           </ul>
           <ul class="download-files hidden-phone download-item">
             <li class="label label-default" ng-repeat="file in download.files" ng-class="{'label-success': file.selected}">
@@ -787,8 +902,7 @@
         <div>
           <div ng-click="getUris.downloadSettingsCollapsed = !getUris.downloadSettingsCollapsed" class="modal-advanced-title">
             {{ 'Download settings' | translate }}
-            <i ng-hide="!getUris.downloadSettingsCollapsed" class="fa fa-fw fa-caret-right"></i>
-            <i ng-hide="getUris.downloadSettingsCollapsed" class="fa fa-fw fa-caret-down"></i>
+            <span class="caret" ng-class="{ 'rotate-90': getUris.downloadSettingsCollapsed }"></span>
           </div>
           <div collapse="getUris.downloadSettingsCollapsed" class="form-horizontal modal-advanced-options">
             <div class="form-group" ng-repeat="(name, set) in getUris.settings">
@@ -807,8 +921,7 @@
           <br />
           <div ng-click="getUris.advancedSettingsCollapsed = !getUris.advancedSettingsCollapsed" class="modal-advanced-title">
             {{ 'Advanced settings' | translate }}
-            <i ng-hide="!getUris.advancedSettingsCollapsed" class="fa fa-fw fa-caret-right"></i>
-            <i ng-hide="getUris.advancedSettingsCollapsed" class="fa fa-fw fa-caret-down"></i>
+            <span class="caret" ng-class="{ 'rotate-90': getUris.advancedSettingsCollapsed }"></span>
           </div>
           <div collapse="getUris.advancedSettingsCollapsed" class="form-horizontal modal-advanced-options">
             <div class="form-group" ng-repeat="(name, set) in getUris.fsettings">
@@ -837,7 +950,7 @@
 <!-- {{{ add torrent modal -->
 <script type="text/ng-template" id="getTorrents.html">
   <div class="modal-header">
-    <button class="close" ng-click="$dismiss()">x</button>
+    <button class="close" ng-click="$dismiss()">&times;</button>
     <h4>{{ 'Add Downloads By Torrents' | translate }}</h4>
   </div>
   <form class="modal-body">
@@ -877,8 +990,7 @@
         <br />
         <div ng-click="getTorrents.collapsed = !getTorrents.collapsed" class="modal-advanced-title">
           {{ 'Advanced settings' | translate }}
-          <i ng-hide="!getTorrents.collapsed" class="fa fa-fw fa-caret-right"></i>
-          <i ng-hide="getTorrents.collapsed" class="fa fa-fw fa-caret-down"></i>
+          <span class="caret" ng-class="{ 'rotate-90': getTorrents.collapsed }"></span>
         </div>
         <div collapse="getTorrents.collapsed" class="form-horizontal modal-advanced-options">
           <div class="form-group" ng-repeat="(name, set) in getTorrents.fsettings">
@@ -907,7 +1019,7 @@
 <!-- {{{ add metalink modal -->
 <script type="text/ng-template" id="getMetalinks.html">
   <div class="modal-header">
-    <button class="close" ng-click="$dismiss()">x</button>
+    <button class="close" ng-click="$dismiss()">&times;</button>
     <h4>{{ 'Add Downloads By Metalinks' | translate }}</h4>
   </div>
   <form class="modal-body">
@@ -946,8 +1058,7 @@
         <br />
         <div ng-click="getMetalinks.collapsed = !getMetalinks.collapsed" class="modal-advanced-title">
           {{ 'Advanced settings' | translate }}
-          <i ng-hide="!getMetalinks.collapsed" class="fa fa-fw fa-caret-right"></i>
-          <i ng-hide="getMetalinks.collapsed" class="fa fa-fw fa-caret-down"></i>
+          <span class="caret" ng-class="{ 'rotate-90': getMetalinks.collapsed }"></span>
         </div>
         <div collapse="getMetalinks.collapsed" class="form-horizontal modal-advanced-options">
           <div class="form-group" ng-repeat="(name, set) in getMetalinks.fsettings">
@@ -1009,7 +1120,7 @@
 <!-- {{{ select file modal -->
 <script type="text/ng-template" id="selectFiles.html">
   <div class="modal-header">
-    <button class="close" ng-click="$dismiss()">x</button>
+    <button class="close" ng-click="$dismiss()">&times;</button>
     <h4>{{ 'Choose files to start download for' | translate }}</h4>
   </div>
 
@@ -1030,7 +1141,7 @@
 <!-- {{{ settings modal -->
 <script type="text/ng-template" id="settings.html">
   <div class="modal-header">
-    <button class="close" ng-click="$dismiss()">x</button>
+    <button class="close" ng-click="$dismiss()">&times;</button>
     <h4>{{settings.title}}</h4>
   </div>
 
@@ -1038,7 +1149,7 @@
     <div class="row">
       <div class="col-md-12 form-group filter-input-group">
         <input type="text" class="form-control input-xlarge" ng-model="propFilter" placeholder="{{ 'Filter' | translate }}"/>
-        <span class="clear-button" ng-show="propFilter" ng-click="propFilter = ''">X</span>
+        <span class="clear-button" ng-show="propFilter" ng-click="propFilter = ''">&times;</span>
       </div>
     </div>
     <form class="form-horizontal">                  
@@ -1074,7 +1185,7 @@
 <!--{{{ connection modal -->
 <script type="text/ng-template" id="connection.html">
   <div class="modal-header">
-    <button class="close" ng-click="$dismiss()">x</button>
+    <button class="close" ng-click="$dismiss()">&times;</button>
     <h4>{{ 'Connection Settings' | translate }}</h4>
   </div>
   <div class="modal-body">
@@ -1196,7 +1307,7 @@
 <!-- {{{ server info modal -->
 <script type="text/ng-template" id="server_info.html">
   <div class="modal-header">
-    <button class="close" ng-click="$dismiss()">x</button>
+    <button class="close" ng-click="$dismiss()">&times;</button>
     <h4>{{ 'Aria2 server info' | translate }}</h4>
   </div>
   <div class="modal-body">
@@ -1219,7 +1330,7 @@
 <!-- {{{ about modal -->
 <script type="text/ng-template" id="about.html">
   <div class="modal-header">
-    <button class="close" ng-click="$dismiss()">x</button>
+    <button class="close" ng-click="$dismiss()">&times;</button>
     <h4>{{ 'About and contribute' | translate }}</h4>
   </div>
   <div class="modal-body">

@@ -14,8 +14,7 @@ export default angular
             setfiles(scope, elem[0].files);
           })
           .filestyle({
-            placeholder: "No file selected",
-            iconName: "fa fa-folder-open"
+            placeholder: "No file selected"
           });
       };
     }

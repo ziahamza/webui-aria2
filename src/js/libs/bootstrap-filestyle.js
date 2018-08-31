@@ -265,7 +265,7 @@
         '<button id="' +
         id +
         '-clear" class="btn btn-default" aria-label="Clear">' +
-        '<i class="fa fa-times"></i></span></button>';
+        '<svg class="icon icon-fw"><use xlink:href="#icon-times"></span></button>';
 
       html = _self.options.buttonBefore
         ? html + btn + clear + "</div>" + _self.htmlInput()

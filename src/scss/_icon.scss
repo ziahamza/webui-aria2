@@ -1,0 +1,16 @@
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+  vertical-align: sub;
+  &.icon-fw {
+    width: 1.28571429em;
+  }
+}
+
+.rotate-90 {
+  transform: rotate(-90deg);
+}
