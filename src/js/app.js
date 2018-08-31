@@ -6,6 +6,9 @@ require("libs/bootstrap-filestyle");
 require("libs/jquery.flot.min");
 require("libs/jquery.flot.time.min");
 
+// Stylesheet
+import "app.scss";
+
 // Services
 import serviceAlerts from "services/alerts";
 import servideBase64 from "services/base64";

@@ -1,0 +1,141 @@
+.download .label {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 2s;
+  transition: all 2s;
+}
+
+.download .title {
+  font-size: 1.2em;
+  padding: 5px 0;
+}
+
+.download .progress {
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.download .progress-bar {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.download-name {
+  font-weight: bold;
+  font-size: small;
+  word-wrap: break-word;
+}
+
+.active-download,
+.waiting-download,
+.stopped-download,
+.download {
+  cursor: pointer;
+  width: 100%;
+  padding: 4px 5px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+/* fix table  layout to break words */
+@media (max-width: 767px) {
+  .active-download,
+  .waiting-download,
+  .stopped-download,
+  .download {
+    table-layout: fixed;
+  }
+}
+
+.download-graph {
+  margin: 0.5em 30px 0.5em 0;
+}
+
+@media (min-width: 1200px) {
+  .download-graph {
+    width: 50%;
+  }
+}
+
+@media (min-width: 767px) and (max-width: 1200px) {
+  .download-graph {
+    width: 60%;
+  }
+}
+
+@media (max-width: 767px) {
+  .download-graph {
+    width: 100%;
+  }
+}
+
+.large-graph {
+  width: 66%;
+}
+
+.stats {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.stats li {
+  display: inline-block;
+  margin-bottom: 2px;
+  padding: 0.75ex;
+  min-width: 20ex;
+  text-align: center;
+}
+
+.download-item {
+  margin: 0;
+  padding: 0.5ex 6px 0.5ex;
+}
+
+.download-controls .btn-group {
+  float: right;
+}
+
+.download-controls > .btn-group {
+  margin: 5px 5px 5px 0;
+}
+
+.download-controls .btn-group .btn {
+  height: 100%;
+}
+
+.download-controls .btn-group .btn span {
+  font-size: 14px;
+  color: gray;
+}
+
+.download-detail h4 {
+  margin-left: 10px;
+}
+
+.download-files {
+  margin: 0;
+}
+
+.download-files li {
+  display: inline-block;
+  padding: 0.8ex;
+  max-width: 100%;
+  margin: 0 6px 6px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.download-files a {
+  color: #fff;
+}
+
+.download-empty {
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
