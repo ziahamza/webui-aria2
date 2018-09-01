@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "webpack -d --watch --progress & node node-server",
     "build": "webpack -p --progress",
+    "analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json ./build -p 9999",
     "format": "prettier -l --write  \"**/*{js,scss}\" "
   },
   "repository": {
@@ -38,6 +39,7 @@
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "webpack": "^4.17.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0"
   },
   "devDependencies": {
