@@ -43,8 +43,20 @@ const config = {
       filename: "[name].css"
     })
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: { test: /[\\/]node_modules[\\/]/, name: "vendor", chunks: "all" }
+      }
+    }
+  },
   resolve: {
-    modules: [path.resolve("./node_modules"), path.resolve("./src/js"), path.resolve("./src/scss")]
+    modules: [
+      path.resolve("./"),
+      path.resolve("./node_modules"),
+      path.resolve("./src/js"),
+      path.resolve("./src/scss")
+    ]
   }
 };
 

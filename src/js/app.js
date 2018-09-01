@@ -1,3 +1,6 @@
+// WebUI Aria2 is an agular application
+// This file imports all the required modules for the application
+
 // Vendor libraries
 import angular from "angular";
 import angularTranslate from "angular-translate";
@@ -6,7 +9,7 @@ require("libs/bootstrap-filestyle");
 require("libs/jquery.flot.min");
 require("libs/jquery.flot.time.min");
 
-// Stylesheet
+// Stylesheets
 import "app.scss";
 
 // Services
@@ -106,32 +109,36 @@ function mergeTranslation(translation, base) {
   return translation;
 }
 
-webui.config(function($translateProvider, $locationProvider) {
-  $translateProvider
-    .translations("en_US", translations.en_US)
-    .translations("nl_NL", mergeTranslation(translations.nl_NL, translations.en_US))
-    .translations("th_TH", mergeTranslation(translations.th_TH, translations.en_US))
-    .translations("zh_CN", mergeTranslation(translations.zh_CN, translations.en_US))
-    .translations("zh_TW", mergeTranslation(translations.zh_TW, translations.en_US))
-    .translations("pl_PL", mergeTranslation(translations.pl_PL, translations.en_US))
-    .translations("fr_FR", mergeTranslation(translations.fr_FR, translations.en_US))
-    .translations("de_DE", mergeTranslation(translations.de_DE, translations.en_US))
-    .translations("es_ES", mergeTranslation(translations.es_ES, translations.en_US))
-    .translations("ru_RU", mergeTranslation(translations.ru_RU, translations.en_US))
-    .translations("it_IT", mergeTranslation(translations.it_IT, translations.en_US))
-    .translations("tr_TR", mergeTranslation(translations.tr_TR, translations.en_US))
-    .translations("cs_CZ", mergeTranslation(translations.cs_CZ, translations.en_US))
-    .translations("fa_IR", mergeTranslation(translations.fa_IR, translations.en_US))
-    .translations("id_ID", mergeTranslation(translations.id_ID, translations.en_US))
-    .translations("pt_BR", mergeTranslation(translations.pt_BR, translations.en_US))
-    .useSanitizeValueStrategy("escapeParameters")
-    .determinePreferredLanguage();
+webui.config([
+  "$translateProvider",
+  "$locationProvider",
+  function($translateProvider, $locationProvider) {
+    $translateProvider
+      .translations("en_US", translations.en_US)
+      .translations("nl_NL", mergeTranslation(translations.nl_NL, translations.en_US))
+      .translations("th_TH", mergeTranslation(translations.th_TH, translations.en_US))
+      .translations("zh_CN", mergeTranslation(translations.zh_CN, translations.en_US))
+      .translations("zh_TW", mergeTranslation(translations.zh_TW, translations.en_US))
+      .translations("pl_PL", mergeTranslation(translations.pl_PL, translations.en_US))
+      .translations("fr_FR", mergeTranslation(translations.fr_FR, translations.en_US))
+      .translations("de_DE", mergeTranslation(translations.de_DE, translations.en_US))
+      .translations("es_ES", mergeTranslation(translations.es_ES, translations.en_US))
+      .translations("ru_RU", mergeTranslation(translations.ru_RU, translations.en_US))
+      .translations("it_IT", mergeTranslation(translations.it_IT, translations.en_US))
+      .translations("tr_TR", mergeTranslation(translations.tr_TR, translations.en_US))
+      .translations("cs_CZ", mergeTranslation(translations.cs_CZ, translations.en_US))
+      .translations("fa_IR", mergeTranslation(translations.fa_IR, translations.en_US))
+      .translations("id_ID", mergeTranslation(translations.id_ID, translations.en_US))
+      .translations("pt_BR", mergeTranslation(translations.pt_BR, translations.en_US))
+      .useSanitizeValueStrategy("escapeParameters")
+      .determinePreferredLanguage();
 
-  $locationProvider.html5Mode({
-    enabled: true,
-    requireBase: false
-  });
-});
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
+  }
+]);
 
 webui.directive("textarea", directiveTextarea);
 

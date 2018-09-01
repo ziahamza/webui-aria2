@@ -130,251 +130,199 @@
       <title>puzzle-piece</title>
       <path d="M26 17.156c0 1.609-0.922 2.953-2.625 2.953-1.906 0-2.406-1.734-4.125-1.734-1.25 0-1.719 0.781-1.719 1.937 0 1.219 0.5 2.391 0.484 3.594v0.078c-0.172 0-0.344 0-0.516 0.016-1.609 0.156-3.234 0.469-4.859 0.469-1.109 0-2.266-0.438-2.266-1.719 0-1.719 1.734-2.219 1.734-4.125 0-1.703-1.344-2.625-2.953-2.625-1.641 0-3.156 0.906-3.156 2.703 0 1.984 1.516 2.844 1.516 3.922 0 0.547-0.344 1.031-0.719 1.391-0.484 0.453-1.172 0.547-1.828 0.547-1.281 0-2.562-0.172-3.828-0.375-0.281-0.047-0.578-0.078-0.859-0.125l-0.203-0.031c-0.031-0.016-0.078-0.016-0.078-0.031v-16c0.063 0.047 0.984 0.156 1.141 0.187 1.266 0.203 2.547 0.375 3.828 0.375 0.656 0 1.344-0.094 1.828-0.547 0.375-0.359 0.719-0.844 0.719-1.391 0-1.078-1.516-1.937-1.516-3.922 0-1.797 1.516-2.703 3.172-2.703 1.594 0 2.938 0.922 2.938 2.625 0 1.906-1.734 2.406-1.734 4.125 0 1.281 1.156 1.719 2.266 1.719 1.797 0 3.578-0.406 5.359-0.5v0.031c-0.047 0.063-0.156 0.984-0.187 1.141-0.203 1.266-0.375 2.547-0.375 3.828 0 0.656 0.094 1.344 0.547 1.828 0.359 0.375 0.844 0.719 1.391 0.719 1.078 0 1.937-1.516 3.922-1.516 1.797 0 2.703 1.516 2.703 3.156z"></path>
     </symbol>
+    <symbol id="icon-percent" viewBox="0 0 24 28">
+      <title>percent</title>
+      <path d="M20 20c0-1.094-0.906-2-2-2s-2 0.906-2 2 0.906 2 2 2 2-0.906 2-2zM8 8c0-1.094-0.906-2-2-2s-2 0.906-2 2 0.906 2 2 2 2-0.906 2-2zM24 20c0 3.313-2.688 6-6 6s-6-2.688-6-6 2.688-6 6-6 6 2.688 6 6zM22.5 3c0 0.219-0.078 0.422-0.203 0.594l-16.5 22c-0.187 0.25-0.484 0.406-0.797 0.406h-2.5c-0.547 0-1-0.453-1-1 0-0.219 0.078-0.422 0.203-0.594l16.5-22c0.187-0.25 0.484-0.406 0.797-0.406h2.5c0.547 0 1 0.453 1 1zM12 8c0 3.313-2.688 6-6 6s-6-2.688-6-6 2.688-6 6-6 6 2.688 6 6z"></path>
+    </symbol>
   </defs>
 </svg>
 <!-- }}} -->
 
 <!-- {{{ header -->
 <div class="navbar main-navbar navbar-static-top" ng-controller="NavCtrl">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" ng-click="collapsed = !collapsed">
-        <span class="sr-only">{{ 'Toggle navigation' | translate }}</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-down"></use></svg> {{ name }}</a>
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" ng-click="collapsed = !collapsed">
+              <span class="sr-only">{{ 'Toggle navigation' | translate }}</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">
+              <svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-down"></use></svg> {{ name }}
+            </a>
+        </div>
+
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="{{ 'Search' | translate }}" ng-model="downloadFilter" autocomplete="off" ng-change="onDownloadFilter()" />
+            </div>
+        </form>
+
+        <!-- {{{ Nav menu -->
+        <div class="collapse navbar-collapse" collapse="collapsed">
+            <ul class="nav navbar-nav">
+                <li class="dropdown" dropdown>
+                    <a class="dropdown-toggle" href="#" dropdown-toggle>
+                      {{ 'Add' | translate }} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#" ng-click="addUris()">
+                              <svg class="icon icon-fw"><use xlink:href="#icon-link"></use></svg> {{ 'By URIs' | translate }}
+                            </a>
+                        </li>
+                        <li ng-show="isFeatureEnabled('BitTorrent') && enable.torrent">
+                            <a href="#" ng-click="addTorrents()">
+                              <svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{ 'By Torrents' | translate }}
+                            </a>
+                        </li>
+                        <li ng-show="isFeatureEnabled('Metalink') && enable.metalink">
+                            <a href="#" ng-click="addMetalinks()">
+                              <svg class="icon icon-fw"><use xlink:href="#icon-file-text-o"></use></svg> {{ 'By Metalinks' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown" dropdown>
+                    <a class="dropdown-toggle" href="#" dropdown-toggle> {{ 'Manage' | translate }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#" ng-click="forcePauseAll()"><svg class="icon icon-fw"><use xlink:href="#icon-pause"></use></svg> {{ 'Pause All' | translate }}</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="unpauseAll()"><svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg> {{ 'Resume Paused' | translate }}</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="purgeDownloadResult()"><svg class="icon icon-fw"><use xlink:href="#icon-close-circle"></use></svg> {{ 'Purge Completed' | translate }}</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="shutDownServer()"><svg class="icon icon-fw"><use xlink:href="#icon-power-off"></use></svg> {{ 'Shutdown Server' | translate }}</a>
+                        </li>
+                        <!-- not adding remove all as requires many rpc syscalls to finish
+                          <li>
+                            <a
+                              href="#"
+                              ng-click="removeAll()"><span class="fa fa-fw fa-fire">&nbsp;</span> Remove All</a>
+                          </li>
+                          -->
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav">
+                <li class="dropdown" dropdown>
+                    <a href="#" class="dropdown-toggle" dropdown-toggle>{{ 'Settings' | translate }} <span class="caret"></span></a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a ng-click="changeCSettings()" href="#"><svg class="icon icon-fw"><use xlink:href="#icon-cog"></use></svg> {{ 'Connection Settings' | translate }}</a>
+                        </li>
+
+                        <li>
+                            <a ng-click="changeGSettings()" href="#"><svg class="icon icon-fw"><use xlink:href="#icon-cogs"></use></svg> {{ 'Global Settings' | translate }}</a>
+                        </li>
+
+                        <li>
+                            <a ng-click="showServerInfo()" href="#"><svg class="icon icon-fw"><use xlink:href="#icon-info-circle"></use></svg> {{ 'Server info' | translate }}</a>
+                        </li>
+
+                        <li>
+                            <a ng-click="showAbout()" href="#"><svg class="icon icon-fw"><use xlink:href="#icon-question-circle"></use></svg> {{ 'About and contribute' | translate }}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav pull-right" ng-show="false">
+                <li class="dropdown" dropdown>
+                    <a class="dropdown-toggle" dropdown-toggle href="#">{{ 'Miscellaneous' | translate }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><svg class="icon icon-fw"><use xlink:href="#icon-list-alt"></use></svg> {{ 'Global Statistics' | translate }}</a>
+                        </li>
+                        <li>
+                            <a href="#"><svg class="icon icon-fw"><use xlink:href="#icon-info-circle"></use></svg> {{ 'About' | translate }}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav">
+                <li class="dropdown" dropdown>
+                    <a href="#" class="dropdown-toggle" dropdown-toggle>{{ 'Language' | translate }} <span class="caret"></span></a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a ng-click="changeLanguage('en_US')" href="#"><span class="fa fa-fw flag-icon flag-icon-us">&nbsp;</span> English</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('th_TH')" href="#"><span class="fa fa-fw flag-icon flag-icon-th">&nbsp;</span> ไทย</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('nl_NL')" href="#"><span class="fa fa-fw flag-icon flag-icon-nl">&nbsp;</span> Nederlands</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('zh_CN')" href="#"><span class="fa fa-fw flag-icon flag-icon-cn">&nbsp;</span> 简体中文</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('zh_TW')" href="#"><span class="fa fa-fw flag-icon flag-icon-tw">&nbsp;</span> 繁體中文</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('pl_PL')" href="#"><span class="fa fa-fw flag-icon flag-icon-pl">&nbsp;</span> Polish</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('fr_FR')" href="#"><span class="fa fa-fw flag-icon flag-icon-fr">&nbsp;</span> Français</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('de_DE')" href="#"><span class="fa fa-fw flag-icon flag-icon-de">&nbsp;</span> Deutsch</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('es_ES')" href="#"><span class="fa fa-fw flag-icon flag-icon-es">&nbsp;</span> Español</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('ru_RU')" href="#"><span class="fa fa-fw flag-icon flag-icon-ru">&nbsp;</span> Русский</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('it_IT')" href="#"><span class="fa fa-fw flag-icon flag-icon-it">&nbsp;</span> Italiano</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('tr_TR')" href="#"><span class="fa fa-fw flag-icon flag-icon-tr">&nbsp;</span> Turkish</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('cs_CZ')" href="#"><span class="fa fa-fw flag-icon flag-icon-cz">&nbsp;</span> Czech</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('fa_IR')" href="#"><span class="fa fa-fw flag-icon flag-icon-ir">&nbsp;</span> Farsi</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('id_ID')" href="#"><span class="fa fa-fw flag-icon flag-icon-id">&nbsp;</span> Indonesian</a>
+                        </li>
+                        <li>
+                            <a ng-click="changeLanguage('pt_BR')" href="#"><span class="fa fa-fw flag-icon flag-icon-br">&nbsp;</span> Brazilian Portuguese</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- }}} -->
     </div>
-
-    <form class="navbar-form navbar-right" role="search">
-      <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'Search' | translate }}" ng-model="downloadFilter" autocomplete="off" ng-change="onDownloadFilter()" />
-      </div>
-    </form>
-
-    <!-- {{{ Nav menu -->
-    <div class="collapse navbar-collapse" collapse="collapsed">
-      <ul class="nav navbar-nav">
-        <li class="dropdown" dropdown>
-          <a class="dropdown-toggle" href="#" dropdown-toggle>
-            {{ 'Add' | translate }} <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a href="#" ng-click="addUris()">
-                <svg class="icon icon-fw"><use xlink:href="#icon-link"></use></svg> {{ 'By URIs' | translate }}
-              </a>
-            </li>
-            <li ng-show="isFeatureEnabled('BitTorrent') && enable.torrent">
-              <a href="#" ng-click="addTorrents()">
-                <svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> {{ 'By Torrents' | translate }}
-              </a>
-            </li>
-            <li ng-show="isFeatureEnabled('Metalink') && enable.metalink">
-              <a href="#" ng-click="addMetalinks()">
-                <svg class="icon icon-fw"><use xlink:href="#icon-file-text-o"></use></svg> {{ 'By Metalinks' | translate }}
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="dropdown" dropdown>
-          <a class="dropdown-toggle" href="#" dropdown-toggle> {{ 'Manage' | translate }} <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <a
-                href="#"
-                ng-click="forcePauseAll()"><svg class="icon icon-fw"><use xlink:href="#icon-pause"></use></svg> {{ 'Pause All' | translate }}</a>
-            </li>
-            <li>
-              <a
-                href="#"
-                ng-click="unpauseAll()"><svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg> {{ 'Resume Paused' | translate }}</a>
-            </li>
-            <li>
-              <a
-                href="#"
-                ng-click="purgeDownloadResult()"><svg class="icon icon-fw"><use xlink:href="#icon-close-circle"></use></svg> {{ 'Purge Completed' | translate }}</a>
-            </li>
-            <li>
-              <a
-                href="#"
-                ng-click="shutDownServer()"><svg class="icon icon-fw"><use xlink:href="#icon-power-off"></use></svg> {{ 'Shutdown Server' | translate }}</a>
-            </li>
-            <!-- not adding remove all as requires many rpc syscalls to finish
-            <li>
-              <a
-                href="#"
-                ng-click="removeAll()"><span class="fa fa-fw fa-fire">&nbsp;</span> Remove All</a>
-            </li>
-            -->
-          </ul>
-        </li>
-
-      </ul>
-
-      <ul class="nav navbar-nav">
-        <li class="dropdown" dropdown>
-          <a
-            href="#"
-            class="dropdown-toggle" dropdown-toggle>{{ 'Settings' | translate }} <span class="caret"></span></a>
-
-          <ul class="dropdown-menu">
-            <li>
-              <a
-                ng-click="changeCSettings()"
-                href="#"><svg class="icon icon-fw"><use xlink:href="#icon-cog"></use></svg> {{ 'Connection Settings' | translate }}</a>
-            </li>
-
-            <li>
-              <a
-                ng-click="changeGSettings()"
-                href="#"><svg class="icon icon-fw"><use xlink:href="#icon-cogs"></use></svg> {{ 'Global Settings' | translate }}</a>
-            </li>
-
-            <li>
-              <a
-                ng-click="showServerInfo()"
-                href="#"><svg class="icon icon-fw"><use xlink:href="#icon-info-circle"></use></svg> {{ 'Server info' | translate }}</a>
-            </li>
-
-            <li>
-              <a
-                ng-click="showAbout()"
-                href="#"><svg class="icon icon-fw"><use xlink:href="#icon-question-circle"></use></svg> {{ 'About and contribute' | translate }}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-
-      <ul class="nav navbar-nav pull-right" ng-show="false">
-        <li class="dropdown" dropdown>
-          <a
-            class="dropdown-toggle" dropdown-toggle
-            href="#">{{ 'Miscellaneous' | translate }} <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <a href="#"><svg class="icon icon-fw"><use xlink:href="#icon-list-alt"></use></svg> {{ 'Global Statistics' | translate }}</a>
-            </li>
-            <li>
-              <a href="#"><svg class="icon icon-fw"><use xlink:href="#icon-info-circle"></use></svg> {{ 'About' | translate }}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-
-
-      <ul class="nav navbar-nav">
-        <li class="dropdown" dropdown>
-          <a
-                  href="#"
-                  class="dropdown-toggle" dropdown-toggle>{{ 'Language' | translate }} <span class="caret"></span></a>
-
-          <ul class="dropdown-menu">
-            <li>
-              <a
-                      ng-click="changeLanguage('en_US')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-us">&nbsp;</span> English</a>
-            </li>
-            <li>
-              <a
-                      ng-click="changeLanguage('th_TH')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-th">&nbsp;</span> ไทย</a>
-            </li>
-            <li>
-              <a
-                      ng-click="changeLanguage('nl_NL')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-nl">&nbsp;</span> Nederlands</a>
-            </li>
-            <li>
-              <a
-                      ng-click="changeLanguage('zh_CN')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-cn">&nbsp;</span> 简体中文</a>
-            </li>
-            <li>
-              <a
-                      ng-click="changeLanguage('zh_TW')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-tw">&nbsp;</span> 繁體中文</a>
-            </li>
-            <li>
-              <a
-                      ng-click="changeLanguage('pl_PL')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-pl">&nbsp;</span> Polish</a>
-            </li>
-            <li>
-              <a
-                      ng-click="changeLanguage('fr_FR')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-fr">&nbsp;</span> Français</a>
-            </li>
-            <li>
-              <a
-                      ng-click="changeLanguage('de_DE')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-de">&nbsp;</span> Deutsch</a>
-            </li>
-            <li>
-              <a
-                      ng-click="changeLanguage('es_ES')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-es">&nbsp;</span> Español</a>
-            </li>
-            <li>
-            <a
-                      ng-click="changeLanguage('ru_RU')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-ru">&nbsp;</span> Русский</a>
-            </li>
-            <li>
-            <a
-                      ng-click="changeLanguage('it_IT')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-it">&nbsp;</span> Italiano</a>
-            </li>
-            <li>
-            <a
-                      ng-click="changeLanguage('tr_TR')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-tr">&nbsp;</span> Turkish</a>
-            </li>
-            <li>
-            <a
-                      ng-click="changeLanguage('cs_CZ')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-cz">&nbsp;</span> Czech</a>
-            </li>
-            <li>
-            <a
-                      ng-click="changeLanguage('fa_IR')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-ir">&nbsp;</span> Farsi</a>
-            </li>
-            <li>
-            <a
-                      ng-click="changeLanguage('id_ID')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-id">&nbsp;</span> Indonesian</a>
-            </li>
-            <li>
-            <a
-                      ng-click="changeLanguage('pt_BR')"
-                      href="#"><span class="fa fa-fw flag-icon flag-icon-br">&nbsp;</span> Brazilian Portuguese</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-
-    </div>
-    <!-- }}} -->
-
-    </div><!--/.nav-collapse -->
-  </div>
+    <!--/.nav-collapse -->
 </div>
 <!-- }}} -->
 
 <!-- {{{ body -->
 <div role="main" class="container-fluid">
 
-  <!-- {{{ alerts -->
-  <div ng-controller="AlertCtrl" class="row-fluid alerts">
-    <div class="alert alert-{{alert.type == 'error' ? 'danger' : alert.type}}" ng-repeat="alert in pendingAlerts">
-      <button type="button" class="close" ng-click="removeAlert($index)">&times;</button>
-      <span ng-bind-html="alert.msg"></span>
-    </div>
+<!-- {{{ alerts -->
+<div ng-controller="AlertCtrl" class="row-fluid alerts">
+  <div class="alert alert-{{alert.type == 'error' ? 'danger' : alert.type}}" ng-repeat="alert in pendingAlerts">
+    <button type="button" class="close" ng-click="removeAlert($index)">&times;</button>
+    <span ng-bind-html="alert.msg"></span>
   </div>
-  <!-- }}} -->
+</div>
+<!-- }}} -->
 
 <div class="row-fluid">
   <div ng-class="{'col-md-3': enable.sidebar.show}" ng-show="enable.sidebar.show">
@@ -631,7 +579,7 @@
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Ratio' | translate }}">{{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span>
+            <span title="{{ 'Ratio' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-percent"></use></svg> {{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span>
           </li>
 
           <li class="label label-active hidden-phone hidden-tablet">
@@ -731,7 +679,7 @@
         <ul class="stats pull-left" ng-switch-when="waiting">
           <!-- {{{ paused download statistics -->
           <li class="label label-default">
-            <span title="{{ 'Download status' | translate }}"><span class="fa fa-fw fa-caret-right">&nbsp;</span> {{ 'Waiting' | translate }}</span>
+            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-chevron-right"></use></svg> {{ 'Waiting' | translate }}</span>
           </li>
 
           <li class="label label-default">
@@ -761,11 +709,11 @@
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Uploaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-upload"></use> {{download.fmtUploadLength}}</span>
+            <span title="{{ 'Uploaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-upload"></use></svg> {{download.fmtUploadLength}}</span>
           </li>
 
           <li class="label label-active hidden-phone">
-            <span title="{{ 'Ratio' | translate }}">{{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span>
+            <span title="{{ 'Ratio' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-percent"></use></svg> {{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span>
           </li>
 
           <li class="label label-success hidden-phone">
@@ -796,7 +744,7 @@
 
           <!-- {{{ error download statistics -->
           <li class="label label-danger">
-            <span title="{{ 'Error ' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-close-circle"></use> {{getErrorStatus(download.errorCode)}}</span>
+            <span title="{{ 'Error ' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-close-circle"></use></svg> {{getErrorStatus(download.errorCode)}}</span>
           </li>
 
           <li class="label label-default">
@@ -824,13 +772,18 @@
           </div>
           <ul class="stats download-item">
             <li class="label label-default" title="{{ 'Estimated time' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-clock-o"></use></svg> <span class="download-eta">{{getEta(download) | time}}</span></li>
+
             <li class="label label-default" title="{{ 'Download Size' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-cloud-download"></use></svg> <span class="download-totalLength">{{download.fmtTotalLength}}</span></li>
+
             <li class="label label-default" title="{{ 'Downloaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-download"></use></svg> <span class="download-completedLength">{{download.fmtCompletedLength}}</span></li>
+
             <li class="label label-default" title="{{ 'Download Speed' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-down"></use></svg> <span class="download-downloadSpeed">{{download.fmtDownloadSpeed}}</span></li>
 
             <li class="label label-default" title="{{ 'Upload Speed' | translate }}" ng-show="download.bittorrent"><svg class="icon icon-fw"><use xlink:href="#icon-arrow-circle-o-up"></use></svg> <span class="download-uploadSpeed">{{download.fmtUploadSpeed}}</span></li>
+
             <li class="label label-default" title="{{ 'Uploaded' | translate }}" ng-show="download.bittorrent"><svg class="icon icon-fw"><use xlink:href="#icon-upload"></use></svg> <span class="download-uploadLength">{{download.fmtUploadLength}}</span></li>
-            <li class="label label-default" title="{{ 'Ratio' | translate }}" ng-show="download.bittorrent"><span title="{{ 'Ratio' | translate }}">{{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span></li>
+
+            <li class="label label-default" title="{{ 'Ratio' | translate }}" ng-show="download.bittorrent"><svg class="icon icon-fw"><use xlink:href="#icon-percent"></use></svg><span title="{{ 'Ratio' | translate }}">{{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span></li>
 
             <li class="label label-default" title={{download.connectionsTitle}}><svg class="icon icon-fw"><use xlink:href="#icon-link"></use></svg> <span class="download-connections">{{download.connections}}{{download.numSeeders}}</span></li>
 
@@ -874,8 +827,8 @@
     </div>
   </div>
   <!-- }}} -->
-
 </div>
+
 </div>
 
 <!-- }}} -->
@@ -1347,7 +1300,6 @@
   </div>
 </script>
 <!-- }}} -->
-
 
 </div>
 <!-- }}} -->

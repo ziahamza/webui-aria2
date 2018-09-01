@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "webpack -d --watch --progress & node node-server",
     "build": "webpack -p --progress",
-    "format": "prettier -l --write  \"**/*{js,css}\" "
+    "format": "prettier -l --write  \"**/*{js,scss}\" "
   },
   "repository": {
     "type": "git",

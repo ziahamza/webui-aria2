@@ -693,7 +693,7 @@ export default angular
       input = input || {};
       var out = {};
 
-      for (key in input) {
+      for (var key in input) {
         if (key.startsWith(filter)) {
           out[key] = input[key];
         }
