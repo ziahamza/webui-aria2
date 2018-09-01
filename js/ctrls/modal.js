@@ -91,7 +91,17 @@ angular
             });
         })
         .filter(function(d) { return d.length })
-        .value();
+	.map(function(u){
+          var t=_.toUpper(u[0])
+
+          if(t.startsWith("HTTP")||t.startsWith("MAGNET")||t.startsWith("FTP")){
+            return u
+          }else{
+            u[0]= "magnet:?xt=urn:btih:"+u[0]
+            return u
+          }
+        })   
+       .value();
     }
   };
 
