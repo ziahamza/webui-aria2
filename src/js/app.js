@@ -1,4 +1,4 @@
-// WebUI Aria2 is an agular application
+// WebUI Aria2 is an angular 1.x application
 // This file imports all the required modules for the application
 
 // Vendor libraries
@@ -141,6 +141,19 @@ webui.config([
 ]);
 
 webui.directive("textarea", directiveTextarea);
+
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then(registration => {
+        console.log("SW registered: ", registration);
+      })
+      .catch(registrationError => {
+        console.log("SW registration failed: ", registrationError);
+      });
+  });
+}
 
 $(function() {
   if (!String.prototype.startsWith) {

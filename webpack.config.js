@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const BUILD_DIR = path.join(__dirname, "build");
 const APP_DIR = path.join(__dirname, "src", "js");
@@ -42,6 +43,7 @@ const config = {
   },
   plugins: [
     new CleanWebpackPlugin(["build"]),
+    new WorkboxPlugin.GenerateSW(),
     new webpack.ProvidePlugin({
       "window.jQuery": "jquery",
       jQuery: "jquery",
