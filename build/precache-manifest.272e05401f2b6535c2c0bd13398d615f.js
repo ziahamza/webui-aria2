@@ -8,7 +8,7 @@ self.__precacheManifest = [
     "url": "flags/br.svg"
   },
   {
-    "revision": "14a87aa00a5d4d217382",
+    "revision": "3b00bc3b62feafb50a2e",
     "url": "vendor.js"
   },
   {
