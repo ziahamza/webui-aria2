@@ -43,7 +43,6 @@ const config = {
   },
   plugins: [
     new CleanWebpackPlugin(["build"]),
-    new WorkboxPlugin.GenerateSW(),
     new webpack.ProvidePlugin({
       "window.jQuery": "jquery",
       jQuery: "jquery",
@@ -55,7 +54,8 @@ const config = {
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css"
-    })
+    }),
+    new WorkboxPlugin.GenerateSW()
   ],
   optimization: {
     splitChunks: {
