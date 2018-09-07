@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
 
-const BUILD_DIR = path.join(__dirname, "build");
+const BUILD_DIR = path.join(__dirname, "docs");
 const APP_DIR = path.join(__dirname, "src", "js");
 
 const config = {
@@ -42,7 +42,7 @@ const config = {
     filename: "[name].js"
   },
   plugins: [
-    new CleanWebpackPlugin(["build"]),
+    new CleanWebpackPlugin(["docs"]),
     new webpack.ProvidePlugin({
       "window.jQuery": "jquery",
       jQuery: "jquery",

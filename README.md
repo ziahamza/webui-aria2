@@ -12,7 +12,11 @@ aria2c --enable-rpc --rpc-listen-all
 
 If aria2 is not installed in your local machine then head on to https://aria2.github.io/ and follow the instructions there.
 
-Then download the webui, you can either do that by downloading this repository and running index.html from build folder in the browser. Or you could just head on to https://ziahamza.github.io/webui-aria2/ and just start downloading files! After that you can also save it for offline use by saving from the browser save page as option. You can also use node js to create simple server by using the following command from the download folder.
+Then to use the WebUI-Aria2,
+
+- You can either download this repository and open index.html from `docs` folder.
+- Or you could just head on to https://ziahamza.github.io/webui-aria2/ and start downloading files! Once you have visited the URL thanks to [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) you can open the same URL even when you are offline.
+- Or you can also use NodeJS to create simple server by using the following command from the project folder.
 
 ```bash
 node node-server.js
