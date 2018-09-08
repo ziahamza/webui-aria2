@@ -1,0 +1,48 @@
+.modal-body textarea {
+  width: 100%;
+}
+
+.modal-advanced-title {
+  font-weight: bold;
+  margin-bottom: 0;
+  background-color: rgb(245, 245, 245);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  padding: 5px 15px;
+}
+
+.modal-advanced-options {
+  /*width: 100%;
+  margin-bottom: 10px;*/
+  margin-top: 0;
+  margin-bottom: 2px;
+  background-color: rgb(245, 245, 245);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 0;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.modal-form-input-verylarge {
+  width: 95%;
+}
+
+.modal-form-input-number {
+  width: 80px;
+}
+
+.selectFiles div .control-label {
+  font-weight: normal;
+  margin-left: 30px;
+}
+
+.selectFiles div .controls {
+  margin-left: 30px;
+}
+
+.selectFiles div.recursivedir {
+  width: 100%;
+}
