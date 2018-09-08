@@ -62,7 +62,7 @@ COPY --from=aria2-builder /builds/aria2c/aria2c /usr/bin/
 COPY --from=go-builder /builds/goreman/goreman /usr/local/bin/
 COPY --from=go-builder /builds/gosu/gosu /usr/local/bin/
 
-ADD . /webui-aria2
+ADD ./docs /webui-aria2
 
 RUN groupadd -r aria \
     && useradd -m -r -g aria aria -u 1000 \

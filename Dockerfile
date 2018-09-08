@@ -8,7 +8,7 @@ RUN apt-get update \
 	&& apt-get install -y aria2 busybox curl unzip \
 	&& rm -rf /var/lib/apt/lists/*
 
-ADD . /webui-aria2
+ADD ./docs /webui-aria2
 
 # gosu install latest
 RUN GITHUB_REPO="https://github.com/tianon/gosu" \
