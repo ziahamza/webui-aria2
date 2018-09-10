@@ -91,17 +91,21 @@ angular
             });
         })
         .filter(function(d) { return d.length })
-	.map(function(u){
-          var t=_.toUpper(u[0])
-
-          if(t.startsWith("HTTP")||t.startsWith("MAGNET")||t.startsWith("FTP")){
-            return u
-          }else{
-            u[0]= "magnet:?xt=urn:btih:"+u[0]
-            return u
-          }
-        })   
-       .value();
+        .map(function(u){
+                /// transform bt-key into legal magnet link
+                /// support BASE32 encoding key string or HEX encoding key string
+                var str=_.toUpper(u[0])
+                var hashkey=_.head(_.split(str,"&"))//maybe url contains additional attribute  such as dn/tr
+                const base32Regex=/^[2-7 | A-Z]{32}$/
+                const hexRegex=/^[0-9 | A-Z]{40}$/
+                if(base32Regex.test(hashkey)||hexRegex.test(hashkey)){
+                      u[0]= "magnet:?xt=urn:btih:"+u[0]
+                      // if hashkey is legal bt-hashkey string then add protocol's head
+                      // only support 32-bit length HEX encoding string or 40-bit length BASE32 length encoding string
+                }
+                return u
+              })   
+        .value();
     }
   };
 
