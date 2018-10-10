@@ -15,7 +15,7 @@ If aria2 is not installed in your local machine then head on to https://aria2.gi
 Then to use the WebUI-Aria2,
 
 - You can either download this repository and open index.html from `docs` folder.
-- Or you could just head on to https://ziahamza.github.io/webui-aria2/docs and start downloading files! Once you have visited the URL thanks to [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) you can open the same URL even when you are offline.
+- Or you could just head on to https://ziahamza.github.io/webui-aria2 and start downloading files! Once you have visited the URL thanks to [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) you can open the same URL even when you are offline.
 - Or you can also use NodeJS to create simple server by using the following command from the project folder.
 
 ```bash
