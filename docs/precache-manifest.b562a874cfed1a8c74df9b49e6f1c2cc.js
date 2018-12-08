@@ -4,7 +4,7 @@ self.__precacheManifest = [
     url: "flags/de.svg"
   },
   {
-    revision: "9be2d6fa33228eaaef3a00ce10238d31",
+    revision: "3b828f54c0e614e18db2c1816c9c2e84",
     url: "index.html"
   },
   {
@@ -72,11 +72,11 @@ self.__precacheManifest = [
     url: "flags/br.svg"
   },
   {
-    revision: "23a22250de06d1793dc4",
+    revision: "e1870e757b1b72d20d1f",
     url: "app.js"
   },
   {
-    revision: "23a22250de06d1793dc4",
+    revision: "e1870e757b1b72d20d1f",
     url: "app.css"
   }
 ];
