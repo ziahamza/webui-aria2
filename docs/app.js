@@ -500,10 +500,10 @@
                   var i = [],
                     r = e.cloneDeep(a);
                   e.each(n, function(e) {
-                    e.startsWith("--")
-                      ? ((uri_options = e.split(/--|=(.*)/)),
-                        uri_options.length > 2 && (r[uri_options[2]] = uri_options[3] || "true"))
-                      : i.push(e);
+                    if (e.startsWith("--")) {
+                      var t = e.split(/--|=(.*)/);
+                      t.length > 2 && (r[t[2]] = t[3] || "true");
+                    } else i.push(e);
                   }),
                     t.once("addUri", [i, r], o, !0);
                 }),

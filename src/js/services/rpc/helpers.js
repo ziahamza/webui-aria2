@@ -29,7 +29,7 @@ export default angular
             var uriSettings = _.cloneDeep(settings);
             _.each(uri, function(uri_element) {
               if (uri_element.startsWith("--")) {
-                uri_options = uri_element.split(/--|=(.*)/);
+                var uri_options = uri_element.split(/--|=(.*)/);
                 if (uri_options.length > 2) {
                   uriSettings[uri_options[2]] = uri_options[3] || "true";
                 }

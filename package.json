@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "webpack -d --watch --progress & node node-server",
     "build": "webpack -p --progress",
-    "analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json ./build -p 9999",
+    "analyze": "webpack -p --profile --json > stats.json && webpack-bundle-analyzer stats.json ./docs -p 9999",
     "format": "prettier -l --write  \"**/*{js,scss}\" "
   },
   "repository": {
