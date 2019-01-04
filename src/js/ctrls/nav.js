@@ -149,12 +149,12 @@ export default angular
 
       scope.restartError = function(offset, limit) {
         // offset, limit, like sql
-        // count 
+        // count
         var fetch = function(off, lim, count) {
-          console.log("fetching: "+ off + " limit: " + lim);
+          console.log("fetching: " + off + " limit: " + lim);
           rpc.once("tellStopped", [off, count], function(data) {
             var errors = _.filter(data[0], function(d) {
-              return d["status"] == "error"
+              return d["status"] == "error";
             });
             errors = errors.slice(0, lim);
             console.log("restart: " + errors.length);
@@ -163,10 +163,9 @@ export default angular
               // console.log(d.status);
             });
 
-            if(errors.length < lim && data[0].length == count) {
+            if (errors.length < lim && data[0].length == count) {
               fetch(off + count, lim - errors.length, count);
-            }
-            else {
+            } else {
               console.log("end");
             }
           });
