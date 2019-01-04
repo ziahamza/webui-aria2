@@ -146,5 +146,14 @@ export default angular
       scope.shutDownServer = function() {
         rpc.once("shutdown", []);
       };
+
+      scope.restartError = function(num) {
+        console.log(num);
+        rpc.once("tellStopped", [0, 10], function(data) {
+          _.forEach(data[0], function(d) {
+            rhelpers.restart(d);
+          });
+        });
+      };
     }
   ]).name;
