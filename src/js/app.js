@@ -3,8 +3,11 @@
 
 // Vendor libraries
 import angular from "angular";
-import angularTranslate from "angular-translate";
-require("libs/angularui-bootstrap-tpls.min");
+import translate from "angular-translate";
+import dropdown from "angular-ui-bootstrap/src/dropdown/index-nocss";
+import modal from "angular-ui-bootstrap/src/modal/index-nocss";
+import pagination from "angular-ui-bootstrap/src/pagination";
+import collapse from "angular-ui-bootstrap/src/collapse";
 require("libs/bootstrap-filestyle");
 require("libs/jquery.flot.min");
 require("libs/jquery.flot.time.min");
@@ -91,9 +94,11 @@ var webui = angular.module("webui", [
   ctrlNav,
   ctrlProps,
   // external deps
-  "ui.bootstrap",
-  // translate
-  "pascalprecht.translate"
+  translate,
+  dropdown,
+  modal,
+  collapse,
+  pagination
 ]);
 
 function mergeTranslation(translation, base) {

@@ -21,15 +21,18 @@ export default angular
         });
         scope.pendingAlerts.push(obj);
 
-        setTimeout(function() {
-          var ind = scope.pendingAlerts.indexOf(obj);
-          if (ind != -1) {
-            scope.pendingAlerts[ind].expired = true;
+        setTimeout(
+          function() {
+            var ind = scope.pendingAlerts.indexOf(obj);
+            if (ind != -1) {
+              scope.pendingAlerts[ind].expired = true;
 
-            // only remove if more notifications are pending in the pipeline
-            if (scope.pendingAlerts.length > 0) scope.removeAlert(ind);
-          }
-        }, type == "error" ? 15000 : 5000);
+              // only remove if more notifications are pending in the pipeline
+              if (scope.pendingAlerts.length > 0) scope.removeAlert(ind);
+            }
+          },
+          type == "error" ? 15000 : 5000
+        );
 
         scope.$digest();
       });
