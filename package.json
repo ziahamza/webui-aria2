@@ -26,7 +26,7 @@
     "angular": "^1.7.3",
     "angular-translate": "^2.18.1",
     "autoprefixer": "^9.1.3",
-    "bootstrap-sass": "^3.3.7",
+    "bootstrap-sass": "^3.4.1",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "file-loader": "^2.0.0",
