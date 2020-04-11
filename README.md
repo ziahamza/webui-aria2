@@ -43,7 +43,7 @@ Well, you need aria2. And a web browser (if that even counts!)
 # Docker support
 
 There is two Dockerfile in this project, one is a common Dockerfile, which can be use for **testing purpose**.<br>
-The second is a **production ready** Dockerfile for arm32v7 plateforms (which includes raspberry).
+The second is a **production ready** Dockerfile for arm32v7 platforms (including Raspberry Pi).
 
 ### For testing purpose
 
