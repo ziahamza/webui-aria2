@@ -2,7 +2,7 @@ import angular from "angular";
 
 export default angular
   .module("webui.ctrls.download", [
-    "ui.bootstrap",
+    "ui.bootstrap.module.pagination",
     "webui.services.utils",
     "webui.services.rpc",
     "webui.services.rpc.helpers",

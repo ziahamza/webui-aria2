@@ -28,7 +28,7 @@ var parseFiles = function(files, cb) {
 
 export default angular
   .module("webui.ctrls.modal", [
-    "ui.bootstrap",
+    "ui.bootstrap.module.modal",
     "webui.services.deps",
     "webui.services.modals",
     "webui.services.rpc",
@@ -37,7 +37,7 @@ export default angular
   .controller("ModalCtrl", [
     "$_",
     "$scope",
-    "$modal",
+    "$uibModal",
     "$modals",
     "$rpc",
     "$fileSettings",
