@@ -41,7 +41,7 @@ RUN mkdir -p /builds && mkdir -p /builds/gosu \
 
 
 
-FROM arm32v7/httpd:2.4.33
+FROM arm32v7/httpd:2.4.39
 # BE CAREFULL the arm32v7/httpd image MUST match the version of debian used to build aria2. otherwise shared library versions might not be the same.
 # A better approach will be to build static version of aria2.
 
