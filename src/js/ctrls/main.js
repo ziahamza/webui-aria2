@@ -686,6 +686,9 @@ export default angular
       scope.moveUp = function(d) {
         rpc.once("changePosition", [d.gid, -1, "POS_CUR"]);
       };
+      scope.moveToTop = function(d) {
+        rpc.once("changePosition", [d.gid, 0, "POS_SET"]);
+      };
     }
   ])
   .filter("objFilter", function() {
