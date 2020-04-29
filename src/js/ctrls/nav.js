@@ -146,5 +146,31 @@ export default angular
       scope.shutDownServer = function() {
         rpc.once("shutdown", []);
       };
+
+      scope.restartError = function(offset, limit) {
+        // offset, limit, like sql
+        // count
+        var fetch = function(off, lim, count) {
+          console.log("fetching: " + off + " limit: " + lim);
+          rpc.once("tellStopped", [off, count], function(data) {
+            var errors = _.filter(data[0], function(d) {
+              return d["status"] == "error";
+            });
+            errors = errors.slice(0, lim);
+            console.log("restart: " + errors.length);
+            _.forEach(errors, function(d) {
+              rhelpers.restart(d);
+              // console.log(d.status);
+            });
+
+            if (errors.length < lim && data[0].length == count) {
+              fetch(off + count, lim - errors.length, count);
+            } else {
+              console.log("end");
+            }
+          });
+        };
+        fetch(offset, limit, 100);
+      };
     }
   ]).name;

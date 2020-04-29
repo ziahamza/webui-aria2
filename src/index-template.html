@@ -187,7 +187,7 @@
 
                 <li class="dropdown" dropdown>
                     <a class="dropdown-toggle" href="#" dropdown-toggle> {{ 'Manage' | translate }} <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu multilevel">
                         <li>
                             <a href="#" ng-click="forcePauseAll()"><svg class="icon icon-fw"><use xlink:href="#icon-pause"></use></svg> {{ 'Pause All' | translate }}</a>
                         </li>
@@ -207,6 +207,16 @@
                               ng-click="removeAll()"><span class="fa fa-fw fa-fire">&nbsp;</span> Remove All</a>
                           </li>
                           -->
+                        <li class="dropdown-submenu" dropdown>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown" dropdown-toggle> {{ 'Additions' | translate }}</a>
+                            <ul class="dropdown-menu">
+                              <li>
+                                  <a href="#" ng-click="restartError(0, 10)"><svg class="icon icon-fw"><use xlink:href="#icon-repeat"></use></svg> {{ 'Restart 10 Error Tasks' | translate }}</a>
+                                  <a href="#" ng-click="restartError(0, 20)"><svg class="icon icon-fw"><use xlink:href="#icon-repeat"></use></svg> {{ 'Restart 20 Error Tasks' | translate }}</a>
+                                  <a href="#" ng-click="restartError(0, 50)"><svg class="icon icon-fw"><use xlink:href="#icon-repeat"></use></svg> {{ 'Restart 50 Error Tasks' | translate }}</a>
+                              </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
             </ul>
