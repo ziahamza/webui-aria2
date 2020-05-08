@@ -63,6 +63,7 @@ require("translate/cs_CZ");
 require("translate/fa_IR");
 require("translate/id_ID");
 require("translate/pt_BR");
+require("translate/ja_JP");
 
 var webui = angular.module("webui", [
   serviceUtils,
@@ -130,6 +131,7 @@ webui.config([
       .translations("fa_IR", mergeTranslation(translations.fa_IR, translations.en_US))
       .translations("id_ID", mergeTranslation(translations.id_ID, translations.en_US))
       .translations("pt_BR", mergeTranslation(translations.pt_BR, translations.en_US))
+      .translations("ja_JP", mergeTranslation(translations.ja_JP, translations.en_US))   
       .useSanitizeValueStrategy("escapeParameters")
       .determinePreferredLanguage();
 
