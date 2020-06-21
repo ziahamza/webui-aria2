@@ -3,11 +3,12 @@
 
 <!-- {{{ head -->
 <head>
-  <link rel="icon" href="../favicon.ico" />
+  <link rel="icon" href="../favicon.svg" />
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A8476">
   <meta name="theme-color" content="#0A8476">
 
   <title ng-bind="$root.pageTitle">Aria2 WebUI</title>
@@ -84,6 +85,9 @@
     </symbol>
     <symbol id="icon-question-circle" viewBox="0 0 24 28">
       <title>question-circle</title>
+      <path d="M14 21.5v-3c0-0.281-0.219-0.5-0.5-0.5h-3c-0.281 0-0.5 0.219-0.5 0.5v3c0 0.281 0.219 0.5 0.5 0.5h3c0.281 0 0.5-0.219 0.5-0.5zM18 11c0-2.859-3-5-5.688-5-2.547 0-4.453 1.094-5.797 3.328-0.141 0.219-0.078 0.5 0.125 0.656l2.063 1.563c0.078 0.063 0.187 0.094 0.297 0.094 0.141 0 0.297-0.063 0.391-0.187 0.734-0.938 1.047-1.219 1.344-1.437 0.266-0.187 0.781-0.375 1.344-0.375 1 0 1.922 0.641 1.922 1.328 0 0.812-0.422 1.219-1.375 1.656-1.109 0.5-2.625 1.797-2.625 3.313v0.562c0 0.281 0.219 0.5 0.5 0.5h3c0.281 0 0.5-0.219 0.5-0.5v0c0-0.359 0.453-1.125 1.188-1.547 1.188-0.672 2.812-1.578 2.812-3.953zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12 12 5.375 12 12z"></path>
+    </symbol>
+    <symbol id="icon-question-circle-no-title" viewBox="0 0 24 28">
       <path d="M14 21.5v-3c0-0.281-0.219-0.5-0.5-0.5h-3c-0.281 0-0.5 0.219-0.5 0.5v3c0 0.281 0.219 0.5 0.5 0.5h3c0.281 0 0.5-0.219 0.5-0.5zM18 11c0-2.859-3-5-5.688-5-2.547 0-4.453 1.094-5.797 3.328-0.141 0.219-0.078 0.5 0.125 0.656l2.063 1.563c0.078 0.063 0.187 0.094 0.297 0.094 0.141 0 0.297-0.063 0.391-0.187 0.734-0.938 1.047-1.219 1.344-1.437 0.266-0.187 0.781-0.375 1.344-0.375 1 0 1.922 0.641 1.922 1.328 0 0.812-0.422 1.219-1.375 1.656-1.109 0.5-2.625 1.797-2.625 3.313v0.562c0 0.281 0.219 0.5 0.5 0.5h3c0.281 0 0.5-0.219 0.5-0.5v0c0-0.359 0.453-1.125 1.188-1.547 1.188-0.672 2.812-1.578 2.812-3.953zM24 14c0 6.625-5.375 12-12 12s-12-5.375-12-12 5.375-12 12-12 12 5.375 12 12z"></path>
     </symbol>
     <symbol id="icon-info-circle" viewBox="0 0 24 28">
@@ -423,7 +427,7 @@
       <ul class="clearfix nav nav-list" ng-controller="StarredPropsCtrl" ng-show="properties.length && enable.sidebar.starredProps">
         <li class="nav-header">{{ 'Quick Access Settings' | translate }}</li>
         <li ng-repeat="prop in properties" class="form-group">
-          <label title="{{prop.desc}}" style="width: 100%;">{{prop.name}}</label>
+          <label title="{{prop.desc}}" style="width: 100%;">{{prop.name}} <i title="{{prop.desc | translate}}"><svg class="icon icon-fw"><use xlink:href="#icon-question-circle-no-title"></use></svg></i></label>
           <div class="form-group">
             <select style="width: 100%;" ng-show="prop.options.length && !prop.multiline" class="form-control" ng-options="opt for opt in prop.options" ng-model="prop.val"></select>
             <input style="width: 100%;" ng-show="!prop.options.length && !prop.multiline" type="text" class="form-control input-large" ng-model="prop.val"/>
@@ -788,7 +792,7 @@
             <li class="label label-default" title={{download.connectionsTitle}}><svg class="icon icon-fw"><use xlink:href="#icon-link"></use></svg> <span class="download-connections">{{download.connections}}{{download.numSeeders}}</span></li>
 
             <li class="label label-default" title="{{ 'Download GID' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-bars"></use></svg> <span class="download-gid">{{download.gid}}</span></li>
-            <li class="label label-default" title="{{ 'Number of Pieces' | translate }}">{{ '# of' | translate }} <svg class="icon icon-fw"><use xlink:href="#icon-puzzle-piece"></use></svg> <span class="download-numPieces">{{download.numPieces}}</span></li>
+            <li class="label label-default" title="{{ 'Number of Pieces' | translate }}">{{ download.bitfield.toString().replaceAll('0','').length*(download.numPieces/download.bitfield.length).toFixed(0) }} {{ '# of' | translate }} <svg class="icon icon-fw"><use xlink:href="#icon-puzzle-piece"></use></svg> <span class="download-numPieces">{{download.numPieces}}</span></li>
             <li class="label label-default" title="{{ 'Piece Length' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-puzzle-piece"></use></svg> {{ 'Length' | translate }}&nbsp; <span class="download-pieceLength">{{download.fmtPieceLength}}</span></li>
             <li class="label label-default" title="{{ 'Download Path' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-folder-open"></use></svg> <span class="download-dir">{{download.dir}}</span></li>
           </ul>
@@ -859,7 +863,7 @@
           </div>
           <div collapse="getUris.downloadSettingsCollapsed" class="form-horizontal modal-advanced-options">
             <div class="form-group" ng-repeat="(name, set) in getUris.settings">
-              <label class="col-sm-3 control-label">{{name}}</label>
+              <label class="col-sm-3 control-label">{{name}} <i title="{{set.desc | translate}}"><svg class="icon icon-fw"><use xlink:href="#icon-question-circle-no-title"></use></svg></i></label>
 
               <div class="col-sm-9 controls">
                 <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
@@ -878,7 +882,7 @@
           </div>
           <div collapse="getUris.advancedSettingsCollapsed" class="form-horizontal modal-advanced-options">
             <div class="form-group" ng-repeat="(name, set) in getUris.fsettings">
-              <p class="col-sm-offset-3 col-sm-9 help-block controls">{{set.desc}}</p>
+              <p class="col-sm-offset-3 col-sm-9 help-block controls">{{set.desc | translate}}</p>
 
               <label class="col-sm-3 control-label">{{name}}</label>
               <div class="col-sm-9 controls">
@@ -928,7 +932,7 @@
         </div>
         <div class="form-horizontal modal-advanced-options">
           <div class="form-group" ng-repeat="(name, set) in getTorrents.settings">
-            <label class="col-sm-3 control-label">{{name}}</label>
+            <label class="col-sm-3 control-label">{{name <i title="{{set.desc | translate}}"><svg class="icon icon-fw"><use xlink:href="#icon-question-circle-no-title"></use></svg></i>}}</label>
 
             <div class="col-sm-9 controls">
               <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
@@ -947,7 +951,7 @@
         </div>
         <div collapse="getTorrents.collapsed" class="form-horizontal modal-advanced-options">
           <div class="form-group" ng-repeat="(name, set) in getTorrents.fsettings">
-            <p class="col-sm-offset-3 col-sm-9 help-block controls">{{set.desc}}</p>
+            <p class="col-sm-offset-3 col-sm-9 help-block controls">{{set.desc | translate}}</p>
 
             <label class="col-sm-3 control-label">{{name}}</label>
             <div class="col-sm-9 controls">
@@ -996,7 +1000,7 @@
         </div>
         <div class="form-horizontal modal-advanced-options">
           <div class="form-group" ng-repeat="(name, set) in getMetalinks.settings">
-            <label class="col-sm-3 control-label">{{name}}</label>
+            <label class="col-sm-3 control-label">{{name}} <i title="{{set.desc | translate}}"><svg class="icon icon-fw"><use xlink:href="#icon-question-circle-no-title"></use></svg></i></label>
 
             <div class="col-sm-9 controls">
               <select class="form-control" ng-show="set.options.length && !set.multiline" ng-options="opt for opt in set.options" ng-model="set.val">
@@ -1015,7 +1019,7 @@
         </div>
         <div collapse="getMetalinks.collapsed" class="form-horizontal modal-advanced-options">
           <div class="form-group" ng-repeat="(name, set) in getMetalinks.fsettings">
-            <p class="col-sm-offset-3 col-sm-9 help-block controls">{{set.desc}}</p>
+            <p class="col-sm-offset-3 col-sm-9 help-block controls">{{set.desc | translate}}</p>
 
             <label class="col-sm-3 control-label">{{name}}</label>
             <div class="col-sm-9 controls">
