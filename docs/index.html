@@ -712,7 +712,7 @@
             <span title="{{ 'Uploaded' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-upload"></use></svg> {{download.fmtUploadLength}}</span>
           </li>
 
-          <li class="label label-active hidden-phone">
+          <li class="label label-active hidden-phone" ng-class="{'label-active': getRatio(download) > 1, 'label-warning': getRatio(download) <= 1}">
             <span title="{{ 'Ratio' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-percent"></use></svg> {{ 'Ratio' | translate }}&nbsp;{{getRatio(download)}}</span>
           </li>
 
