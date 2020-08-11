@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master,newgen ]
 
 jobs:
   update:
@@ -25,7 +25,7 @@ jobs:
     - name: buildandpush
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - run: |
+      run: |
         if git log --format=%B -n 1 $(git rev-parse HEAD)|grep -v "Docs Update"; then
           node node_modules/webpack-cli/bin/cli.js
           git add -A
