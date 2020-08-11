@@ -1,7 +1,7 @@
 !(function(e) {
   function t(t) {
     for (var a, r, s = t[0], l = t[1], c = t[2], u = 0, p = []; u < s.length; u++)
-      (r = s[u]), o[r] && p.push(o[r][0]), (o[r] = 0);
+      (r = s[u]), Object.prototype.hasOwnProperty.call(o, r) && o[r] && p.push(o[r][0]), (o[r] = 0);
     for (a in l) Object.prototype.hasOwnProperty.call(l, a) && (e[a] = l[a]);
     for (d && d(t); p.length; ) p.shift()();
     return i.push.apply(i, c || []), n();
@@ -452,8 +452,12 @@
                   a || this.forceUpdate();
               },
               subscribe: function(e, t, n, a) {
-                n = n || o.a.noop;
-                var i = { once: !1, name: "aria2." + e, params: (t = t || []), cb: n };
+                var i = {
+                  once: !1,
+                  name: "aria2." + e,
+                  params: (t = t || []),
+                  cb: (n = n || o.a.noop)
+                };
                 return d.push(i), a || this.forceUpdate(), i;
               },
               unsubscribe: function(e) {
@@ -1458,25 +1462,25 @@
       "$name",
       "$titlePattern",
       function(e, t, n) {
-        var a = (function() {
-            var e = new Uint8Array(16),
-              t = function() {
-                for (var t, n = 0; n < 16; n++)
-                  n % 3 || (t = (4294967296 * Math.random()) | 0),
-                    (e[n] = (t >>> ((3 & n) << 3)) & 255);
-                return e;
-              };
-            return window.crypto && crypto.getRandomValues
-              ? function() {
-                  try {
-                    return crypto.getRandomValues(e), e;
-                  } catch (e) {
-                    return t();
-                  }
+        var a,
+          o,
+          i = ((a = new Uint8Array(16)),
+          (o = function() {
+            for (var e, t = 0; t < 16; t++)
+              t % 3 || (e = (4294967296 * Math.random()) | 0),
+                (a[t] = (e >>> ((3 & t) << 3)) & 255);
+            return a;
+          }),
+          window.crypto && crypto.getRandomValues
+            ? function() {
+                try {
+                  return crypto.getRandomValues(a), a;
+                } catch (e) {
+                  return o();
                 }
-              : t;
-          })(),
-          o = {
+              }
+            : o),
+          r = {
             fmtsize: function(e) {
               return (e = +e) <= 1024
                 ? e.toFixed(0) + " B"
@@ -1487,7 +1491,7 @@
                     : (e /= 1024).toFixed(3) + " GB";
             },
             fmtspeed: function(e) {
-              return o.fmtsize(e) + "/s";
+              return r.fmtsize(e) + "/s";
             },
             setCookie: function(e, t) {
               var n = new Date();
@@ -1512,7 +1516,7 @@
               return (
                 Object.freeze(e),
                 function() {
-                  var t = a();
+                  var t = i();
                   return (
                     (t[6] = (15 & t[6]) | 64),
                     (t[8] = (63 & t[8]) | 128),
@@ -1541,7 +1545,7 @@
               );
             })(),
             randStr: function() {
-              return o.uuid();
+              return r.uuid();
             },
             mergeMap: function(e, t, n) {
               t || (t = []);
@@ -1555,8 +1559,8 @@
                 n
                   .replace("{active}", e.numActive || "⌛")
                   .replace("{waiting}", e.numWaiting || "⌛")
-                  .replace("{download_speed}", o.fmtspeed(e.downloadSpeed) || "⌛")
-                  .replace("{upload_speed}", o.fmtspeed(e.uploadSpeed) || "⌛")
+                  .replace("{download_speed}", r.fmtspeed(e.downloadSpeed) || "⌛")
+                  .replace("{upload_speed}", r.fmtspeed(e.uploadSpeed) || "⌛")
                   .replace("{stopped}", e.numStopped || "⌛")
                   .replace("{name}", t)
               );
@@ -1583,7 +1587,7 @@
               return n;
             }
           };
-        return o;
+        return r;
       }
     ]).name;
   },
@@ -1691,16 +1695,15 @@
           } catch (e) {}
           return function(n, i, r) {
             var s = !1,
-              l = 180,
+              l = 0,
               c = 0,
-              d = 0,
-              u = !1,
-              p = { label: "DOWN", data: [], color: "#00ff00", lines: { show: !0 } },
-              h = { label: "UP", data: [], color: "#0000ff", lines: { show: !0 } };
+              d = !1,
+              u = { label: "DOWN", data: [], color: "#00ff00", lines: { show: !0 } },
+              p = { label: "UP", data: [], color: "#0000ff", lines: { show: !0 } };
             i.height(0.6 * i.width());
-            var f = e.plot(i, [p, h], {
+            var h = e.plot(i, [u, p], {
                 legend: {
-                  show: void 0 == r.nolabel,
+                  show: null == r.nolabel,
                   backgroundOpacity: 0,
                   margin: [10, 20],
                   labelFormatter: function(e, n) {
@@ -1739,22 +1742,22 @@
                   min: 0
                 }
               }),
-              m = function() {
+              f = function() {
                 var e = i.width();
                 0 != e &&
-                  (i.height(0.6 * e), f.setData([p, h]), f.resize(), f.setupGrid(), f.draw());
+                  (i.height(0.6 * e), h.setData([u, p]), h.resize(), h.setupGrid(), h.draw());
               };
             n.$watch(r.dspeed, function(e) {
-              void 0 !== e && ((u = !0), (c = parseFloat(e) || 0));
+              void 0 !== e && ((d = !0), (l = parseFloat(e) || 0));
             }),
               n.$watch(r.uspeed, function(e) {
-                void 0 !== e && ((u = !0), (d = parseFloat(e) || 0));
+                void 0 !== e && ((d = !0), (c = parseFloat(e) || 0));
               }),
               n.$watch(r.draw, function(e) {
                 s = e;
               });
-            var g = setInterval(function() {
-              if (u) {
+            var m = setInterval(function() {
+              if (d) {
                 var e = new Date();
                 (e = Date.UTC(
                   e.getFullYear(),
@@ -1764,16 +1767,16 @@
                   e.getMinutes(),
                   e.getSeconds()
                 )),
-                  p.data.length === l && p.data.shift(),
+                  180 === u.data.length && u.data.shift(),
+                  u.data.push([e, l]),
+                  180 === p.data.length && p.data.shift(),
                   p.data.push([e, c]),
-                  h.data.length === l && h.data.shift(),
-                  h.data.push([e, d]),
-                  s && m();
+                  s && f();
               }
             }, 1e3);
-            o.a.element(window).bind("resize", m),
+            o.a.element(window).bind("resize", f),
               i.bind("$destroy", function() {
-                clearInterval(g);
+                clearInterval(m);
               });
           };
         }
@@ -1808,81 +1811,81 @@
             require: "ngModel",
             restrict: "A",
             link: function(t, n, a, o) {
-              var i = e(a.ngModel),
-                r = [],
-                s = 0,
+              var i,
+                r = e(a.ngModel),
+                s = [],
                 l = 0,
-                c = function() {
-                  return i(t);
-                },
-                d = function(e) {
-                  n.prop("indeterminate", e);
+                c = 0,
+                d = function() {
+                  return r(t);
                 },
                 u = function(e) {
-                  o.$setViewValue(e), o.$render();
+                  n.prop("indeterminate", e);
                 },
                 p = function(e) {
-                  return function() {
-                    r.length > 0 && e.apply(this, arguments);
-                  };
+                  o.$setViewValue(e), o.$render();
                 },
                 h = function(e) {
                   return function() {
-                    0 === r.length && e.apply(this, arguments);
+                    s.length > 0 && e.apply(this, arguments);
                   };
                 },
                 f = function(e) {
+                  return function() {
+                    0 === s.length && e.apply(this, arguments);
+                  };
+                },
+                m = function(e) {
                   return function(t) {
                     if (t.targetScope !== t.currentScope) return e.apply(this, arguments);
                   };
                 };
               if (
-                (a.indeterminate && e(a.indeterminate).constant && d(t.$eval(a.indeterminate)),
+                (a.indeterminate && e(a.indeterminate).constant && u(t.$eval(a.indeterminate)),
                 a.indeterminate && e(a.indeterminate).constant && !t.$eval(a.indeterminate))
               )
                 o.$viewChangeListeners.push(
-                  h(function() {
-                    t.$emit("childSelectedChange", c());
+                  f(function() {
+                    t.$emit("childSelectedChange", d());
                   })
                 ),
                   t.$on(
                     "ParentSelectedChange",
-                    f(
-                      h(function(e, t) {
-                        u(t);
+                    m(
+                      f(function(e, t) {
+                        p(t);
                       })
                     )
                   ),
-                  t.$emit("i'm child input", c),
-                  t.$emit("childSelectedChange", c());
+                  t.$emit("i'm child input", d),
+                  t.$emit("childSelectedChange", d());
               else {
                 t.$on(
                   "i'm child input",
-                  f(function(e, t) {
-                    r.push(t);
+                  m(function(e, t) {
+                    s.push(t);
                   })
                 );
                 o.$viewChangeListeners.push(
-                  p(
-                    (function(e) {
-                      return function() {
-                        if (!n.prop("indeterminate")) return e.apply(this, arguments);
-                      };
-                    })(function() {
-                      t.$broadcast("ParentSelectedChange", c());
+                  h(
+                    ((i = function() {
+                      t.$broadcast("ParentSelectedChange", d());
+                    }),
+                    function() {
+                      if (!n.prop("indeterminate")) return i.apply(this, arguments);
                     })
                   )
                 ),
                   t.$on(
                     "childSelectedChange",
-                    f(
-                      p(function(e, t) {
-                        if (s + l !== r.length) {
-                          (s = 0), (l = 0);
-                          for (var n = 0; n < r.length; n++) r[n]() ? (s += 1) : (l += 1);
-                        } else t ? (s++, l--) : (s--, l++);
-                        var a = 0 === l;
-                        d(a !== s > 0), u(a);
+                    m(
+                      h(function(e, t) {
+                        if (l + c !== s.length) {
+                          (l = 0), (c = 0);
+                          for (var n = 0; n < s.length; n++) s[n]() ? (l += 1) : (c += 1);
+                        } else t ? (l++, c--) : (l--, c++);
+                        var a = 0 === c;
+                        u(a !== l > 0), p(a);
                       })
                     )
                   );
@@ -2905,6 +2908,7 @@
           n(33),
           n(34),
           n(35),
+          n(39),
           n(40),
           n(41),
           n(42),
@@ -2921,7 +2925,7 @@
           n(53),
           n(54),
           n(55);
-        var $ = a.a.module("webui", [
+        var M = a.a.module("webui", [
           v.a,
           s.a,
           l.a,
@@ -2950,37 +2954,38 @@
           "ui.bootstrap",
           "pascalprecht.translate"
         ]);
-        function M(e, t) {
+        function $(e, t) {
           for (var n in t) t.hasOwnProperty(n) && ((e[n] && e[n].length) || (e[n] = t[n]));
           return e;
         }
-        $.config([
+        M.config([
           "$translateProvider",
           "$locationProvider",
           function(e, t) {
             e
               .translations("en_US", translations.en_US)
-              .translations("nl_NL", M(translations.nl_NL, translations.en_US))
-              .translations("th_TH", M(translations.th_TH, translations.en_US))
-              .translations("zh_CN", M(translations.zh_CN, translations.en_US))
-              .translations("zh_TW", M(translations.zh_TW, translations.en_US))
-              .translations("pl_PL", M(translations.pl_PL, translations.en_US))
-              .translations("fr_FR", M(translations.fr_FR, translations.en_US))
-              .translations("de_DE", M(translations.de_DE, translations.en_US))
-              .translations("es_ES", M(translations.es_ES, translations.en_US))
-              .translations("ru_RU", M(translations.ru_RU, translations.en_US))
-              .translations("it_IT", M(translations.it_IT, translations.en_US))
-              .translations("tr_TR", M(translations.tr_TR, translations.en_US))
-              .translations("cs_CZ", M(translations.cs_CZ, translations.en_US))
-              .translations("fa_IR", M(translations.fa_IR, translations.en_US))
-              .translations("id_ID", M(translations.id_ID, translations.en_US))
-              .translations("pt_BR", M(translations.pt_BR, translations.en_US))
+              .translations("nl_NL", $(translations.nl_NL, translations.en_US))
+              .translations("th_TH", $(translations.th_TH, translations.en_US))
+              .translations("zh_CN", $(translations.zh_CN, translations.en_US))
+              .translations("zh_TW", $(translations.zh_TW, translations.en_US))
+              .translations("pl_PL", $(translations.pl_PL, translations.en_US))
+              .translations("fr_FR", $(translations.fr_FR, translations.en_US))
+              .translations("de_DE", $(translations.de_DE, translations.en_US))
+              .translations("es_ES", $(translations.es_ES, translations.en_US))
+              .translations("ru_RU", $(translations.ru_RU, translations.en_US))
+              .translations("it_IT", $(translations.it_IT, translations.en_US))
+              .translations("tr_TR", $(translations.tr_TR, translations.en_US))
+              .translations("cs_CZ", $(translations.cs_CZ, translations.en_US))
+              .translations("fa_IR", $(translations.fa_IR, translations.en_US))
+              .translations("id_ID", $(translations.id_ID, translations.en_US))
+              .translations("pt_BR", $(translations.pt_BR, translations.en_US))
+              .translations("ja_JP", $(translations.ja_JP, translations.en_US))
               .useSanitizeValueStrategy("escapeParameters")
               .determinePreferredLanguage(),
               t.html5Mode({ enabled: !0, requireBase: !1 });
           }
         ]),
-          $.directive("textarea", C.a),
+          M.directive("textarea", C.a),
           "serviceWorker" in navigator &&
             "https:" === location.protocol &&
             window.addEventListener("load", () => {
@@ -5456,13 +5461,11 @@
               function(a, o, i, r, s, l, c, d) {
                 return function(a, u, p, h) {
                   function f(e) {
-                    var n = (e || h.trigger || p).split(" ");
-                    return {
-                      show: n,
-                      hide: n.map(function(e) {
+                    var n = (e || h.trigger || p).split(" "),
+                      a = n.map(function(e) {
                         return t[e] || e;
-                      })
-                    };
+                      });
+                    return { show: n, hide: a };
                   }
                   h = angular.extend({}, e, n, h);
                   var m = (function(e) {
@@ -5531,14 +5534,14 @@
                                     !e && D.isOpen && b();
                                   }),
                                   S.$watch(function() {
-                                    $ ||
-                                      (($ = !0),
+                                    M ||
+                                      ((M = !0),
                                       S.$$postDigest(function() {
-                                        ($ = !1), D.isOpen && I();
+                                        (M = !1), D.isOpen && I();
                                       }));
                                   })),
                                 (D.isOpen = !0),
-                                M && M.assign(D.origScope, D.isOpen),
+                                $ && $.assign(D.origScope, D.isOpen),
                                 c.$$phase || D.$apply(),
                                 k.css({ display: "block" }),
                                 void I())
@@ -5547,7 +5550,7 @@
                         }
                         function b() {
                           (D.isOpen = !1),
-                            M && M.assign(D.origScope, D.isOpen),
+                            $ && $.assign(D.origScope, D.isOpen),
                             i.cancel(C),
                             (C = null),
                             i.cancel(P),
@@ -5572,8 +5575,8 @@
                           x = f(void 0),
                           R = angular.isDefined(o[u + "Enable"]),
                           D = e.$new(!0),
-                          $ = !1,
-                          M = !!angular.isDefined(o[u + "IsOpen"]) && d(o[u + "IsOpen"]),
+                          M = !1,
+                          $ = !!angular.isDefined(o[u + "IsOpen"]) && d(o[u + "IsOpen"]),
                           I = function() {
                             k &&
                               (P ||
@@ -5611,8 +5614,8 @@
                           o.$observe(u + "Placement", function() {
                             D.isOpen && (y(), I());
                           }),
-                          M &&
-                            e.$watch(M, function(e) {
+                          $ &&
+                            e.$watch($, function(e) {
                               e !== D.isOpen && p();
                             });
                         var E = function() {
@@ -5635,10 +5638,10 @@
                                     t[0].addEventListener(x.hide[n], g));
                               });
                         })();
-                        var z = e.$eval(o[u + "Animation"]);
-                        D.animation = angular.isDefined(z) ? !!z : h.animation;
-                        var U = e.$eval(o[u + "AppendToBody"]);
-                        (A = angular.isDefined(U) ? U : A) &&
+                        var U = e.$eval(o[u + "Animation"]);
+                        D.animation = angular.isDefined(U) ? !!U : h.animation;
+                        var z = e.$eval(o[u + "AppendToBody"]);
+                        (A = angular.isDefined(z) ? z : A) &&
                           e.$on("$locationChangeSuccess", function() {
                             D.isOpen && b();
                           }),
@@ -6510,53 +6513,52 @@
           "$position",
           "typeaheadParser",
           function(e, t, n, a, o, i, r, s, l) {
-            var c = [9, 13, 27, 38, 40],
-              d = 200;
+            var c = [9, 13, 27, 38, 40];
             return {
               require: ["ngModel", "^?ngModelOptions"],
-              link: function(u, p, h, f) {
-                function m() {
+              link: function(d, u, p, h) {
+                function f() {
                   U.moveInProgress || ((U.moveInProgress = !0), U.$digest()),
-                    N && a.cancel(N),
-                    (N = a(function() {
-                      U.matches.length && g(), (U.moveInProgress = !1), U.$digest();
-                    }, d));
+                    j && a.cancel(j),
+                    (j = a(function() {
+                      U.matches.length && m(), (U.moveInProgress = !1), U.$digest();
+                    }, 200));
                 }
-                function g() {
-                  (U.position = D ? s.offset(p) : s.position(p)),
-                    (U.position.top += p.prop("offsetHeight"));
+                function m() {
+                  (U.position = R ? s.offset(u) : s.position(u)),
+                    (U.position.top += u.prop("offsetHeight"));
                 }
-                var v = f[0],
-                  b = f[1],
-                  w = u.$eval(h.typeaheadMinLength);
-                w || 0 === w || (w = 1);
-                var y,
-                  k,
-                  S = u.$eval(h.typeaheadWaitMs) || 0,
-                  T = !1 !== u.$eval(h.typeaheadEditable),
-                  C = t(h.typeaheadLoading).assign || angular.noop,
-                  P = t(h.typeaheadOnSelect),
-                  A =
-                    !!angular.isDefined(h.typeaheadSelectOnBlur) &&
-                    u.$eval(h.typeaheadSelectOnBlur),
-                  x = t(h.typeaheadNoResults).assign || angular.noop,
-                  R = h.typeaheadInputFormatter ? t(h.typeaheadInputFormatter) : void 0,
-                  D = !!h.typeaheadAppendToBody && u.$eval(h.typeaheadAppendToBody),
-                  $ = !1 !== u.$eval(h.typeaheadFocusFirst),
-                  M = !!h.typeaheadSelectOnExact && u.$eval(h.typeaheadSelectOnExact),
-                  I = t(h.ngModel),
-                  E = t(h.ngModel + "($$$p)"),
-                  z = l.parse(h.typeahead),
-                  U = u.$new(),
-                  L = u.$on("$destroy", function() {
+                var g = h[0],
+                  v = h[1],
+                  b = d.$eval(p.typeaheadMinLength);
+                b || 0 === b || (b = 1);
+                var w,
+                  y,
+                  k = d.$eval(p.typeaheadWaitMs) || 0,
+                  S = !1 !== d.$eval(p.typeaheadEditable),
+                  T = t(p.typeaheadLoading).assign || angular.noop,
+                  C = t(p.typeaheadOnSelect),
+                  P =
+                    !!angular.isDefined(p.typeaheadSelectOnBlur) &&
+                    d.$eval(p.typeaheadSelectOnBlur),
+                  A = t(p.typeaheadNoResults).assign || angular.noop,
+                  x = p.typeaheadInputFormatter ? t(p.typeaheadInputFormatter) : void 0,
+                  R = !!p.typeaheadAppendToBody && d.$eval(p.typeaheadAppendToBody),
+                  D = !1 !== d.$eval(p.typeaheadFocusFirst),
+                  M = !!p.typeaheadSelectOnExact && d.$eval(p.typeaheadSelectOnExact),
+                  $ = t(p.ngModel),
+                  I = t(p.ngModel + "($$$p)"),
+                  E = l.parse(p.typeahead),
+                  U = d.$new(),
+                  z = d.$on("$destroy", function() {
                     U.$destroy();
                   });
-                U.$on("$destroy", L);
-                var F = "typeahead-" + U.$id + "-" + Math.floor(1e4 * Math.random());
-                p.attr({ "aria-autocomplete": "list", "aria-expanded": !1, "aria-owns": F });
-                var O = angular.element("<div typeahead-popup></div>");
-                O.attr({
-                  id: F,
+                U.$on("$destroy", z);
+                var L = "typeahead-" + U.$id + "-" + Math.floor(1e4 * Math.random());
+                u.attr({ "aria-autocomplete": "list", "aria-expanded": !1, "aria-owns": L });
+                var F = angular.element("<div typeahead-popup></div>");
+                F.attr({
+                  id: L,
                   matches: "matches",
                   active: "activeIdx",
                   select: "select(activeIdx)",
@@ -6564,42 +6566,42 @@
                   query: "query",
                   position: "position"
                 }),
-                  angular.isDefined(h.typeaheadTemplateUrl) &&
-                    O.attr("template-url", h.typeaheadTemplateUrl),
-                  angular.isDefined(h.typeaheadPopupTemplateUrl) &&
-                    O.attr("popup-template-url", h.typeaheadPopupTemplateUrl);
-                var B = function() {
-                    (U.matches = []), (U.activeIdx = -1), p.attr("aria-expanded", !1);
+                  angular.isDefined(p.typeaheadTemplateUrl) &&
+                    F.attr("template-url", p.typeaheadTemplateUrl),
+                  angular.isDefined(p.typeaheadPopupTemplateUrl) &&
+                    F.attr("popup-template-url", p.typeaheadPopupTemplateUrl);
+                var O = function() {
+                    (U.matches = []), (U.activeIdx = -1), u.attr("aria-expanded", !1);
                   },
-                  j = function(e) {
-                    return F + "-option-" + e;
+                  B = function(e) {
+                    return L + "-option-" + e;
                   };
                 U.$watch("activeIdx", function(e) {
                   0 > e
-                    ? p.removeAttr("aria-activedescendant")
-                    : p.attr("aria-activedescendant", j(e));
+                    ? u.removeAttr("aria-activedescendant")
+                    : u.attr("aria-activedescendant", B(e));
                 });
-                var N,
-                  H = function(e) {
+                var j,
+                  N = function(e) {
                     var t = { $viewValue: e };
-                    C(u, !0),
-                      x(u, !1),
-                      n.when(z.source(u, t)).then(
+                    T(d, !0),
+                      A(d, !1),
+                      n.when(E.source(d, t)).then(
                         function(n) {
-                          var a = e === v.$viewValue;
-                          if (a && y)
+                          var a = e === g.$viewValue;
+                          if (a && w)
                             if (n && n.length > 0) {
-                              (U.activeIdx = $ ? 0 : -1), x(u, !1), (U.matches.length = 0);
+                              (U.activeIdx = D ? 0 : -1), A(d, !1), (U.matches.length = 0);
                               for (var o = 0; o < n.length; o++)
-                                (t[z.itemName] = n[o]),
+                                (t[E.itemName] = n[o]),
                                   U.matches.push({
-                                    id: j(o),
-                                    label: z.viewMapper(U, t),
+                                    id: B(o),
+                                    label: E.viewMapper(U, t),
                                     model: n[o]
                                   });
                               (U.query = e),
-                                g(),
-                                p.attr("aria-expanded", !0),
+                                m(),
+                                u.attr("aria-expanded", !0),
                                 M &&
                                   1 === U.matches.length &&
                                   (function(e, t) {
@@ -6609,84 +6611,84 @@
                                     );
                                   })(e, 0) &&
                                   U.select(0);
-                            } else B(), x(u, !0);
-                          a && C(u, !1);
+                            } else O(), A(d, !0);
+                          a && T(d, !1);
                         },
                         function() {
-                          B(), C(u, !1), x(u, !0);
+                          O(), T(d, !1), A(d, !0);
                         }
                       );
                   };
-                D && (angular.element(i).bind("resize", m), o.find("body").bind("scroll", m)),
+                R && (angular.element(i).bind("resize", f), o.find("body").bind("scroll", f)),
                   (U.moveInProgress = !1),
-                  B(),
+                  O(),
                   (U.query = void 0);
-                var W,
-                  V = function() {
-                    W && a.cancel(W);
+                var H,
+                  W = function() {
+                    H && a.cancel(H);
                   };
-                v.$parsers.unshift(function(e) {
+                g.$parsers.unshift(function(e) {
                   return (
-                    (y = !0),
-                    0 === w || (e && e.length >= w)
-                      ? S > 0
-                        ? (V(),
+                    (w = !0),
+                    0 === b || (e && e.length >= b)
+                      ? k > 0
+                        ? (W(),
                           (function(e) {
-                            W = a(function() {
-                              H(e);
-                            }, S);
+                            H = a(function() {
+                              N(e);
+                            }, k);
                           })(e))
-                        : H(e)
-                      : (C(u, !1), V(), B()),
-                    T
+                        : N(e)
+                      : (T(d, !1), W(), O()),
+                    S
                       ? e
                       : e
-                        ? void v.$setValidity("editable", !1)
-                        : (v.$setValidity("editable", !0), null)
+                        ? void g.$setValidity("editable", !1)
+                        : (g.$setValidity("editable", !0), null)
                   );
                 }),
-                  v.$formatters.push(function(e) {
+                  g.$formatters.push(function(e) {
                     var t,
                       n = {};
                     return (
-                      T || v.$setValidity("editable", !0),
-                      R
-                        ? ((n.$model = e), R(u, n))
-                        : ((n[z.itemName] = e),
-                          (t = z.viewMapper(u, n)),
-                          (n[z.itemName] = void 0),
-                          t !== z.viewMapper(u, n) ? t : e)
+                      S || g.$setValidity("editable", !0),
+                      x
+                        ? ((n.$model = e), x(d, n))
+                        : ((n[E.itemName] = e),
+                          (t = E.viewMapper(d, n)),
+                          (n[E.itemName] = void 0),
+                          t !== E.viewMapper(d, n) ? t : e)
                     );
                   }),
                   (U.select = function(e) {
                     var t,
                       n,
                       o = {};
-                    (k = !0),
-                      (o[z.itemName] = n = U.matches[e].model),
-                      (t = z.modelMapper(u, o)),
+                    (y = !0),
+                      (o[E.itemName] = n = U.matches[e].model),
+                      (t = E.modelMapper(d, o)),
                       (function(e, t) {
-                        angular.isFunction(I(u)) && b && b.$options && b.$options.getterSetter
-                          ? E(e, { $$$p: t })
-                          : I.assign(e, t);
-                      })(u, t),
-                      v.$setValidity("editable", !0),
-                      v.$setValidity("parse", !0),
-                      P(u, { $item: n, $model: t, $label: z.viewMapper(u, o) }),
-                      B(),
-                      !1 !== U.$eval(h.typeaheadFocusOnSelect) &&
+                        angular.isFunction($(d)) && v && v.$options && v.$options.getterSetter
+                          ? I(e, { $$$p: t })
+                          : $.assign(e, t);
+                      })(d, t),
+                      g.$setValidity("editable", !0),
+                      g.$setValidity("parse", !0),
+                      C(d, { $item: n, $model: t, $label: E.viewMapper(d, o) }),
+                      O(),
+                      !1 !== U.$eval(p.typeaheadFocusOnSelect) &&
                         a(
                           function() {
-                            p[0].focus();
+                            u[0].focus();
                           },
                           0,
                           !1
                         );
                   }),
-                  p.bind("keydown", function(e) {
+                  u.bind("keydown", function(e) {
                     if (0 !== U.matches.length && -1 !== c.indexOf(e.which)) {
                       if (-1 === U.activeIdx && (9 === e.which || 13 === e.which))
-                        return B(), void U.$digest();
+                        return O(), void U.$digest();
                       e.preventDefault(),
                         40 === e.which
                           ? ((U.activeIdx = (U.activeIdx + 1) % U.matches.length), U.$digest())
@@ -6698,33 +6700,33 @@
                               ? U.$apply(function() {
                                   U.select(U.activeIdx);
                                 })
-                              : 27 === e.which && (e.stopPropagation(), B(), U.$digest());
+                              : 27 === e.which && (e.stopPropagation(), O(), U.$digest());
                     }
                   }),
-                  p.bind("blur", function() {
-                    A &&
+                  u.bind("blur", function() {
+                    P &&
                       U.matches.length &&
                       -1 !== U.activeIdx &&
-                      !k &&
-                      ((k = !0),
+                      !y &&
+                      ((y = !0),
                       U.$apply(function() {
                         U.select(U.activeIdx);
                       })),
-                      (y = !1),
-                      (k = !1);
+                      (w = !1),
+                      (y = !1);
                   });
-                var Y = function(e) {
-                  p[0] !== e.target &&
+                var V = function(e) {
+                  u[0] !== e.target &&
                     3 !== e.which &&
                     0 !== U.matches.length &&
-                    (B(), r.$$phase || U.$digest());
+                    (O(), r.$$phase || U.$digest());
                 };
-                o.bind("click", Y),
-                  u.$on("$destroy", function() {
-                    o.unbind("click", Y), D && q.remove(), O.remove();
+                o.bind("click", V),
+                  d.$on("$destroy", function() {
+                    o.unbind("click", V), R && Y.remove(), F.remove();
                   });
-                var q = e(O)(U);
-                D ? o.find("body").append(q) : p.after(q);
+                var Y = e(F)(U);
+                R ? o.find("body").append(Y) : u.after(Y);
               }
             };
           }
@@ -7974,16 +7976,16 @@
                       t.tickGenerator ||
                         ((t.tickGenerator = function(e) {
                           var t,
-                            n = [],
-                            a = (function(e, t) {
-                              return t * Math.floor(e / t);
-                            })(e.min, e.tickSize),
-                            o = 0,
-                            i = Number.NaN;
+                            n,
+                            a,
+                            o = [],
+                            i = ((n = e.min), (a = e.tickSize) * Math.floor(n / a)),
+                            r = 0,
+                            s = Number.NaN;
                           do {
-                            (t = i), (i = a + o * e.tickSize), n.push(i), ++o;
-                          } while (i < e.max && i != t);
-                          return n;
+                            (t = s), (s = i + r * e.tickSize), o.push(s), ++r;
+                          } while (s < e.max && s != t);
+                          return o;
                         }),
                         (t.tickFormatter = function(e, t) {
                           var n = t.tickDecimals ? Math.pow(10, t.tickDecimals) : 1,
@@ -8209,7 +8211,7 @@
                         return e.label == t.label ? 0 : e.label < t.label != u ? 1 : -1;
                       });
                     }
-                  for (var d = 0; d < i.length; ++d) {
+                  for (d = 0; d < i.length; ++d) {
                     var p = i[d];
                     d % s.legend.noColumns == 0 && (l && o.push("</tr>"), o.push("<tr>"), (l = !0)),
                       o.push(
@@ -8283,11 +8285,11 @@
                 (u.fillStyle = G(s.grid.backgroundColor, v, 0, "rgba(255, 255, 255, 0)")),
                 u.fillRect(0, 0, g, v),
                 u.restore()),
-                e.show && !e.aboveData && M();
+                e.show && !e.aboveData && $();
               for (var t = 0; t < r.length; ++t) y(b.drawSeries, [u, r[t]]), I(r[t]);
-              y(b.draw, [u]), e.show && e.aboveData && M(), l.render(), N();
+              y(b.draw, [u]), e.show && e.aboveData && $(), l.render(), N();
             }
-            function $(e, t) {
+            function M(e, t) {
               for (var n, a, o, i, r = T(), s = 0; s < r.length; ++s)
                 if (
                   (n = r[s]).direction == t &&
@@ -8305,7 +8307,7 @@
               }
               return { from: a, to: o, axis: n };
             }
-            function M() {
+            function $() {
               var t, n, a, o;
               u.save(), u.translate(m.left, m.top);
               var i = s.grid.markings;
@@ -8322,8 +8324,8 @@
                   ++t
                 ) {
                   var r = i[t],
-                    l = $(r, "x"),
-                    c = $(r, "y");
+                    l = M(r, "x"),
+                    c = M(r, "y");
                   if (
                     (null == l.from && (l.from = l.axis.min),
                     null == l.to && (l.to = l.axis.max),
@@ -8546,19 +8548,22 @@
                       );
                   }
                   (u.lineWidth = n), (u.strokeStyle = e.color);
-                  var i = z(e.lines, e.color, 0, v);
+                  var i = U(e.lines, e.color, 0, v);
                   i &&
                     ((u.fillStyle = i),
                     (function(e, t, n) {
-                      var a = e.points,
-                        o = e.pointsize,
-                        i = Math.min(Math.max(0, n.min), n.max),
-                        r = 0,
-                        s = !1,
-                        l = 1,
-                        c = 0,
-                        d = 0;
-                      for (; !(o > 0 && r > a.length + o); ) {
+                      for (
+                        var a = e.points,
+                          o = e.pointsize,
+                          i = Math.min(Math.max(0, n.min), n.max),
+                          r = 0,
+                          s = !1,
+                          l = 1,
+                          c = 0,
+                          d = 0;
+                        !(o > 0 && r > a.length + o);
+
+                      ) {
                         var p = a[(r += o) - o],
                           h = a[r - o + l],
                           f = a[r],
@@ -8643,7 +8648,7 @@
                     }
                     var n = e.bars.fill
                       ? function(t, n) {
-                          return z(e.bars, e.color, t, n);
+                          return U(e.bars, e.color, t, n);
                         }
                       : null;
                     (function(t, n, a, o, i, r) {
@@ -8703,7 +8708,7 @@
                     }
                     (u.lineWidth = n),
                       (u.strokeStyle = e.color),
-                      t(e.datapoints, o, z(e.points, e.color), 0, !1, e.xaxis, e.yaxis, i),
+                      t(e.datapoints, o, U(e.points, e.color), 0, !1, e.xaxis, e.yaxis, i),
                       u.restore();
                   })(e);
             }
@@ -8743,7 +8748,7 @@
                     b ? l.lineTo(u, h) : l.moveTo(u, h),
                     l.stroke()));
             }
-            function z(t, n, a, o) {
+            function U(t, n, a, o) {
               var i = t.fill;
               if (!i) return null;
               if (t.fillColor) return G(t.fillColor, a, o, n);
@@ -8842,7 +8847,7 @@
                   (h = []),
                   (f = []),
                   (b = null),
-                  (U = []),
+                  (z = []),
                   (w = null);
               }),
               (w.resize = function() {
@@ -8958,7 +8963,7 @@
                 s.grid.clickable && d.click(B);
                 y(b.bindEvents, [d]);
               })();
-            var U = [],
+            var z = [],
               L = null;
             function F(e) {
               s.grid.hoverable &&
@@ -9032,13 +9037,13 @@
                         (w = f[o]), (y = f[o + 1]);
                         var A = f[o + 2];
                         null != w &&
-                          (r[a].bars.horizontal
+                          ((r[a].bars.horizontal
                             ? m <= Math.max(A, w) && m >= Math.min(A, w) && g >= y + C && g <= y + P
                             : m >= w + C &&
                               m <= w + P &&
                               g >= Math.min(A, y) &&
                               g <= Math.max(A, y)) &&
-                          (d = [a, o / i]);
+                            (d = [a, o / i]));
                       }
                     }
                   }
@@ -9060,8 +9065,8 @@
                   (u.pageY = parseInt(u.series.yaxis.p2c(u.datapoint[1]) + o.top + m.top, 10))),
                 s.grid.autoHighlight)
               ) {
-                for (var p = 0; p < U.length; ++p) {
-                  var h = U[p];
+                for (var p = 0; p < z.length; ++p) {
+                  var h = z[p];
                   h.auto != e ||
                     (u &&
                       h.series == u.series &&
@@ -9081,10 +9086,10 @@
               var e, t;
               for (
                 L = null, p.save(), c.clear(), p.translate(m.left, m.top), e = 0;
-                e < U.length;
+                e < z.length;
                 ++e
               )
-                (t = U[e]).series.bars.show ? _(t.series, t.point) : q(t.series, t.point);
+                (t = z[e]).series.bars.show ? _(t.series, t.point) : q(t.series, t.point);
               p.restore(), y(b.drawOverlay, [p]);
             }
             function W(e, t, n) {
@@ -9093,20 +9098,20 @@
                 t = e.datapoints.points.slice(a * t, a * (t + 1));
               }
               var o = Y(e, t);
-              -1 == o ? (U.push({ series: e, point: t, auto: n }), N()) : n || (U[o].auto = !1);
+              -1 == o ? (z.push({ series: e, point: t, auto: n }), N()) : n || (z[o].auto = !1);
             }
             function V(e, t) {
-              if (null == e && null == t) return (U = []), void N();
+              if (null == e && null == t) return (z = []), void N();
               if (("number" == typeof e && (e = r[e]), "number" == typeof t)) {
                 var n = e.datapoints.pointsize;
                 t = e.datapoints.points.slice(n * t, n * (t + 1));
               }
               var a = Y(e, t);
-              -1 != a && (U.splice(a, 1), N());
+              -1 != a && (z.splice(a, 1), N());
             }
             function Y(e, t) {
-              for (var n = 0; n < U.length; ++n) {
-                var a = U[n];
+              for (var n = 0; n < z.length; ++n) {
+                var a = z[n];
                 if (a.series == e && a.point[0] == t[0] && a.point[1] == t[1]) return n;
               }
               return -1;
@@ -9356,7 +9361,7 @@
           if ("function" == typeof e.strftime) return e.strftime(t);
           var o,
             i = function(e, t) {
-              return (e = "" + e), (t = "" + (null == t ? "0" : t)), 1 == e.length ? t + e : e;
+              return (t = "" + (null == t ? "0" : t)), 1 == (e = "" + e).length ? t + e : e;
             },
             r = [],
             s = !1,
@@ -9444,7 +9449,7 @@
             };
           }
           var n = { date: e };
-          void 0 != e.strftime && t(n, "strftime", e, "strftime"),
+          null != e.strftime && t(n, "strftime", e, "strftime"),
             t(n, "getTime", e, "getTime"),
             t(n, "setTime", e, "setTime");
           for (
@@ -9641,7 +9646,6 @@
     }.call(this, n(1)));
   },
   function(e, t, n) {},
-  ,
   ,
   ,
   function(e, t) {
@@ -11862,6 +11866,153 @@
         "Trying to connect to aria2 using the new connection configuration":
           "Tentando conectar-se ao aria2 utilizando a nova configuração de conexão",
         "Remove {{name}} and associated meta-data?": "Remover {{name}} e os metadados associados?"
+      });
+  },
+  function(e, t) {
+    "undefined" == typeof translations && (translations = {}),
+      (translations.ja_JP = {
+        Search: "検索",
+        Add: "追加",
+        "By URIs": "URIを使用",
+        "By Torrents": "Torrentを使用",
+        "By Metalinks": "Metalinkを使用",
+        Manage: "Manage",
+        "Pause All": "全て一時停止",
+        "Resume Paused": "一時停止を再開",
+        "Purge Completed": "完了済みエントリを消去",
+        Settings: "Settings",
+        "Connection Settings": "接続設定",
+        "Global Settings": "共通設定",
+        "Server info": "サーバー情報",
+        "About and contribute": "関連と貢献について",
+        "Toggle navigation": "ナビゲーションを切り替え",
+        Miscellaneous: "その他",
+        "Global Statistics": "共通統計",
+        About: "関連",
+        Displaying: "表示",
+        of: "の",
+        downloads: "ダウンロード",
+        Language: "言語",
+        "Download Filters": "ダウンロードをフィルター",
+        Running: "動作中",
+        Active: "有効",
+        Waiting: "待機中",
+        Complete: "完了",
+        Error: "エラー",
+        Paused: "一時停止中",
+        Removed: "削除済み",
+        "Hide linked meta-data": "リンクされたメタデータを非表示",
+        Toggle: "切り替え",
+        "Reset filters": "フィルターをリセット",
+        Verifing: "検証中",
+        "Verify Pending": "検証待ち",
+        "Quick Access Settings": "Quick Access設定",
+        Save: "保存",
+        "Save settings": "設定を保存",
+        "Currently no download in line to display, use the":
+          "現在表示するダウンロードがありません。",
+        "download button to start downloading files!":
+          "ダウンロードボタンを押すとファイルのダウンロードを開始できます!",
+        Peers: "ピア",
+        "More Info": "詳細",
+        Remove: "削除",
+        "# of": "# の",
+        Length: "長さ",
+        "Add Downloads By URIs": "URIからのダウンロード",
+        "- You can add multiple downloads (files) at the same time by putting URIs for each file on a separate line.":
+          "- 各ファイルのURIを別々の行に入力することで複数のダウンロード(ファイル)を同時に追加できます。",
+        "- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.":
+          "- 同じファイルに複数のURI(ミラー)を追加することもできます。これを行うにはURIをスペースで区切ります。",
+        "- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.":
+          "- URIには､HTTP(S)/FTP/BitTorrent-Magnetが使えます｡",
+        "Download settings": "ダウンロード設定",
+        "Advanced settings": "上級者向け設定",
+        Cancel: "取り消し",
+        Start: "開始",
+        Choose: "選択",
+        "Quick Access (shown on the main page)": "Quick Access (メインページに表示)",
+        "Add Downloads By Torrents": "Torrentからダウンロードを追加",
+        "- Select the torrent from the local filesystem to start the download.":
+          "- この端末からTorrentを選択してダウンロードを開始します。",
+        "- You can select multiple torrents to start multiple downloads.":
+          "- 複数のTorrentを選択して複数のダウンロードを開始できます。",
+        "- To add a BitTorrent-Magnet URL, use the Add By URI option and add it there.":
+          "- BitTorrent-Magnet URLを追加するには､[URIで追加]からそこに追加します。",
+        "Select Torrents": "Torrentを選択",
+        "Select a Torrent": "Torrentを選択",
+        "Add Downloads By Metalinks": "Metalinkからダウンロードを追加",
+        "Select Metalinks": "Metalinkを選択",
+        "- Select the Metalink from the local filesystem to start the download.":
+          "- この端末からMetalinkを選択してダウンロードを開始します。",
+        "- You can select multiple Metalinks to start multiple downloads.":
+          "- 複数のMetalinkを選択して複数のダウンロードを開始できます。",
+        "Select a Metalink": "Metalinkを選択",
+        "Choose files to start download for": "ダウンロードを開始するファイルを選択してください",
+        "Select to download": "選択してダウンロード",
+        "Aria2 RPC host and port": "Aria2のRPCホストとポート",
+        "Enter the host": "ホストを入力",
+        "Enter the IP or DNS name of the server on which the RPC for Aria2 is running (default: localhost)":
+          "Aria2のRPCが実行されている､サーバーのIPかDNS名を入力 (default: localhost)",
+        "Enter the port": "ポートを入力",
+        "Enter the port of the server on which the RPC for Aria2 is running (default: 6800)":
+          "Aria2のRPCが実行されているサーバーのポートを入力 (default: 6800)",
+        "Enter the RPC path": "RPCのパスを入力",
+        "Enter the path for the Aria2 RPC endpoint (default: /jsonrpc)":
+          "Aria2 RPCエンドポイントのパスを入力 (default: /jsonrpc)",
+        "SSL/TLS encryption": "SSL/TLS 暗号化",
+        "Enable SSL/TLS encryption": "SSL/TLS 暗号化を有効にする",
+        "Enter the secret token (optional)": "シークレットトークンを入力 (任意)",
+        "Enter the Aria2 RPC secret token (leave empty if authentication is not enabled)":
+          "Aria2 RPCのシークレットトークンを入力 (認証が有効になっていない場合は空のままにします)",
+        "Enter the username (optional)": "ユーザー名を入力 (任意)",
+        "Enter the Aria2 RPC username (empty if authentication not enabled)":
+          "Aria2 RPCのユーザー名を入力 (認証が有効でない場合は空にします)",
+        "Enter the password (optional)": "パスワードを入力 (任意)",
+        "Enter the Aria2 RPC password (empty if authentication not enabled)":
+          "Aria2 RPCのパスワードを入力 (認証が有効でない場合は空にします)",
+        "Enter base URL (optional)": "ベース(基底)URLを入力 (任意)",
+        "Direct Download": "直接的ダウンロード",
+        "If supplied, links will be created to enable direct download from the Aria2 server.":
+          "指定すると、Aria2サーバーから直接ダウンロードできるようにリンクが作成されます。",
+        "(Requires appropriate webserver to be configured.)":
+          "(適切なWebサーバーを構成する必要があります。)",
+        "Save Connection configuration": "接続構成を保存",
+        Filter: "フィルター",
+        "Aria2 server info": "Aria2サーバーの情報",
+        "Aria2 Version": "Aria2バージョン",
+        "Features Enabled": "有効な機能",
+        "To download the latest version of the project, add issues or to contribute back, head on to":
+          "プロジェクトの最新バージョンをダウンロードするには、Issueを追加するか、貢献してください。",
+        "Or you can open the latest version in the browser through":
+          "または、ブラウザで最新バージョンを開くことができます",
+        Close: "閉じる",
+        "Download status": "ダウンロードの状態",
+        "Download Speed": "ダウンロードの速さ",
+        "Upload Speed": "アップロードの速さ",
+        "Estimated time": "予定時刻",
+        "Download Size": "ダウンロードサイズ",
+        Downloaded: "ダウンロード済み",
+        Progress: "進捗",
+        "Download Path": "ダウンロードパス",
+        Uploaded: "アップロード済み",
+        "Download GID": "ダウンロードGID",
+        "Number of Pieces": "個数",
+        "Piece Length": "ピースの長さ",
+        "Shutdown Server": "サーバーをシャットダウン",
+        "The last connection attempt was unsuccessful. Trying another configuration":
+          "最後の接続試行は失敗しました。別の構成を試す",
+        "Oh Snap!": "糞が!",
+        "Could not connect to the aria2 RPC server. Will retry in 10 secs. You might want to check the connection settings by going to Settings > Connection Settings":
+          "Aria2 RPCサーバーに接続できませんでした。10秒後に再試行します。 [設定] > [接続設定]に移動して接続設定を確認できます｡",
+        "Authentication failed while connecting to Aria2 RPC server. Will retry in 10 secs. You might want to confirm your authentication details by going to Settings > Connection Settings":
+          "Aria2 RPCサーバーへの接続中に認証が失敗しました。 10秒後に再試行します。 [設定] > [接続設定]に移動して認証の詳細を確認することができます｡",
+        "Successfully connected to Aria2 through its remote RPC …":
+          "リモートRPCを介してAria2に正常に接続しました …",
+        "Successfully connected to Aria2 through remote RPC, however the connection is still insecure. For complete security try adding an authorization secret token while starting Aria2 (through the flag --rpc-secret)":
+          "リモートRPCを介してAria2に正常に接続しましたが、接続はまだ安全ではありません。完全なセキュリティを確保するには、Aria2の起動時に認証フラグを追加してください｡ (through the flag --rpc-secret)",
+        "Trying to connect to aria2 using the new connection configuration":
+          "新しい接続構成を使用してAria2に接続しようとしています｡",
+        "Remove {{name}} and associated meta-data?": "{{name}}と関連するメタデータを削除しますか?"
       });
   }
 ]);

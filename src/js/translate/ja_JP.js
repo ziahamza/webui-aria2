@@ -36,7 +36,7 @@ translations.ja_JP = {
   Waiting: "待機中",
   Complete: "完了",
   Error: "エラー",
-  Paused: "一時停止中,
+  Paused: "一時停止中",
   Removed: "削除済み",
   "Hide linked meta-data": "リンクされたメタデータを非表示",
   Toggle: "切り替え",
@@ -48,9 +48,9 @@ translations.ja_JP = {
   "Quick Access Settings": "Quick Access設定",
   Save: "保存",
   "Save settings": "設定を保存",
-  "Currently no download in line to display, use the":
-    "現在表示するダウンロードがありません。",
-  "download button to start downloading files!": "ダウンロードボタンを押すとファイルのダウンロードを開始できます!",
+  "Currently no download in line to display, use the": "現在表示するダウンロードがありません。",
+  "download button to start downloading files!":
+    "ダウンロードボタンを押すとファイルのダウンロードを開始できます!",
   Peers: "ピア",
   "More Info": "詳細",
   Remove: "削除",
@@ -62,7 +62,8 @@ translations.ja_JP = {
     "- 各ファイルのURIを別々の行に入力することで複数のダウンロード(ファイル)を同時に追加できます。",
   "- You can also add multiple URIs (mirrors) for the *same* file. To do this, separate the URIs by a space.":
     "- 同じファイルに複数のURI(ミラー)を追加することもできます。これを行うにはURIをスペースで区切ります。",
-  "- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.": "- URIには､HTTP(S)/FTP/BitTorrent-Magnetが使えます｡",
+  "- A URI can be HTTP(S)/FTP/BitTorrent-Magnet.":
+    "- URIには､HTTP(S)/FTP/BitTorrent-Magnetが使えます｡",
   "Download settings": "ダウンロード設定",
   "Advanced settings": "上級者向け設定",
   Cancel: "取り消し",
