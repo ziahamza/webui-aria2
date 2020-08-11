@@ -29,6 +29,8 @@ jobs:
         if git log --format=%B -n 1 $(git rev-parse HEAD)|grep -v "Docs Update"; then
           npm install
           node node_modules/webpack-cli/bin/cli.js
+          git config --global user.email "$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/users/${GITHUB_ACTOR}|jq -r .email)"
+          git config --global user.name "${GITHUB_ACTOR}"
           git add -A
           git commit -m "Docs Update $(git rev-parse --short HEAD)+$(git show -s --format=%ci $(git rev-parse HEAD)|tr ' ' '-')"
           git remote set-url origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_ACTOR}/webui-aria2.git
