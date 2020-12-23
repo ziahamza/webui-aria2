@@ -43,7 +43,7 @@ translations.fa_IR = {
   Toggle: "تغییر وضعیت",
   "Reset filters": "حذف فیلترها",
   // download status
-  Verifing: "تأیید کردن",
+  Verifying: "تأیید کردن",
   "Verify Pending": "تأیید کردن در انتظارها",
   // starred properties
   "Quick Access Settings": "تنظیمات دسترسی سریع",

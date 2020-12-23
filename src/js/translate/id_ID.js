@@ -44,7 +44,7 @@ translations.id_ID = {
   Toggle: "Tombol alihan",
   "Reset filters": "Reset penyaring",
   // download status
-  Verifing: "Memverifikasi",
+  Verifying: "Memverifikasi",
   "Verify Pending": "Verifikasi Ditunda",
   // starred properties
   "Quick Access Settings": "Pengaturan Akses Cepat",

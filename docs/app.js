@@ -2258,7 +2258,7 @@
                 ? (t.gid !== e.gid && (t.files = []),
                   (t.dir = e.dir),
                   (t.status = e.status),
-                  e.verifiedLength && (t.status = "verifing"),
+                  e.verifiedLength && (t.status = "verifying"),
                   e.verifyIntegrityPending && (t.status = "verifyPending"),
                   (t.errorCode = e.errorCode),
                   (t.gid = e.gid),
@@ -2326,7 +2326,7 @@
                     files: []
                   }),
                   e.verifiedLength &&
-                    ((t.verifiedLength = e.verifiedLength), (t.status = "verifing")),
+                    ((t.verifiedLength = e.verifiedLength), (t.status = "verifying")),
                   e.verifyIntegrityPending &&
                     ((t.verifyIntegrityPending = e.verifyIntegrityPending),
                     (t.status = "verifyPending")));
@@ -2378,7 +2378,7 @@
                   return "progress-bar-warning";
                 case "active":
                   return "active";
-                case "verifing":
+                case "verifying":
                   return "progress-bar-warning";
                 case "complete":
                   return "progress-bar-success";
@@ -9797,7 +9797,7 @@
         "Hide linked meta-data": "Hide linked meta-data",
         Toggle: "Toggle",
         "Reset filters": "Reset filters",
-        Verifing: "Verifing",
+        Verifying: "Verifying",
         "Verify Pending": "Verify Pending",
         "Quick Access Settings": "Quick Access Settings",
         Save: "Save",
@@ -10048,7 +10048,7 @@
         "Hide linked meta-data": "隐藏连接的元数据",
         Toggle: "反向选择",
         "Reset filters": "重置过滤器",
-        Verifing: "正在验证",
+        Verifying: "正在验证",
         "Verify Pending": "等待验证",
         "Quick Access Settings": "快速访问设置",
         Save: "保存",
@@ -10190,7 +10190,7 @@
         "Hide linked meta-data": "隱藏連線的元資料",
         Toggle: "反向選擇",
         "Reset filters": "重置過濾器",
-        Verifing: "正在驗證",
+        Verifying: "正在驗證",
         "Verify Pending": "等待驗證",
         "Quick Access Settings": "快速訪問設定",
         Save: "儲存",
@@ -10471,7 +10471,7 @@
         "Hide linked meta-data": "Cacher les métadonnées liées",
         Toggle: "Basculer",
         "Reset filters": "Réinitialiser les filtres",
-        Verifing: "Vérification",
+        Verifying: "Vérification",
         "Verify Pending": "Vérification en attente",
         "Quick Access Settings": "Paramètres d'accès rapide",
         Save: "Sauvegarder",
@@ -10750,7 +10750,7 @@
         "Hide linked meta-data": "Ocultar metadatos adjuntos",
         Toggle: "Conmutar",
         "Reset filters": "Restablecer Filtros",
-        Verifing: "Verificando",
+        Verifying: "Verificando",
         "Verify Pending": "Pendiente de verificación",
         "Quick Access Settings": "Ajustes Rápidos",
         Save: "Guardar",
@@ -11317,7 +11317,7 @@
         "Hide linked meta-data": "Skrýt připojená meta-data",
         Toggle: "Prohodit",
         "Reset filters": "Smazat filtry",
-        Verifing: "Ověřování",
+        Verifying: "Ověřování",
         "Verify Pending": "Čekání na ověření",
         "Quick Access Settings": "Rychlé nastavení",
         Save: "Uložit",
@@ -11462,7 +11462,7 @@
         "Hide linked meta-data": "مخفی کردن متا داده مرتبط",
         Toggle: "تغییر وضعیت",
         "Reset filters": "حذف فیلترها",
-        Verifing: "تأیید کردن",
+        Verifying: "تأیید کردن",
         "Verify Pending": "تأیید کردن در انتظارها",
         "Quick Access Settings": "تنظیمات دسترسی سریع",
         Save: "ذخیره",
@@ -11608,7 +11608,7 @@
         "Hide linked meta-data": "Sembunyikan tautan meta-data",
         Toggle: "Tombol alihan",
         "Reset filters": "Reset penyaring",
-        Verifing: "Memverifikasi",
+        Verifying: "Memverifikasi",
         "Verify Pending": "Verifikasi Ditunda",
         "Quick Access Settings": "Pengaturan Akses Cepat",
         Save: "Simpan",
@@ -11755,7 +11755,7 @@
         "Hide linked meta-data": "Esconder metadados ligados",
         Toggle: "Alternar",
         "Reset filters": "Limpar filtros",
-        Verifing: "Verificando",
+        Verifying: "Verificando",
         "Verify Pending": "Verificação Pendente",
         "Quick Access Settings": "Acesso Rápido às Configurações",
         Save: "Salvar",
