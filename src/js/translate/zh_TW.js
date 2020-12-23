@@ -43,7 +43,7 @@ translations.zh_TW = {
   Toggle: "反向選擇",
   "Reset filters": "重置過濾器",
   // download status
-  Verifing: "正在驗證",
+  Verifying: "正在驗證",
   "Verify Pending": "等待驗證",
   // starred properties
   "Quick Access Settings": "快速訪問設定",

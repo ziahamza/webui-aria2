@@ -463,7 +463,7 @@ export default angular
           };
           if (d.verifiedLength) {
             ctx.verifiedLength = d.verifiedLength;
-            ctx.status = "verifing";
+            ctx.status = "verifying";
           }
           if (d.verifyIntegrityPending) {
             ctx.verifyIntegrityPending = d.verifyIntegrityPending;
@@ -473,7 +473,7 @@ export default angular
           if (ctx.gid !== d.gid) ctx.files = [];
           ctx.dir = d.dir;
           ctx.status = d.status;
-          if (d.verifiedLength) ctx.status = "verifing";
+          if (d.verifiedLength) ctx.status = "verifying";
           if (d.verifyIntegrityPending) ctx.status = "verifyPending";
           ctx.errorCode = d.errorCode;
           ctx.gid = d.gid;
@@ -597,7 +597,7 @@ export default angular
             return "progress-bar-warning";
           case "active":
             return "active";
-          case "verifing":
+          case "verifying":
             return "progress-bar-warning";
           case "complete":
             return "progress-bar-success";

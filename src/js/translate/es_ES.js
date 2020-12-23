@@ -58,7 +58,7 @@ translations.es_ES = {
   Toggle: "Conmutar",
   "Reset filters": "Restablecer Filtros",
   // download status
-  Verifing: "Verificando",
+  Verifying: "Verificando",
   "Verify Pending": "Pendiente de verificación",
   // starred properties
   "Quick Access Settings": "Ajustes Rápidos",

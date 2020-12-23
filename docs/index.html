@@ -589,10 +589,10 @@
           <!-- }}} -->
         </ul>
 
-        <ul class="stats pull-left" ng-switch-when="verifing">
+        <ul class="stats pull-left" ng-switch-when="verifying">
           <!-- {{{ active download statistics -->
           <li class="label label-warning hidden-phone hidden-tablet">
-            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg> {{ 'Verifing' | translate }}</span>
+            <span title="{{ 'Download status' | translate }}"><svg class="icon icon-fw"><use xlink:href="#icon-play"></use></svg> {{ 'Verifying' | translate }}</span>
           </li>
 
           <li class="label label-default" ng-class="{'label-active': download.downloadSpeed > 2048, 'label-warning': download.downloadSpeed <= 2048}">

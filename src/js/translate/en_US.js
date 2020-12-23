@@ -42,7 +42,7 @@ translations.en_US = {
   Toggle: "Toggle",
   "Reset filters": "Reset filters",
   // download status
-  Verifing: "Verifing",
+  Verifying: "Verifying",
   "Verify Pending": "Verify Pending",
   // starred properties
   "Quick Access Settings": "Quick Access Settings",

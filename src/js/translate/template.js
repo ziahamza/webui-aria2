@@ -58,7 +58,7 @@ translations.en_US = {
   Toggle: "",
   "Reset filters": "",
   // download status
-  Verifing: "",
+  Verifying: "",
   "Verify Pending": "",
   // starred properties
   "Quick Access Settings": "",

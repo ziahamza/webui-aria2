@@ -42,7 +42,7 @@ translations.fr_FR = {
   Toggle: "Basculer",
   "Reset filters": "Réinitialiser les filtres",
   // download status
-  Verifing: "Vérification",
+  Verifying: "Vérification",
   "Verify Pending": "Vérification en attente",
   // starred properties
   "Quick Access Settings": "Paramètres d'accès rapide",
