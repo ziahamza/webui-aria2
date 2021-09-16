@@ -146,5 +146,35 @@ export default angular
       scope.shutDownServer = function() {
         rpc.once("shutdown", []);
       };
+
+      scope.purgeAllPaused = function() {
+        // offset, limit, like sql
+        // count
+        var fetch = function(off, count) {
+          console.log("fetching from " + off);
+          rpc.once("tellWaiting", [off, count], function(data) {
+            var errors = _.filter(data[0], function(d) {
+              return d["status"] == "paused";
+            });
+            console.log("remove paused: " + errors.length);
+            _.forEach(errors, function(d) {
+              rpc.once('remove', [d.gid]);
+              // console.log(d.status);
+            });
+            // console.log("data length:" + data[0].length);
+            var offset = off;
+            if (errors.length == 0) {
+              offset = off + count;
+            }
+            
+            if (data[0].length == count) {
+              fetch(offset, count);
+            } else {
+              console.log("end");
+            }
+          });
+        };
+        fetch(0, 100);
+      };
     }
   ]).name;

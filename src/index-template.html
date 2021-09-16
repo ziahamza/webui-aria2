@@ -200,6 +200,9 @@
                         <li>
                             <a href="#" ng-click="shutDownServer()"><svg class="icon icon-fw"><use xlink:href="#icon-power-off"></use></svg> {{ 'Shutdown Server' | translate }}</a>
                         </li>
+                        <li>
+                            <a href="#" ng-click="purgeAllPaused()"><svg class="icon icon-fw"><use xlink:href="#icon-close-circle"></use></svg> {{ 'Purge Paused' | translate }}</a>
+                        </li>
                         <!-- not adding remove all as requires many rpc syscalls to finish
                           <li>
                             <a
