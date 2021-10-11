@@ -3,11 +3,12 @@ var http = require("http"),
   path = require("path"),
   fs = require("fs");
 port = process.argv[2] || 8888;
+base = path.dirname(process.argv[1])
 
 http
   .createServer(function(request, response) {
     var uri = url.parse(request.url).pathname,
-      filename = path.join(process.cwd(), "docs", uri);
+      filename = path.join(base, "docs", uri);
 
     var extname = path.extname(filename);
     var contentType = "text/html";
