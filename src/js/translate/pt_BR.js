@@ -44,7 +44,7 @@ translations.pt_BR = {
   Toggle: "Alternar",
   "Reset filters": "Limpar filtros",
   // download status
-  Verifing: "Verificando",
+  Verifying: "Verificando",
   "Verify Pending": "Verificação Pendente",
   // starred properties
   "Quick Access Settings": "Acesso Rápido às Configurações",

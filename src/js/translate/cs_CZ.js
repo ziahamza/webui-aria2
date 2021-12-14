@@ -43,7 +43,7 @@ translations.cs_CZ = {
   Toggle: "Prohodit",
   "Reset filters": "Smazat filtry",
   // download status
-  Verifing: "Ověřování",
+  Verifying: "Ověřování",
   "Verify Pending": "Čekání na ověření",
   // starred properties
   "Quick Access Settings": "Rychlé nastavení",
