@@ -7,7 +7,7 @@ The aim for this project is to create the worlds best and hottest interface to i
 Very simple to use, no build scripts, no installation scripts. First start aria2 in the background either in your local machine or in a remote one. You can do that as follows:
 
 ```bash
-aria2c --enable-rpc --rpc-listen-all
+aria2c --enable-rpc --rpc-listen-all --daemon
 ```
 
 If aria2 is not installed in your local machine then head on to https://aria2.github.io/ and follow the instructions there.
