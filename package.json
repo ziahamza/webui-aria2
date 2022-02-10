@@ -35,7 +35,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
     "mini-css-extract-plugin": "^0.4.2",
-    "node-sass": "^4.9.3",
+    "node-sass": "^7.0.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "webpack": "^4.17.1",
