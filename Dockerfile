@@ -5,20 +5,20 @@ RUN groupadd -r dummy && useradd -r -g dummy dummy -u 1000
 
 # webui + aria2
 RUN apt-get update \
-	&& apt-get install -y aria2 busybox curl \
-	&& rm -rf /var/lib/apt/lists/*
+        && apt-get install -y aria2 busybox curl gawk\
+        && rm -rf /var/lib/apt/lists/*
 
 ADD ./docs /webui-aria2
 
 # gosu install latest
 RUN GITHUB_REPO="https://github.com/tianon/gosu" \
-  && LATEST=`curl -s  $GITHUB_REPO"/releases/latest" | grep -Eo "[0-9].[0-9]*"` \
+  && LATEST=`curl -s -L $GITHUB_REPO"/releases/latest" | awk 'match($0, /Release ([0-9]+.[0-9]+)/, result){print result[1]; exit}'` \
   && curl -L $GITHUB_REPO"/releases/download/"$LATEST"/gosu-amd64" > /usr/local/bin/gosu \
   && chmod +x /usr/local/bin/gosu
 
 # goreman supervisor install latest
 RUN GITHUB_REPO="https://github.com/mattn/goreman" \
-  && LATEST=`curl -s  $GITHUB_REPO"/releases/latest" | grep -Eo "v[0-9]*.[0-9]*.[0-9]*"` \
+  && LATEST=`curl -s -L $GITHUB_REPO"/releases/latest" | awk 'match($0, /Release (v[0-9]+.[0-9]+.[0-9]+)/, result){print result[1]; exit}'` \
   && curl -L $GITHUB_REPO"/releases/download/"$LATEST"/goreman_"$LATEST"_linux_amd64.tar.gz" > goreman.tar.gz \
   && tar xvf goreman.tar.gz && mv /goreman*/goreman /usr/local/bin/goreman && rm -R goreman*
 
