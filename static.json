@@ -1,0 +1,6 @@
+{
+  "root": "./docs",
+  "routes": {
+    "/**": "index.html"
+  }
+}

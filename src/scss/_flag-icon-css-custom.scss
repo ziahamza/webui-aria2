@@ -1,0 +1,22 @@
+$flag-icon-css-path: "~flag-icon-css/flags";
+
+@import "~flag-icon-css/sass/variables";
+@import "~flag-icon-css/sass/flag-icon-base";
+
+// Include only the required flags
+@include flag-icon(us);
+@include flag-icon(th);
+@include flag-icon(nl);
+@include flag-icon(cn);
+@include flag-icon(tw);
+@include flag-icon(pl);
+@include flag-icon(fr);
+@include flag-icon(de);
+@include flag-icon(es);
+@include flag-icon(ru);
+@include flag-icon(it);
+@include flag-icon(tr);
+@include flag-icon(cz);
+@include flag-icon(ir);
+@include flag-icon(id);
+@include flag-icon(br);

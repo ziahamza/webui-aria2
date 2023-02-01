@@ -1,0 +1,51 @@
+{
+  "name": "webui-aria2",
+  "version": "1.0.0",
+  "description": "The aim for this project is to create the worlds best and hottest interface to interact with aria2.",
+  "homepage": "https://github.com/ziahamza/webui-aria2#readme",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack -d --watch --progress & node node-server",
+    "build": "webpack -p --progress",
+    "analyze": "webpack -p --profile --json > stats.json && webpack-bundle-analyzer stats.json ./docs -p 9999",
+    "format": "prettier -l --write  \"**/*{js,scss}\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ziahamza/webui-aria2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ziahamza/webui-aria2/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "dependencies": {
+    "angular": "^1.7.3",
+    "angular-translate": "^2.18.1",
+    "autoprefixer": "^9.1.3",
+    "bootstrap-sass": "^3.3.7",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
+    "flag-icon-css": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.10",
+    "mini-css-extract-plugin": "^0.4.2",
+    "node-sass": "^4.9.3",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "webpack": "^4.17.1",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-cli": "^3.1.0",
+    "workbox-webpack-plugin": "^3.4.1"
+  },
+  "devDependencies": {
+    "husky": "^1.0.0-rc.13",
+    "prettier": "1.14.2",
+    "pretty-quick": "^1.6.0"
+  }
+}

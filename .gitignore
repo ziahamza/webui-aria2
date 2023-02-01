@@ -1,3 +1,6 @@
 .DS_STORE
 .idea
 .git
+debug.log
+stats.json
+node_modules
