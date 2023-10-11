@@ -3,6 +3,7 @@ var http = require("http"),
   path = require("path"),
   fs = require("fs");
 port = process.argv[2] || 8888;
+bindIP = process.argv[3] || "0.0.0.0";
 
 http
   .createServer(function(request, response) {
@@ -49,6 +50,6 @@ http
       });
     });
   })
-  .listen(parseInt(port, 10));
+  .listen(parseInt(port, 10), bindIP);
 
-console.log("WebUI Aria2 Server is running on http://localhost:" + port);
+console.log("WebUI Aria2 Server is running on http://" + bindIP + ":" + port);
